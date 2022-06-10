@@ -45,7 +45,7 @@ client.destroy();
  
  
 //用户拉流房间
-val client = QLive.createPullerClient();
+QPlayerClient client = QLive.createPlayerClient();
  
 //设置本地预览
 client.setPlayer(findViewById(R.id.QPLPlayer));
@@ -71,64 +71,80 @@ client.destroy();
 ```
 
 
-```kotlin
+
+
+
+```java
 //UIKIT
 //初始化
-QLive.init(context ,token);
-QLive.updateUser(
-         "your avatar",
-         "your nickname",
-         HashMap<String, String>().apply {
-             put("vip","1"); //自定义vip等级
-             put("level","22");//扩展用户等级
-          },
-         object : QLiveCallBack<Void>{
-             override fun onSuccess(data: Void) {}
-             override fun onError(code: Int, msg: String) {}
-         });
-//配置UI (可选);
-roomUIKit = QLive.createLiveRoomUIKit();
+//初始化
+QLive.init(context ,new QTkenGetter(){
+      //业务请求token
+     GetTokenApi.getToken(callback);
+});
 
-val roomComponentsTable = roomUIKit.getRoomComponentsTable();
+Map ext = new HashMap()
+ext.put("vip","1"); //自定义vip等级
+ext.put("level","22");//扩展用户等级
+
+//跟新/绑定 业务端的用户信息
+QLive.updateUser(new UserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+
+
+QliveUIKit liveUIKit = QLive.createLiveUIKit()
+//跳转到直播列表页面
+liveUIKit.launch(context);
+
+
+
+
+//配置UI (可选);
+
+
+RoomPage roomPage = liveUIKit.getRoomPage();
 //每个内置UI组件都可以配置自己的替换实现
-roomComponentsTable.mXXXComponent.setReplaceView(CustomView.Class);
+roomPage.mXXXComponent.setReplaceView(CustomView.Class);
            
 //每个内置UI组件都可以禁用
-roomComponentsTable.mXXXComponent.setIsEnable(false);
+roomPage.mXXXComponent.setIsEnable(false);
            
 //如果使用使用某个槽位 每个UI组件可以定制样式
-roomComponentsTable.mRoomNoticeComponent.showNoticeCall={ notice->
+roomPage.mRoomNoticeComponent.showNoticeCall={ notice->
     //比如定制公告颜色和文字
     "<font color='#ffffff'> 今天的公告: ${notice}</font>"
 }
 
 //自定义主播头像点击事件
-roomComponentsTable.mRoomHostComponent.clickCall=
-    object: ViewClickWrap<QLiveUser> { kitContext, client, user:QLiveUser,view ->           
+roomPage.mRoomHostComponent.clickCall= ViewClickWrap<QLiveUser> { kitContext, client, user:QLiveUser,view ->           
      //跳转到主播主页
      // 主播ID  -> user.uid
      // 主播头像 -> user.avatar              
-   }       
+}       
      
 //插入全局覆盖层
-roomComponentsTable.mOuterCoverComponent.setReplaceView(CustomView::clas.java)
+roomPage.mOuterCoverComponent.setReplaceView(CustomView::clas.java)
    
-//跳转到直播列表页面
-roomUIKit.launch(context);
  
 //可选 配置直播列表样式
-roomUIKit.mRoomListComponent.itemAdapterComponent = object : ItemAdapterComponent<QLiveRoomInfo>{
-     override fun createAdapter(  context:KitContext,  client:QLiveRoomClient): RecyclerviewAdapter<QLiveRoomInfo, ViewHolder>{
+RoomListPage roomListPage =  liveUIKit.getRoomListPage();
+
+roomListPage.roomListView.itemAdapterComponent = new ItemAdapterComponent<QLiveRoomInfo>{
+
+      @override
+      RecyclerviewAdapter<QLiveRoomInfo, ViewHolder> createAdapter(  context,  client){
           //创建自己的列表适配器
      }
 }
+
+roomListPage.appbar.setBackGroundColor("#ffff")
+roomListPage.appbar.setGoBackIcon("#ffff")
+
 //如果需要将直播列表
-roomListView =  roomUIKit.mRoomListComponent.create(context);
+View view = roomListPage.roomListView.create(context);
 //添加到自己想要的地方
-addView(roomListView);
+addView(view);
 
 ```
-
 
 
 
