@@ -4,7 +4,7 @@
 无UI
 //初始化
 QLive.init(context ,token);
-QLive.updateUserInfo(
+QLive. updateUser(
     "your avatar",
     "your nickname",
     HashMap<String, String>().apply {
@@ -15,7 +15,7 @@ QLive.updateUserInfo(
         override fun onSuccess(data: Void) {}
         override fun onError(code: Int, msg: String) {}
     });
- 
+
 // 主播推流
 //创建推流client
 val client = QLive.createPusherClient();
@@ -25,7 +25,7 @@ client.enableAudio(MicrophoneParams().apply { mSampleRate = 48000 });
 client.enableVideo(CameraParams().apply {fps=15  });
 //本地预览
 client.setLocalPreView(findViewById(R.id.QTextureView));
-   
+
 //注册客户端监听
 client.setClientEventListener(object: QClientEventListener{})
 //加入房间
@@ -37,30 +37,30 @@ client.joinRoom( roomId, object : QLiveCallBack<QLiveRoomInfo> {
 client.closeRoom();
 //销毁
 client.destroy();
- 
- 
- 
+
+
+
 //用户拉流房间
 val client = QLive.createPullerClient();
- 
+
 //设置本地预览
 client.setPlayer(findViewById(R.id.QPLPlayer));
- 
+
 //注册客户端监听
 client.setClientEventListener(object: QClientEventListener{})
- 
+
 //加入房间
 client.joinRoom( roomId, object : QLiveCallBack<QLiveRoomInfo> {
     override fun onSuccess(data: QLiveRoomInfo) {}
     override fun onError(code: Int, msg: String) {}
 });
- 
+
 //离开房间
 client.leaveRoom(object : QLiveCallBack<Void> {
     override fun onSuccess(data: Void) {}
     override fun onError(code: Int, msg: String) {}
 });
- 
+
 //关闭
 client.destroy(); 
 ```
@@ -71,7 +71,7 @@ client.destroy();
 //UIKIT
 //初始化
 QLive.init(context ,token);
-QLive.updateUserInfo(
+QLive.updateUser(
          "your avatar",
          "your nickname",
          HashMap<String, String>().apply {
@@ -132,16 +132,26 @@ addView(roomListView);
 ```java
 class QLive {
     static init(Context context, String token, QLiveCallBack<Void> callBack);  // 初始化
-    static updateUserInfo(String avatar, String nickName, HashMap<String,String> extensions ,QLiveCallBack<Void> callBack); //绑定用户信息
+    static updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();                                 //创建主播端
     static QPlayerClient createPlayerClient();                                 //创建观众端
-    static QLiveRoomUIKit createLiveRoomUIKit();                               //创建uikit
+    static QLiveUIKit create QLiveUIKit();                               //创建uikit
 }
 
-class QLiveRoomUIKit{
-    RoomListComponent getRoomListComponent();                                  //房间列表组件
-    RoomComponentsTable getRoomComponentsTable();                                //房间页面的组件表
+class QLiveUIKit{
+    static RoomListPage getRoomListPage();                                  //房间列表页面
+    static RoomPage getRoomPage();                                         //房间页面
     static void launch(Context context);                                       //启动 跳转直播列表页面
+}
+
+interface QTokenGetter{
+  void getTokenInfo( QLiveCallBack<String> callback)
+}
+
+class QUserInfo{
+    String avatar;
+    String nick;
+    Map<String,String> extensions; //扩展字段
 }
 ```
 
@@ -152,7 +162,7 @@ class QLiveRoomUIKit{
 class QPusherClient {
     void registerService(List<Class<? extends QNLiveService>> serviceClass);     //注册用户需要的服务
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
-    void setClientEventListener(QClientEventListener clientListener);              //房间事件监听
+    void setLiveStatusListener(QLiveStatusListener liveStatusListener);              //房间事件监听
     void joinRoom( String roomId, QLiveCallBack<QLiveRoomInfo> callBack);                //加入房间
     void closeRoom( QLiveCallBack<Void> callBack);                                //关闭房间
     void destroy();                                                               //销毁
@@ -171,7 +181,7 @@ class QPusherClient {
 class QPlayerClient {
     void registerService(List<Class<? extends QNLiveService>> serviceClass);     //注册用户需要的服务
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
-    void setClientEventListener(QClientEventListener clientListener);              //房间事件监听
+    void setLiveStatusListener(QLiveStatusListener liveStatusListener);              //房间事件监听
     void joinRoom( String roomId, QLiveCallBack<QLiveRoomInfo> callBack);                //加入房间
     void leaveRoom( QLiveCallBack<Void> callBack);                                //关闭房间
     void destroy();                                                               //销毁 
@@ -180,12 +190,8 @@ class QPlayerClient {
     IPullPlayer getPlayer();
 }
 
-interface QRoomEventListener {
-    void onRoomEntering(String roomId,QLiveUser user);                         //正在加入房间
-    void onRoomJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
-    void onRoomLeft();                                                          //离开了某个房间 
-    void onRoomClosed();                                                        //关闭了直播 
-    void onDestroyed();                                                         //client销毁
+
+interface QLiveStatusListener {
     void onLiveStatusChanged(QLiveStatus liveStatus);                          //直播间状态变化 业务状态
 }
 
@@ -193,9 +199,9 @@ interface QRoomEventListener {
 enum QLiveStatus {
     LiveStatusPrepare, //直播准中 （已经创建）
     LiveStatusOn,      // 直播间已发布  （已经发布，可以开播和拉流
-    LiveStatusAnchorOnline, //主播在线
+    LiveStatusAnchorOnline, //主播上线
     LiveStatusAnchorOffline, //主播离线
-    LiveStatusOff            //直播间销毁
+    LiveStatusOff            //直播间关闭
 }
 
 interface QMediaEventListener{
@@ -245,11 +251,11 @@ class QLiveRoomInfo {
 
 class QLiveUser {
     String userId;
+    String imUid;
     String avatar;
     String nick;
     Map<String,String> extensions; //扩展字段
-    String imUid;
-}
+} 
 ```
 
 ## QLiveService
@@ -450,7 +456,17 @@ class PubChatModel {
 
 ### 以下UI组件还未完全dom化
 
+
 ```
+interface QComponent {
+    void attach( KitContext context,QLiveClient  client );
+    void onRoomEntering(String roomId,QLiveUser user);                         //正在加入房间
+    void onRoomJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
+    void onRoomLeft();                                                          //离开了某个房间 
+    void onRoomClosed();                                                        //关闭了直播 
+    void onDestroyed();                                                         //client销毁
+   
+}
 
 
 interface KitContext {
@@ -460,8 +476,8 @@ interface KitContext {
 }
 
 //用户自定义的UI必须继承这个
-class BaseUIComponentView extends FrameLayout implements LifecycleEventObserver,QClientEventListener{
-    void attach( KitContext context,QLiveClient  client );
+class BaseUIComponentView extends FrameLayout implements LifecycleEventObserver, QComponent{
+   
 }
 
 //UI型号组件
@@ -471,8 +487,8 @@ class BaseUIComponent{
 }
 
 //功能型号组件 处理事件
-class BaseFuncComponentHandler implements LifecycleEventObserver,QClientEventListener{
-    void attach( KitContext context,QLiveClient  client );
+class BaseFuncComponentHandler implements LifecycleEventObserver, QComponent{
+   
 }
 
 //功能型号组件
@@ -480,6 +496,112 @@ class BaseFucComponent{
     <T extends BaseFuncComponentHandler> void setReplaceHandler(Class<T> serviceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
+
+```
+
+
+```
+//主播列表
+class RoomListPage  {
+   //
+   val appbar:AppBar
+   val roomListView: roomListView     
+}
+
+/房间列表页面
+class RoomPage {
+
+    val mRoomBackGroundComponent = RoomBackGroundComponent();
+
+    /**
+     * 房间左上角房主，房主槽位置
+     */
+    val mRoomHostComponent = RoomHostComponent();
+
+    //开播准备
+    val mLivePreViewComponent =LivePreViewComponent();
+
+    /**
+     * 右上角在线用户槽位
+     */
+    val mOnlineUserComponent = OnlineUserComponent();
+
+    val mRoomMemberCountComponent = RoomMemberCountComponent();
+    /**
+     * 右上角房间id 位置
+     */
+    val mRoomIdComponent = RoomIdComponent();
+
+    /**
+     * 右上角房间计时器
+     */
+    val mRoomTimerComponent = RoomTimerComponent();
+
+    /**
+     * 弹幕槽位
+     */
+    val mDanmakuTrackManagerComponent = DanmakuTrackManagerComponent();
+
+    /**
+     *  公屏聊天
+     */
+    val mPublicChatComponent = PublicChatComponent();
+
+    /**
+     * 公告槽位
+     */
+    val mRoomNoticeComponent = RoomNoticeComponent();
+
+    /**
+     * 主播开始pk槽位置
+     */
+    val mStartPKComponent = StartPKComponent();
+
+   //PK覆盖层
+    val mPKCoverComponent = QNEmptyViewComponent();
+   //pk主播两个小窗口
+    val mPKAnchorPreviewComponent = PKAnchorPreviewComponent();
+
+    /**
+     *连麦中的用户 槽位
+     */
+    val mLinkerComponent = LinkerComponent();
+
+     /**
+     * 房间底部 输入框
+     */
+    val mInputComponent = InputComponent();
+
+    /**
+     *  右下角功能栏目
+     */
+    val mBottomFucBarComponent = BottomFucBarComponent();
+
+    /**
+     * 全局上层覆盖自定义 槽位
+     * 空槽位
+     */
+    val mOuterCoverComponent = QNEmptyViewComponent();
+
+    /**
+     * 全局底层覆盖自定义 槽位
+     * 空槽位
+     */
+    val mInnerCoverComponent = QNEmptyViewComponent();
+
+     //主播收到连麦申请弹窗
+    val mShowReceivedPKApply = ShowReceivedPKApply();
+
+    //主播收到pk邀请弹窗
+    val mShowLinkMicApply = ShowLinkMicApply();
+
+}
+
+
+```
+
+```
+
 
 //左上角房主
 class RoomHostComponent extends BaseUIComponent(); {
@@ -590,102 +712,6 @@ class ShowReceivedPKApply : BaseFuncComponentHandler();
 // 主播收到连麦申请弹窗
 class ShowLinkMicApply : BaseFuncComponentHandler();
 
-
-//主播列表
-class RoomListComponent  {
-   //
-   var mItemAdapterWrap: ItemAdapterWrap<QMicLinker>? = null
-   fun create();:View
-}
-
-
-class ViewSlotTable {
- 
-    val mRoomBackGroundSlot = RoomBackGroundSlot();
- 
-    /**
-     * 房间左上角房主，房主槽位置
-     */
-    val mRoomHostSlot = RoomHostSlot();
- 
-    //开播准备
-    val mLivePreViewSlot =LivePreViewSlot();
- 
-    /**
-     * 右上角在线用户槽位
-     */
-    val mOnlineUserSlot = OnlineUserSlot();
-    
-    val mRoomMemberCountSlot = RoomMemberCountSlot();
-    /**
-     * 右上角房间id 位置
-     */
-    val mRoomIdSlot = RoomIdSlot();
- 
-    /**
-     * 右上角房间计时器
-     */
-    val mRoomTimerSlot = RoomTimerSlot();
- 
-    /**
-     * 弹幕槽位
-     */
-    val mDanmakuTrackManagerSlot = DanmakuTrackManagerSlot();
- 
-    /**
-     *  公屏聊天
-     */
-    val mPublicChatSlot = PublicChatSlot();
- 
-    /**
-     * 公告槽位
-     */
-    val mRoomNoticeSlot = RoomNoticeSlot();
- 
-    /**
-     * 主播开始pk槽位置
-     */
-    val mStartPKSlot = StartPKSlot();
- 
-   //PK覆盖层
-    val mPKCoverSlot = QNEmptyViewSlot();
-   //pk主播两个小窗口
-    val mPKAnchorPreviewSlot = PKAnchorPreviewSlot();
- 
-    /**
-     *连麦中的用户 槽位
-     */
-    val mLinkerSlot = LinkerSlot();
-     
-     /**
-     * 房间底部 输入框
-     */
-    val mInputSlot = InputSlot();
- 
-    /**
-     *  右下角功能栏目
-     */
-    val mBottomFucBarSlot = BottomFucBarSlot();
- 
-    /**
-     * 全局上层覆盖自定义 槽位
-     * 空槽位
-     */
-    val mOuterCoverSlot = QNEmptyViewSlot();
- 
-    /**
-     * 全局底层覆盖自定义 槽位
-     * 空槽位
-     */
-    val mInnerCoverSlot = QNEmptyViewSlot();
- 
-     //主播收到连麦申请弹窗
-    val mShowReceivedPKApply = ShowReceivedPKApply();
- 
-    //主播收到pk邀请弹窗
-    val mShowLinkMicApply = ShowLinkMicApply();
-
-}
 
 ```
 
