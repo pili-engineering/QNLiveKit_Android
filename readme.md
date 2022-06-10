@@ -301,6 +301,15 @@ interface QLinkMicServiceListener{
      onUserExtension(MicLinker micLinker, Extension extension);
 }
 
+class QNAnchorHostMicLinker {
+
+    void setMixStreamAdapter(MixStreamAdapter mixStreamAdapter);
+}
+interface MixStreamAdapter {
+
+   List<QNMergeOption> onResetMixParam(List<QNMicLinker> micLinkers, QNMicLinker target, boolean isJoin);
+}
+
 class QAudienceMicLinker{
      removeListener(QLinkMicListener listener);
      addListener(QLinkMicListener listener);
