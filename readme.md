@@ -1,24 +1,23 @@
 ## exmaple:
 
-```kotlin
+```java
 无UI
 //初始化
-QLive.init(context ,token);
-QLive. updateUser(
-    "your avatar",
-    "your nickname",
-    HashMap<String, String>().apply {
-        put("vip","1"); //自定义vip等级
-        put("level","22");//扩展用户等级
-    },
-    object : QLiveCallBack<Void>{
-        override fun onSuccess(data: Void) {}
-        override fun onError(code: Int, msg: String) {}
-    });
+QLive.init(context ,new QTkenGetter(){
+      //业务请求token
+     GetTokenApi.getToken(callback);
+});
+
+Map ext = new HashMap()
+ext.put("vip","1"); //自定义vip等级
+ext.put("level","22");//扩展用户等级
+
+//跟新/绑定 业务端的用户信息
+QLive.updateUser(new UserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
  
 // 主播推流
 //创建推流client
-val client = QLive.createPusherClient();
+QPusherClient client = QLive.createPusherClient();
 //启动麦克风模块
 client.enableAudio(MicrophoneParams().apply { mSampleRate = 48000 });
 //启动摄像头模块
@@ -26,15 +25,20 @@ client.enableVideo(CameraParams().apply {fps=15  });
 //本地预览
 client.setLocalPreView(findViewById(R.id.QTextureView));
    
-//注册客户端监听
-client.setClientEventListener(object: QClientEventListener{})
+//注册房间端监听
+client.setClientEventListener(new: QLiveStatusListener{})
+
+
 //加入房间
-client.joinRoom( roomId, object : QLiveCallBack<QLiveRoomInfo> {
-    override fun onSuccess(data: QLiveRoomInfo){}
-    override fun onError(code: Int, msg: String) {}
+client.joinRoom( roomId, new QLiveCallBack<QLiveRoomInfo> {
+    void onSuccess(QLiveRoomInfo roomInfo){}
+    void onError(int code, String msg) {}
 });
 //关闭
-client.closeRoom();
+client.closeRoom(new QLiveCallBack<Void> {
+    void onSuccess(Void) {}
+    void onError(int code, String msg) {}
+});
 //销毁
 client.destroy();
  
@@ -46,25 +50,25 @@ val client = QLive.createPullerClient();
 //设置本地预览
 client.setPlayer(findViewById(R.id.QPLPlayer));
  
-//注册客户端监听
-client.setClientEventListener(object: QClientEventListener{})
- 
+//注册房间端监听
+client.setClientEventListener(new: QLiveStatusListener{})
+
+
 //加入房间
-client.joinRoom( roomId, object : QLiveCallBack<QLiveRoomInfo> {
-    override fun onSuccess(data: QLiveRoomInfo) {}
-    override fun onError(code: Int, msg: String) {}
+client.joinRoom( roomId, new QLiveCallBack<QLiveRoomInfo> {
+    override void onSuccess(QLiveRoomInfo roomInfo){}
+    override void onError(int code, String msg) {}
 });
- 
+
 //离开房间
-client.leaveRoom(object : QLiveCallBack<Void> {
-    override fun onSuccess(data: Void) {}
-    override fun onError(code: Int, msg: String) {}
+client.leaveRoom(new QLiveCallBack<Void> {
+    void onSuccess(Void) {}
+    void onError(int code, String msg) {}
 });
  
 //关闭
 client.destroy(); 
 ```
-
 
 
 ```kotlin
@@ -135,7 +139,7 @@ class QLive {
     static updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();                                 //创建主播端
     static QPlayerClient createPlayerClient();                                 //创建观众端
-    static QLiveUIKit create QLiveUIKit();                               //创建uikit
+    static QLiveUIKit createQLiveUIKit();                               //创建uikit
 }
 
 class QLiveUIKit{
