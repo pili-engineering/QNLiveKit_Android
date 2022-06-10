@@ -1,5 +1,4 @@
 ## exmaple:
-
 ```java
 无UI
 //初始化
@@ -28,12 +27,12 @@ client.setLocalPreView(findViewById(R.id.QTextureView));
 //注册房间端监听
 client.setClientEventListener(new: QLiveStatusListener{})
 
-
 //加入房间
 client.joinRoom( roomId, new QLiveCallBack<QLiveRoomInfo> {
     void onSuccess(QLiveRoomInfo roomInfo){}
     void onError(int code, String msg) {}
 });
+
 //关闭
 client.closeRoom(new QLiveCallBack<Void> {
     void onSuccess(Void) {}
@@ -44,6 +43,8 @@ client.destroy();
  
  
  
+
+
 //用户拉流房间
 QPlayerClient client = QLive.createPlayerClient();
  
@@ -52,7 +53,6 @@ client.setPlayer(findViewById(R.id.QPLPlayer));
  
 //注册房间端监听
 client.setClientEventListener(new: QLiveStatusListener{})
-
 
 //加入房间
 client.joinRoom( roomId, new QLiveCallBack<QLiveRoomInfo> {
@@ -97,10 +97,7 @@ liveUIKit.launch(context);
 
 
 
-
 //配置UI (可选);
-
-
 RoomPage roomPage = liveUIKit.getRoomPage();
 //每个内置UI组件都可以配置自己的替换实现
 roomPage.mXXXComponent.setReplaceView(CustomView.Class);
@@ -110,7 +107,7 @@ roomPage.mXXXComponent.setIsEnable(false);
            
 //如果使用使用某个槽位 每个UI组件可以定制样式
 roomPage.mRoomNoticeComponent.showNoticeCall={ notice->
-    //比如定制公告颜色和文字
+    //定制公告颜色和文字
     "<font color='#ffffff'> 今天的公告: ${notice}</font>"
 }
 
@@ -128,8 +125,7 @@ roomPage.mOuterCoverComponent.setReplaceView(CustomView::clas.java)
 //可选 配置直播列表样式
 RoomListPage roomListPage =  liveUIKit.getRoomListPage();
 
-roomListPage.roomListView.itemAdapterComponent = new ItemAdapterComponent<QLiveRoomInfo>{
-
+roomListPage.roomListView.itemAdapterWrap = new ItemAdapterWrap<QLiveRoomInfo>{
       @override
       RecyclerviewAdapter<QLiveRoomInfo, ViewHolder> createAdapter(  context,  client){
           //创建自己的列表适配器
@@ -145,6 +141,8 @@ View view = roomListPage.roomListView.create(context);
 addView(view);
 
 ```
+
+
 
 
 
