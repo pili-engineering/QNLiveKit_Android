@@ -121,17 +121,17 @@ addView(view);
 ## 初始化
 ```java
 class QLive {
-    static init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack);  // 初始化
+    static init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
     static updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
-    static QPusherClient createPusherClient();                                 //创建主播端
-    static QPlayerClient createPlayerClient();                                 //创建观众端
-    static QLiveUIKit createQLiveUIKit();                               //创建uikit
+    static QPusherClient createPusherClient();  //创建主播端
+    static QPlayerClient createPlayerClient();  //创建观众端
+    static QLiveUIKit createQLiveUIKit();       //创建uikit
 }
 
 class QLiveUIKit{
-    static RoomListPage getRoomListPage();                                  //房间列表页面 -ui组件表
-    static RoomPage getRoomPage();                                         //房间页面 - ui组件表
-    static void launch(Context context);                                       //启动 跳转直播列表页面
+    static RoomListPage getRoomListPage();      //房间列表页面 -ui组件表
+    static RoomPage getRoomPage();              //房间页面 - ui组件表
+    static void launch(Context context);        //启动 跳转直播列表页面
 }
 
 interface QTokenGetter{
@@ -151,18 +151,17 @@ class QUserInfo{
 class QPusherClient {
     void registerService(List<Class<? extends QNLiveService>> serviceClass);     //注册用户需要的服务
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
-    void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间事件监听
-    void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);         //加入房间
-    void closeRoom( QLiveCallBack<Void> callBack);                                //关闭房间
-    void destroy();                                                               //销毁
+    void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
+    void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
+    void closeRoom( QLiveCallBack<Void> callBack);                               //关闭房间
+    void destroy();                                                              //销毁
 
-    void setConnectionStatusLister(QConnectionStatusLister connectionStatusLister);//媒体事件监听
+    void setConnectionStatusLister(QConnectionStatusLister connectionStatusLister);//推流连接状态监听
     void enableCamera(QCameraParams cameraParams,QRenderView renderview);          //启动视频采集 和预览
     void enableMicrophone(QMicrophoneParams microphoneParams);                     //启动麦克参数
     void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
-  
     void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
-    void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);             //禁/不禁用本地麦克风流
+    void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);            //禁/不禁用本地麦克风流
     void setVideoFrameListener(QVideoFrameListener frameListener);                 //设置本地摄像头数据监听
     void setAudioFrameListener(QAudioFrameListener frameListener);                 //设置本地音频数据监听
 }
@@ -170,12 +169,12 @@ class QPusherClient {
 class QPlayerClient {
     void registerService(List<Class<? extends QNLiveService>> serviceClass);     //注册用户需要的服务
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
-    void setLiveStatusListener(QLiveStatusListener liveStatusListener);              //房间事件监听
-    void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);                //加入房间
-    void leaveRoom( QLiveCallBack<Void> callBack);                                //关闭房间
-    void destroy();                                                               //销毁 
+    void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
+    void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
+    void leaveRoom( QLiveCallBack<Void> callBack);                               //关闭房间
+    void destroy();                                                              //销毁 
      
-    void player(QPlayer player);                                          //绑定播放器   
+    void player(QPlayer player);                                                 //绑定播放器   
 }
 
 
@@ -197,7 +196,7 @@ enum QCameraMode{
 };
 
 interface QConnectionStatusLister{
-    void onConnectionStateChanged(QRoomConnectionState state);//rtc推流链接状态
+    void onConnectionStateChanged(QRoomConnectionState state);  //rtc推流链接状态
 }
 
 class QMicrophoneParams {
@@ -537,6 +536,9 @@ class BaseFucComponent{
     void setIsEnable(boolean isEnable);
 }
 ```
+
+
+
 
 
 
