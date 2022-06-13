@@ -494,6 +494,8 @@ class RoomPage {
     
     ShowPKApplyFucComponent showReceivedPKApply ;//主播收到连麦申请弹窗
     ShowLinkMicApplyFucComponent showLinkMicApply ;//主播收到pk邀请弹窗
+    
+    addFucComponent(QRoomComponent component); //注册自定义功能组件
 }
 ```
 
