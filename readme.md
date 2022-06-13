@@ -26,10 +26,17 @@ sceneLive.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
 // 主播推流
 //创建推流client
 QPusherClient client = QLive.createPusherClient();
+
+
+QMicrophoneParam microphoneParams = new QMicrophoneParam();
+microphoneParam.setSampleRate(48000); 
 //启动麦克风模块
-client.enableMicrophone(MicrophoneParams().apply { mSampleRate = 48000 });
+client.enableMicrophone(microphoneParam);
+
+QCameraParam cameraParam = new QCameraParam()
+cameraParam.setFPS(15)
 //启动摄像头模块
-client.enableCamera(CameraParams().apply {fps=15  },findViewById(R.id.renderView));
+client.enableCamera(cameraParam,findViewById(R.id.renderView));
 
 //注册房间端监听
 client.setLiveStatusListener(new: QLiveStatusListener{})
