@@ -4,7 +4,10 @@
 //初始化
 QLive.init(context ,new QTkenGetter(){
    //业务请求token
-   GetTokenApi.getToken(callback);
+    void getTokenInfo( QLiveCallBack<String> callback){
+        GetTokenApi.getToken(callback);
+     }
+   
  },new QLiveCallBack<Void>{});
 
 Map extensions = new HashMap()
@@ -88,9 +91,13 @@ client.destroy();
 //初始化
 //初始化
 QLive.init(context ,new QTkenGetter(){
-      //业务请求token
-     GetTokenApi.getToken(callback);
-},new QLiveCallBack<Void>{});
+        //业务请求token
+        void getTokenInfo( QLiveCallBack<String> callback){
+        GetTokenApi.getToken(callback);
+        }
+
+        },new QLiveCallBack<Void>{});
+
 
 Map ext = new HashMap()
 ext.put("vip","1"); //自定义vip等级
@@ -146,7 +153,7 @@ class QLiveUIKit{
 }
 
 interface QTokenGetter{
-  void getTokenInfo( QLiveCallBack<String> callback)
+  void getTokenInfo( QLiveCallBack<String> callback);
 }
 
 class QUserInfo{
@@ -510,7 +517,8 @@ class RoomPage {
     PublicChatComponent publicChatView ;//公屏聊天
     RoomNoticeComponent roomNoticeView ;//公告
     StartPKComponent startPKView;//主播开始pk按钮
-    PKPreviewComponent pkPreview;//pk主播两个小窗口
+    PKCoverComponent pkCoverView;  //PK覆盖层 空槽位
+    PKAnchorPreviewComponent pkAnchorPreview;//pk主播两个小窗口
     LinkersComponent linkersView;//连麦中的用户 
     ShowInputComponent showInputView;//房间底部 输入框
     BottomFucBarComponent bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
