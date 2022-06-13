@@ -174,7 +174,7 @@ class QLiveRoomInfo {
     Map<String, String> extension; //房间扩展字段
     QLiveUser anchor;
     String roomToken;
-    String pkId;
+    String pkID;
     long onlineCount;
     long startTime;
     long endTime;
@@ -357,7 +357,7 @@ interface QPKServiceListener{
 }
 //pk混流适配
 interface QPKMixStreamAdapter{
-     MixStreamParams onPKMixStreamStart(QPKSession pkSession); //pk 开始返回 混流画布参数
+     QMixStreamParam onPKMixStreamStart(QPKSession pkSession); //pk 开始返回 混流画布参数
      List<QMergeOption> onPKLinkerJoin(QPKSession pkSession);    //PK 开始如何混流
      List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
 }
@@ -410,6 +410,13 @@ class QMergeOption {
     class MicrophoneMergeOption  {
        boolean isNeed ;
     }
+}
+
+class QMixStreamParam{
+    int mixStreamWidth;  //画布宽
+    int mixStringHeight; //画布高
+    int mixBitrate;      //码率
+    int fps;             //帧率
 }
 ```
 
