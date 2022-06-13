@@ -5,7 +5,7 @@
 QLive.init(context ,new QTkenGetter(){
       //业务请求token
      GetTokenApi.getToken(callback);
-});
+},new QLiveCallBack<Void>{});
 
 Map extensions = new HashMap()
 extensions.put("vip","1"); //自定义vip等级
@@ -84,14 +84,14 @@ client.destroy();
 QLive.init(context ,new QTkenGetter(){
       //业务请求token
      GetTokenApi.getToken(callback);
-});
+},new QLiveCallBack<Void>{});
 
 Map ext = new HashMap()
 ext.put("vip","1"); //自定义vip等级
 ext.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.updateUser(new UserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+QLive.updateUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
 
 
 QliveUIKit liveUIKit = QLive.createLiveUIKit()
@@ -128,8 +128,8 @@ addView(view);
 ## 初始化
 ```java
 class QLive {
-    static init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
-    static updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
+    static viod init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
+    static viod updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();  //创建主播端
     static QPlayerClient createPlayerClient();  //创建观众端
     static QLiveUIKit createLiveUIKit();        //创建uikit
