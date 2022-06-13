@@ -529,19 +529,19 @@ class QUIComponentView extends FrameLayout implements LifecycleEventObserver, QC
 
 //内置UI型号组件
 class QInnerRoomUIComponent{
-    <T extends QRoomUIComponentView> void setReplaceView(Class<T> serviceClass); //替换成你的UI
+    <T extends QRoomUIComponentView> void setReplaceView(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                                    
 }
 //内置UI型号组件
 class QInnerUIComponent{
-    <T extends QUIComponentView> void setReplaceView(Class<T> serviceClass); //替换成你的UI
+    <T extends QUIComponentView> void setReplaceView(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
 
 
 //内置功能型号组件
 class QInnerFucComponent{
-    <T extends QRoomFuncComponentHandler> void setReplaceHandler(Class<T> serviceClass); //替换成你的处理器
+    <T extends QRoomFuncComponentHandler> void setReplaceHandler(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
 ```
