@@ -271,6 +271,11 @@ enum QRoomConnectionState{
     RECONNECTING,
     RECONNECTED;
 }
+
+interface QPlayer {
+    void onStart(QNLiveRoomInfo roomInfo);
+    void onClientRoleChanged(boolean isPuller);
+    View getView();
 ```
 
 ## QLiveService
