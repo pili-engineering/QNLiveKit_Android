@@ -2,7 +2,7 @@
 ```java
 无UI
 //初始化
-QLive.init(context ,new QTkenGetter(){
+QLive.init(context ,new QTokenGetter(){
    //业务请求token
     void getTokenInfo( QLiveCallBack<String> callback){
         GetTokenApi.getToken(callback);
@@ -90,7 +90,7 @@ client.destroy();
 //UIKIT
 //初始化
 //初始化
-QLive.init(context ,new QTkenGetter(){
+QLive.init(context ,new QTokenGetter(){
         //业务请求token
         void getTokenInfo( QLiveCallBack<String> callback){
         GetTokenApi.getToken(callback);
