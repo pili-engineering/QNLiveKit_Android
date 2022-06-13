@@ -14,6 +14,15 @@ ext.put("level","22");//扩展用户等级
 //跟新/绑定 业务端的用户信息
 QLive.updateUser(new UserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
  
+//创建房间
+QSceneLive sceneLive = QLive.createSceneLive();
+QCreateRoomParam param = new QCreateRoomParam();
+param.setTitle("xxxtitle");
+sceneLive.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
+    void onSuccess(QLiveRoomInfo roomInfo){}
+    void onError(int code, String msg) {}
+});
+ 
 // 主播推流
 //创建推流client
 QPusherClient client = QLive.createPusherClient();
@@ -125,7 +134,8 @@ class QLive {
     static updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();  //创建主播端
     static QPlayerClient createPlayerClient();  //创建观众端
-    static QLiveUIKit createQLiveUIKit();       //创建uikit
+    static QLiveUIKit createLiveUIKit();        //创建uikit
+    static QSceneLive ceateSceneLive();         //创建直播场景
 }
 
 class QLiveUIKit{
@@ -143,6 +153,39 @@ class QUserInfo{
     String nick;
     Map<String,String> extensions; //扩展字段
 }
+
+class QSceneLive{
+    void createRoom(QCreateRoomParam param, QLiveCallBack<QLiveRoomInfo> callBack);   //创建房间
+    void deleteRoom(String roomID, QLiveCallBack<void> callBack);                    //删除房间
+    void listRoom(QLiveRoomStatus status, int pageNumber, int pageSize, QLiveCallBack<List<QLiveRoomInfo>> callBack); //房间列表
+    void getRoomInfo(String roomID, QLiveCallBack<List<QLiveRoomInfo>> callBack);    //根据ID搜索房间信息
+}
+
+class QLiveRoomInfo {
+    String roomID;
+    String title;
+    String notice;
+    String coverURL;
+    Map<String, String> extension; //房间扩展字段
+    QLiveUser anchorInfo;
+    String roomToken;
+    String pkId;
+    long onlineCount;
+    long startTime;
+    long endTime;
+    String chatId;
+    String pushURL;
+    String hlsURL;
+    String rtmpURL;
+    String flvURL;
+    double pv;
+    double uv;
+    int totalCount;
+    int totalMics;
+    int liveStatus;
+    int anchorStatus;
+}
+
 ```
 
 ## 主播/观众 客户端
@@ -213,30 +256,6 @@ class QCameraParams {
     int bitrate = 1000;
 }
 
-class QLiveRoomInfo {
-    String roomID;
-    String title;
-    String notice;
-    String coverUrl;
-    Map<String, String> extension; //房间扩展字段
-    QLiveUser anchorInfo;
-    String roomToken;
-    String pkId;
-    long onlineCount;
-    long startTime;
-    long endTime;
-    String chatId;
-    String pushUrl;
-    String hlsUrl;
-    String rtmpUrl;
-    String flvUrl;
-    double pv;
-    double uv;
-    int totalCount;
-    int totalMics;
-    int liveStatus;
-    int anchorStatus;
-}
 
 class QLiveUser {
     String userID;
@@ -407,12 +426,6 @@ interface QRoomService {
     void refreshRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                    //刷新房间信息
     void updateRoomExtension(Extension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
     void getOnlineUser(QLiveCallBack<List<LiveUser>> callBack);                     //当前房间现在用户
-    static void searchUserByUserId(String uID, QLiveCallBack<LiveUser> callBack);   //根据ID搜索用户信息
-    static void searchUserByIMUID(String imUID, QLiveCallBack<LiveUser> callBack);
-    static void createRoom(QCreateRoomParam param, QLiveCallBack<QLiveRoomInfo> callBack);   //创建房间
-    static void deleteRoom(String roomID, QLiveCallBack<void> callBack);                    //删除房间
-    static void listRoom(QLiveRoomStatus status, int pageNumber, int pageSize, QLiveCallBack<List<QLiveRoomInfo>> callBack);
-    static void getRoomInfo(String roomID, QLiveCallBack<List<QLiveRoomInfo>> callBack);
 }
 
 interface QRoomServiceListener{
@@ -545,17 +558,3 @@ class QInnerFucComponent{
     void setIsEnable(boolean isEnable);
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
