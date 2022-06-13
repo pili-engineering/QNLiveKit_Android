@@ -485,22 +485,29 @@ class RoomPage {
 ```
 
 
+
+
 ```Java
 //kit基础类说明 非dom
 //组件
 interface QComponent {
-    void attachKitContext(KitContext context)
+    void attachKitContext(KitContext context);
 }
 
 //房间内的UI组件
-interface QRoomUIComponent extends QUIComponent{
-    void attachLiveClient(QNLiveRoomClient client) 
+interface QRoomUIComponent extends QComponent{
+    void attachLiveClient(QNLiveRoomClient client); 
     void onRoomEntering(String roomID,QLiveUser user);                         //正在加入房间
     void onRoomJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
     void onRoomLeft();                                                          //离开了某个房间 
     void onRoomClosed();                                                        //关闭了直播 
     void onDestroyed();                                                         //client销毁
 }
+
+//房间内功能型组件 处理事件
+interface QRoomFuncComponentHandler implements LifecycleEventObserver, QComponent{
+}
+
 
 //UI组件的上下文
 interface KitContext {
@@ -512,35 +519,33 @@ interface KitContext {
 
 
 //用户自定义房间内组件基类
-class BaseRoomUIComponentView extends FrameLayout implements LifecycleEventObserver, QRoomUIComponent{
+class QRoomUIComponentView extends FrameLayout implements LifecycleEventObserver, QRoomUIComponent{
    
 }
 ///用户自定义组件基类
-class BaseUIComponentView extends FrameLayout implements LifecycleEventObserver, QComponent{
+class QUIComponentView extends FrameLayout implements LifecycleEventObserver, QComponent{
 
 }
 
 //内置UI型号组件
-class BaseRoomUIComponent{
-    <T extends BaseRoomUIComponentView> void setReplaceView(Class<T> serviceClass); //替换成你的UI
+class QInnerRoomUIComponent{
+    <T extends QRoomUIComponentView> void setReplaceView(Class<T> serviceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                                    
 }
 //内置UI型号组件
-class BaseUIComponent{
-    <T extends BaseUIComponentView> void setReplaceView(Class<T> serviceClass); //替换成你的UI
+class QInnerUIComponent{
+    <T extends QUIComponentView> void setReplaceView(Class<T> serviceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
 
-//房间内功能型组件 处理事件
-class BaseRoomFuncComponentHandler implements LifecycleEventObserver, QComponent{
-}
 
 //内置功能型号组件
-class BaseFucComponent{
-    <T extends BaseRoomFuncComponentHandler> void setReplaceHandler(Class<T> serviceClass); //替换成你的处理器
+class QInnerFucComponent{
+    <T extends QRoomFuncComponentHandler> void setReplaceHandler(Class<T> serviceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
 ```
+
 
 
 
