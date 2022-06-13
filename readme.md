@@ -54,10 +54,7 @@ client.destroy();
 
 //用户拉流房间
 QPlayerClient client = QLive.createPlayerClient();
- 
-//设置本地预览
-client.setPlayer(findViewById(R.id.QPLPlayer));
- 
+  
 //注册房间端监听
 client.setClientEventListener(new: QLiveStatusListener{})
 
@@ -66,6 +63,9 @@ client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
     override void onSuccess(QLiveRoomInfo roomInfo){}
     override void onError(int code, String msg) {}
 });
+
+//播放
+client.play(findViewById(R.id.QPLPlayer));
 
 //离开房间
 client.leaveRoom(new QLiveCallBack<Void> {
@@ -256,7 +256,6 @@ class QCameraParams {
     int bitrate = 1000;
 }
 
-
 class QLiveUser {
     String userID;
     String imUID;
@@ -264,6 +263,14 @@ class QLiveUser {
     String nick;
     Map<String,String> extensions; //用户扩展字段
 } 
+
+enum QRoomConnectionState{
+    DISCONNECTED,
+    CONNECTING,
+    CONNECTED,
+    RECONNECTING,
+    RECONNECTED;
+}
 ```
 
 ## QLiveService
