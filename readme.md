@@ -292,7 +292,7 @@ interface QLinkMicServiceListener{
     void onLinkerLeft(QMicLinker micLinker);                                             //有人下麦回调
     void onLinkerMicrophoneStatusChange(QMicLinker micLinker);                           //麦上麦克风变化回调
     void onLinkerCameraStatusChange(QMicLinker micLinker);                               //麦上摄像头变化回调
-    void onLinkerBeKicked(QMicLinker micLinker, String msg);                               //踢人事件回调
+    void onLinkerKicked(QMicLinker micLinker, String msg);                               //踢人事件回调
     void onLinkerExtension(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
 }
 
@@ -417,7 +417,7 @@ interface QChatRoomServiceListener{
      void onUserLeft(String memberId);
      void onReceivedC2CMsg(String msg, String fromId, String toId);
      void onReceivedGroupMsg(String msg, String fromId, String toId);
-     void onUserBeKicked(String memberId);
+     void onUserKicked(String memberId);
      void onUserBeMuted(boolean isMute, String memberId, long duration);
      void onAdminAdd(String memberId);
      void onAdminRemoved(String memberId, String reason);
