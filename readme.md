@@ -544,7 +544,7 @@ interface QRoomComponent extends QComponent{
     void onDestroyed();                                                         //client销毁
 }
 
-//UI组件的上下文
+//组件的上下文
 interface KitContext {
     Context getAndroidContext();                                               //安卓上下文
     FragmentManager getAndroidFragmentManager();                               //安卓fm
@@ -558,7 +558,7 @@ interface KitContext {
 //内置UI型号组件
 class QInnerRoomUIComponent{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的UI
-    void setIsEnable(boolean isEnable);
+    void setIsEnable(boolean isEnable);                             //移除/禁用 
 }
 //内置UI型号组件
 class QInnerUIComponent{
