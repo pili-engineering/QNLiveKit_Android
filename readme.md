@@ -487,31 +487,36 @@ class RoomPage {
 
 ```Java
 //kit基础类说明 非dom
+//组件
+interface QComponent {
+    void attachKitContext(KitContext context)
+}
+
 //房间内的UI组件
-interface QRoomUIComponent {
-    void attach( KitContext context,QLiveClient  client );
+interface QRoomUIComponent extends QUIComponent{
+    void attachLiveClient(QNLiveRoomClient client) 
     void onRoomEntering(String roomID,QLiveUser user);                         //正在加入房间
     void onRoomJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
     void onRoomLeft();                                                          //离开了某个房间 
     void onRoomClosed();                                                        //关闭了直播 
     void onDestroyed();                                                         //client销毁
 }
-//UI组件
-interface QUIComponent {
-    void attach( KitContext context);
-}
+
 //UI组件的上下文
 interface KitContext {
      Context getAndroidContext();                                               //安卓上下文
      FragmentManager getAndroidFragmentManager();                               //安卓fm
      FragmentActivity getCurrentActivity();                                     //所在的Activity
 }
+
+
+
 //用户自定义房间内组件基类
 class BaseRoomUIComponentView extends FrameLayout implements LifecycleEventObserver, QRoomUIComponent{
    
 }
 ///用户自定义组件基类
-class BaseUIComponentView extends FrameLayout implements LifecycleEventObserver, QUIComponent{
+class BaseUIComponentView extends FrameLayout implements LifecycleEventObserver, QComponent{
 
 }
 
