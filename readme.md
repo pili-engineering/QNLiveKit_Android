@@ -191,6 +191,13 @@ class QLiveRoomInfo {
     int anchorStatus;
 }
 
+class QNCreateRoomParam {
+    String title;                      //标题
+    String notice;                     //公告
+    String coverURL;                   //封面 
+    HashMap<String,String> extensions; //扩展字段
+}
+
 ```
 
 ## 主播/观众 客户端
@@ -247,14 +254,14 @@ interface QConnectionStatusLister{
     void onConnectionStateChanged(QRoomConnectionState state);  //rtc推流链接状态
 }
 
-class QMicrophoneParams {
+class QMicrophoneParam {
     int sampleRate = 48000;
     int bitsPerSample = 16;
     int channelCount = 1;
     int bitrate = 64000;
 }
  
-class QCameraParams {
+class QCameraParam {
     int width = 720;
     int height = 1280;
     int fps = 25;
