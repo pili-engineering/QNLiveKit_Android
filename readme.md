@@ -510,8 +510,7 @@ class RoomPage {
     PublicChatComponent publicChatView ;//公屏聊天
     RoomNoticeComponent roomNoticeView ;//公告
     StartPKComponent startPKView;//主播开始pk按钮
-    PKCoverComponent pkCoverView;  //PK覆盖层 空槽位
-    PKAnchorPreviewComponent pkAnchorPreview;//pk主播两个小窗口
+    PKPreviewComponent pkPreview;//pk主播两个小窗口
     LinkersComponent linkersView;//连麦中的用户 
     ShowInputComponent showInputView;//房间底部 输入框
     BottomFucBarComponent bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
