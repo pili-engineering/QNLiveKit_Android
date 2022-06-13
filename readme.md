@@ -325,7 +325,6 @@ class QAudienceMicLinker{
      void startLink(HashMap<String,String> extensions,CameraParams cameraParams, MicrophoneParams microphoneParams, QLiveCallBack<Void> callBack  );//上麦
      void stopLink();                                                               //下麦  
      void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
-  
      void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
      void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);            //禁/不禁用本地麦克风流
    
@@ -410,7 +409,7 @@ class QMergeOption {
      }
  
     class MicrophoneMergeOption  {
-       boolean isNeed ;
+       boolean isNeed = true;
     }
 }
 
@@ -482,7 +481,6 @@ class PubChatModel {
     QLiveUser sendUser;
     String content;
     String senderRoomID;
-    String getMsgAction();
 }
 
 ```
@@ -536,7 +534,6 @@ class RoomPage {
 interface QComponent {
     void attachKitContext(KitContext context);
 }
-
 //房间内的UI组件
 interface QRoomComponent extends QComponent{
     void attachLiveClient(QNLiveRoomClient client);
@@ -546,7 +543,6 @@ interface QRoomComponent extends QComponent{
     void onRoomClosed();                                                        //关闭了直播 
     void onDestroyed();                                                         //client销毁
 }
-
 
 //UI组件的上下文
 interface KitContext {
@@ -569,8 +565,6 @@ class QInnerUIComponent{
     <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
-
-
 //内置功能型号组件
 class QInnerFucComponent{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的处理器
