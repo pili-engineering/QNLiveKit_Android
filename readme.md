@@ -7,12 +7,12 @@ QLive.init(context ,new QTkenGetter(){
      GetTokenApi.getToken(callback);
 });
 
-Map ext = new HashMap()
-ext.put("vip","1"); //自定义vip等级
-ext.put("level","22");//扩展用户等级
+Map extensions = new HashMap()
+extensions.put("vip","1"); //自定义vip等级
+extensions.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.updateUser(new UserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+QLive.updateUser(new QUserInfo( "your avatar","your nickname", extensions) ,new QLiveCallBack<Void>{});
  
 //创建房间
 QSceneLive sceneLive = QLive.createSceneLive();
@@ -32,7 +32,7 @@ client.enableMicrophone(MicrophoneParams().apply { mSampleRate = 48000 });
 client.enableCamera(CameraParams().apply {fps=15  },findViewById(R.id.renderView));
 
 //注册房间端监听
-client.setClientEventListener(new: QLiveStatusListener{})
+client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
 client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
@@ -54,7 +54,7 @@ client.destroy();
 QPlayerClient client = QLive.createPlayerClient();
   
 //注册房间端监听
-client.setClientEventListener(new: QLiveStatusListener{})
+client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
 client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
