@@ -437,7 +437,7 @@ interface QRoomService {
     QLiveRoomInfo getRoomInfo();
     void refreshRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                    //刷新房间信息
     void updateRoomExtension(Extension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
-    void getOnlineUser(QLiveCallBack<List<LiveUser>> callBack);                     //当前房间现在用户
+    void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                    //当前房间现在用户
 }
 
 interface QRoomServiceListener{
