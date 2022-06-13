@@ -508,7 +508,7 @@ interface QComponent {
 }
 
 //房间内的UI组件
-interface QRoomUIComponent extends QComponent{
+interface QRoomComponent extends QComponent{
     void attachLiveClient(QNLiveRoomClient client); 
     void onRoomEntering(String roomID,QLiveUser user);                         //正在加入房间
     void onRoomJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
@@ -517,44 +517,33 @@ interface QRoomUIComponent extends QComponent{
     void onDestroyed();                                                         //client销毁
 }
 
-//房间内功能型组件 处理事件
-interface QRoomFuncComponentHandler implements LifecycleEventObserver, QComponent{
-}
-
 
 //UI组件的上下文
 interface KitContext {
      Context getAndroidContext();                                               //安卓上下文
      FragmentManager getAndroidFragmentManager();                               //安卓fm
      FragmentActivity getCurrentActivity();                                     //所在的Activity
+     LifecycleOwner getLifecycleOwner()                                         //安卓容器页面生命周期
 }
 
 
 
-//用户自定义房间内组件基类
-class QRoomUIComponentView extends FrameLayout implements LifecycleEventObserver, QRoomUIComponent{
-   
-}
-///用户自定义组件基类
-class QUIComponentView extends FrameLayout implements LifecycleEventObserver, QComponent{
-
-}
 
 //内置UI型号组件
 class QInnerRoomUIComponent{
-    <T extends QRoomUIComponentView> void replace(Class<T> replaceClass); //替换成你的UI
+    <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                                    
 }
 //内置UI型号组件
 class QInnerUIComponent{
-    <T extends QUIComponentView> void replace(Class<T> replaceClass); //替换成你的UI
+    <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
 
 
 //内置功能型号组件
 class QInnerFucComponent{
-    <T extends QRoomFuncComponentHandler> void replace(Class<T> replaceClass); //替换成你的处理器
+    <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
 ```
