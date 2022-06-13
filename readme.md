@@ -99,7 +99,6 @@ ext.put("level","22");//扩展用户等级
 //跟新/绑定 业务端的用户信息
 QLive.updateUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
 
-
 QliveUIKit liveUIKit = QLive.createLiveUIKit()
 //跳转到直播列表页面
 liveUIKit.launch(context);
@@ -107,6 +106,7 @@ liveUIKit.launch(context);
 
 //配置UI (可选);
 RoomPage roomPage = liveUIKit.getRoomPage();
+
 //每个内置UI组件都可以配置自己的替换实现
 roomPage.noticeViewComponent.replace(CustomView.Class);
            
@@ -115,11 +115,9 @@ roomPage.noticeViewComponent.isEnable = false;
            
 //插入全局覆盖层
 roomPage.mOuterCoverComponent.replace(CustomView.Class)
-   
- 
+        
 //可选 配置直播列表样式
 RoomListPage roomListPage =  liveUIKit.getRoomListPage();
-
 
 //如果需要将直播列表
 View view = roomListPage.roomListView.create(context);
@@ -224,11 +222,11 @@ class QPlayerClient {
     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
     void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
     void leaveRoom( QLiveCallBack<Void> callBack);                               //关闭房间
-    void destroy();                                                              //销毁 
-     
-    void play(QRenderView renderView);                                        //绑定播放器   
-}
+    void destroy();                                                              //销毁
+    void play(QRenderView renderView);                                           //绑定播放器渲染视图
 
+    void setPlayerEventListener(QPlayerEventListener playerEventListener);       //设置拉流端事件回调  
+}
 
 interface QLiveStatusListener {
     void onLiveStatusChanged(QLiveStatus liveStatus);                             //直播间状态变化 业务状态
@@ -281,6 +279,12 @@ enum QRoomConnectionState{
     RECONNECTED;
 }
 
+interface QPlayerEventListener {
+    void onPrepared(int preparedTime); //拉流器准备中
+    void onInfo(int what, int extra);  //拉流器信息回调
+    void onBufferingUpdate(int percent); //拉流缓冲跟新
+    void onVideoSizeChanged(int width, int height); //视频尺寸变化回调
+}
 ```
 
 ## QLiveService
