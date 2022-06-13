@@ -109,7 +109,7 @@ roomPage.noticeViewComponent.replace(CustomView.Class);
 roomPage.noticeViewComponent.isEnable = false;
            
 //插入全局覆盖层
-roomPage.mOuterCoverComponent.replace(CustomView::clas.java)
+roomPage.mOuterCoverComponent.replace(CustomView.Class)
    
  
 //可选 配置直播列表样式
