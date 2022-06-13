@@ -27,12 +27,10 @@ sceneLive.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
 //创建推流client
 QPusherClient client = QLive.createPusherClient();
 //启动麦克风模块
-client.enableAudio(MicrophoneParams().apply { mSampleRate = 48000 });
+client.enableMicrophone(MicrophoneParams().apply { mSampleRate = 48000 });
 //启动摄像头模块
-client.enableVideo(CameraParams().apply {fps=15  });
-//本地预览
-client.setLocalPreView(findViewById(R.id.QTextureView));
-   
+client.enableCamera(CameraParams().apply {fps=15  },findViewById(R.id.renderView));
+
 //注册房间端监听
 client.setClientEventListener(new: QLiveStatusListener{})
 
@@ -65,7 +63,7 @@ client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
 });
 
 //播放
-client.play(findViewById(R.id.QPLPlayer));
+client.play(findViewById(R.id.renderView));
 
 //离开房间
 client.leaveRoom(new QLiveCallBack<Void> {
@@ -200,7 +198,7 @@ class QPusherClient {
     void destroy();                                                              //销毁
 
     void setConnectionStatusLister(QConnectionStatusLister connectionStatusLister);//推流连接状态监听
-    void enableCamera(QCameraParams cameraParams,QRenderView renderview);          //启动视频采集 和预览
+    void enableCamera(QCameraParams cameraParams,QRenderView renderView);          //启动视频采集 和预览
     void enableMicrophone(QMicrophoneParams microphoneParams);                     //启动麦克参数
     void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
     void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
@@ -217,7 +215,7 @@ class QPlayerClient {
     void leaveRoom( QLiveCallBack<Void> callBack);                               //关闭房间
     void destroy();                                                              //销毁 
      
-    void player(QPlayer player);                                                 //绑定播放器   
+    void player(QRenderView renderView);                                        //绑定播放器   
 }
 
 
@@ -272,10 +270,6 @@ enum QRoomConnectionState{
     RECONNECTED;
 }
 
-interface QPlayer {
-    void onStart(QNLiveRoomInfo roomInfo);
-    void onClientRoleChanged(boolean isPuller);
-    View getView();
 ```
 
 ## QLiveService
@@ -287,7 +281,7 @@ interface QLinkMicService extends QLiveService {
     List<QMicLinker> getAllLinker();                                                  //所有麦位 
     void setUserPreview(String uID, QRenderView preview);                             //设置某个连麦者的预览 
     void kickOutUser(String uID, String msg, QLiveCallBack<Void> callBack);           // 踢麦
-    void updateExtension(QMicLinker micLinker, Extension extension,QLiveCallBack<Void> callBack); //跟新麦位扩展字段
+    void updateExtension(QMicLinker micLinker, QExtension extension,QLiveCallBack<Void> callBack); //跟新麦位扩展字段
     QAudienceMicLinker getAudienceMicLinker();                                        // 用户连麦器 
     QAnchorHostMicLinker getAnchorHostMicLinker();                                    //主播连麦器
     QInvitationHandler getInvitationHandler();                                        //邀请处理器   
@@ -299,7 +293,7 @@ interface QLinkMicServiceListener{
     void onUserMicrophoneStatusChange(MicLinker micLinker);                           //麦上麦克风变化回调
     void onUserCameraStatusChange(MicLinker micLinker);                               //麦上摄像头变化回调
     void onUserBeKick(MicLinker micLinker, String msg);                               //踢人事件回调
-    void onUserExtension(MicLinker micLinker, Extension extension);                   //麦上扩展字段变化回调 
+    void onUserExtension(MicLinker micLinker, QExtension extension);                   //麦上扩展字段变化回调 
 }
 
 class QNAnchorHostMicLinker {
@@ -335,7 +329,7 @@ interface QPKService extends QLiveService{
     void removeServiceListener(QPKServiceListener pkServiceListener);
     void addServiceListener(QPKServiceListener pkServiceListener);
     void setMixStreamAdapter(QPKMixStreamAdapter mixAdapter);                       //设置pk混流适配器
-    void updatePKExtension(Extension extension, QLiveCallBack<Void> callBack);      //跟新pk扩展字段  
+    void updatePKExtension(QExtension extension, QLiveCallBack<Void> callBack);      //跟新pk扩展字段  
     void start(long timeoutTimestamp ,String receiverRoomID, String receiverUID, HashMap<String, String> extensions, QLiveCallBack<QPKSession> callBack);
     void stop(QLiveCallBack<Void> callBack);                                        //结束pk
     void setPeerAnchorPreView(QRenderView view);                                    //设置对方预览
@@ -346,12 +340,12 @@ interface QPKServiceListener{
     void onStart(QPKSession pkSession);                                             //pk开始
     void onStop(QPKSession pkSession,int code,String msg);                          //pk结束
     void onStartTimeOut(QPKSession pkSession);                                      //开始超时 与对方主播建立链接超时      
-    void onPKExtensionUpdate(QPKSession pkSession,Extension extension);             //PK扩展字段跟新
+    void onPKExtensionUpdate(QPKSession pkSession,QExtension extension);             //PK扩展字段跟新
 }
 //pk混流适配
 interface QPKMixStreamAdapter{
      MixStreamParams onPKMixStreamStart(QPKSession pkSession); //pk 开始返回 混流画布参数
-     List<QMergeOption> onPKLinkerJoin(PKSession pkSession);    //PK 开始如何混流
+     List<QMergeOption> onPKLinkerJoin(QPKSession pkSession);    //PK 开始如何混流
      List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
 }
 
@@ -435,13 +429,13 @@ interface QRoomService {
     void removeServiceListener(QRoomServiceListener listener);
     void addServiceListener(QRoomServiceListener listener);
     QLiveRoomInfo getRoomInfo();
-    void refreshRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                    //刷新房间信息
-    void updateRoomExtension(Extension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
-    void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                    //当前房间现在用户
+    void getRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                             //刷新房间信息
+    void updateRoomInfoExtension(QExtension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
+    void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                         //当前房间现在用户
 }
 
 interface QRoomServiceListener{
-     void onRoomExtensions(Extension extension);  //房间扩展字段跟
+     void onRoomExtensions(QExtension extension);  //房间扩展字段跟
 }
 ```
 
@@ -537,7 +531,7 @@ interface KitContext {
      Context getAndroidContext();                                               //安卓上下文
      FragmentManager getAndroidFragmentManager();                               //安卓fm
      FragmentActivity getCurrentActivity();                                     //所在的Activity
-     LifecycleOwner getLifecycleOwner()                                         //安卓容器页面生命周期
+     LifecycleOwner getLifecycleOwner();                                        //安卓容器页面生命周期
 }
 
 
