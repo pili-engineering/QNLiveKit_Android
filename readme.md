@@ -288,12 +288,12 @@ interface QLinkMicService extends QLiveService {
 }
  
 interface QLinkMicServiceListener{
-    void onUserJoinLink(QMicLinker micLinker);                                        //有人上麦回调
-    void onUserLeft(QMicLinker micLinker);                                             //有人下麦回调
-    void onUserMicrophoneStatusChange(QMicLinker micLinker);                           //麦上麦克风变化回调
-    void onUserCameraStatusChange(QMicLinker micLinker);                               //麦上摄像头变化回调
-    void onUserBeKick(QMicLinker micLinker, String msg);                               //踢人事件回调
-    void onUserExtension(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
+    void onLinkerJoin(QMicLinker micLinker);                                        //有人上麦回调
+    void onLinkerLeft(QMicLinker micLinker);                                             //有人下麦回调
+    void onLinkerMicrophoneStatusChange(QMicLinker micLinker);                           //麦上麦克风变化回调
+    void onLinkerCameraStatusChange(QMicLinker micLinker);                               //麦上摄像头变化回调
+    void onLinkerBeKicked(QMicLinker micLinker, String msg);                               //踢人事件回调
+    void onLinkerExtension(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
 }
 
 class QNAnchorHostMicLinker {
