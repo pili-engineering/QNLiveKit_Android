@@ -149,7 +149,7 @@ class QUserInfo{
 
 ```java
 class QPusherClient {
-    void registerService(List<Class<? extends QNLiveService>> serviceClass);     //注册用户需要的服务
+   
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
     void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
@@ -167,7 +167,7 @@ class QPusherClient {
 }
 
 class QPlayerClient {
-    void registerService(List<Class<? extends QNLiveService>> serviceClass);     //注册用户需要的服务
+   
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
     void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
