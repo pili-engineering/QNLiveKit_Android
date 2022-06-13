@@ -228,7 +228,7 @@ class QPlayerClient {
     void leaveRoom( QLiveCallBack<Void> callBack);                               //关闭房间
     void destroy();                                                              //销毁 
      
-    void player(QRenderView renderView);                                        //绑定播放器   
+    void play(QRenderView renderView);                                        //绑定播放器   
 }
 
 
@@ -238,11 +238,11 @@ interface QLiveStatusListener {
 
 //直播状态枚举  低代码服务端定义的业务状态
 enum QLiveStatus {
-    LiveStatusPrepare, //直播准中 （已经创建）
-    LiveStatusOn,      // 直播间已发布  （已经发布，可以开播和拉流
-    LiveStatusAnchorOnline, //主播上线
-    LiveStatusAnchorOffline, //主播离线
-    LiveStatusOff            //直播间关闭
+    PREPARE,       //直播准中 （已经创建）
+    ON,            // 直播间已发布  （已经发布，可以开播和拉流
+    ANCHOR_ONLINE,  //主播上线
+    ANCHOR_OFFLINE, //主播离线
+    OFF            //直播间关闭
 };
 
 enum QCameraFace{
@@ -250,7 +250,7 @@ enum QCameraFace{
 };
 
 interface QConnectionStatusLister{
-    void onConnectionStateChanged(QRoomConnectionState state);  //rtc推流链接状态
+    void onConnectionStatusChanged(QRoomConnectionState state);  //rtc推流链接状态
 }
 
 class QMicrophoneParam {
