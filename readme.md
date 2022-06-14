@@ -527,8 +527,8 @@ class RoomPage {
     OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
     InnerCoverView innerCoverView ;//全局底层覆盖自定义 空槽位
 
-    ShowPKApplyFunctionComponent showReceivedPKApply ;//主播收到连麦申请弹窗 事件监听功能组件
-    ShowLinkMicFunctionComponent showLinkMicApply ;//主播收到pk邀请弹窗 事件监听功能组件
+    ShowPKApplyFunctionComponent showPKApplyFunctionComponent ;//主播收到连麦申请弹窗 事件监听功能组件
+    ShowLinkMicFunctionComponent showLinkMicApplyFunctionComponent ;//主播收到pk邀请弹窗 事件监听功能组件
 
     addFunctionComponent(QRoomComponent component); //注册自定义功能组件
 }
