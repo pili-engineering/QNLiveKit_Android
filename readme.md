@@ -507,11 +507,11 @@ class RoomPage {
 
     setCustomLayoutId(int layoutID); //替换整体布局
     
+    LivePrepareView livePreView ;//开播准备
     RoomBackGroundView roomBackGroundView;//房间背景
     
     //顶部 
     RoomHostView roomHostView; //左上角房主
-    LivePrepareView livePreView ;//开播准备
     OnlineUserView onlineUserView ;//右上角在线用户槽位
     RoomMemberCountView RoomMemberCountView;//右上角房间
     RoomIDView roomIDView ;//右上角房间
