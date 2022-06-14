@@ -557,8 +557,8 @@ interface QLiveComponent extends QComponent{
     void attachLiveClient(QNLiveRoomClient client);
     void onRoomEntering(String roomID,QLiveUser user);                         //正在加入房间
     void onRoomJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
-    void onRoomLeft();                                                          //离开了某个房间 
-    void onRoomClosed();                                                        //关闭了直播 
+    void onRoomLeft();                                                          //用户离开了某个房间 
+    void onRoomClosed();                                                        //主播关闭了直播 
     void onDestroyed();                                                         //client销毁
 }
 
