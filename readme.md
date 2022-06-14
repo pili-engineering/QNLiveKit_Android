@@ -566,8 +566,8 @@ class QView{
     <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
-//内置功能型号组件
-class QFunctionComponent{
+//内置功能型号组件 - 处理事件没有UI
+class QLiveFunctionComponent{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
