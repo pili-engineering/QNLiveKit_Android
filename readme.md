@@ -557,7 +557,7 @@ interface KitContext {
 
 
 //内置UI型号组件基类
-class QRoomView{
+class QLiveView{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                             //移除/禁用 
 }
