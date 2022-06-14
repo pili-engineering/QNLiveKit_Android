@@ -290,7 +290,7 @@ interface QPlayerEventListener {
     void onInfo(int what, int extra);  //拉流器信息回调
     void onBufferingUpdate(int percent); //拉流缓冲跟新
     void onVideoSizeChanged(int width, int height); //视频尺寸变化回调
-    boolean onError(int errorCode);
+    void onError(int errorCode);
 }
 ```
 
