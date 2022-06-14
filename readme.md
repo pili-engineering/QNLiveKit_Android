@@ -515,10 +515,13 @@ class RoomPage {
     DanmakuTrackView danmakuTrackView;//弹幕
     PublicChatView publicChatView ;//公屏聊天
     RoomNoticeView roomNoticeView ;//公告
+    
     StartPKView startPKView;//主播开始pk按钮
-    PKCoverView pkCoverView;  //PK覆盖层 空槽位
-    PKAnchorPreviewView pkAnchorPreview;//pk主播两个小窗口
+    PKPreView pkPreview;//pk主播两个小窗口
+    PKCoverView pkCoverview;//pk覆盖层自定义UI
+    
     LinkersView linkersView;//连麦中的用户 
+    
     ShowInputView showInputView;//房间底部 输入框
     BottomFucBarView bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
     OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
