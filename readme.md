@@ -554,7 +554,7 @@ interface QComponent {
 }
 //房间内的UI组件
 interface QLiveComponent extends QComponent{
-    void attachLiveClient(QLiveRoomClient client);
+    void attachLiveClient(QLiveClient client);
     void onEntering(String roomID,QLiveUser user);                         //正在加入房间
     void onJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
     void onLeft();                                                         //离开了某个房间 
@@ -590,7 +590,7 @@ class QLiveFunctionComponent{
 
 ```
 client 基类
-QLiveRoomClient{
+QLiveClient{
      <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
      void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
     
