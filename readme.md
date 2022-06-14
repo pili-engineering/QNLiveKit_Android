@@ -215,7 +215,7 @@ class QPusherClient {
     void setConnectionStatusLister(QConnectionStatusLister connectionStatusLister);//推流连接状态监听
     void enableCamera(QCameraParam cameraParam,QRenderView renderView);          //启动视频采集 和预览
     void enableMicrophone(QMicrophoneParam microphoneParam);                     //启动麦克参数
-    void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
+    void switchCamera(QLiveCallBack<QCameraFace> callBack);                        //切换摄像头
     void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
     void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);            //禁/不禁用本地麦克风流
     void setVideoFrameListener(QVideoFrameListener frameListener);                 //设置本地摄像头数据监听
