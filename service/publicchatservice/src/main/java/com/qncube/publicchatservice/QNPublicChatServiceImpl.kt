@@ -4,8 +4,8 @@ import com.niucube.rtm.*
 import com.niucube.rtm.msg.RtmTextMsg
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.BaseService
-import com.qncube.liveroomcore.QNLiveCallBack
-import com.qncube.liveroomcore.QNLiveRoomClient
+import com.qncube.liveroomcore.QLiveCallBack
+import com.qncube.liveroomcore.QNLiveClient
 import java.util.*
 
 class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
@@ -32,17 +32,17 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
         }
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         RtmManager.addRtmChannelListener(mRtmMsgListener)
     }
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
         RtmManager.removeRtmChannelListener(mRtmMsgListener)
     }
 
-    private fun sendModel(model: PubChatModel, callBack: QNLiveCallBack<PubChatModel>?) {
+    private fun sendModel(model: PubChatModel, callBack: QLiveCallBack<PubChatModel>?) {
         val msg = RtmTextMsg(model.action, model).toJsonString()
         RtmManager.rtmClient.sendChannelMsg(
             msg,
@@ -63,7 +63,7 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
      * 发送 聊天室聊天
      * @param msg
      */
-    override fun sendPublicChat(msg: String, callBack: QNLiveCallBack<PubChatModel>?) {
+    override fun sendPublicChat(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
         sendModel(PubChatModel().apply {
             action = PubChatModel.action_puchat
             sendUser = user
@@ -77,7 +77,7 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
      *
      * @param msg
      */
-    override fun sendWelCome(msg: String, callBack: QNLiveCallBack<PubChatModel>?) {
+    override fun sendWelCome(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
         sendModel(PubChatModel().apply {
             action = PubChatModel.action_welcome
             sendUser = user
@@ -91,7 +91,7 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
      *
      * @param msg
      */
-    override fun sendByeBye(msg: String, callBack: QNLiveCallBack<PubChatModel>?) {
+    override fun sendByeBye(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
         sendModel(PubChatModel().apply {
             action = PubChatModel.action_bye
             sendUser = user
@@ -106,7 +106,7 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
      * @param msg
      * @param callBack
      */
-    override fun sendLike(msg: String, callBack: QNLiveCallBack<PubChatModel>?) {
+    override fun sendLike(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
         sendModel(PubChatModel().apply {
             action = PubChatModel.action_like
             sendUser = user
@@ -126,7 +126,7 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
     override fun sendCustomPubChat(
         act: String,
         msg: String,
-        callBack: QNLiveCallBack<PubChatModel>?
+        callBack: QLiveCallBack<PubChatModel>?
     ) {
         val mode = PubChatModel().apply {
             action = act

@@ -1,14 +1,14 @@
 package com.qncube.liveroomcore
 
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 
-class QNLiveRoomContext(private val mClient: QNLiveRoomClient) {
+class QNLiveRoomContext(private val mClient: QNLiveClient) {
 
     private val serviceMap = HashMap<Class<*>, Any>()
-    private val mLifeCycleListener = ArrayList<QNRoomLifeCycleListener>()
+    private val mLifeCycleListener = ArrayList<QClientLifeCycleListener>()
     val mRoomScheduler = RoomScheduler()
-    var roomInfo: QNLiveRoomInfo? = null
+    var roomInfo: QLiveRoomInfo? = null
 
     init {
         mLifeCycleListener.add(mRoomScheduler)
@@ -35,39 +35,39 @@ class QNLiveRoomContext(private val mClient: QNLiveRoomClient) {
      *
      * @param lifeCycleListener
      */
-    fun addRoomLifeCycleListener(lifeCycleListener: QNRoomLifeCycleListener) {
+    fun addRoomLifeCycleListener(lifeCycleListener: QClientLifeCycleListener) {
         mLifeCycleListener.add(lifeCycleListener)
     }
 
     //移除房间生命周期状态监听
-    fun removeRoomLifeCycleListener(lifeCycleListener: QNRoomLifeCycleListener) {
+    fun removeRoomLifeCycleListener(lifeCycleListener: QClientLifeCycleListener) {
         mLifeCycleListener.remove(lifeCycleListener)
     }
 
 
     fun enter(liveId: String, user: QNLiveUser) {
         mLifeCycleListener.forEach {
-            it.onRoomEnter(liveId, user)
+            it.onEntering(liveId, user)
         }
     }
 
     fun leaveRoom() {
         mLifeCycleListener.forEach {
-            it.onRoomLeave()
+            it.onLeft()
         }
         this.roomInfo = null
     }
 
-    fun joinedRoom(roomInfo: QNLiveRoomInfo) {
+    fun joinedRoom(roomInfo: QLiveRoomInfo) {
         this.roomInfo = roomInfo
         mLifeCycleListener.forEach {
-            it.onRoomJoined(roomInfo)
+            it.onJoined(roomInfo)
         }
     }
 
     fun close() {
         mLifeCycleListener.forEach {
-            it.onRoomClose()
+            it.onDestroyed()
         }
         mLifeCycleListener.clear()
         serviceMap.clear()

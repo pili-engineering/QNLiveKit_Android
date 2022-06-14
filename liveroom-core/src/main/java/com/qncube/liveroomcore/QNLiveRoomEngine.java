@@ -8,7 +8,7 @@ import com.qncube.liveroomcore.datasource.RoomDataSource;
 import com.qncube.liveroomcore.datasource.UserDataSource;
 import com.qncube.liveroomcore.mode.QNCreateRoomParam;
 
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo;
+import com.qncube.liveroomcore.mode.QLiveRoomInfo;
 import com.qncube.liveroomcore.mode.QNLiveUser;
 
 import java.util.HashMap;
@@ -29,10 +29,10 @@ public class QNLiveRoomEngine {
      * @param token
      * @param callBack
      */
-    public static void init(Context context, String token, QNLiveCallBack<Void> callBack) {
+    public static void init(Context context, String token, QLiveCallBack<Void> callBack) {
         OKHttpService.INSTANCE.setToken(token);
         AppCache.appContext = context;
-        mUserDataSource.loginUser(context, new QNLiveCallBack<QNLiveUser>() {
+        mUserDataSource.loginUser(context, new QLiveCallBack<QNLiveUser>() {
 
             @Override
             public void onError(int code, String msg) {
@@ -55,8 +55,8 @@ public class QNLiveRoomEngine {
      * @param extensions
      * @param callBack
      */
-    public static void updateUserInfo(String avatar, String nickName, HashMap<String, String> extensions, QNLiveCallBack<QNLiveUser> callBack) {
-        mUserDataSource.updateUser(avatar, nickName, extensions, new QNLiveCallBack<Void>() {
+    public static void updateUserInfo(String avatar, String nickName, HashMap<String, String> extensions, QLiveCallBack<QNLiveUser> callBack) {
+        mUserDataSource.updateUser(avatar, nickName, extensions, new QLiveCallBack<Void>() {
             @Override
             public void onError(int code, String msg) {
                 callBack.onError(code, msg);
@@ -78,7 +78,7 @@ public class QNLiveRoomEngine {
      * @param param
      * @param callBack
      */
-    public static void createRoom(QNCreateRoomParam param, QNLiveCallBack<QNLiveRoomInfo> callBack) {
+    public static void createRoom(QNCreateRoomParam param, QLiveCallBack<QLiveRoomInfo> callBack) {
         mRoomDataSource.createRoom(param, callBack);
     }
 
@@ -87,7 +87,7 @@ public class QNLiveRoomEngine {
      *
      * @param callBack
      */
-    public static void deleteRoom(String liveId, QNLiveCallBack<Void> callBack) {
+    public static void deleteRoom(String liveId, QLiveCallBack<Void> callBack) {
         mRoomDataSource.deleteRoom(liveId, callBack);
     }
 
@@ -98,7 +98,7 @@ public class QNLiveRoomEngine {
      * @param pageSize
      * @param callBack
      */
-    public static void listRoom(int pageNumber, int pageSize, QNLiveCallBack<PageData<QNLiveRoomInfo>> callBack) {
+    public static void listRoom(int pageNumber, int pageSize, QLiveCallBack<PageData<QLiveRoomInfo>> callBack) {
         mRoomDataSource.listRoom(pageNumber, pageSize, callBack);
     }
 
@@ -108,7 +108,7 @@ public class QNLiveRoomEngine {
      * @param liveId
      * @param callBack
      */
-    public static void getRoomInfo(String liveId, QNLiveCallBack<QNLiveRoomInfo> callBack) {
+    public static void getRoomInfo(String liveId, QLiveCallBack<QLiveRoomInfo> callBack) {
         mRoomDataSource.refreshRoomInfo(liveId, callBack);
     }
 

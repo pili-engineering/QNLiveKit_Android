@@ -98,7 +98,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
         receiverRoomId: String,
         receiverUid: String,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<LinkInvitation>?
+        callBack: QLiveCallBack<LinkInvitation>?
     ) {
         if (roomInfo == null) {
             callBack?.onError(0, "roomInfo == null)")
@@ -138,7 +138,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
     /**
      * 取消申请
      */
-    override fun cancelApply(invitationId: Int, callBack: QNLiveCallBack<Void>?) {
+    override fun cancelApply(invitationId: Int, callBack: QLiveCallBack<Void>?) {
         mInvitationProcessor.cancel(invitationMap[invitationId], object : RtmCallBack {
             override fun onSuccess() {
                 invitationMap.remove(invitationId)
@@ -157,7 +157,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
     override fun accept(
         invitationId: Int,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     ) {
         val invitation = invitationMap[invitationId]
         if (invitation == null) {
@@ -189,7 +189,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
     override fun reject(
         invitationId: Int,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     ) {
         val invitation = invitationMap[invitationId]
         if (invitation == null) {
@@ -215,12 +215,12 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
     }
 
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
         InvitationManager.removeInvitationProcessor(mInvitationProcessor)
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         InvitationManager.addInvitationProcessor(mInvitationProcessor)
     }

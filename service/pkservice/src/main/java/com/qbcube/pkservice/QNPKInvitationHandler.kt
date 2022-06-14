@@ -1,6 +1,6 @@
 package com.qbcube.pkservice
 
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 
 /**
  * pk邀请器
@@ -27,13 +27,13 @@ interface QNPKInvitationHandler {
         receiverRoomId: String,
         receiverUid: String,
         extensions: HashMap<String,String>? = null,
-        callBack: QNLiveCallBack<PKInvitation>?
+        callBack: QLiveCallBack<PKInvitation>?
     )
 
     /**
      * 取消申请
      */
-    fun cancelApply(invitationId: Int,callBack: QNLiveCallBack<Void>?)
+    fun cancelApply(invitationId: Int,callBack: QLiveCallBack<Void>?)
 
     /**
      * 接受连麦
@@ -41,7 +41,7 @@ interface QNPKInvitationHandler {
     fun accept(
         invitationId: Int,
         extensions: HashMap<String,String>? = null,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     )
 
     /**
@@ -50,6 +50,6 @@ interface QNPKInvitationHandler {
     fun reject(
         invitationId: Int,
         extensions: HashMap<String,String>? = null,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     )
 }

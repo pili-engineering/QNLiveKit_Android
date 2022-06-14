@@ -5,12 +5,12 @@ import com.nucube.http.OKHttpService
 import com.nucube.http.PageData
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.Extension
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.backGround
 import com.qncube.liveroomcore.getCode
 import com.qncube.liveroomcore.innermodel.HearBeatResp
 import com.qncube.liveroomcore.mode.QNCreateRoomParam
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import org.json.JSONObject
 
 class RoomDataSource {
@@ -18,15 +18,15 @@ class RoomDataSource {
     /**
      * 刷新房间信息
      */
-    suspend fun refreshRoomInfo(liveId: String): QNLiveRoomInfo {
+    suspend fun refreshRoomInfo(liveId: String): QLiveRoomInfo {
         return OKHttpService.get(
             "/client/live/room/info/${liveId}",
             null,
-            QNLiveRoomInfo::class.java
+            QLiveRoomInfo::class.java
         )
     }
 
-    fun refreshRoomInfo(liveId: String, callBack: QNLiveCallBack<QNLiveRoomInfo>?) {
+    fun refreshRoomInfo(liveId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
                 val resp = refreshRoomInfo(liveId)
@@ -38,13 +38,13 @@ class RoomDataSource {
         }
     }
 
-    suspend fun listRoom(pageNumber: Int, pageSize: Int): PageData<QNLiveRoomInfo> {
+    suspend fun listRoom(pageNumber: Int, pageSize: Int): PageData<QLiveRoomInfo> {
         val p = ParameterizedTypeImpl(
-            arrayOf(QNLiveRoomInfo::class.java),
+            arrayOf(QLiveRoomInfo::class.java),
             PageData::class.java,
             PageData::class.java
         )
-        val date: PageData<QNLiveRoomInfo> =
+        val date: PageData<QLiveRoomInfo> =
             OKHttpService.get("/client/live/room/list", HashMap<String, String>().apply {
                 put("page_num", pageNumber.toString())
                 put("page_size", pageSize.toString())
@@ -52,7 +52,7 @@ class RoomDataSource {
         return date
     }
 
-    fun listRoom(pageNumber: Int, pageSize: Int, call: QNLiveCallBack<PageData<QNLiveRoomInfo>>?) {
+    fun listRoom(pageNumber: Int, pageSize: Int, call: QLiveCallBack<PageData<QLiveRoomInfo>>?) {
         backGround {
             doWork {
 
@@ -65,15 +65,15 @@ class RoomDataSource {
         }
     }
 
-    suspend fun createRoom(param: QNCreateRoomParam): QNLiveRoomInfo {
+    suspend fun createRoom(param: QNCreateRoomParam): QLiveRoomInfo {
         return OKHttpService.post(
             "/client/live/room/instance",
             JsonUtils.toJson(param),
-            QNLiveRoomInfo::class.java
+            QLiveRoomInfo::class.java
         )
     }
 
-    fun createRoom(param: QNCreateRoomParam, callBack: QNLiveCallBack<QNLiveRoomInfo>?) {
+    fun createRoom(param: QNCreateRoomParam, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
                 val room = createRoom(param)
@@ -85,7 +85,7 @@ class RoomDataSource {
         }
     }
 
-    fun deleteRoom(liveId: String, call: QNLiveCallBack<Void>?) {
+    fun deleteRoom(liveId: String, call: QLiveCallBack<Void>?) {
         backGround {
             doWork {
                 OKHttpService.delete("/live/room/instance/${liveId}", "{}", Any::class.java)
@@ -97,18 +97,18 @@ class RoomDataSource {
         }
     }
 
-    suspend fun pubRoom(liveId: String): QNLiveRoomInfo {
-        return OKHttpService.put("/client/live/room/${liveId}", "{}", QNLiveRoomInfo::class.java)
+    suspend fun pubRoom(liveId: String): QLiveRoomInfo {
+        return OKHttpService.put("/client/live/room/${liveId}", "{}", QLiveRoomInfo::class.java)
     }
-    suspend fun unPubRoom(liveId: String): QNLiveRoomInfo {
-        return OKHttpService.delete("/client/live/room/${liveId}", "{}", QNLiveRoomInfo::class.java)
+    suspend fun unPubRoom(liveId: String): QLiveRoomInfo {
+        return OKHttpService.delete("/client/live/room/${liveId}", "{}", QLiveRoomInfo::class.java)
     }
 
-    suspend fun joinRoom(liveId: String): QNLiveRoomInfo {
+    suspend fun joinRoom(liveId: String): QLiveRoomInfo {
         return OKHttpService.post(
             "/client/live/room/user/${liveId}",
             "{}",
-            QNLiveRoomInfo::class.java
+            QLiveRoomInfo::class.java
         )
     }
 

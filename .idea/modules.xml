@@ -41,6 +41,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.main.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.main.iml" />
@@ -99,6 +103,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-livepreview/QNLiveKit.uikit.uikit-livepreview.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-livepreview/QNLiveKit.uikit.uikit-livepreview.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-livepreview/QNLiveKit.uikit.uikit-livepreview.main.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-livepreview/QNLiveKit.uikit.uikit-livepreview.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-livepreview/QNLiveKit.uikit.uikit-livepreview.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-livepreview/QNLiveKit.uikit.uikit-livepreview.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-pk/QNLiveKit.uikit.uikit-pk.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-publicchat/QNLiveKit.uikit.uikit-publicchat.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-publicchat/QNLiveKit.uikit.uikit-publicchat.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-publicchat/QNLiveKit.uikit.uikit-publicchat.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-publicchat/QNLiveKit.uikit.uikit-publicchat.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/uikit-publicchat/QNLiveKit.uikit.uikit-publicchat.main.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/uikit-publicchat/QNLiveKit.uikit.uikit-publicchat.main.iml" />

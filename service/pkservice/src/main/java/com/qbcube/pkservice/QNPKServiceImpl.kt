@@ -12,7 +12,7 @@ import com.qiniu.droid.rtc.*
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.datasource.UserDataSource
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.rtcexcepion.RtcException
 import kotlinx.coroutines.*
@@ -350,12 +350,12 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         }
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         RtmManager.addRtmC2cListener(mC2cListener)
         RtmManager.addRtmChannelListener(groupListener)
 
-        if (client.clientType == ClientType.CLIENT_PUSH) {
+        if (client.clientType == ClientType.PUSHER) {
             val field = client!!.getRtc()
             val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
             room.addExtraQNRTCEngineEventListener(defaultExtQNClientEventListener)
@@ -365,43 +365,43 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         }
     }
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
         RtmManager.removeRtmC2cListener(mC2cListener)
         RtmManager.removeRtmChannelListener(groupListener)
 
-        if (client?.clientType == ClientType.CLIENT_PUSH) {
-            pkPKInvitationHandlerImpl.onRoomClose()
+        if (client?.clientType == ClientType.PUSHER) {
+            pkPKInvitationHandlerImpl.onDestroyed()
         } else {
-            mAudiencePKSynchro.onRoomClose()
+            mAudiencePKSynchro.onDestroyed()
         }
     }
 
-    override fun onRoomEnter(roomId: String, user: QNLiveUser) {
-        super.onRoomEnter(roomId, user)
-        if (client?.clientType == ClientType.CLIENT_PUSH) {
-            pkPKInvitationHandlerImpl.onRoomEnter(roomId, user)
+    override fun onEntering(roomId: String, user: QNLiveUser) {
+        super.onEntering(roomId, user)
+        if (client?.clientType == ClientType.PUSHER) {
+            pkPKInvitationHandlerImpl.onEntering(roomId, user)
         } else {
-            mAudiencePKSynchro.onRoomEnter(roomId, user)
+            mAudiencePKSynchro.onEntering(roomId, user)
         }
     }
 
-    override fun onRoomLeave() {
-        super.onRoomLeave()
-        if (client?.clientType == ClientType.CLIENT_PUSH) {
-            pkPKInvitationHandlerImpl.onRoomLeave()
+    override fun onLeft() {
+        super.onLeft()
+        if (client?.clientType == ClientType.PUSHER) {
+            pkPKInvitationHandlerImpl.onLeft()
         } else {
-            mAudiencePKSynchro.onRoomLeave()
+            mAudiencePKSynchro.onLeft()
         }
     }
 
-    override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
-        super.onRoomJoined(roomInfo)
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+        super.onJoined(roomInfo)
 
-        if (client?.clientType == ClientType.CLIENT_PUSH) {
-            pkPKInvitationHandlerImpl.onRoomJoined(roomInfo)
+        if (client?.clientType == ClientType.PUSHER) {
+            pkPKInvitationHandlerImpl.onJoined(roomInfo)
         } else {
-            mAudiencePKSynchro.onRoomJoined(roomInfo)
+            mAudiencePKSynchro.onJoined(roomInfo)
         }
     }
 
@@ -426,7 +426,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
      *
      * @param extension
      */
-    override fun upDataPKExtension(extension: Extension, callBack: QNLiveCallBack<Void>?) {
+    override fun upDataPKExtension(extension: Extension, callBack: QLiveCallBack<Void>?) {
     }
 
     override fun start(
@@ -434,7 +434,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         receiverRoomId: String,
         receiverUid: String,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<QNPKSession>?
+        callBack: QLiveCallBack<QNPKSession>?
     ) {
         if (roomInfo == null) {
             callBack?.onError(0, " roomInfo==null")
@@ -534,7 +534,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
             )
         }
 
-    override fun stop(callBack: QNLiveCallBack<Void>?) {
+    override fun stop(callBack: QLiveCallBack<Void>?) {
         if (roomInfo == null || mPKSession?.status != PK_STATUS_OK) {
             callBack?.onError(0, " roomInfo==null")
             return

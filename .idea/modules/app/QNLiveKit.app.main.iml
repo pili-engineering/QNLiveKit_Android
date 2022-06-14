@@ -82,6 +82,7 @@
     <orderEntry type="module" module-name="QNLiveKit.liveroom-pullclient.main" />
     <orderEntry type="module" module-name="QNLiveKit.liveroom-pushclient.main" />
     <orderEntry type="module" module-name="QNLiveKit.uikit.uikit-linkmic.main" />
+    <orderEntry type="module" module-name="QNLiveKit.uikit.uikit-pk.main" />
     <orderEntry type="module" module-name="QNLiveKit.service.linkmicservice.main" />
     <orderEntry type="module" module-name="QNLiveKit.service.pkservice.main" />
     <orderEntry type="module" module-name="QNLiveKit.uikit.uikit-user.main" />

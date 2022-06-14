@@ -1,6 +1,6 @@
 package com.qncube.linkmicservice
 
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 
 /**
  * 主播跨房连麦器
@@ -15,7 +15,7 @@ public interface QNAnchorForwardMicLinker {
     fun startLink(
         peerRoomId: String,
         extensions: HashMap<String, String>? = null,
-        callBack: QNLiveCallBack<Void>
+        callBack: QLiveCallBack<Void>
     )
 
     /**

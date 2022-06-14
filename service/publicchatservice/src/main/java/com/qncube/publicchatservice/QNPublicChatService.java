@@ -1,9 +1,7 @@
 package com.qncube.publicchatservice;
 
-import com.qncube.liveroomcore.QNLiveCallBack;
+import com.qncube.liveroomcore.QLiveCallBack;
 import com.qncube.liveroomcore.QNLiveService;
-
-import java.util.HashMap;
 
 public interface QNPublicChatService extends QNLiveService {
 
@@ -25,21 +23,21 @@ public interface QNPublicChatService extends QNLiveService {
      *
      * @param msg
      */
-    public void sendPublicChat(String msg, QNLiveCallBack<PubChatModel> callBack);
+    public void sendPublicChat(String msg, QLiveCallBack<PubChatModel> callBack);
 
     /**
      * 发送 欢迎进入消息
      *
      * @param msg
      */
-    public void sendWelCome(String msg, QNLiveCallBack<PubChatModel> callBack);
+    public void sendWelCome(String msg, QLiveCallBack<PubChatModel> callBack);
 
     /**
      * 发送 拜拜
      *
      * @param msg
      */
-    public void sendByeBye(String msg, QNLiveCallBack<PubChatModel> callBack);
+    public void sendByeBye(String msg, QLiveCallBack<PubChatModel> callBack);
 
     /**
      * 点赞
@@ -47,7 +45,7 @@ public interface QNPublicChatService extends QNLiveService {
      * @param msg
      * @param callBack
      */
-    public void sendLike(String msg, QNLiveCallBack<PubChatModel> callBack);
+    public void sendLike(String msg, QLiveCallBack<PubChatModel> callBack);
 
     /**
      * 自定义要显示在公屏上的消息
@@ -56,7 +54,7 @@ public interface QNPublicChatService extends QNLiveService {
      * @param msg
      * @param callBack
      */
-    public void sendCustomPubChat(String action, String msg,  QNLiveCallBack<PubChatModel> callBack);
+    public void sendCustomPubChat(String action, String msg,  QLiveCallBack<PubChatModel> callBack);
 
 
     /**

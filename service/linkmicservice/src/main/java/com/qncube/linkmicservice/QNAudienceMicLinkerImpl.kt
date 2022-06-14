@@ -15,10 +15,10 @@ import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclink
 import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclinker_join
 import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclinker_left
 import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclinker_microphone_mute
-import com.qncube.liveroom_pullclient.QNLivePullClient
+import com.qncube.playerclient.QNLivePullClient
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.mode.MuteMode
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.UidMode
 import java.util.*
 import kotlin.collections.ArrayList
@@ -138,7 +138,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         }
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         context.mRtcLiveRoom = RtcLiveRoom(AppCache.appContext)
         context.mRtcLiveRoom.addExtraQNRTCEngineEventListener(context.mExtQNClientEventListener)
@@ -146,13 +146,13 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
 
     }
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
         context.mRtcLiveRoom.close()
     }
 
-    override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
-        super.onRoomJoined(roomInfo)
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+        super.onJoined(roomInfo)
         mMicListJob.start()
     }
 
@@ -165,7 +165,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
      */
     override fun startLink(
         extensions: HashMap<String, String>?, cameraParams: QNCameraParams?,
-        microphoneParams: QNMicrophoneParams?, callBack: QNLiveCallBack<Void>?
+        microphoneParams: QNMicrophoneParams?, callBack: QLiveCallBack<Void>?
     ) {
         mMicListJob.cancel()
         if (roomInfo == null) {
@@ -244,11 +244,11 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
     /**
      * 结束连麦
      */
-    override fun stopLink(callBack: QNLiveCallBack<Void>?) {
+    override fun stopLink(callBack: QLiveCallBack<Void>?) {
         stopInner(false, callBack)
     }
 
-    fun stopInner(force: Boolean, callBack: QNLiveCallBack<Void>?, sendMsg: Boolean = true) {
+    fun stopInner(force: Boolean, callBack: QLiveCallBack<Void>?, sendMsg: Boolean = true) {
         if (mMeLinker == null) {
             callBack?.onError(-1, "user is not on mic")
             return
@@ -306,7 +306,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         context.mRtcLiveRoom.switchCamera()
     }
 
-    override fun muteLocalCamera(muted: Boolean, callBack: QNLiveCallBack<Void>?) {
+    override fun muteLocalCamera(muted: Boolean, callBack: QLiveCallBack<Void>?) {
         if (mMeLinker == null) {
             return
         }
@@ -338,7 +338,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         }
     }
 
-    override fun muteLocalMicrophone(muted: Boolean, callBack: QNLiveCallBack<Void>?) {
+    override fun muteLocalMicrophone(muted: Boolean, callBack: QLiveCallBack<Void>?) {
         if (mMeLinker == null) {
             return
         }
@@ -377,8 +377,8 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         context.mRtcLiveRoom.setAudioFrameListener(frameListener)
     }
 
-    override fun onRoomLeave() {
-        super.onRoomLeave()
+    override fun onLeft() {
+        super.onLeft()
         mMicListJob.cancel()
         if (mMeLinker != null) {
             stopInner(true, null)

@@ -15,8 +15,17 @@ import com.qncube.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_dialog_my_linker_info.*
 import java.text.DecimalFormat
 
+/**
+ * 我的连麦信息弹窗
+ */
 class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
     FinalDialogFragment() {
+
+    public object StartLinkStore {
+        var isInviting = false
+        var isVideoLink = false
+        var startTime = 0L
+    }
 
     init {
         applyGravityStyle(Gravity.BOTTOM)
@@ -58,7 +67,7 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
         refreshInfo()
         ivCameraStatus.setDoubleCheckClickListener {
             service.audienceMicLinker.muteLocalCamera(ivCameraStatus.isSelected,
-                object : QNLiveCallBack<Void> {
+                object : QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
                     }
@@ -70,7 +79,7 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
         }
         ivMicStatus.setDoubleCheckClickListener {
             service.audienceMicLinker.muteLocalMicrophone(ivMicStatus.isSelected,
-                object : QNLiveCallBack<Void> {
+                object : QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
                     }
@@ -86,7 +95,8 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
             .into(ivAvatar)
         tvHangup.setDoubleCheckClickListener {
             LoadingDialog.showLoading(childFragmentManager)
-            service.audienceMicLinker.stopLink(object : QNLiveCallBack<Void> {
+            service.audienceMicLinker.stopLink(object :
+                QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast()
                     LoadingDialog.cancelLoadingDialog()

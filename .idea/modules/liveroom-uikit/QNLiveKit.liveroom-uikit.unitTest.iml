@@ -78,6 +78,7 @@
     <orderEntry type="module" module-name="QNLiveKit.liveroom-pullclient.main" scope="TEST" />
     <orderEntry type="module" module-name="QNLiveKit.liveroom-pushclient.main" scope="TEST" />
     <orderEntry type="module" module-name="QNLiveKit.uikit.uikit-linkmic.main" scope="TEST" />
+    <orderEntry type="module" module-name="QNLiveKit.uikit.uikit-pk.main" scope="TEST" />
     <orderEntry type="module" module-name="QNLiveKit.service.linkmicservice.main" scope="TEST" />
     <orderEntry type="module" module-name="QNLiveKit.service.pkservice.main" scope="TEST" />
     <orderEntry type="module" module-name="QNLiveKit.uikit.uikit-user.main" scope="TEST" />

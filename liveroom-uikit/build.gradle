@@ -47,7 +47,7 @@ dependencies {
     api project(':uikit:uikit-publicchat')
     api project(':uikit:uikit-livepreview')
     api project(':uikit:uikit-linkmic')
-
+    api project(':uikit:uikit-pk')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

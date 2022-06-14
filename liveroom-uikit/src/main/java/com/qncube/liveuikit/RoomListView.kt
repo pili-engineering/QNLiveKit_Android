@@ -7,17 +7,15 @@ import android.widget.FrameLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.datasource.RoomDataSource
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.asToast
-import com.qncube.uikitcore.dialog.LoadingDialog
 import com.qncube.uikitcore.ext.ViewUtil
 import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.refresh.CommonEmptyView
@@ -48,12 +46,13 @@ class RoomListView : FrameLayout {
         }
         mAdapter.goJoinCall = {
             // LoadingDialog.showLoading(fragmentManager)
-            QNLiveRoomUIKit.joinRoom(context, it.liveId, object : QNLiveCallBack<QNLiveRoomInfo> {
+            QNLiveRoomUIKit.joinRoom(context, it.liveId, object :
+                QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast()
                 }
 
-                override fun onSuccess(data: QNLiveRoomInfo?) {
+                override fun onSuccess(data: QLiveRoomInfo?) {
                     //   LoadingDialog.cancelLoadingDialog()
                 }
             })
@@ -75,13 +74,13 @@ class RoomListView : FrameLayout {
         }
     }
 
-    class RoomListAdapter : BaseQuickAdapter<QNLiveRoomInfo, BaseViewHolder>(
+    class RoomListAdapter : BaseQuickAdapter<QLiveRoomInfo, BaseViewHolder>(
         R.layout.kit_roomlist_item_room,
         ArrayList()
     ) {
 
-        var goJoinCall: (item: QNLiveRoomInfo) -> Unit = {}
-        override fun convert(helper: BaseViewHolder, item: QNLiveRoomInfo) {
+        var goJoinCall: (item: QLiveRoomInfo) -> Unit = {}
+        override fun convert(helper: BaseViewHolder, item: QLiveRoomInfo) {
             helper.itemView.setOnClickListener {
                 goJoinCall.invoke(item)
             }

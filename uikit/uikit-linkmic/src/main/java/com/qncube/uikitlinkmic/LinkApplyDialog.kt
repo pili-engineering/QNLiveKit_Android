@@ -8,6 +8,9 @@ import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.kit_dialog_apply.*
 
+/**
+ * 连麦申请弹窗
+ */
 class LinkApplyDialog : FinalDialogFragment() {
 
     init {
@@ -54,8 +57,6 @@ class LinkApplyDialog : FinalDialogFragment() {
                 "请同意必要的权限".asToast()
             }
         }
-
     }
-
 
 }

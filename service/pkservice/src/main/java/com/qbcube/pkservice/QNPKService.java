@@ -4,7 +4,7 @@ import com.nucube.rtclive.MixStreamParams;
 import com.nucube.rtclive.QNMergeOption;
 import com.qiniu.droid.rtc.QNRenderView;
 import com.qncube.liveroomcore.Extension;
-import com.qncube.liveroomcore.QNLiveCallBack;
+import com.qncube.liveroomcore.QLiveCallBack;
 import com.qncube.liveroomcore.QNLiveService;
 
 import org.jetbrains.annotations.NotNull;
@@ -93,7 +93,7 @@ public interface QNPKService extends QNLiveService {
      *
      * @param extension
      */
-    void upDataPKExtension(Extension extension, QNLiveCallBack<Void> callBack);
+    void upDataPKExtension(Extension extension, QLiveCallBack<Void> callBack);
 
 
     /**
@@ -105,10 +105,10 @@ public interface QNPKService extends QNLiveService {
      * @param extensions
      * @param callBack
      */
-    void start(long timeoutTimestamp, String receiverRoomId, String receiverUid, HashMap<String, String> extensions, QNLiveCallBack<QNPKSession> callBack);
+    void start(long timeoutTimestamp, String receiverRoomId, String receiverUid, HashMap<String, String> extensions, QLiveCallBack<QNPKSession> callBack);
 
     //结束
-    void stop(QNLiveCallBack<Void> callBack);
+    void stop(QLiveCallBack<Void> callBack);
 
 
     /**

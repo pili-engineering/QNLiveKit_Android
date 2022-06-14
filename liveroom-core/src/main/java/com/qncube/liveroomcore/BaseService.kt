@@ -1,20 +1,20 @@
 package com.qncube.liveroomcore
 
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 
 open class BaseService : QNLiveService {
 
     protected var user: QNLiveUser? = null
-    protected var roomInfo: QNLiveRoomInfo? = null
-    protected var client: QNLiveRoomClient? = null
+    protected var roomInfo: QLiveRoomInfo? = null
+    protected var client: QNLiveClient? = null
 
     /**
      * 进入回调
      *
      * @param user
      */
-    override fun onRoomEnter(liveId: String, user: QNLiveUser) {
+    override fun onEntering(liveId: String, user: QNLiveUser) {
         this.user = user
     }
 
@@ -23,25 +23,25 @@ open class BaseService : QNLiveService {
      *
      * @param roomInfo
      */
-    override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
         this.roomInfo = roomInfo
     }
 
     /**
      * 离开回调
      */
-    open override fun onRoomLeave() {
+    open override fun onLeft() {
         user = null
     }
 
     /**
      * 销毁回调
      */
-    open override fun onRoomClose() {
+    open override fun onDestroyed() {
 
     }
 
-    open override fun attachRoomClient(client: QNLiveRoomClient) {
+    open override fun attachRoomClient(client: QNLiveClient) {
         this.client = client
     }
 }

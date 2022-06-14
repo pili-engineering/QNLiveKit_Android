@@ -5,10 +5,10 @@ import com.nucube.rtclive.QNMicrophoneParams;
 import com.qiniu.droid.rtc.QNAudioFrameListener;
 import com.qiniu.droid.rtc.QNRenderView;
 import com.qiniu.droid.rtc.QNVideoFrameListener;
-import com.qncube.liveroomcore.QNLiveRoomClient;
+import com.qncube.liveroomcore.QNLiveClient;
 
 //推流客户端
-public interface QNLivePushClient extends QNLiveRoomClient {
+public interface QNLivePushClient extends QNLiveClient {
 
     //创建实例
     static QNLivePushClient createLivePushClient() {

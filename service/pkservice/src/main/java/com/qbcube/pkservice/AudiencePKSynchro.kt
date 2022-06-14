@@ -4,7 +4,7 @@ import com.qbcube.pkservice.mode.PKInfo
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.datasource.RoomDataSource
 import com.qncube.liveroomcore.datasource.UserDataSource
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 import java.util.*
 
@@ -80,7 +80,7 @@ class AudiencePKSynchro() : BaseService() {
         }
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         mListenersCall?.invoke()?.add(mPKServiceListener)
     }
@@ -89,11 +89,11 @@ class AudiencePKSynchro() : BaseService() {
      * 进入回
      * @param user
      */
-    override fun onRoomEnter(liveId: String, user: QNLiveUser) {
+    override fun onEntering(liveId: String, user: QNLiveUser) {
     }
 
-    override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
-        super.onRoomJoined(roomInfo)
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+        super.onJoined(roomInfo)
         if (!roomInfo.pkId.isEmpty()) {
             backGround {
                 doWork {
@@ -120,13 +120,13 @@ class AudiencePKSynchro() : BaseService() {
         }
     }
 
-    override fun onRoomLeave() {
-        super.onRoomLeave()
+    override fun onLeft() {
+        super.onLeft()
         repeatSynchroJob.cancel()
     }
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
     }
 
 

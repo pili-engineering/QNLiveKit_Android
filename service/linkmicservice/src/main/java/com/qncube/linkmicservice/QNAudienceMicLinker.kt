@@ -5,7 +5,7 @@ import com.nucube.rtclive.QNMicrophoneParams
 import com.qiniu.droid.rtc.QNAudioFrameListener
 import com.qiniu.droid.rtc.QNConnectionState
 import com.qiniu.droid.rtc.QNVideoFrameListener
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 
 
 /**
@@ -50,7 +50,7 @@ interface QNAudienceMicLinker {
      */
     fun startLink(
         extensions: HashMap<String, String>?, cameraParams: QNCameraParams?,
-        microphoneParams: QNMicrophoneParams?, callBack: QNLiveCallBack<Void>?
+        microphoneParams: QNMicrophoneParams?, callBack: QLiveCallBack<Void>?
     )
 
     /**
@@ -61,14 +61,14 @@ interface QNAudienceMicLinker {
     /**
      * 结束连麦
      */
-    fun stopLink(callBack: QNLiveCallBack<Void>?)
+    fun stopLink(callBack: QLiveCallBack<Void>?)
 
 
     fun switchCamera()
 
-    fun muteLocalCamera(muted: Boolean, callBack: QNLiveCallBack<Void>?)
+    fun muteLocalCamera(muted: Boolean, callBack: QLiveCallBack<Void>?)
 
-    fun muteLocalMicrophone(muted: Boolean, callBack: QNLiveCallBack<Void>?)
+    fun muteLocalMicrophone(muted: Boolean, callBack: QLiveCallBack<Void>?)
 
     fun setVideoFrameListener(frameListener: QNVideoFrameListener)
 

@@ -7,7 +7,7 @@ import com.nucube.rtclive.*
 import com.qiniu.droid.rtc.*
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.datasource.RoomDataSource
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 
 class QNLivePushClientImpl : QNLivePushClient {
     private val mRoomSource = RoomDataSource()
@@ -74,11 +74,11 @@ class QNLivePushClientImpl : QNLivePushClient {
      *
      * @param lifeCycleListener
      */
-    override fun addRoomLifeCycleListener(lifeCycleListener: QNRoomLifeCycleListener) {
+    override fun addRoomLifeCycleListener(lifeCycleListener: QClientLifeCycleListener) {
         mQNLiveRoomContext.addRoomLifeCycleListener(lifeCycleListener)
     }
 
-    override fun removeRoomLifeCycleListener(lifeCycleListener: QNRoomLifeCycleListener) {
+    override fun removeRoomLifeCycleListener(lifeCycleListener: QClientLifeCycleListener) {
         mQNLiveRoomContext.removeRoomLifeCycleListener(lifeCycleListener)
     }
 
@@ -88,7 +88,7 @@ class QNLivePushClientImpl : QNLivePushClient {
      * @param roomId
      * @param callBack
      */
-    override fun joinRoom(roomId: String, callBack: QNLiveCallBack<QNLiveRoomInfo>?) {
+    override fun joinRoom(roomId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
                 mQNLiveRoomContext.enter(roomId, QNLiveRoomEngine.getCurrentUserInfo())
@@ -132,7 +132,7 @@ class QNLivePushClientImpl : QNLivePushClient {
      *
      * @param callBack
      */
-    override fun leaveRoom(callBack: QNLiveCallBack<Void>?) {
+    override fun leaveRoom(callBack: QLiveCallBack<Void>?) {
         backGround {
             doWork {
                 mRoomSource.unPubRoom(mQNLiveRoomContext.roomInfo?.liveId ?: "")
@@ -207,7 +207,7 @@ class QNLivePushClientImpl : QNLivePushClient {
     }
 
     override fun getClientType(): ClientType {
-        return ClientType.CLIENT_PUSH
+        return ClientType.PUSHER
     }
 
 }

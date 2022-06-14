@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/LibComponent/rtclive" />
             <option value="$PROJECT_DIR$/LibComponent/sdk_qnim" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/linveroom-inner" />
             <option value="$PROJECT_DIR$/liveroom-core" />
             <option value="$PROJECT_DIR$/liveroom-pullclient" />
             <option value="$PROJECT_DIR$/liveroom-pushclient" />
@@ -38,6 +39,7 @@
             <option value="$PROJECT_DIR$/uikit/uikit-danmaku" />
             <option value="$PROJECT_DIR$/uikit/uikit-linkmic" />
             <option value="$PROJECT_DIR$/uikit/uikit-livepreview" />
+            <option value="$PROJECT_DIR$/uikit/uikit-pk" />
             <option value="$PROJECT_DIR$/uikit/uikit-publicchat" />
             <option value="$PROJECT_DIR$/uikit/uikit-user" />
             <option value="$PROJECT_DIR$/uikit/uiwidget-Emoji" />

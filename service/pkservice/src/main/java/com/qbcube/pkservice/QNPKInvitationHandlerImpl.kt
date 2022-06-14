@@ -98,7 +98,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
         receiverRoomId: String,
         receiverUid: String,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<PKInvitation>?
+        callBack: QLiveCallBack<PKInvitation>?
     ) {
         if (roomInfo == null) {
             callBack?.onError(-1, "roomInfo==null")
@@ -139,7 +139,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
     /**
      * 取消申请
      */
-    override fun cancelApply(invitationId: Int, callBack: QNLiveCallBack<Void>?) {
+    override fun cancelApply(invitationId: Int, callBack: QLiveCallBack<Void>?) {
         mInvitationProcessor.cancel(invitationMap[invitationId], object : RtmCallBack {
             override fun onSuccess() {
                 invitationMap.remove(invitationId)
@@ -159,7 +159,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
     override fun accept(
         invitationId: Int,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     ) {
         val invitation = invitationMap[invitationId]
         if (invitation == null) {
@@ -190,7 +190,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
     override fun reject(
         invitationId: Int,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     ) {
         val invitation = invitationMap[invitationId]
         if (invitation == null) {
@@ -216,11 +216,11 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
     }
 
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
         InvitationManager.removeInvitationProcessor(mInvitationProcessor)
     }
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         InvitationManager.addInvitationProcessor(mInvitationProcessor)
     }

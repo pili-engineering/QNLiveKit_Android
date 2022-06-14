@@ -1,7 +1,7 @@
 package com.qncube.danmakuservice;
 
 
-import com.qncube.liveroomcore.QNLiveCallBack;
+import com.qncube.liveroomcore.QLiveCallBack;
 import com.qncube.liveroomcore.QNLiveService;
 
 import java.util.HashMap;
@@ -26,6 +26,6 @@ public interface QNDanmakuService extends QNLiveService {
     /**
      * 发送弹幕消息
      */
-    public void sendDanmaku(String msg, HashMap<String,String> extensions, QNLiveCallBack<DanmakuModel> callBack);
+    public void sendDanmaku(String msg, HashMap<String,String> extensions, QLiveCallBack<DanmakuModel> callBack);
 }
 

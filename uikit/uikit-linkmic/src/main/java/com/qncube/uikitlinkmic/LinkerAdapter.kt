@@ -2,14 +2,17 @@ package com.qncube.uikitlinkmic
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.qncube.linkmicservice.QNMicLinker
+import com.qncube.uikitcore.LinkerUIHelper
 import kotlinx.android.synthetic.main.kit_item_linker.view.*
 
+/***
+ *麦位item
+ */
 class LinkerAdapter() :
     BaseQuickAdapter<QNMicLinker, BaseViewHolder>(R.layout.kit_item_linker, ArrayList()) {
 

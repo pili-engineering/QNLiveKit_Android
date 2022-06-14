@@ -40,6 +40,7 @@ dependencies {
     api depend.runtime_ktx()
     api depend.recyclerview()
     api depend.appcompat()
+    compileOnly project(path: ':LibComponent:rtclive')
 
 
     testImplementation 'junit:junit:4.13.2'

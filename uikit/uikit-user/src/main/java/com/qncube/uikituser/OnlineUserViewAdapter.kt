@@ -10,7 +10,6 @@ class OnlineUserViewAdapter : BaseQuickAdapter<QNLiveUser, BaseViewHolder>(
     R.layout.kit_item_online_user,
     ArrayList<QNLiveUser>()
 ) {
-
     override fun convert(helper: BaseViewHolder, item: QNLiveUser) {
         Glide.with(mContext)
             .load(item.avatar)

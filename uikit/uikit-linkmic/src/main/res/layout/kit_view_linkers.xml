@@ -12,7 +12,7 @@
         android:layout_height="match_parent" />
 
 
-    <com.qncube.uikitlinkmic.MicSeatView
+    <com.qncube.uikitlinkmic.MicSeatPreView
         android:id="@+id/mMicSeatView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

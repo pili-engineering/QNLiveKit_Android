@@ -1,13 +1,9 @@
 package com.qncube.liveuikit;
 
-import android.Manifest;
 import android.content.Context;
 
-import com.qncube.liveroomcore.QNLiveCallBack;
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo;
-import com.qncube.uikitcore.ext.permission.PermissionAnywhere;
-
-import kotlinx.coroutines.GlobalScope;
+import com.qncube.liveroomcore.QLiveCallBack;
+import com.qncube.liveroomcore.mode.QLiveRoomInfo;
 
 /**
  * ui kit
@@ -17,7 +13,7 @@ public class QNLiveRoomUIKit {
     /**
      * 槽位表
      */
-    public static final ViewSlotTable mViewSlotTable = new ViewSlotTable();
+    public static final RoomPage mViewSlotTable = new RoomPage();
 
     /**
      * 加入房间
@@ -25,7 +21,7 @@ public class QNLiveRoomUIKit {
      * @param context
      * @param callBack
      */
-    public static void joinRoom(Context context, String liveRoomId, QNLiveCallBack<QNLiveRoomInfo> callBack) {
+    public static void joinRoom(Context context, String liveRoomId, QLiveCallBack<QLiveRoomInfo> callBack) {
         QNLiveRoomUIKitInner.INSTANCE.joinRoom(context, liveRoomId, callBack);
     }
 
@@ -35,7 +31,7 @@ public class QNLiveRoomUIKit {
      * @param context
      * @param callBack
      */
-    public static void createAndJoinRoom(Context context, QNLiveCallBack<QNLiveRoomInfo> callBack) {
+    public static void createAndJoinRoom(Context context, QLiveCallBack<QLiveRoomInfo> callBack) {
         QNLiveRoomUIKitInner.INSTANCE.createAndJoinRoom(context, callBack);
     }
 }

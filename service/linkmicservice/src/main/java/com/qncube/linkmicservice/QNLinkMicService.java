@@ -2,7 +2,7 @@ package com.qncube.linkmicservice;
 
 import com.qiniu.droid.rtc.QNRenderView;
 import com.qncube.liveroomcore.Extension;
-import com.qncube.liveroomcore.QNLiveCallBack;
+import com.qncube.liveroomcore.QLiveCallBack;
 import com.qncube.liveroomcore.QNLiveService;
 
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +92,7 @@ public interface QNLinkMicService extends QNLiveService {
      *
      * @param uid
      */
-    void kickOutUser(String uid, String msg, QNLiveCallBack<Void> callBack);
+    void kickOutUser(String uid, String msg, QLiveCallBack<Void> callBack);
 
 
     /**
@@ -101,7 +101,7 @@ public interface QNLinkMicService extends QNLiveService {
      * @param micLinker
      * @param extension
      */
-    void updateExtension(@NotNull  QNMicLinker micLinker, Extension extension,QNLiveCallBack<Void> callBack);
+    void updateExtension(@NotNull  QNMicLinker micLinker, Extension extension, QLiveCallBack<Void> callBack);
 
     //添加监听
     void addMicLinkerListener(MicLinkerListener listener);

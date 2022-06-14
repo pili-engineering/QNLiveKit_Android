@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.nucube.http.OKHttpService
 import com.qiniu.jsonutil.JsonUtils
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.QNLiveRoomEngine
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.uikitcore.dialog.LoadingDialog
@@ -61,7 +61,8 @@ class MainActivity : AppCompatActivity() {
 
     suspend fun suspendInit(context: Context, token: String) =
         suspendCoroutine<Unit> { ct ->
-            QNLiveRoomEngine.init(context, token, object : QNLiveCallBack<Void> {
+            QNLiveRoomEngine.init(context, token, object :
+                QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {
                     ct.resumeWithException(Exception(msg ?: ""))
                 }
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             avatar,
             nickName,
             extensions,
-            object : QNLiveCallBack<QNLiveUser> {
+            object : QLiveCallBack<QNLiveUser> {
                 override fun onError(code: Int, msg: String?) {
                     ct.resumeWithException(Exception(msg ?: ""))
                 }

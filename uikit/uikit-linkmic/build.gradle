@@ -35,7 +35,7 @@ dependencies {
     api project(':liveroom-core')
     api project(':liveroom-uikit-core')
     api project(':service:linkmicservice')
-    api project(':service:pkservice')
+
     compileOnly project(path: ':liveroom-pushclient')
     compileOnly project(path: ':liveroom-pullclient')
     testImplementation 'junit:junit:4.13.2'

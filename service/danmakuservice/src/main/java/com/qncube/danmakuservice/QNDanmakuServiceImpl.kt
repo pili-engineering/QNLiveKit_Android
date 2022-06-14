@@ -4,8 +4,8 @@ import com.niucube.rtm.*
 import com.niucube.rtm.msg.RtmTextMsg
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.BaseService
-import com.qncube.liveroomcore.QNLiveCallBack
-import com.qncube.liveroomcore.QNLiveRoomClient
+import com.qncube.liveroomcore.QLiveCallBack
+import com.qncube.liveroomcore.QNLiveClient
 
 class QNDanmakuServiceImpl : QNDanmakuService, BaseService() {
     private val mDanmakuServiceListeners = ArrayList<QNDanmakuService.QNDanmakuServiceListener>()
@@ -22,13 +22,13 @@ class QNDanmakuServiceImpl : QNDanmakuService, BaseService() {
         }
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         super.attachRoomClient(client)
         RtmManager.addRtmChannelListener(rtmMsgListener)
     }
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
         RtmManager.removeRtmChannelListener(rtmMsgListener)
     }
 
@@ -46,7 +46,7 @@ class QNDanmakuServiceImpl : QNDanmakuService, BaseService() {
     override fun sendDanmaku(
         msg: String,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<DanmakuModel>?
+        callBack: QLiveCallBack<DanmakuModel>?
     ) {
         val mode = DanmakuModel().apply {
             sendUser = user

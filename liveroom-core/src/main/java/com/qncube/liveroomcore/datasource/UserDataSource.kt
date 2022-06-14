@@ -7,7 +7,7 @@ import com.nucube.http.OKHttpService
 import com.nucube.http.PageData
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.qnim.QNIMManager
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.backGround
 import com.qncube.liveroomcore.getCode
 import com.qncube.liveroomcore.innermodel.InnerUser
@@ -72,7 +72,7 @@ class UserDataSource {
         }, null, p)[0]
     }
 
-    fun loginUser(context: Context, callBack: QNLiveCallBack<QNLiveUser>) {
+    fun loginUser(context: Context, callBack: QLiveCallBack<QNLiveUser>) {
         backGround {
             doWork {
                 val user = OKHttpService.get("/client/user/profile", null, InnerUser::class.java)
@@ -114,7 +114,7 @@ class UserDataSource {
         avatar: String,
         nickName: String,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>
+        callBack: QLiveCallBack<Void>
     ) {
         backGround {
             doWork {

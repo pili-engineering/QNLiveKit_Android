@@ -1,18 +1,18 @@
 package com.qncube.liveroomcore
 
 import com.qncube.liveroomcore.datasource.RoomDataSource
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 
-open class RoomScheduler : QNRoomLifeCycleListener {
+open class RoomScheduler : QClientLifeCycleListener {
 
     protected var user: QNLiveUser? = null
-    protected var roomInfo: QNLiveRoomInfo? = null
-    protected var client: QNLiveRoomClient? = null
+    protected var roomInfo: QLiveRoomInfo? = null
+    protected var client: QNLiveClient? = null
     private var roomStatus = 0
     private var anchorStatus = 1
 
-    var roomStatusChange: (status: LiveStatus) -> Unit = {}
+    var roomStatusChange: (status: QLiveStatus) -> Unit = {}
 
     private val roomDataSource = RoomDataSource()
     private val mHeartBeatJob = Scheduler(8000) {
@@ -40,12 +40,12 @@ open class RoomScheduler : QNRoomLifeCycleListener {
         }
     }
 
-    override fun onRoomEnter(liveId: String, user: QNLiveUser) {
+    override fun onEntering(liveId: String, user: QNLiveUser) {
         this.user = user
     }
 
 
-    override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
         this.roomInfo = roomInfo
         roomStatus = roomInfo.liveStatus
         anchorStatus = roomInfo.anchorStatus
@@ -53,14 +53,12 @@ open class RoomScheduler : QNRoomLifeCycleListener {
     }
 
 
-    open override fun onRoomLeave() {
+    open override fun onLeft() {
         user = null
         mHeartBeatJob.cancel()
-
     }
 
-
-    open override fun onRoomClose() {
+    open override fun onDestroyed() {
         mHeartBeatJob.cancel()
     }
 }

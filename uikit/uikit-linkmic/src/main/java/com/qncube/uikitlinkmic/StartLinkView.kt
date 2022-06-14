@@ -1,72 +1,70 @@
 package com.qncube.uikitlinkmic
 
+import android.content.Context
+import android.util.AttributeSet
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.nucube.rtclive.QNCameraParams
 import com.nucube.rtclive.QNMicrophoneParams
 import com.qncube.linkmicservice.LinkInvitation
 import com.qncube.linkmicservice.QNLinkMicInvitationHandler
 import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.liveroomcore.QNLiveCallBack
-import com.qncube.liveroomcore.QNLiveRoomClient
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.asToast
-import com.qncube.uikitcore.BaseSlotView
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.dialog.LoadingDialog
 
-internal object StartLinkStore {
-    var isInviting = false
-    var isVideoLink = false
-    var startTime = 0L
-//    private val mScheduler = Scheduler(1000) {
-//        total++
-//    }
-//    var timeCall:(time:)
-}
+//开始连麦按钮
+class StartLinkView : QBaseRoomFrameLayout {
 
-class StartLinkView : BaseSlotView() {
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
+    //连麦邀请监听
     private val mInvitationListener = object : QNLinkMicInvitationHandler.InvitationListener {
 
         override fun onReceivedApply(linkInvitation: LinkInvitation) {}
 
         override fun onApplyCanceled(linkInvitation: LinkInvitation) {
-            StartLinkStore.isInviting = false
+            MyLinkerInfoDialog.StartLinkStore.isInviting = false
         }
 
         override fun onApplyTimeOut(linkInvitation: LinkInvitation) {
-            StartLinkStore.isInviting = false
+            MyLinkerInfoDialog.StartLinkStore.isInviting = false
             LoadingDialog.cancelLoadingDialog()
         }
 
         override fun onAccept(linkInvitation: LinkInvitation) {
-            StartLinkStore.isInviting = false
+            MyLinkerInfoDialog.StartLinkStore.isInviting = false
             LoadingDialog.cancelLoadingDialog()
             "主播同意你的申请".asToast()
             client?.getService(QNLinkMicService::class.java)
                 ?.audienceMicLinker
                 ?.startLink(
-                    null, if (StartLinkStore.isVideoLink) {
+                    null, if (MyLinkerInfoDialog.StartLinkStore.isVideoLink) {
                         QNCameraParams()
                     } else {
                         null
                     }, QNMicrophoneParams(),
-                    object : QNLiveCallBack<Void> {
+                    object : QLiveCallBack<Void> {
                         override fun onError(code: Int, msg: String?) {
                             msg?.asToast()
                         }
 
                         override fun onSuccess(data: Void?) {
-                            StartLinkStore.startTime = System.currentTimeMillis()
+                            MyLinkerInfoDialog.StartLinkStore.startTime = System.currentTimeMillis()
                         }
                     }
                 )
         }
 
         override fun onReject(linkInvitation: LinkInvitation) {
-            StartLinkStore.isInviting = false
+            MyLinkerInfoDialog.StartLinkStore.isInviting = false
             "主播拒绝你的连麦申请".asToast()
             LoadingDialog.cancelLoadingDialog()
         }
@@ -77,13 +75,15 @@ class StartLinkView : BaseSlotView() {
     }
 
     override fun initView() {
-        super.initView()
-        view!!.setOnClickListener {
+        client!!.getService(QNLinkMicService::class.java).linkMicInvitationHandler.addInvitationLister(
+            mInvitationListener
+        )
+        this.setOnClickListener {
             if (roomInfo == null || client == null || user == null) {
                 return@setOnClickListener
             }
 
-            if (StartLinkStore.isInviting) {
+            if (MyLinkerInfoDialog.StartLinkStore.isInviting) {
                 "正在申请中，请稍后".asToast()
                 return@setOnClickListener
             }
@@ -99,21 +99,22 @@ class StartLinkView : BaseSlotView() {
                 mDefaultListener = object : FinalDialogFragment.BaseDialogListener() {
                     override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {
                         super.onDialogPositiveClick(dialog, any)
-                        LoadingDialog.showLoading(kitContext!!.fm)
-                        StartLinkStore.isVideoLink = any as Boolean
+                        with(LoadingDialog) { showLoading(kitContext!!.fm) }
+                        MyLinkerInfoDialog.StartLinkStore.isVideoLink = any as Boolean
                         client!!.getService(QNLinkMicService::class.java).linkMicInvitationHandler.apply(
                             15 * 1000,
                             roomInfo!!.liveId,
                             roomInfo!!.anchorInfo.userId,
                             null,
-                            object : QNLiveCallBack<LinkInvitation> {
+                            object :
+                                QLiveCallBack<LinkInvitation> {
                                 override fun onError(code: Int, msg: String?) {
                                     msg?.asToast()
                                     LoadingDialog.cancelLoadingDialog()
                                 }
 
                                 override fun onSuccess(data: LinkInvitation) {
-                                    StartLinkStore.isInviting = true
+                                    MyLinkerInfoDialog.StartLinkStore.isInviting = true
                                     "等待主播同意".asToast()
                                 }
                             }
@@ -124,23 +125,4 @@ class StartLinkView : BaseSlotView() {
         }
     }
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QNLinkMicService::class.java)?.linkMicInvitationHandler?.removeInvitationLister(
-                mInvitationListener
-            )
-        }
-    }
-
-    override fun attach(
-        lifecycleOwner: LifecycleOwner,
-        context: KitContext,
-        client: QNLiveRoomClient
-    ) {
-        super.attach(lifecycleOwner, context, client)
-        client.getService(QNLinkMicService::class.java).linkMicInvitationHandler.addInvitationLister(
-            mInvitationListener
-        )
-    }
 }

@@ -1,11 +1,11 @@
 package com.qncube.liveuikit
 
 import android.content.Context
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.QNLiveRoomEngine
 import com.qncube.liveroomcore.datasource.RoomDataSource
 import com.qncube.liveroomcore.getCode
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ internal object QNLiveRoomUIKitInner {
     fun joinRoom(
         context: Context,
         liveRoomId: String,
-        callBack: QNLiveCallBack<QNLiveRoomInfo>?
+        callBack: QLiveCallBack<QLiveRoomInfo>?
     ) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
@@ -34,7 +34,7 @@ internal object QNLiveRoomUIKitInner {
       //  RoomPullActivity.start(context, liveRoomId, callBack)
     }
 
-    fun createAndJoinRoom(context: Context, callBack: QNLiveCallBack<QNLiveRoomInfo>?) {
+    fun createAndJoinRoom(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         RoomPushActivity.start(context, callBack)
     }
 }

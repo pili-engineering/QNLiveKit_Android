@@ -7,7 +7,7 @@ import com.nucube.rtclive.QNMergeOption
 import com.nucube.rtclive.RtcLiveRoom
 import com.qncube.liveroomcore.BaseService
 import com.qncube.liveroomcore.Extension
-import com.qncube.liveroomcore.QNLiveRoomClient
+import com.qncube.liveroomcore.QNLiveClient
 import com.qncube.liveroomcore.getRtc
 
 class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorHostMicLinker,
@@ -133,7 +133,7 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
         mMixStreamAdapter = mixStreamAdapter
     }
 
-    override fun attachRoomClient(client: QNLiveRoomClient) {
+    override fun attachRoomClient(client: QNLiveClient) {
         val field = client.getRtc()
         val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
         context.mMicLinkerListeners.addFirst(mMicLinkerListener)
@@ -143,8 +143,8 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
 
     }
 
-    override fun onRoomClose() {
-        super.onRoomClose()
+    override fun onDestroyed() {
+        super.onDestroyed()
     }
 
 }

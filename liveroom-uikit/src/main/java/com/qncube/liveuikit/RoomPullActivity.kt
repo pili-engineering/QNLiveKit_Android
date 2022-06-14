@@ -1,25 +1,27 @@
 package com.qncube.liveuikit
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import androidx.fragment.app.FragmentActivity
+import androidx.core.view.LayoutInflaterCompat
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import com.pili.pldroid.player.widget.PLVideoView
 import com.qbcube.pkservice.QNPKService
-import com.qncube.chatservice.QNChatRoomService
 import com.qncube.danmakuservice.QNDanmakuService
 import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.liveroom_pullclient.QNLivePullClient
+import com.qncube.playerclient.QNLivePullClient
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
 import com.qncube.publicchatservice.QNPublicChatService
-import com.qncube.roomservice.QNRoomService
 import com.qncube.rtcexcepion.RtcException
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
@@ -27,9 +29,6 @@ import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.view.CommonPagerAdapter
 import com.qncube.uikitcore.view.EmptyFragment
 import kotlinx.android.synthetic.main.activity_room_pull.*
-import kotlinx.android.synthetic.main.activity_room_pull.bgImgContainer
-import kotlinx.android.synthetic.main.activity_room_pull.flPkContainer
-import kotlinx.android.synthetic.main.activity_room_pull.linkerCotiner
 import kotlinx.android.synthetic.main.activity_room_pull.vpCover
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -38,8 +37,8 @@ import kotlin.coroutines.suspendCoroutine
 class RoomPullActivity : BaseFrameActivity() {
 
     companion object {
-        private var startCallBack: QNLiveCallBack<QNLiveRoomInfo>? = null
-        fun start(context: Context, roomId: String, callBack: QNLiveCallBack<QNLiveRoomInfo>?) {
+        private var startCallBack: QLiveCallBack<QLiveRoomInfo>? = null
+        fun start(context: Context, roomId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
             startCallBack = callBack
             val i = Intent(context, RoomPullActivity::class.java)
             i.putExtra("roomId", roomId)
@@ -52,7 +51,7 @@ class RoomPullActivity : BaseFrameActivity() {
         QNLivePullClient.createLivePullClient().apply {
 
             registerService(
-                QNChatRoomService::class.java,
+                com.qncube.chatservice.QClientService::class.java,
             )
             registerService(
                 QNPKService::class.java,
@@ -67,15 +66,15 @@ class RoomPullActivity : BaseFrameActivity() {
                 QNPublicChatService::class.java,
             )
             registerService(
-                QNRoomService::class.java
+                com.qncube.roomservice.QClientService::class.java
             )
             setPullClientListener { liveRoomStatus, msg ->
-                if (liveRoomStatus == LiveStatus.LiveStatusOff) {
-                    LiveStatus.LiveStatusOff.tipMsg.asToast()
+                if (liveRoomStatus == QLiveStatus.OFF) {
+                    QLiveStatus.OFF.tipMsg.asToast()
                     finish()
                 }
-                if (liveRoomStatus == LiveStatus.LiveStatusAnchorOffline) {
-                    LiveStatus.LiveStatusAnchorOffline.tipMsg.asToast()
+                if (liveRoomStatus == QLiveStatus.ANCHOR_OFFLINE) {
+                    QLiveStatus.ANCHOR_OFFLINE.tipMsg.asToast()
                 }
                 QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
             }
@@ -92,18 +91,19 @@ class RoomPullActivity : BaseFrameActivity() {
         object : KitContext {
             override var androidContext: Context = this@RoomPullActivity
             override var fm: FragmentManager = supportFragmentManager
-            override var currentActivity: FragmentActivity = this@RoomPullActivity
+            override var currentActivity: Activity = this@RoomPullActivity
+            override var lifecycleOwner: LifecycleOwner = this@RoomPullActivity
         }
     }
 
-
-    private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QNLiveRoomInfo> { cont ->
-        mRoomClient.joinRoom(roomId, object : QNLiveCallBack<QNLiveRoomInfo> {
+    private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QLiveRoomInfo> { cont ->
+        mRoomClient.joinRoom(roomId, object :
+            QLiveCallBack<QLiveRoomInfo> {
             override fun onError(code: Int, msg: String) {
                 cont.resumeWithException(RtcException(code, msg))
             }
 
-            override fun onSuccess(data: QNLiveRoomInfo) {
+            override fun onSuccess(data: QLiveRoomInfo) {
                 cont.resume(data)
             }
         })
@@ -114,6 +114,10 @@ class RoomPullActivity : BaseFrameActivity() {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//设置透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
         }
+        LayoutInflaterCompat.setFactory2(
+            LayoutInflater.from(this),
+            KITLayoutInflaterFactory(delegate, mRoomClient, mKitContext)
+        )
         super.onCreate(savedInstanceState)
     }
 
@@ -123,21 +127,6 @@ class RoomPullActivity : BaseFrameActivity() {
         vpCover.visibility = View.INVISIBLE
         vpCover.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
         vpCover.currentItem = 1
-
-        bgImgContainer.attach(
-            QNLiveRoomUIKit.mViewSlotTable.mRoomBackGroundSlot,
-            this, mKitContext, mRoomClient
-        )
-
-        linkerCotiner.attach(
-            QNLiveRoomUIKit.mViewSlotTable.mLinkerSlot,
-            this, mKitContext, mRoomClient
-        )
-
-        flPkContainer.attach(
-            QNLiveRoomUIKit.mViewSlotTable.mPKAnchorPreviewSlot,
-            this, mKitContext, mRoomClient
-        )
 
         vpCover.post {
             bg {
@@ -174,7 +163,7 @@ class RoomPullActivity : BaseFrameActivity() {
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo != null
+            && mRoomClient.getService(com.qncube.roomservice.QClientService::class.java).currentRoomInfo != null
         ) {
             return true
         }

@@ -1,6 +1,6 @@
 package com.qncube.linkmicservice
 
-import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QLiveCallBack
 import java.util.HashMap
 
 /**
@@ -28,13 +28,13 @@ interface QNLinkMicInvitationHandler {
         receiverRoomId: String,
         receiverUid: String,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<LinkInvitation>?
+        callBack: QLiveCallBack<LinkInvitation>?
     )
 
     /**
      * 取消申请
      */
-    fun cancelApply(invitationId: Int, callBack: QNLiveCallBack<Void>?)
+    fun cancelApply(invitationId: Int, callBack: QLiveCallBack<Void>?)
 
     /**
      * 接受连麦
@@ -42,7 +42,7 @@ interface QNLinkMicInvitationHandler {
     fun accept(
         invitationId: Int,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     )
 
     /**
@@ -51,6 +51,6 @@ interface QNLinkMicInvitationHandler {
     fun reject(
         invitationId: Int,
         extensions: HashMap<String, String>?,
-        callBack: QNLiveCallBack<Void>?
+        callBack: QLiveCallBack<Void>?
     )
 }
