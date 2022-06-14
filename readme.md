@@ -504,8 +504,12 @@ class RoomListPage  {
 
 //房间列表页面
 class RoomPage {
+
     setCustomLayoutId(int layoutID); //替换整体布局
+    
     RoomBackGroundView roomBackGroundView;//房间背景
+    
+    //顶部 
     RoomHostView roomHostView; //左上角房主
     LivePrepareView livePreView ;//开播准备
     OnlineUserView onlineUserView ;//右上角在线用户槽位
@@ -513,17 +517,25 @@ class RoomPage {
     RoomIDView roomIDView ;//右上角房间
     RoomTimerView roomTimerView;//右上角房间计时器
     DanmakuTrackView danmakuTrackView;//弹幕
+    
+    
+    //中部
     PublicChatView publicChatView ;//公屏聊天
     RoomNoticeView roomNoticeView ;//公告
     
-    StartPKView startPKView;//主播开始pk按钮
     PKPreView pkPreview;//pk主播两个小窗口
     PKCoverView pkCoverview;//pk覆盖层自定义UI
-    
+ 
     LinkersView linkersView;//连麦中的用户 
     
+    
+    //底部
+    
     ShowInputView showInputView;//房间底部 输入框
+      StartPKView startPKView;//主播开始pk按钮
     BottomFucBarView bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
+    
+    
     OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
     InnerCoverView innerCoverView ;//全局底层覆盖自定义 空槽位
 
