@@ -10,18 +10,18 @@ QLive.init(context ,new QTokenGetter(){
    
  },new QLiveCallBack<Void>{});
 
-Map extensions = new HashMap()
-extensions.put("vip","1"); //自定义vip等级
-extensions.put("level","22");//扩展用户等级
+Map extension = new HashMap()
+extension.put("vip","1"); //自定义vip等级
+extension.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.updateUser(new QUserInfo( "your avatar","your nickname", extensions) ,new QLiveCallBack<Void>{});
+QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
 
 //创建房间
-QSceneLive sceneLive = QLive.createSceneLive();
+QRooms rooms = QLive.getRooms();
 QCreateRoomParam param = new QCreateRoomParam();
 param.setTitle("xxxtitle");
-sceneLive.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
+rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
     void onSuccess(QLiveRoomInfo roomInfo){}
     void onError(int code, String msg) {}
 });
@@ -93,9 +93,8 @@ client.destroy();
 QLive.init(context ,new QTokenGetter(){
         //业务请求token
         void getTokenInfo( QLiveCallBack<String> callback){
-        GetTokenApi.getToken(callback);
+            GetTokenApi.getToken(callback);
         }
-
         },new QLiveCallBack<Void>{});
 
 
@@ -104,9 +103,9 @@ ext.put("vip","1"); //自定义vip等级
 ext.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.updateUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
 
-QliveUIKit liveUIKit = QLive.createLiveUIKit()
+QliveUIKit liveUIKit = QLive.getLiveUIKit()
 //跳转到直播列表页面
 liveUIKit.launch(context);
 
@@ -139,11 +138,11 @@ addView(view);
 ```java
 class QLive {
     static viod init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
-    static viod updateUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
+    static viod setUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();  //创建主播端
     static QPlayerClient createPlayerClient();  //创建观众端
-    static QLiveUIKit createLiveUIKit();        //创建uikit
-    static QSceneLive ceateSceneLive();         //创建直播场景
+    static QLiveUIKit getLiveUIKit();           //获得uikit
+    static QRooms getRooms();                   //获得直播场景
 }
 
 class QLiveUIKit{
@@ -159,10 +158,10 @@ interface QTokenGetter{
 class QUserInfo{
     String avatar;
     String nick;
-    Map<String,String> extensions; //扩展字段
+    Map<String,String> extension; //扩展字段
 }
 
-class QSceneLive{
+class QRooms{
     void createRoom(QCreateRoomParam param, QLiveCallBack<QLiveRoomInfo> callBack);   //创建房间
     void deleteRoom(String roomID, QLiveCallBack<void> callBack);                    //删除房间
     void listRoom(QLiveRoomStatus status, int pageNumber, int pageSize, QLiveCallBack<List<QLiveRoomInfo>> callBack); //房间列表
@@ -197,7 +196,7 @@ class QNCreateRoomParam {
     String title;                      //标题
     String notice;                     //公告
     String coverURL;                   //封面 
-    HashMap<String,String> extensions; //扩展字段
+    HashMap<String,String> extension; //扩展字段
 }
 
 ```
@@ -249,7 +248,7 @@ enum QLiveStatus {
 };
 
 enum QCameraFace{
-  Front,Back
+  FRONT,BACK
 };
 
 interface QConnectionStatusLister{
@@ -266,7 +265,7 @@ class QMicrophoneParam {
 class QCameraParam {
     int width = 720;
     int height = 1280;
-    int fps = 25;
+    int FPS = 25;
     int bitrate = 1000;
 }
 
@@ -275,7 +274,7 @@ class QLiveUser {
     String imUID;
     String avatar;
     String nick;
-    Map<String,String> extensions; //用户扩展字段
+    Map<String,String> extension; //用户扩展字段
 } 
 
 enum QRoomConnectionState{
@@ -329,7 +328,7 @@ interface MixStreamAdapter {
 class QAudienceMicLinker{
      void removeListener(QLinkMicListener listener);               
      void addListener(QLinkMicListener listener);
-     void startLink(HashMap<String,String> extensions,CameraParams cameraParams, MicrophoneParams microphoneParams, QLiveCallBack<Void> callBack  );//上麦
+     void startLink(HashMap<String,String> extension,CameraParams cameraParams, MicrophoneParams microphoneParams, QLiveCallBack<Void> callBack  );//上麦
      void stopLink();                                                               //下麦  
      void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
      void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
@@ -351,7 +350,7 @@ interface QPKService extends QLiveService{
     void addServiceListener(QPKServiceListener pkServiceListener);
     void setMixStreamAdapter(QPKMixStreamAdapter mixAdapter);                       //设置pk混流适配器
     void updatePKExtension(QExtension extension, QLiveCallBack<Void> callBack);      //跟新pk扩展字段  
-    void start(long timeoutTimestamp ,String receiverRoomID, String receiverUID, HashMap<String, String> extensions, QLiveCallBack<QPKSession> callBack);
+    void start(long timeoutTimestamp ,String receiverRoomID, String receiverUID, HashMap<String, String> extension, QLiveCallBack<QPKSession> callBack);
     void stop(QLiveCallBack<Void> callBack);                                        //结束pk
     void setPeerAnchorPreView(QRenderView view);                                    //设置对方预览
     QInvitationHandler getInvitationHandler();                                      //获取连麦邀请处理器
@@ -374,10 +373,10 @@ interface QPKMixStreamAdapter{
 
 ```java
 class QInvitationHandler{
-    void apply(long expiration, String receiverRoomID,String receiverUID, HashMap<String,String>extensions, QLiveCallBack<QInvitation> callBack);//发起邀请或者申请
+    void apply(long expiration, String receiverRoomID,String receiverUID, HashMap<String,String>extension, QLiveCallBack<QInvitation> callBack);//发起邀请或者申请
     void cancelApply(int invitationId,QLiveCallBack<Void> callBack);                                  //取消申请
-    void accept(int invitationId, HashMap<String,String> extensions,QLiveCallBack<Void> callBack);    //接受
-    void reject(int invitationId, HashMap<String,String> extensions,  QLiveCallBack<Void> callBack ); //拒绝
+    void accept(int invitationId, HashMap<String,String> extension,QLiveCallBack<Void> callBack);    //接受
+    void reject(int invitationId, HashMap<String,String> extension,  QLiveCallBack<Void> callBack ); //拒绝
     void removeInvitationHandlerListener(QInvitationHandlerListener listener);                        //添加邀请监听
     void addInvitationHandlerListener(QInvitationHandlerListener listener);
 }
@@ -395,7 +394,7 @@ class QInvitation{
      QLiveUser receiver;
      String initiatorRoomID;
      String receiverRoomID;
-     HashMap<String,String> extensions;
+     HashMap<String,String> extension;
      int linkType;
 }
 ```
@@ -424,7 +423,7 @@ class QMixStreamParam{
     int mixStreamWidth;  //画布宽
     int mixStringHeight; //画布高
     int mixBitrate;      //码率
-    int fps;             //帧率
+    int FPS;             //帧率
 }
 ```
 
@@ -463,7 +462,7 @@ interface QRoomService {
 }
 
 interface QRoomServiceListener{
-    void onRoomExtensions(QExtension extension);  //房间扩展字段跟
+    void onRoomExtensionUpdate(QExtension extension);  //房间扩展字段跟
 }
 ```
 
@@ -523,12 +522,12 @@ class RoomPage {
     ShowInputComponent showInputView;//房间底部 输入框
     BottomFucBarComponent bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
     OuterCoverComponent outerCoverView;// 全局上层覆盖自定义 空槽位
-    InnerCoverComponent mInnerCoverView ;//全局底层覆盖自定义 空槽位
+    InnerCoverComponent innerCoverView ;//全局底层覆盖自定义 空槽位
 
     ShowPKApplyFucComponent showReceivedPKApply ;//主播收到连麦申请弹窗
     ShowLinkMicApplyFucComponent showLinkMicApply ;//主播收到pk邀请弹窗
 
-    addFucComponent(QRoomComponent component); //注册自定义功能组件
+    addFunctionComponent(QRoomComponent component); //注册自定义功能组件
 }
 ```
 
@@ -563,17 +562,17 @@ interface KitContext {
 
 
 //内置UI型号组件
-class QInnerRoomUIComponent{
+class QRoomUIComponent{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                             //移除/禁用 
 }
 //内置UI型号组件
-class QInnerUIComponent{
+class QUIComponent{
     <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
 //内置功能型号组件
-class QInnerFucComponent{
+class QFunctionComponent{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
