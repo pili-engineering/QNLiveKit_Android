@@ -1,7 +1,7 @@
 package com.qncube.liveroomcore;
 
-import com.qncube.liveroomcore.mode.QLiveRoomInfo;
-import com.qncube.liveroomcore.mode.QNLiveUser;
+import com.qncube.liveroomcore.been.QLiveRoomInfo;
+import com.qncube.liveroomcore.been.QLiveUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ public interface QClientLifeCycleListener {
      * @param user 进入房间的用户
      * @param liveId 房间ID
      */
-    void onEntering(@NotNull String liveId, @NotNull QNLiveUser user);
+    void onEntering(@NotNull String liveId, @NotNull QLiveUser user);
 
     /**
      * 加入回调

@@ -2,10 +2,10 @@ package com.qncube.uikituser
 
 import android.content.Context
 import android.util.AttributeSet
-import com.qncube.chatservice.QClientService
-import com.qncube.chatservice.QNChatRoomServiceListener
+import com.qncube.chatservice.QChatRoomService
+import com.qncube.chatservice.QChatRoomServiceListener
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.Scheduler
+import com.qncube.linveroominner.Scheduler
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import kotlinx.android.synthetic.main.kit_view_room_member_count.view.*
 
@@ -19,7 +19,8 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
         defStyleAttr
     )
   //  private val mRoomDaraSource = RoomDataSource()
-    private val mChatRoomServiceListener = object : QNChatRoomServiceListener {
+    private val mChatRoomServiceListener = object :
+      QChatRoomServiceListener {
         override fun onUserJoin(memberId: String) {
             refresh(true)
         }
@@ -63,7 +64,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
 //        }
     }
 
-    private val mScheduler = Scheduler(15000) {
+    private val mScheduler = com.qncube.linveroominner.Scheduler(15000) {
 //        if (roomInfo == null) {
 //            return@Scheduler
 //        }
@@ -74,7 +75,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
 //        } catch (e: Exception) {
 //            e.printStackTrace()
 //        }
-       // todo
+        // todo
     }
 
 
@@ -93,7 +94,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
     }
 
     override fun initView() {
-        client!!.getService(QClientService::class.java)
+        client!!.getService(QChatRoomService::class.java)
             .addChatServiceListener(mChatRoomServiceListener)
     }
 

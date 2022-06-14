@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.qncube.danmakuservice.QNDanmakuService
-import com.qncube.liveroomcore.QNLiveClient
+import com.qncube.danmakuservice.QDanmakuService
+import com.qncube.liveroomcore.QLiveClient
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.ext.ViewUtil
@@ -18,14 +18,14 @@ import com.qncube.uikitcore.ext.ViewUtil
 class DanmakuTrackManagerView : QBaseRoomFrameLayout {
     private val mTrackManager = TrackManager()
     private val mQNDanmakuServiceListener =
-        QNDanmakuService.QNDanmakuServiceListener { model ->
+        QDanmakuService.QNDanmakuServiceListener { model ->
             mTrackManager.onNewTrackArrive(model)
         }
     private var mDanmukeViewSlot: QNDanmukeViewSlot = object : QNDanmukeViewSlot {
         override fun createView(
             lifecycleOwner: LifecycleOwner,
             context: KitContext,
-            client: QNLiveClient,
+            client: QLiveClient,
             container: ViewGroup?
         ): IDanmakuView {
             return DanmuTrackView(context.androidContext)
@@ -53,7 +53,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNDanmakuService::class.java)
+        client!!.getService(QDanmakuService::class.java)
             .addDanmakuServiceListener(mQNDanmakuServiceListener)
         for (i in 0 until mDanmukeViewSlot.getIDanmakuViewCount()) {
             val itemView = mDanmukeViewSlot.createView(
@@ -75,7 +75,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QNDanmakuService::class.java)
+            client?.getService(QDanmakuService::class.java)
                 ?.removeDanmakuServiceListener(mQNDanmakuServiceListener)
         }
     }
@@ -95,7 +95,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
         fun createView(
             lifecycleOwner: LifecycleOwner,
             context: KitContext,
-            client: QNLiveClient,
+            client: QLiveClient,
             container: ViewGroup?
         ): IDanmakuView
 

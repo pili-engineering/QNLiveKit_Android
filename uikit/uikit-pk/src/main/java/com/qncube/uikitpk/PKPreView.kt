@@ -13,11 +13,11 @@ import com.nucube.rtclive.QNMergeOption
 import com.qbcube.pkservice.QNPKService
 import com.qbcube.pkservice.QNPKSession
 import com.qiniu.droid.rtc.QNTextureView
-import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.playerclient.QNLivePullClient
-import com.qncube.liveroomcore.ClientType
-import com.qncube.liveroomcore.Extension
-import com.qncube.pushclient.QNLivePushClient
+import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.liveroomcore.QPlayerClient
+import com.qncube.liveroomcore.QClientType
+import com.qncube.liveroomcore.mode.Extension
+import com.qncube.liveroomcore.QPusherClient
 import com.qncube.uikitcore.LinkerUIHelper
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
@@ -40,7 +40,7 @@ class PKPreView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        val view = if (client?.clientType == ClientType.PLAYER) {
+        val view = if (client?.clientType == QClientType.PLAYER) {
             PKAudiencePreview(context)
         } else {
             PKAnchorPreview(context)
@@ -78,14 +78,14 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
 
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {
         }
     }
 
     private var originParent: ViewGroup? = null
     private var originIndex = 0
     private fun addView() {
-        val player = (client as QNLivePullClient).pullPreview.view
+        val player = (client as QPlayerClient).pullPreview.view
         val parent = player.parent as ViewGroup
         originParent = parent
         originIndex = parent.indexOfChild(player)
@@ -101,7 +101,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 
     private fun removeView() {
-        val player = (client as QNLivePullClient).pullPreview.view
+        val player = (client as QPlayerClient).pullPreview.view
         llPKContainer.removeView(player)
         originParent?.addView(
             player,
@@ -194,7 +194,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
 
         override fun onPKLinkerLeft(): MutableList<QNMergeOption> {
             val ops = ArrayList<QNMergeOption>()
-            client?.getService(QNLinkMicService::class.java)
+            client?.getService(QLinkMicService::class.java)
                 ?.allLinker?.let {
                     ops.addAll(LinkerUIHelper.getLinkers(it.map { it.user }, roomInfo!!))
                 }
@@ -217,7 +217,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             } else {
                 pkSession.initiator
             }
-            localRenderView = (client as QNLivePushClient).localPreView as View
+            localRenderView = (client as QPusherClient).localPreView as View
             originPreViewParent = localRenderView!!.parent as ViewGroup
             originIndex = originPreViewParent?.indexOfChild(localRenderView) ?: 0
             originPreViewParent?.removeView(localRenderView)
@@ -246,7 +246,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         }
 
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {}
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {}
     }
 
     override fun getLayoutId(): Int {

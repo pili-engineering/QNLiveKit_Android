@@ -3,9 +3,9 @@ package com.qbcube.pkservice;
 import com.nucube.rtclive.MixStreamParams;
 import com.nucube.rtclive.QNMergeOption;
 import com.qiniu.droid.rtc.QNRenderView;
-import com.qncube.liveroomcore.Extension;
+import com.qncube.liveroomcore.been.QExtension;
 import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.QNLiveService;
+import com.qncube.liveroomcore.service.QLiveService;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * pk服务
  */
-public interface QNPKService extends QNLiveService {
+public interface QNPKService extends QLiveService {
 
     /**
      * pk回调
@@ -41,9 +41,9 @@ public interface QNPKService extends QNLiveService {
         /**
          * 扩展自定义字段跟新
          *
-         * @param extension
+         * @param QExtension
          */
-        void onPKExtensionUpdate(@NotNull QNPKSession pkSession, @NotNull Extension extension);
+        void onPKExtensionUpdate(@NotNull QNPKSession pkSession, @NotNull QExtension QExtension);
     }
 
     /**
@@ -91,9 +91,9 @@ public interface QNPKService extends QNLiveService {
     /**
      * 跟新扩展自定义字段
      *
-     * @param extension
+     * @param QExtension
      */
-    void upDataPKExtension(Extension extension, QLiveCallBack<Void> callBack);
+    void upDataPKExtension(QExtension QExtension, QLiveCallBack<Void> callBack);
 
 
     /**

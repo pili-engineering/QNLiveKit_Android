@@ -5,9 +5,9 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qncube.chatservice.QClientService
-import com.qncube.chatservice.QNChatRoomServiceListener
-import com.qncube.liveroomcore.Scheduler
+import com.qncube.chatservice.QChatRoomService
+import com.qncube.chatservice.QChatRoomServiceListener
+import com.qncube.linveroominner.Scheduler
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.uikitcore.*
@@ -27,7 +27,8 @@ class OnlineUserView : QBaseRoomFrameLayout {
     private var adapter: BaseQuickAdapter<QNLiveUser, BaseViewHolder> = OnlineUserViewAdapter()
 
     //聊天室监听
-    private val mChatRoomServiceListener = object : QNChatRoomServiceListener {
+    private val mChatRoomServiceListener = object :
+        QChatRoomServiceListener {
         override fun onUserJoin(memberId: String) {
             refresh()
         }
@@ -49,7 +50,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QClientService::class.java)
+        client!!.getService(QChatRoomService::class.java)
             .addChatServiceListener(mChatRoomServiceListener)
         recyOnline?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -61,7 +62,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
 
     private var roomId = ""
 
-    private val lazyFreshJob = Scheduler(30000) {
+    private val lazyFreshJob = com.qncube.linveroominner.Scheduler(30000) {
         refresh()
     }
 

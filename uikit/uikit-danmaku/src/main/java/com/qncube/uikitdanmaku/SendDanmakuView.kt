@@ -3,7 +3,7 @@ package com.qncube.uikitdanmaku
 import android.content.Context
 import android.util.AttributeSet
 import com.qncube.danmakuservice.DanmakuModel
-import com.qncube.danmakuservice.QNDanmakuService
+import com.qncube.danmakuservice.QDanmakuService
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.asToast
 import com.qncube.uikitcore.QBaseRoomFrameLayout
@@ -27,7 +27,7 @@ class SendDanmakuView : QBaseRoomFrameLayout {
     }
 
     fun send(msg: String) {
-        client?.getService(QNDanmakuService::class.java)?.sendDanmaku(msg, null,
+        client?.getService(QDanmakuService::class.java)?.sendDanmaku(msg, null,
             object : QLiveCallBack<DanmakuModel> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast()

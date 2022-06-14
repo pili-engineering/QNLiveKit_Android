@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.niucube.qnrtcsdk.RoundTextureView
-import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.linkmicservice.QNMicLinker
+import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.liveroomcore.been.QNMicLinker
 import com.qncube.uikitcore.LinkerUIHelper
 import kotlinx.android.synthetic.main.kit_item_linker_surface.view.*
 
@@ -23,7 +23,7 @@ class MicSeatPreView : LinearLayout {
         defStyleAttr
     )
 
-    fun addItemView(micLinker: QNMicLinker, linkService: QNLinkMicService) {
+    fun addItemView(micLinker: QNMicLinker, linkService: QLinkMicService) {
         val itemView: View =
             LayoutInflater.from(context).inflate(R.layout.kit_item_linker_surface, this, false)
 

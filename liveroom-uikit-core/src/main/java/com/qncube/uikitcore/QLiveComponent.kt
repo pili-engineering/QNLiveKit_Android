@@ -2,7 +2,7 @@ package com.qncube.uikitcore
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.qncube.liveroomcore.QNLiveClient
+import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.liveroomcore.QClientLifeCycleListener
@@ -10,11 +10,11 @@ import com.qncube.liveroomcore.QClientLifeCycleListener
 interface QLiveComponent : QComponent,
     QClientLifeCycleListener {
 
-    var client: QNLiveClient?
+    var client: QLiveClient?
     var roomInfo: QLiveRoomInfo?
     var user: QNLiveUser?
 
-    open fun attachLiveClient( client: QNLiveClient) {
+    open fun attachLiveClient( client: QLiveClient) {
         this.client = client
 
     }

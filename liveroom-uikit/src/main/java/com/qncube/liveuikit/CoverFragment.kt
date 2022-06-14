@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.qncube.liveroomcore.QNLiveClient
+import com.qncube.liveroomcore.QLiveClient
 import com.qncube.uikitcore.KitContext
 import kotlinx.android.synthetic.main.kit_fragment_cover.*
 
 class CoverFragment : Fragment() {
 
-    lateinit var mClient: QNLiveClient
+    lateinit var mClient: QLiveClient
     private val mKitContext by lazy {
         object : KitContext {
             override var androidContext: Context = requireContext()

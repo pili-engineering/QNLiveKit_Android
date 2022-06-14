@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.Toast
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.publicchatservice.PubChatModel
-import com.qncube.publicchatservice.QNPublicChatService
+import com.qncube.publicchatservice.QPublicChatService
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qucube.uikitinput.RoomInputDialog
 import kotlinx.android.synthetic.main.kit_input.view.*
@@ -27,7 +27,7 @@ class InputView : QBaseRoomFrameLayout {
         flInput.setOnClickListener {
             RoomInputDialog().apply {
                 sendPubCall = {
-                    client?.getService(QNPublicChatService::class.java)
+                    client?.getService(QPublicChatService::class.java)
                         ?.sendPublicChat(it, object :
                             QLiveCallBack<PubChatModel> {
                             override fun onError(code: Int, msg: String) {

@@ -10,11 +10,15 @@ import com.nucube.rtclive.MicrophoneMergeOption
 import com.nucube.rtclive.RtcLiveRoom
 import com.qiniu.droid.rtc.*
 import com.qiniu.jsonutil.JsonUtils
+import com.qncube.liveroomcore.mode.Extension
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.datasource.UserDataSource
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.linveroominner.UserDataSource
+import com.qncube.liveroomcore.QNLiveLogUtil
+import com.qncube.liveroomcore.QClientType
 import com.qncube.liveroomcore.mode.QNLiveUser
-import com.qncube.rtcexcepion.RtcException
+import com.qncube.liveroomcore.service.BaseService
+import com.qncube.lcommon.RtcException
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.util.*
@@ -350,12 +354,12 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         }
     }
 
-    override fun attachRoomClient(client: QNLiveClient) {
+    override fun attachRoomClient(client: QLiveClient) {
         super.attachRoomClient(client)
         RtmManager.addRtmC2cListener(mC2cListener)
         RtmManager.addRtmChannelListener(groupListener)
 
-        if (client.clientType == ClientType.PUSHER) {
+        if (client.clientType == QClientType.PUSHER) {
             val field = client!!.getRtc()
             val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
             room.addExtraQNRTCEngineEventListener(defaultExtQNClientEventListener)
@@ -370,7 +374,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         RtmManager.removeRtmC2cListener(mC2cListener)
         RtmManager.removeRtmChannelListener(groupListener)
 
-        if (client?.clientType == ClientType.PUSHER) {
+        if (client?.clientType == QClientType.PUSHER) {
             pkPKInvitationHandlerImpl.onDestroyed()
         } else {
             mAudiencePKSynchro.onDestroyed()
@@ -379,7 +383,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
 
     override fun onEntering(roomId: String, user: QNLiveUser) {
         super.onEntering(roomId, user)
-        if (client?.clientType == ClientType.PUSHER) {
+        if (client?.clientType == QClientType.PUSHER) {
             pkPKInvitationHandlerImpl.onEntering(roomId, user)
         } else {
             mAudiencePKSynchro.onEntering(roomId, user)
@@ -388,7 +392,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
 
     override fun onLeft() {
         super.onLeft()
-        if (client?.clientType == ClientType.PUSHER) {
+        if (client?.clientType == QClientType.PUSHER) {
             pkPKInvitationHandlerImpl.onLeft()
         } else {
             mAudiencePKSynchro.onLeft()
@@ -398,7 +402,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
 
-        if (client?.clientType == ClientType.PUSHER) {
+        if (client?.clientType == QClientType.PUSHER) {
             pkPKInvitationHandlerImpl.onJoined(roomInfo)
         } else {
             mAudiencePKSynchro.onJoined(roomInfo)
@@ -426,7 +430,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
      *
      * @param extension
      */
-    override fun upDataPKExtension(extension: Extension, callBack: QLiveCallBack<Void>?) {
+    override fun upDataPKExtension(extension: com.qncube.liveroomcore.mode.Extension, callBack: QLiveCallBack<Void>?) {
     }
 
     override fun start(
@@ -445,7 +449,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                 val pkOutline =
                     mPKDateSource.startPk(roomInfo?.liveId ?: "", receiverRoomId, receiverUid)
                 val receiver =
-                    UserDataSource().searchUserByUserId(receiverUid)
+                    com.qncube.linveroominner.UserDataSource().searchUserByUserId(receiverUid)
 
                 val pkSession = QNPKSession()
                 pkSession.extensions = extensions

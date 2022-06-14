@@ -3,11 +3,9 @@ package com.qncube.uikitpk
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.qbcube.pkservice.QNPKService
 import com.qbcube.pkservice.QNPKSession
-import com.qncube.liveroomcore.Extension
+import com.qncube.liveroomcore.mode.Extension
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 
 class PKCoverView : QBaseRoomFrameLayout {
@@ -36,7 +34,7 @@ class PKCoverView : QBaseRoomFrameLayout {
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
 
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {
         }
     }
 

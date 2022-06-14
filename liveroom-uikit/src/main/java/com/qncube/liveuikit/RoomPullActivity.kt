@@ -15,14 +15,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.pili.pldroid.player.widget.PLVideoView
 import com.qbcube.pkservice.QNPKService
-import com.qncube.danmakuservice.QNDanmakuService
-import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.playerclient.QNLivePullClient
+import com.qncube.chatservice.QChatRoomService
+import com.qncube.danmakuservice.QDanmakuService
+import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.liveroomcore.QPlayerClient
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.QNLiveLogUtil
 import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
-import com.qncube.publicchatservice.QNPublicChatService
-import com.qncube.rtcexcepion.RtcException
+import com.qncube.publicchatservice.QPublicChatService
+import com.qncube.lcommon.RtcException
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 import com.qncube.uikitcore.ext.bg
@@ -48,25 +51,25 @@ class RoomPullActivity : BaseFrameActivity() {
 
     private var mRoomId = ""
     private val mRoomClient by lazy {
-        QNLivePullClient.createLivePullClient().apply {
+        QPlayerClient.createLivePullClient().apply {
 
             registerService(
-                com.qncube.chatservice.QClientService::class.java,
+                QChatRoomService::class.java,
             )
             registerService(
                 QNPKService::class.java,
             )
             registerService(
-                QNLinkMicService::class.java,
+                QLinkMicService::class.java,
             )
             registerService(
-                QNDanmakuService::class.java,
+                QDanmakuService::class.java,
             )
             registerService(
-                QNPublicChatService::class.java,
+                QPublicChatService::class.java,
             )
             registerService(
-                com.qncube.roomservice.QClientService::class.java
+                QRoomService::class.java
             )
             setPullClientListener { liveRoomStatus, msg ->
                 if (liveRoomStatus == QLiveStatus.OFF) {
@@ -163,7 +166,7 @@ class RoomPullActivity : BaseFrameActivity() {
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(com.qncube.roomservice.QClientService::class.java).currentRoomInfo != null
+            && mRoomClient.getService(QRoomService::class.java).currentRoomInfo != null
         ) {
             return true
         }

@@ -10,8 +10,9 @@ import com.qbcube.pkservice.PKInvitation
 import com.qbcube.pkservice.QNPKInvitationHandler
 import com.qbcube.pkservice.QNPKService
 import com.qbcube.pkservice.QNPKSession
+import com.qncube.liveroomcore.mode.Extension
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.dialog.LoadingDialog
@@ -49,7 +50,7 @@ class StartPKView : QBaseRoomFrameLayout {
             "等待主播 ${pkSession.receiver.nick} 推流超时".asToast()
         }
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {}
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {}
     }
 
     private val mPKInvitationListener = object : QNPKInvitationHandler.PKInvitationListener {

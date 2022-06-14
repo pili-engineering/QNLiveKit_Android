@@ -13,19 +13,22 @@ import android.view.WindowManager
 import androidx.core.view.LayoutInflaterCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import com.nucube.rtclive.QNCameraParams
-import com.nucube.rtclive.QNMicrophoneParams
+import com.qncube.lcommon.QCameraParam
+import com.qncube.lcommon.QMicrophoneParam
 import com.qbcube.pkservice.QNPKService
 import com.qiniu.droid.rtc.QNConnectionState
-import com.qncube.danmakuservice.QNDanmakuService
-import com.qncube.linkmicservice.QNLinkMicService
+import com.qncube.chatservice.QChatRoomService
+import com.qncube.danmakuservice.QDanmakuService
+import com.qncube.linkmicservice.QLinkMicService
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.QNLiveLogUtil
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
-import com.qncube.publicchatservice.QNPublicChatService
-import com.qncube.pushclient.QNLivePushClient
+import com.qncube.publicchatservice.QPublicChatService
+import com.qncube.liveroomcore.QPusherClient
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.pushclient.QNPushClientListener
+import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 import com.qncube.uikitcore.ext.permission.PermissionAnywhere
@@ -62,24 +65,24 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     private val mRoomClient by lazy {
-        QNLivePushClient.createLivePushClient().apply {
+        QPusherClient.createLivePushClient().apply {
             registerService(
-                com.qncube.chatservice.QClientService::class.java,
+                QChatRoomService::class.java,
             )
             registerService(
                 QNPKService::class.java,
             )
             registerService(
-                QNLinkMicService::class.java,
+                QLinkMicService::class.java,
             )
             registerService(
-                QNDanmakuService::class.java,
+                QDanmakuService::class.java,
             )
             registerService(
-                QNPublicChatService::class.java,
+                QPublicChatService::class.java,
             )
             registerService(
-                com.qncube.roomservice.QClientService::class.java
+                QRoomService::class.java
             )
             setPushClientListener(object : QNPushClientListener {
                 override fun onConnectionStateChanged(state: QNConnectionState?, msg: String?) {
@@ -147,8 +150,8 @@ class RoomPushActivity : BaseFrameActivity() {
     private fun start() {
         roomId = intent.getStringExtra("roomId") ?: ""
 
-        mRoomClient.enableCamera(QNCameraParams())
-        mRoomClient.enableMicrophone(QNMicrophoneParams())
+        mRoomClient.enableCamera(QCameraParam())
+        mRoomClient.enableMicrophone(QMicrophoneParam())
         mRoomClient.localPreView = preTextureView
         vpCover.visibility = View.INVISIBLE
         vpCover.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
@@ -195,7 +198,7 @@ class RoomPushActivity : BaseFrameActivity() {
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(com.qncube.roomservice.QClientService::class.java).currentRoomInfo != null
+            && mRoomClient.getService(QRoomService::class.java).currentRoomInfo != null
         ) {
             return true
         }

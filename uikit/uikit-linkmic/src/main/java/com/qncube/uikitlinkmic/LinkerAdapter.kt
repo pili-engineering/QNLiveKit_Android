@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qncube.linkmicservice.QNMicLinker
+import com.qncube.liveroomcore.been.QNMicLinker
 import com.qncube.uikitcore.LinkerUIHelper
 import kotlinx.android.synthetic.main.kit_item_linker.view.*
 

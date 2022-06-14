@@ -3,7 +3,7 @@ package com.qncube.uikitpk
 import android.graphics.Color
 import android.view.Gravity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.qncube.liveroomcore.datasource.RoomDataSource
+import com.qncube.linveroominner.RoomDataSource
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.ext.ViewUtil
@@ -21,7 +21,7 @@ class PKAbleListDialog() : FinalDialogFragment() {
         applyGravityStyle(Gravity.BOTTOM)
     }
 
-    private val mRoomDataSource = RoomDataSource()
+    private val mRoomDataSource = com.qncube.linveroominner.RoomDataSource()
     private val mAdapter = PKAnchorListAdapter()
 
 

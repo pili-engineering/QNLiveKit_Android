@@ -13,11 +13,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.qiniu.droid.rtc.QNConnectionState
 import com.qiniu.droid.rtc.QNTextureView
+import com.qncube.liveroomcore.mode.Extension
 import com.qncube.linkmicservice.QNAnchorHostMicLinker
 import com.qncube.linkmicservice.QNAudienceMicLinker
-import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.linkmicservice.QNMicLinker
+import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.liveroomcore.been.QNMicLinker
 import com.qncube.liveroomcore.*
+import com.qncube.liveroomcore.QClientType
 import com.qncube.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 
@@ -33,7 +35,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
-    private val linkService get() = client!!.getService(QNLinkMicService::class.java)!!
+    private val linkService get() = client!!.getService(QLinkMicService::class.java)!!
 
     //麦位列表适配器
     private var mLinkerAdapter: BaseQuickAdapter<QNMicLinker, BaseViewHolder> =
@@ -44,7 +46,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
         }
 
     //麦位监听
-    private val mMicLinkerListener = object : QNLinkMicService.MicLinkerListener {
+    private val mMicLinkerListener = object : QLinkMicService.MicLinkerListener {
         override fun onInitLinkers(linkers: MutableList<QNMicLinker>) {
             Log.d("LinkerSlot", " 同步麦位${linkers.size}")
             val lcs = linkers.filter {
@@ -93,7 +95,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
             }
         }
 
-        override fun onUserExtension(micLinker: QNMicLinker, extension: Extension) {}
+        override fun onUserExtension(micLinker: QNMicLinker, extension: com.qncube.liveroomcore.mode.Extension) {}
     }
 
     //观众端连麦监听
@@ -107,12 +109,12 @@ class MicLinkersView : QBaseRoomFrameLayout {
         override fun lonLocalRoleChange(isLinker: Boolean) {
             Log.d("LinkerSlot", " lonLocalRoleChange 本地角色变化 ${isLinker}")
             if (isLinker) {
-                client?.getService(QNLinkMicService::class.java)?.allLinker?.forEach {
+                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
                     Log.d("LinkerSlot", " zb 添加窗口 ${it.user.nick}")
                     addLinkerPreview(it)
                 }
             } else {
-                client?.getService(QNLinkMicService::class.java)?.allLinker?.forEach {
+                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
                     Log.d("LinkerSlot", "  zb移除窗口 ${it.user.nick}")
                     removePreview(mLinkerAdapter.indexOf(it), it)
                 }
@@ -131,16 +133,16 @@ class MicLinkersView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        if (client!!.clientType == ClientType.PUSHER) {
-            client!!.getService(QNLinkMicService::class.java).anchorHostMicLinker.setMixStreamAdapter(
+        if (client!!.clientType == QClientType.PUSHER) {
+            client!!.getService(QLinkMicService::class.java).anchorHostMicLinker.setMixStreamAdapter(
                 mMixStreamAdapter
             )
         } else {
-            client!!.getService(QNLinkMicService::class.java).audienceMicLinker.addLinkMicListener(
+            client!!.getService(QLinkMicService::class.java).audienceMicLinker.addLinkMicListener(
                 mQNAudienceMicLinker
             )
         }
-        client!!.getService(QNLinkMicService::class.java).addMicLinkerListener(mMicLinkerListener)
+        client!!.getService(QLinkMicService::class.java).addMicLinkerListener(mMicLinkerListener)
 
         recyLinker.layoutManager = LinearLayoutManager(context)
         flLinkContent.post {
@@ -149,7 +151,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
     }
 
     private fun isMyOnMic(): Boolean {
-        if (client?.clientType == ClientType.PUSHER) {
+        if (client?.clientType == QClientType.PUSHER) {
             return true
         }
         linkService.allLinker.forEach {
@@ -213,16 +215,16 @@ class MicLinkersView : QBaseRoomFrameLayout {
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
-            if (client?.clientType == ClientType.PUSHER) {
-                client?.getService(QNLinkMicService::class.java)?.anchorHostMicLinker?.setMixStreamAdapter(
+            if (client?.clientType == QClientType.PUSHER) {
+                client?.getService(QLinkMicService::class.java)?.anchorHostMicLinker?.setMixStreamAdapter(
                     null
                 )
             } else {
-                client?.getService(QNLinkMicService::class.java)?.audienceMicLinker?.removeLinkMicListener(
+                client?.getService(QLinkMicService::class.java)?.audienceMicLinker?.removeLinkMicListener(
                     mQNAudienceMicLinker
                 )
             }
-            client?.getService(QNLinkMicService::class.java)
+            client?.getService(QLinkMicService::class.java)
                 ?.removeMicLinkerListener(mMicLinkerListener)
         }
     }

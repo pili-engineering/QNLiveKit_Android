@@ -3,27 +3,30 @@ package com.qncube.roomservice
 import com.niucube.rtm.RtmManager
 import com.niucube.rtm.sendChannelMsg
 import com.qiniu.jsonutil.JsonUtils
+import com.qncube.linveroominner.LiveIdExtensionMode
+import com.qncube.linveroominner.RoomDataSource
+import com.qncube.linveroominner.UserDataSource
+import com.qncube.linveroominner.backGround
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.datasource.RoomDataSource
-import com.qncube.liveroomcore.datasource.UserDataSource
-import com.qncube.liveroomcore.mode.LiveIdExtensionMode
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QExtension
+import com.qncube.liveroomcore.service.BaseService
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import java.lang.Exception
 import java.util.*
 
-class QClientServiceImpl : BaseService(), QClientService {
+class QClientServiceImpl : BaseService(), QRoomService {
 
     private val roomDataSource = RoomDataSource()
     private val userDataSource = UserDataSource()
 
-    private val mRoomServiceListeners = LinkedList<QClientService.RoomServiceListener>()
+    private val mRoomServiceListeners = LinkedList<QRoomService.RoomServiceListener>()
 
-    override fun addRoomServiceListener(listener: QClientService.RoomServiceListener) {
+    override fun addRoomServiceListener(listener: QRoomService.RoomServiceListener) {
         mRoomServiceListeners.add(listener)
     }
 
-    override fun removeRoomServiceListener(listener: QClientService.RoomServiceListener) {
+    override fun removeRoomServiceListener(listener: QRoomService.RoomServiceListener) {
         mRoomServiceListeners.remove(listener)
     }
 
@@ -58,7 +61,7 @@ class QClientServiceImpl : BaseService(), QClientService {
      *
      * @param extension
      */
-    override fun updateRoomExtension(extension: Extension, callBack: QLiveCallBack<Void>?) {
+    override fun updateRoomExtension(extension: QExtension, callBack: QLiveCallBack<Void>?) {
         backGround {
             doWork {
                 roomDataSource.updateRoomExtension(roomInfo?.liveId ?: "", extension)
@@ -91,7 +94,7 @@ class QClientServiceImpl : BaseService(), QClientService {
     override fun getOnlineUser(
         page_num: Int,
         page_size: Int,
-        callBack: QLiveCallBack<MutableList<QNLiveUser>>?
+        callBack: QLiveCallBack<MutableList<QLiveUser>>?
     ) {
         backGround {
             doWork {
@@ -114,7 +117,7 @@ class QClientServiceImpl : BaseService(), QClientService {
         pageNum: Int,
         pageSize: Int,
         roomId: String,
-        callBack: QLiveCallBack<MutableList<QNLiveUser>>?
+        callBack: QLiveCallBack<MutableList<QLiveUser>>?
     ) {
 
         backGround {
@@ -135,7 +138,7 @@ class QClientServiceImpl : BaseService(), QClientService {
      * @param uid
      * @param callBack
      */
-    override fun searchUserByUserId(uid: String, callBack: QLiveCallBack<QNLiveUser>?) {
+    override fun searchUserByUserId(uid: String, callBack: QLiveCallBack<QLiveUser>?) {
         backGround {
             doWork {
                 val users =
@@ -154,7 +157,7 @@ class QClientServiceImpl : BaseService(), QClientService {
      * @param imUid
      * @param callBack
      */
-    override fun searchUserByIMUid(imUid: String, callBack: QLiveCallBack<QNLiveUser>?) {
+    override fun searchUserByIMUid(imUid: String, callBack: QLiveCallBack<QLiveUser>?) {
 
     }
 }

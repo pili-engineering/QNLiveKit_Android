@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.bumptech.glide.Glide
 import com.qbcube.pkservice.QNPKService
 import com.qbcube.pkservice.QNPKSession
-import com.qncube.liveroomcore.Extension
+import com.qncube.liveroomcore.mode.Extension
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.uikitcore.*
 import kotlinx.android.synthetic.main.kit_img_bg.view.*
@@ -45,7 +45,7 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
         }
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {}
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {}
     }
 
 

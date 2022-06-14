@@ -45,6 +45,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.main.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/linveroom-inner/QNLiveKit.linveroom-inner.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-common/QNLiveKit.liveroom-common.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-core/QNLiveKit.liveroom-core.main.iml" />

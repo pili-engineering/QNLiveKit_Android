@@ -1,22 +1,25 @@
 package com.qbcube.pkservice
 
 import com.qbcube.pkservice.mode.PKInfo
+import com.qncube.liveroomcore.mode.Extension
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.datasource.RoomDataSource
-import com.qncube.liveroomcore.datasource.UserDataSource
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.linveroominner.RoomDataSource
+import com.qncube.linveroominner.UserDataSource
+import com.qncube.linveroominner.Scheduler
 import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.service.BaseService
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import java.util.*
 
 class AudiencePKSynchro() : BaseService() {
 
     private val mPKDateSource = PKDateSource()
-    private val mUserSource = UserDataSource()
+    private val mUserSource = com.qncube.linveroominner.UserDataSource()
     var mListenersCall: (() -> LinkedList<QNPKService.PKServiceListener>)? = null
     var mPKSession: QNPKSession? = null
         private set
 
-    private val repeatSynchroJob = Scheduler(6000) {
+    private val repeatSynchroJob = com.qncube.linveroominner.Scheduler(6000) {
         if (roomInfo == null) {
             return@Scheduler
         }
@@ -33,7 +36,8 @@ class AudiencePKSynchro() : BaseService() {
                         mPKSession = null
                     }
                 } else {
-                    val reFreshRoom = RoomDataSource().refreshRoomInfo(roomInfo!!.liveId)
+                    val reFreshRoom = com.qncube.linveroominner.RoomDataSource()
+                        .refreshRoomInfo(roomInfo!!.liveId)
                     if (!reFreshRoom.pkId.isEmpty() && mPKSession == null) {
 
                         val info = mPKDateSource.getPkInfo(reFreshRoom.liveId ?: "")
@@ -76,11 +80,11 @@ class AudiencePKSynchro() : BaseService() {
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
         }
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {
         }
     }
 
-    override fun attachRoomClient(client: QNLiveClient) {
+    override fun attachRoomClient(client: QLiveClient) {
         super.attachRoomClient(client)
         mListenersCall?.invoke()?.add(mPKServiceListener)
     }

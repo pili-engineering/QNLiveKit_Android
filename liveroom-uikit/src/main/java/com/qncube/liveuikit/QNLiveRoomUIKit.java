@@ -3,7 +3,7 @@ package com.qncube.liveuikit;
 import android.content.Context;
 
 import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.mode.QLiveRoomInfo;
+import com.qncube.liveroomcore.been.QLiveRoomInfo;
 
 /**
  * ui kit

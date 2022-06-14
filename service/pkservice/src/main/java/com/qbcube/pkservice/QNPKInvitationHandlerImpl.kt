@@ -4,7 +4,8 @@ import com.niucube.rtm.RtmCallBack
 import com.niucube.rtminvitation.*
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.datasource.UserDataSource
+import com.qncube.linveroominner.UserDataSource
+import com.qncube.liveroomcore.service.BaseService
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -108,7 +109,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
         backGround {
             doWork {
                 val receiver =
-                    UserDataSource().searchUserByUserId(receiverUid)
+                    com.qncube.linveroominner.UserDataSource().searchUserByUserId(receiverUid)
                 val pkInvitation = PKInvitation()
                 pkInvitation.extensions = extensions
                 pkInvitation.initiator = user
@@ -220,7 +221,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
         super.onDestroyed()
         InvitationManager.removeInvitationProcessor(mInvitationProcessor)
     }
-    override fun attachRoomClient(client: QNLiveClient) {
+    override fun attachRoomClient(client: QLiveClient) {
         super.attachRoomClient(client)
         InvitationManager.addInvitationProcessor(mInvitationProcessor)
     }

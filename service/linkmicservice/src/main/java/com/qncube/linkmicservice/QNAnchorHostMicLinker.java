@@ -2,6 +2,7 @@ package com.qncube.linkmicservice;
 
 
 import com.nucube.rtclive.QNMergeOption;
+import com.qncube.liveroomcore.been.QNMicLinker;
 
 import java.util.List;
 

@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.mode.QNCreateRoomParam
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.pushclient.QNLivePushClient
-import com.qncube.rtcexcepion.RtcException
+import com.qncube.liveroomcore.QPusherClient
+import com.qncube.lcommon.RtcException
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.dialog.LoadingDialog
 import com.qncube.uikitcore.ext.bg
@@ -90,7 +90,7 @@ class LivePreView : QBaseRoomFrameLayout {
             create(QNCreateRoomParam().apply {
                 title = titleStr
                 notice = noticeStr
-                coverURL = QNLiveRoomEngine.getCurrentUserInfo()?.avatar
+                coverURL =UserDataSource.loginUser?.avatar
             })
         }
 
@@ -98,7 +98,7 @@ class LivePreView : QBaseRoomFrameLayout {
         }
 
         llSwitch.setOnClickListener {
-            (client as QNLivePushClient)
+            (client as QPusherClient)
                 .switchCamera()
         }
     }

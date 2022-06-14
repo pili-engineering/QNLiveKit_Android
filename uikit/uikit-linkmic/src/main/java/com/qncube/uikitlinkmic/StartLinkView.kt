@@ -3,11 +3,11 @@ package com.qncube.uikitlinkmic
 import android.content.Context
 import android.util.AttributeSet
 import androidx.fragment.app.DialogFragment
-import com.nucube.rtclive.QNCameraParams
-import com.nucube.rtclive.QNMicrophoneParams
-import com.qncube.linkmicservice.LinkInvitation
+import com.qncube.lcommon.QCameraParam
+import com.qncube.lcommon.QMicrophoneParam
+import com.qncube.liveroomcore.been.QInvitation
 import com.qncube.linkmicservice.QNLinkMicInvitationHandler
-import com.qncube.linkmicservice.QNLinkMicService
+import com.qncube.linkmicservice.QLinkMicService
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.asToast
 import com.qncube.uikitcore.QBaseRoomFrameLayout
@@ -28,29 +28,29 @@ class StartLinkView : QBaseRoomFrameLayout {
     //连麦邀请监听
     private val mInvitationListener = object : QNLinkMicInvitationHandler.InvitationListener {
 
-        override fun onReceivedApply(linkInvitation: LinkInvitation) {}
+        override fun onReceivedApply(qInvitation: QInvitation) {}
 
-        override fun onApplyCanceled(linkInvitation: LinkInvitation) {
+        override fun onApplyCanceled(qInvitation: QInvitation) {
             MyLinkerInfoDialog.StartLinkStore.isInviting = false
         }
 
-        override fun onApplyTimeOut(linkInvitation: LinkInvitation) {
+        override fun onApplyTimeOut(qInvitation: QInvitation) {
             MyLinkerInfoDialog.StartLinkStore.isInviting = false
             LoadingDialog.cancelLoadingDialog()
         }
 
-        override fun onAccept(linkInvitation: LinkInvitation) {
+        override fun onAccept(qInvitation: QInvitation) {
             MyLinkerInfoDialog.StartLinkStore.isInviting = false
             LoadingDialog.cancelLoadingDialog()
             "主播同意你的申请".asToast()
-            client?.getService(QNLinkMicService::class.java)
+            client?.getService(QLinkMicService::class.java)
                 ?.audienceMicLinker
                 ?.startLink(
                     null, if (MyLinkerInfoDialog.StartLinkStore.isVideoLink) {
-                        QNCameraParams()
+                        QCameraParam()
                     } else {
                         null
-                    }, QNMicrophoneParams(),
+                    }, QMicrophoneParam(),
                     object : QLiveCallBack<Void> {
                         override fun onError(code: Int, msg: String?) {
                             msg?.asToast()
@@ -63,7 +63,7 @@ class StartLinkView : QBaseRoomFrameLayout {
                 )
         }
 
-        override fun onReject(linkInvitation: LinkInvitation) {
+        override fun onReject(qInvitation: QInvitation) {
             MyLinkerInfoDialog.StartLinkStore.isInviting = false
             "主播拒绝你的连麦申请".asToast()
             LoadingDialog.cancelLoadingDialog()
@@ -75,7 +75,7 @@ class StartLinkView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNLinkMicService::class.java).linkMicInvitationHandler.addInvitationLister(
+        client!!.getService(QLinkMicService::class.java).linkMicInvitationHandler.addInvitationLister(
             mInvitationListener
         )
         this.setOnClickListener {
@@ -87,8 +87,8 @@ class StartLinkView : QBaseRoomFrameLayout {
                 "正在申请中，请稍后".asToast()
                 return@setOnClickListener
             }
-            if (client?.getService(QNLinkMicService::class.java)?.audienceMicLinker?.isLinked() == true) {
-                MyLinkerInfoDialog(client!!.getService(QNLinkMicService::class.java), user!!).show(
+            if (client?.getService(QLinkMicService::class.java)?.audienceMicLinker?.isLinked() == true) {
+                MyLinkerInfoDialog(client!!.getService(QLinkMicService::class.java), user!!).show(
                     kitContext!!.fm,
                     ""
                 )
@@ -101,19 +101,19 @@ class StartLinkView : QBaseRoomFrameLayout {
                         super.onDialogPositiveClick(dialog, any)
                         with(LoadingDialog) { showLoading(kitContext!!.fm) }
                         MyLinkerInfoDialog.StartLinkStore.isVideoLink = any as Boolean
-                        client!!.getService(QNLinkMicService::class.java).linkMicInvitationHandler.apply(
+                        client!!.getService(QLinkMicService::class.java).linkMicInvitationHandler.apply(
                             15 * 1000,
                             roomInfo!!.liveId,
                             roomInfo!!.anchorInfo.userId,
                             null,
                             object :
-                                QLiveCallBack<LinkInvitation> {
+                                QLiveCallBack<QInvitation> {
                                 override fun onError(code: Int, msg: String?) {
                                     msg?.asToast()
                                     LoadingDialog.cancelLoadingDialog()
                                 }
 
-                                override fun onSuccess(data: LinkInvitation) {
+                                override fun onSuccess(data: QInvitation) {
                                     MyLinkerInfoDialog.StartLinkStore.isInviting = true
                                     "等待主播同意".asToast()
                                 }

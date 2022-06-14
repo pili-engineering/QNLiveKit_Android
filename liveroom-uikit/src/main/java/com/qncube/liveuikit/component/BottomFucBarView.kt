@@ -3,12 +3,12 @@ package com.qncube.liveuikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.qncube.liveroomcore.ClientType
+import com.qncube.liveroomcore.QClientType
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.asToast
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveuikit.R
-import com.qncube.publicchatservice.QNPublicChatService
+import com.qncube.publicchatservice.QPublicChatService
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.QBaseRoomLinearLayout
 import com.qncube.uikitcore.QLiveComponent
@@ -65,7 +65,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
     }
 
     override fun initView() {
-        val menus = if (client!!.clientType == ClientType.PLAYER) {
+        val menus = if (client!!.clientType == QClientType.PLAYER) {
             mAudienceFuncMenus
         } else {
             mAnchorFuncMenus
@@ -96,7 +96,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
         override fun initView() {
             ivClose.setOnClickListener {
                 LoadingDialog.showLoading(kitContext!!.fm)
-                client?.getService(QNPublicChatService::class.java)
+                client?.getService(QPublicChatService::class.java)
                     ?.sendByeBye("离开了房间", null)
 
                 client?.leaveRoom(object :
@@ -117,7 +117,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
 
         override fun onJoined(roomInfo: QLiveRoomInfo) {
             super.onJoined(roomInfo)
-            client?.getService(QNPublicChatService::class.java)
+            client?.getService(QPublicChatService::class.java)
                 ?.sendWelCome("进人了房间", null)
         }
     }

@@ -192,7 +192,7 @@ class QLiveRoomInfo {
     QLiveStatus liveStatus;
 }
 
-class QNCreateRoomParam {
+class QCreateRoomParam {
     String title;                      //标题
     String notice;                     //公告
     String coverURL;                   //封面 
@@ -213,8 +213,8 @@ class QPusherClient {
     void destroy();                                                              //销毁
 
     void setConnectionStatusLister(QConnectionStatusLister connectionStatusLister);//推流连接状态监听
-    void enableCamera(QCameraParams cameraParams,QRenderView renderView);          //启动视频采集 和预览
-    void enableMicrophone(QMicrophoneParams microphoneParams);                     //启动麦克参数
+    void enableCamera(QCameraParam cameraParam,QRenderView renderView);          //启动视频采集 和预览
+    void enableMicrophone(QMicrophoneParam microphoneParam);                     //启动麦克参数
     void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
     void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
     void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);            //禁/不禁用本地麦克风流
@@ -318,12 +318,12 @@ interface QLinkMicServiceListener{
     void onLinkerExtension(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
 }
 
-class QNAnchorHostMicLinker {
+class QAnchorHostMicLinker {
     void setMixStreamAdapter(MixStreamAdapter mixStreamAdapter);                       //设置混流适配器
 }
 
 interface MixStreamAdapter {
-     List<QNMergeOption> onResetMixParam(List<QNMicLinker> micLinkers, QNMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
+     List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
 }
 
 class QAudienceMicLinker{

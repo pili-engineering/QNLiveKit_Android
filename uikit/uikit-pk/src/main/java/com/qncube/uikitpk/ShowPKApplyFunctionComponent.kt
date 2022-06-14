@@ -5,7 +5,7 @@ import com.qbcube.pkservice.PKInvitation
 import com.qbcube.pkservice.QNPKInvitationHandler
 import com.qbcube.pkservice.QNPKService
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.liveroomcore.QNLiveClient
+import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.asToast
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
@@ -17,7 +17,7 @@ import com.qncube.uikitcore.dialog.FinalDialogFragment
 
 class ShowPKApplyFunctionComponent : QLiveComponent {
 
-    override var client: QNLiveClient? = null
+    override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QNLiveUser? = null
     override var kitContext: KitContext? = null
@@ -78,7 +78,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
         }
     }
 
-    override fun attachLiveClient(client: QNLiveClient) {
+    override fun attachLiveClient(client: QLiveClient) {
         super.attachLiveClient(client)
         client.getService(QNPKService::class.java).pkInvitationHandler.addPKInvitationListener(
             mPKInvitationListener

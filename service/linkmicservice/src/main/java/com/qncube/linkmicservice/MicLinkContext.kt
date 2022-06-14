@@ -3,6 +3,7 @@ package com.qncube.linkmicservice
 import com.nucube.rtclive.DefaultExtQNClientEventListener
 import com.nucube.rtclive.RtcLiveRoom
 import com.qiniu.jsonutil.JsonUtils
+import com.qncube.liveroomcore.been.QNMicLinker
 import java.util.*
 
 class MicLinkContext {
@@ -27,13 +28,13 @@ class MicLinkContext {
             it.userRoomId = linker.userRoomId
             it.isOpenMicrophone = linker.isOpenMicrophone
             it.isOpenCamera = linker.isOpenCamera
-            it.extensions = linker.extensions
+            it.extension = linker.extension
             return false
         }
 
     }
 
-    val mMicLinkerListeners = LinkedList<QNLinkMicService.MicLinkerListener>()
+    val mMicLinkerListeners = LinkedList<QLinkMicService.MicLinkerListener>()
 
     fun getMicLinker(uid: String): QNMicLinker? {
         allLinker.forEach {
@@ -65,11 +66,8 @@ class MicLinkContext {
                     it.onUserLeft(mic)
                 }
             }
-
-
         }
     }
     lateinit var mRtcLiveRoom: RtcLiveRoom
-
 
 }

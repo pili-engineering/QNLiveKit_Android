@@ -13,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.liveroomcore.datasource.RoomDataSource
+import com.qncube.linveroominner.RoomDataSource
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.asToast
 import com.qncube.uikitcore.ext.ViewUtil

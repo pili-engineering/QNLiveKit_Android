@@ -7,7 +7,7 @@ import com.niucube.qnrtcsdk.ExtQNClientEventListener
 import com.niucube.qnrtcsdk.RtcEngineWrap
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
-import com.qncube.rtcexcepion.RtcException
+import com.qncube.lcommon.RtcException
 import org.json.JSONObject
 import java.lang.Exception
 import kotlin.coroutines.resume
@@ -158,12 +158,12 @@ open class RtcLiveRoom(
     }
 
     //启动视频采集
-    fun enableCamera(cameraParams: QNCameraParams) {
+    fun enableCamera(cameraParams: com.qncube.lcommon.QCameraParam) {
         localVideoTrack = createVideoTrack(
             QNVideoEncoderConfig(
                 cameraParams.width,
                 cameraParams.height,
-                cameraParams.fps,
+                cameraParams.FPS,
                 cameraParams.bitrate
             )
         )
@@ -197,15 +197,15 @@ open class RtcLiveRoom(
     }
 
     //启动音频采集
-    fun enableMicrophone(microphoneParams: QNMicrophoneParams) {
+    fun enableMicrophone(microphoneParams: com.qncube.lcommon.QMicrophoneParam) {
         localAudioTrack = createAudioTrack(
             QNMicrophoneAudioTrackConfig()
                 .setAudioQuality(
                     QNAudioQuality(
-                        microphoneParams.mSampleRate,
-                        microphoneParams.mChannelCount,
-                        microphoneParams.mBitsPerSample,
-                        microphoneParams.mBitrate
+                        microphoneParams.sampleRate,
+                        microphoneParams.channelCount,
+                        microphoneParams.bitsPerSample,
+                        microphoneParams.bitrate
                     )
                 )
         )
@@ -247,7 +247,7 @@ open class RtcLiveRoom(
                     if (state == QNConnectionState.DISCONNECTED) {
                         removeExtraQNRTCEngineEventListener(this)
                         continuation.resumeWithException(
-                            RtcException(
+                            com.qncube.lcommon.RtcException(
                                 p1?.errorCode ?: 1,
                                 p1?.errorMessage ?: ""
                             )
@@ -272,7 +272,7 @@ open class RtcLiveRoom(
             }
 
             override fun onError(p0: Int, p1: String) {
-                continuation.resumeWithException(RtcException(p0, p1))
+                continuation.resumeWithException(com.qncube.lcommon.RtcException(p0, p1))
             }
         }, tracks)
     }

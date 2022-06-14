@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qncube.publicchatservice.PubChatModel
-import com.qncube.publicchatservice.QNPublicChatService
+import com.qncube.publicchatservice.QPublicChatService
 import com.qncube.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_publicchatslotview.view.*
 
@@ -30,7 +30,7 @@ class PublicChatView : QBaseRoomFrameLayout {
     }
 
     //消息监听
-    private val mPublicChatServiceLister = QNPublicChatService.QNPublicChatServiceLister {
+    private val mPublicChatServiceLister = QPublicChatService.QNPublicChatServiceLister {
         if (it.senderRoomId != roomInfo?.liveId) {
             return@QNPublicChatServiceLister
         }
@@ -46,7 +46,7 @@ class PublicChatView : QBaseRoomFrameLayout {
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QNPublicChatService::class.java)
+            client?.getService(QPublicChatService::class.java)
                 ?.removePublicChatServiceLister(mPublicChatServiceLister)
         }
     }
@@ -56,7 +56,7 @@ class PublicChatView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNPublicChatService::class.java)
+        client!!.getService(QPublicChatService::class.java)
             .addPublicChatServiceLister(mPublicChatServiceLister)
 
         recyChat.layoutManager = LinearLayoutManager(context)

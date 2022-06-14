@@ -1,7 +1,7 @@
 package com.qncube.liveuikit.hook
 
 import com.qncube.liveroomcore.QClientLifeCycleListener
-import com.qncube.liveroomcore.QNLiveClient
+import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.uikitcore.KitContext
@@ -12,7 +12,7 @@ object KITFunctionInflaterFactory : QClientLifeCycleListener {
 
     val functionComponents = HashSet<QLiveComponent>()
 
-    fun attachLiveClient(client: QNLiveClient) {
+    fun attachLiveClient(client: QLiveClient) {
         functionComponents.forEach {
             it.attachLiveClient(client)
         }

@@ -1,7 +1,7 @@
 package com.qncube.linkmicservice
 
-import com.nucube.rtclive.QNCameraParams
-import com.nucube.rtclive.QNMicrophoneParams
+import com.qncube.lcommon.QCameraParam
+import com.qncube.lcommon.QMicrophoneParam
 import com.qiniu.droid.rtc.QNAudioFrameListener
 import com.qiniu.droid.rtc.QNConnectionState
 import com.qiniu.droid.rtc.QNVideoFrameListener
@@ -49,8 +49,8 @@ interface QNAudienceMicLinker {
      * @param callBack         上麦成功失败回调
      */
     fun startLink(
-        extensions: HashMap<String, String>?, cameraParams: QNCameraParams?,
-        microphoneParams: QNMicrophoneParams?, callBack: QLiveCallBack<Void>?
+        extensions: HashMap<String, String>?, cameraParams: QCameraParam?,
+        microphoneParams: QMicrophoneParam?, callBack: QLiveCallBack<Void>?
     )
 
     /**

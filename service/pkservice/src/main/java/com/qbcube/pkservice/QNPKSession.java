@@ -1,9 +1,7 @@
 package com.qbcube.pkservice;
 
-import com.qbcube.pkservice.mode.PKInfo;
 import com.qncube.liveroomcore.mode.QNLiveUser;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class QNPKSession {

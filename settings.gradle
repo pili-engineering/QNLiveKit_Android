@@ -8,6 +8,8 @@ include ':liveroom-pushclient'
 include ':liveroom-pullclient'
 include ':liveroom-uikit-core'
 include ':liveroom-uikit'
+include ':linveroom-inner'
+include ':liveroom-common'
 
 include ':LibComponent:rtcexcepion'
 include ':LibComponent:comp_http'
@@ -36,4 +38,4 @@ include ':LibComponent:comp_player'
 include ':LibComponent:sdk_qnim'
 include ':LibComponent:comp_imadapter'
 
-include ':linveroom-inner'
+

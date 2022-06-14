@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    api project(':LibComponent:rtcexcepion')
+    api project(':liveroom-common')
     api project(':LibComponent:comp_qnrtcsdk')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

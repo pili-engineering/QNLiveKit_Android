@@ -2,8 +2,7 @@ package com.qncube.liveuikit
 
 import android.content.Context
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.liveroomcore.QNLiveRoomEngine
-import com.qncube.liveroomcore.datasource.RoomDataSource
+import com.qncube.linveroominner.RoomDataSource
 import com.qncube.liveroomcore.getCode
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +19,8 @@ internal object QNLiveRoomUIKitInner {
     ) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val info = RoomDataSource().refreshRoomInfo(liveRoomId)
-                if (info.anchorInfo.userId == QNLiveRoomEngine.getCurrentUserInfo().userId) {
+                val info = com.qncube.linveroominner.RoomDataSource().refreshRoomInfo(liveRoomId)
+                if (info.anchorInfo.userId ==UserDataSource.loginUser.userId) {
                     RoomPushActivity.start(context, liveRoomId, callBack)
                 } else {
                     RoomPullActivity.start(context, liveRoomId, callBack)

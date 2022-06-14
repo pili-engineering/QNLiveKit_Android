@@ -1,7 +1,8 @@
 package com.qncube.danmakuservice;
 
 
-import com.qncube.liveroomcore.mode.QNLiveUser;
+
+import com.qncube.liveroomcore.been.QLiveUser;
 
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
 public class DanmakuModel {
     public static String action_danmu = "living_danmu";
 
-    public QNLiveUser sendUser;
+    public QLiveUser sendUser;
     /**
      * 消息内容
      */

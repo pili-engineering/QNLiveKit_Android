@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.qncube.liveroomcore.QClientLifeCycleListener
-import com.qncube.liveroomcore.QNLiveClient
+import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.mode.QLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.uikitcore.KitContext
@@ -16,7 +16,7 @@ import com.qncube.uikitcore.QLiveComponent
 
 class KITLayoutInflaterFactory(
     private val appDelegate: AppCompatDelegate,
-    private val roomClient: QNLiveClient,
+    private val roomClient: QLiveClient,
     private val kitContext: KitContext
 ) : LayoutInflater.Factory2, QClientLifeCycleListener {
 

@@ -30,10 +30,8 @@ android {
 
 dependencies {
 
-    api project(':LibComponent:comp_http')
-    api project(':LibComponent:comp_rtm')
-    api project(':LibComponent:rtcexcepion')
-    compileOnly project( ':LibComponent:comp_imadapter')
+    api project(':liveroom-common')
+    implementation project(':LibComponent:lib_json')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -1,7 +1,7 @@
 package com.qncube.liveroomcore
 
 import com.niucube.rtm.RtmException
-import com.qncube.rtcexcepion.RtcException
+import com.qncube.lcommon.RtcException
 
 fun Throwable.getCode(): Int {
     if (this is RtmException) {

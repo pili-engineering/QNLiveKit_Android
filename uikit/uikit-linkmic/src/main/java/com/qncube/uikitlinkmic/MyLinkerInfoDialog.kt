@@ -4,13 +4,13 @@ import android.content.DialogInterface
 import android.view.Gravity
 import android.view.View
 import com.bumptech.glide.Glide
-import com.qncube.linkmicservice.QNLinkMicService
-import com.qncube.linkmicservice.QNMicLinker
+import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.liveroomcore.been.QNMicLinker
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.dialog.LoadingDialog
-import com.qncube.liveroomcore.Scheduler
+import com.qncube.linveroominner.Scheduler
 import com.qncube.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_dialog_my_linker_info.*
 import java.text.DecimalFormat
@@ -18,7 +18,7 @@ import java.text.DecimalFormat
 /**
  * 我的连麦信息弹窗
  */
-class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
+class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
     FinalDialogFragment() {
 
     public object StartLinkStore {
@@ -32,7 +32,7 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
     }
 
     private var timeDiff = 0
-    private val mScheduler = Scheduler(1000) {
+    private val mScheduler = com.qncube.linveroominner.Scheduler(1000) {
         tvTime?.text = "连麦中，通话${formatTime(timeDiff)}"
         timeDiff++
     }
