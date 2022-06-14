@@ -497,42 +497,39 @@ class PubChatModel {
 //主播列表
 class RoomListPage  {
     setCustomLayoutId(int layoutID); //替换整体布局
-    AppBarComponent appbar;  //页面toolbar      
-    RoomListViewComponent roomListView; //房间列表
-    CreateRoomButtonComponent createRoomButton; //创建房间按钮 
+    AppBarView appbar;  //页面toolbar      
+    RoomListViewView roomListView; //房间列表
+    CreateRoomButtonView createRoomButton; //创建房间按钮 
 }
 
 //房间列表页面
 class RoomPage {
     setCustomLayoutId(int layoutID); //替换整体布局
-    RoomBackGroundComponent roomBackGroundView;//房间背景
-    RoomHostComponent roomHostView; //左上角房主
-    LivePrepareComponent livePreView ;//开播准备
-    OnlineUserComponent onlineUserView ;//右上角在线用户槽位
-    RoomMemberCountComponent RoomMemberCountView;//右上角房间
-    RoomIDComponent roomIDView ;//右上角房间
-    RoomTimerComponent roomTimerView;//右上角房间计时器
-    DanmakuTrackComponent danmakuTrackView;//弹幕
-    PublicChatComponent publicChatView ;//公屏聊天
-    RoomNoticeComponent roomNoticeView ;//公告
-    StartPKComponent startPKView;//主播开始pk按钮
-    PKCoverComponent pkCoverView;  //PK覆盖层 空槽位
-    PKAnchorPreviewComponent pkAnchorPreview;//pk主播两个小窗口
-    LinkersComponent linkersView;//连麦中的用户 
-    ShowInputComponent showInputView;//房间底部 输入框
-    BottomFucBarComponent bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
-    OuterCoverComponent outerCoverView;// 全局上层覆盖自定义 空槽位
-    InnerCoverComponent innerCoverView ;//全局底层覆盖自定义 空槽位
+    RoomBackGroundView roomBackGroundView;//房间背景
+    RoomHostView roomHostView; //左上角房主
+    LivePrepareView livePreView ;//开播准备
+    OnlineUserView onlineUserView ;//右上角在线用户槽位
+    RoomMemberCountView RoomMemberCountView;//右上角房间
+    RoomIDView roomIDView ;//右上角房间
+    RoomTimerView roomTimerView;//右上角房间计时器
+    DanmakuTrackView danmakuTrackView;//弹幕
+    PublicChatView publicChatView ;//公屏聊天
+    RoomNoticeView roomNoticeView ;//公告
+    StartPKView startPKView;//主播开始pk按钮
+    PKCoverView pkCoverView;  //PK覆盖层 空槽位
+    PKAnchorPreviewView pkAnchorPreview;//pk主播两个小窗口
+    LinkersView linkersView;//连麦中的用户 
+    ShowInputView showInputView;//房间底部 输入框
+    BottomFucBarView bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
+    OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
+    InnerCoverView innerCoverView ;//全局底层覆盖自定义 空槽位
 
-    ShowPKApplyFucComponent showReceivedPKApply ;//主播收到连麦申请弹窗
-    ShowLinkMicApplyFucComponent showLinkMicApply ;//主播收到pk邀请弹窗
+    ShowPKApplyFunctionComponent showReceivedPKApply ;//主播收到连麦申请弹窗 事件监听功能组件
+    ShowLinkMicFunctionComponent showLinkMicApply ;//主播收到pk邀请弹窗 事件监听功能组件
 
     addFunctionComponent(QRoomComponent component); //注册自定义功能组件
 }
 ```
-
-
-
 
 ```Java
 //kit基础类说明 非dom
@@ -559,15 +556,13 @@ interface KitContext {
 }
 
 
-
-
-//内置UI型号组件
-class QRoomUIComponent{
+//内置UI型号组件基类
+class QRoomView{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                             //移除/禁用 
 }
-//内置UI型号组件
-class QUIComponent{
+//内置UI型号组件基类
+class QView{
     <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);
 }
