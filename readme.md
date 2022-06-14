@@ -554,7 +554,7 @@ interface QComponent {
 }
 //房间内的UI组件
 interface QLiveComponent extends QComponent{
-    void attachLiveClient(QNLiveRoomClient client);
+    void attachLiveClient(QLiveRoomClient client);
     void onEntering(String roomID,QLiveUser user);                         //正在加入房间
     void onJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
     void onLeft();                                                         //离开了某个房间 
@@ -585,4 +585,26 @@ class QLiveFunctionComponent{
     <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
+```
+
+
+```
+client 基类
+QLiveRoomClient{
+     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
+     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
+    
+    //获得当前client实际类型
+     ClientType getClientType()
+     
+     protected void join( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);           //加入房间
+     protected void left( QLiveCallBack<Void> callBack);                                   //离开房间- 主播close 观众leave 对应父类生命周期统一叫left
+     protected void destroy();                                                              //销毁
+   
+}
+   
+enum ClientType{
+   PUSHER,PLAYER
+}
+
 ```
