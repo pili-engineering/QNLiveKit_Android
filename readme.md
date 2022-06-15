@@ -500,6 +500,12 @@ interface QDanmakuService extends QLiveService {
 interface QNDanmakuServiceListener {
     void onReceiveDanmaku(QDanmaku danmaku);
 }
+class QDanmaku {
+   QLiveUser sendUser;
+   String content;
+   String senderRoomID; 
+   HashMap<String, String> extension;
+}
 
 ```
 
