@@ -137,8 +137,8 @@ addView(view);
 ## 初始化
 ```java
 class QLive {
-    static viod init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
-    static viod setUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
+    static void init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
+    static void setUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();  //创建主播端
     static QPlayerClient createPlayerClient();  //创建观众端
     static QLiveUIKit getLiveUIKit();           //获得uikit
