@@ -471,23 +471,34 @@ interface QRoomServiceListener{
 interface QPublicChatService extends QLiveService{
     void addServiceLister(QPublicChatServiceLister lister);
     void removeServiceLister(QPublicChatServiceLister lister);
-    void sendPublicChat(String msg, QLiveCallBack<PubChatModel> callBack);         //发送公屏聊天消息
-    void sendWelCome(String msg, QLiveCallBack<PubChatModel> callBack);            //发送进入房间消息
-    void sendByeBye(String msg, QLiveCallBack<PubChatModel> callBack);            //发送离开房间消息
-    void sendLike(String msg, QLiveCallBack<PubChatModel> callBack);               //发送点赞消息
-    void sendCustomPubChat(String action, String msg,  QLiveCallBack<PubChatModel> callBack); //发送自定义要显示在公屏上的消息
-    void pubMsgToLocal(PubChatModel chatModel);                                    //往本地公屏插入消息不发送到对端
+    void sendPublicChat(String msg, QLiveCallBack<QPublicChat> callBack);         //发送公屏聊天消息
+    void sendWelCome(String msg, QLiveCallBack<QPublicChat> callBack);            //发送进入房间消息
+    void sendByeBye(String msg, QLiveCallBack<QPublicChat> callBack);            //发送离开房间消息
+    void sendLike(String msg, QLiveCallBack<QPublicChat> callBack);               //发送点赞消息
+    void sendCustomPubChat(String action, String msg,  QLiveCallBack<QPublicChat> callBack); //发送自定义要显示在公屏上的消息
+    void pubMsgToLocal(QPublicChat publicchat);                                    //往本地公屏插入消息不发送到对端
 }
 
 interface QPublicChatServiceLister {
-    void onReceivePublicChat(PubChatModel model); //收到公屏消息
+    void onReceivePublicChat(QPublicChat pubChat); //收到公屏消息
 }
 
-class PubChatModel {
+class QPublicChat {
     String action;
     QLiveUser sendUser;
     String content;
     String senderRoomID;
+}
+
+```
+```java
+interface QDanmakuService extends QLiveService {
+    void addDanmakuServiceListener(QDanmakuServiceListener listener);
+    void removeDanmakuServiceListener(QDanmakuServiceListener listener);
+    void sendDanmaku(String msg, HashMap<String,String> extension, QLiveCallBack<QDanmaku> callBack);
+}
+interface QNDanmakuServiceListener {
+    void onReceiveDanmaku(QDanmaku danmaku);
 }
 
 ```
