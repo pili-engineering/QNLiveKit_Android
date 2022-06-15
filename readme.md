@@ -494,8 +494,8 @@ class QPublicChat {
 ```
 ```java
 interface QDanmakuService extends QLiveService {
-    void addDanmakuServiceListener(QDanmakuServiceListener listener);
-    void removeDanmakuServiceListener(QDanmakuServiceListener listener);
+    void addServiceLister(QDanmakuServiceListener listener);
+    void removeServiceLister(QDanmakuServiceListener listener);
     void sendDanmaku(String msg, HashMap<String,String> extension, QLiveCallBack<QDanmaku> callBack);
 }
 interface QNDanmakuServiceListener {
