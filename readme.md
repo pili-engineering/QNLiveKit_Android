@@ -604,7 +604,7 @@ QLiveClient{
    
 }
    
-enum ClientType{
+enum QClientType{
    PUSHER,PLAYER
 }
 
