@@ -370,6 +370,16 @@ interface QPKMixStreamAdapter{
      List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
 }
 
+class QPKSession {
+     String sessionId;
+     QLiveUser initiator;
+     QLiveUser receiver;
+     String initiatorRoomID;
+     String receiverRoomID;
+     Map<String, String> extension;
+     int status;
+     long startTimeStamp;
+}
 ```
 
 ```java
