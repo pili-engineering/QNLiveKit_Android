@@ -385,9 +385,9 @@ class QPKSession {
 ```java
 class QInvitationHandler{
     void apply(long expiration, String receiverRoomID,String receiverUID, HashMap<String,String>extension, QLiveCallBack<QInvitation> callBack);//发起邀请或者申请
-    void cancelApply(int invitationId,QLiveCallBack<Void> callBack);                                  //取消申请
-    void accept(int invitationId, HashMap<String,String> extension,QLiveCallBack<Void> callBack);    //接受
-    void reject(int invitationId, HashMap<String,String> extension,  QLiveCallBack<Void> callBack ); //拒绝
+    void cancelApply(int invitationID,QLiveCallBack<Void> callBack);                                  //取消申请
+    void accept(int invitationID, HashMap<String,String> extension,QLiveCallBack<Void> callBack);    //接受
+    void reject(int invitationID, HashMap<String,String> extension,  QLiveCallBack<Void> callBack ); //拒绝
     void removeInvitationHandlerListener(QInvitationHandlerListener listener);                        //添加邀请监听
     void addInvitationHandlerListener(QInvitationHandlerListener listener);
 }
@@ -407,6 +407,9 @@ class QInvitation{
      String receiverRoomID;
      HashMap<String,String> extension;
      int linkType;
+     
+     @JSONField(serialize = false)
+     int invitationID;
 }
 ```
 ```java
