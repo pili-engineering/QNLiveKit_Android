@@ -371,7 +371,7 @@ interface QPKMixStreamAdapter{
 }
 
 class QPKSession {
-     String sessionId;
+     String sessionID;
      QLiveUser initiator;
      QLiveUser receiver;
      String initiatorRoomID;
