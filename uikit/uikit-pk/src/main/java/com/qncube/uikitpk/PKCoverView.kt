@@ -3,9 +3,11 @@ package com.qncube.uikitpk
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.qbcube.pkservice.QNPKService
-import com.qbcube.pkservice.QNPKSession
-import com.qncube.liveroomcore.mode.Extension
+import com.qbcube.pkservice.QPKService
+import com.qbcube.pkservice.QPKServiceListener
+import com.qbcube.pkservice.QPKSession
+import com.qncube.liveroomcore.been.QExtension
+
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 
 class PKCoverView : QBaseRoomFrameLayout {
@@ -18,23 +20,22 @@ class PKCoverView : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
-    private val mPKServiceListener = object : QNPKService.PKServiceListener {
-        override fun onInitPKer(pkSession: QNPKSession) {
+    private val mQPKServiceListener = object :
+        QPKServiceListener {
 
-        }
 
-        override fun onStart(pkSession: QNPKSession) {
+        override fun onStart(pkSession: QPKSession) {
             visibility = View.VISIBLE
         }
 
-        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             visibility = View.GONE
         }
 
-        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
+        override fun onStartTimeOut(pkSession: QPKSession) {
+        }
 
-
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
     }
 
@@ -43,7 +44,7 @@ class PKCoverView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNPKService::class.java).addPKServiceListener(mPKServiceListener)
+        client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
     }
 
 

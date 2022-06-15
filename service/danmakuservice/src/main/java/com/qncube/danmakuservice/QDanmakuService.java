@@ -11,21 +11,14 @@ import java.util.HashMap;
  */
 public interface QDanmakuService extends QLiveService {
 
-    public interface QNDanmakuServiceListener {
 
-        /**
-         * 收到弹幕消息
-         */
-        void onReceiveDanmaku(DanmakuModel model);
-    }
+    public void addDanmakuServiceListener(QDanmakuServiceListener listener);
 
-    public void addDanmakuServiceListener(QNDanmakuServiceListener listener);
-
-    public void removeDanmakuServiceListener(QNDanmakuServiceListener listener);
+    public void removeDanmakuServiceListener(QDanmakuServiceListener listener);
 
     /**
      * 发送弹幕消息
      */
-    public void sendDanmaku(String msg, HashMap<String,String> extensions, QLiveCallBack<DanmakuModel> callBack);
+    public void sendDanmaku(String msg, HashMap<String,String> extension, QLiveCallBack<QDanmaku> callBack);
 }
 

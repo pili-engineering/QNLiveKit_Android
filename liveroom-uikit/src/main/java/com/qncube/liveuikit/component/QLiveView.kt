@@ -22,7 +22,7 @@ open class QLiveView(private val originViewClass: Class<out QLiveComponent>) {
     /**
      * 替换成用户自定义的UI类
      */
-    fun <T : QLiveComponent> replace(replaceClass: Class<T>) {
+   open fun <T : QLiveComponent> replace(replaceClass: Class<T>) {
         this.replaceClass = replaceClass
         checkReplace()
     }

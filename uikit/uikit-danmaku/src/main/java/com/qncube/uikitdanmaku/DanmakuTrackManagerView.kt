@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.qncube.danmakuservice.QDanmaku
 import com.qncube.danmakuservice.QDanmakuService
+import com.qncube.danmakuservice.QDanmakuServiceListener
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QBaseRoomFrameLayout
@@ -17,10 +19,11 @@ import com.qncube.uikitcore.ext.ViewUtil
  */
 class DanmakuTrackManagerView : QBaseRoomFrameLayout {
     private val mTrackManager = TrackManager()
-    private val mQNDanmakuServiceListener =
-        QDanmakuService.QNDanmakuServiceListener { model ->
-            mTrackManager.onNewTrackArrive(model)
+    private val mQDanmakuServiceListener = object : QDanmakuServiceListener {
+        override fun onReceiveDanmaku(danmaku: QDanmaku) {
+            mTrackManager.onNewTrackArrive(danmaku)
         }
+    }
     private var mDanmukeViewSlot: QNDanmukeViewSlot = object : QNDanmukeViewSlot {
         override fun createView(
             lifecycleOwner: LifecycleOwner,
@@ -54,7 +57,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
 
     override fun initView() {
         client!!.getService(QDanmakuService::class.java)
-            .addDanmakuServiceListener(mQNDanmakuServiceListener)
+            .addDanmakuServiceListener(mQDanmakuServiceListener)
         for (i in 0 until mDanmukeViewSlot.getIDanmakuViewCount()) {
             val itemView = mDanmukeViewSlot.createView(
                 kitContext!!.lifecycleOwner,
@@ -76,7 +79,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
             client?.getService(QDanmakuService::class.java)
-                ?.removeDanmakuServiceListener(mQNDanmakuServiceListener)
+                ?.removeDanmakuServiceListener(mQDanmakuServiceListener)
         }
     }
 
@@ -86,7 +89,6 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
     }
 
     interface QNDanmukeViewSlot {
-
         /**
          * 创建单个弹幕轨道
          * @param container

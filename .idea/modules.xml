@@ -4,10 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/QNLiveKit.iml" filepath="$PROJECT_DIR$/.idea/modules/QNLiveKit.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/QNLiveKit.LibComponent.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/QNLiveKit.LibComponent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_http/QNLiveKit.LibComponent.comp_http.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_imadapter/QNLiveKit.LibComponent.comp_imadapter.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_imadapter/QNLiveKit.LibComponent.comp_imadapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_imadapter/QNLiveKit.LibComponent.comp_imadapter.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_imadapter/QNLiveKit.LibComponent.comp_imadapter.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/comp_imadapter/QNLiveKit.LibComponent.comp_imadapter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/comp_imadapter/QNLiveKit.LibComponent.comp_imadapter.main.iml" />
@@ -28,10 +24,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtcexcepion/QNLiveKit.LibComponent.rtcexcepion.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtclive/QNLiveKit.LibComponent.rtclive.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtclive/QNLiveKit.LibComponent.rtclive.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtclive/QNLiveKit.LibComponent.rtclive.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtclive/QNLiveKit.LibComponent.rtclive.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/rtclive/QNLiveKit.LibComponent.rtclive.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/rtclive/QNLiveKit.LibComponent.rtclive.main.iml" />
@@ -69,6 +61,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-uikit/QNLiveKit.liveroom-uikit.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-uikit/QNLiveKit.liveroom-uikit.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-uikit/QNLiveKit.liveroom-uikit.main.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-uikit/QNLiveKit.liveroom-uikit.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/liveroom-uikit/QNLiveKit.liveroom-uikit.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/liveroom-uikit/QNLiveKit.liveroom-uikit.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.iml" filepath="$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/qlivesdk/QNLiveKit.qlivesdk.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/QNLiveKit.service.iml" filepath="$PROJECT_DIR$/.idea/modules/service/QNLiveKit.service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/chatservice/QNLiveKit.service.chatservice.iml" filepath="$PROJECT_DIR$/.idea/modules/service/chatservice/QNLiveKit.service.chatservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/chatservice/QNLiveKit.service.chatservice.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/service/chatservice/QNLiveKit.service.chatservice.androidTest.iml" />

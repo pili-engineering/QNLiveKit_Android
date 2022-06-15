@@ -10,7 +10,7 @@ import com.qncube.liveroomcore.been.QExtension
 import com.qncube.liveroomcore.service.BaseService
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
-import com.qncube.liveroomcore.been.QNMicLinker
+import com.qncube.liveroomcore.been.QMicLinker
 
 class QLinkMicServiceImpl : QLinkMicService, BaseService() {
 
@@ -25,14 +25,14 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
 
     private val mLinkDateSource = LinkDateSource()
     private val mMicLinkContext = MicLinkContext()
-    private val mAudienceMicLinker: QAudienceMicLinkerImpl =
-        QAudienceMicLinkerImpl(mMicLinkContext)
-    private val mAnchorHostMicLinker: QAnchorHostMicLinkerImpl =
-        QAnchorHostMicLinkerImpl(mMicLinkContext)
-    private val mLinkMicInvitationHandler = QLinkMicInvitationHandlerImpl()
+    private val mAudienceMicLinker: QAudienceMicHandlerImpl =
+        QAudienceMicHandlerImpl(mMicLinkContext)
+    private val mAnchorHostMicLinker: QAnchorHostMicHandlerImpl =
+        QAnchorHostMicHandlerImpl(mMicLinkContext)
+    private val mLinkMicInvitationHandler = QInvitationHandlerImpl("liveroom_linkmic_invitation")
 
     private val mRtmMsgListener = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
+        override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
             when (msg.optAction()) {
 
                 liveroom_miclinker_join -> {
@@ -40,10 +40,10 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                         return true
                     }
                     val micLinker =
-                        JsonUtils.parseObject(msg.optData(), QNMicLinker::class.java) ?: return true
+                        JsonUtils.parseObject(msg.optData(), QMicLinker::class.java) ?: return true
                     if (mMicLinkContext.addLinker(micLinker)) {
-                        mMicLinkContext.mMicLinkerListeners.forEach {
-                            it.onUserJoinLink(micLinker)
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerJoin(micLinker)
                         }
                     }
                 }
@@ -54,8 +54,8 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                     val micLinker =
                         JsonUtils.parseObject(msg.optData(), UidMode::class.java) ?: return true
                     mMicLinkContext.removeLinker(micLinker.uid)?.let { lincker ->
-                        mMicLinkContext.mMicLinkerListeners.forEach {
-                            it.onUserLeft(lincker)
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerLeft(lincker)
                         }
                     }
 
@@ -66,8 +66,8 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                         JsonUtils.parseObject(msg.optData(), UidMsgMode::class.java) ?: return true
 
                     mMicLinkContext.removeLinker(uidMsg.uid)?.let { lincker ->
-                        mMicLinkContext.mMicLinkerListeners.forEach {
-                            it.onUserBeKick(lincker, uidMsg.msg)
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerKicked(lincker, uidMsg.msg)
                         }
                     }
                 }
@@ -77,8 +77,8 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                         JsonUtils.parseObject(msg.optData(), MuteMode::class.java) ?: return true
                     mMicLinkContext.getMicLinker(muteMode.uid)?.let { linker ->
                         linker.isOpenMicrophone = !muteMode.mute
-                        mMicLinkContext.mMicLinkerListeners.forEach {
-                            it.onUserMicrophoneStatusChange(linker)
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerMicrophoneStatusChange(linker)
                         }
                     }
                 }
@@ -88,8 +88,8 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                         JsonUtils.parseObject(msg.optData(), MuteMode::class.java) ?: return true
                     mMicLinkContext.getMicLinker(muteMode.uid)?.let { linker ->
                         linker.isOpenCamera = !muteMode.mute
-                        mMicLinkContext.mMicLinkerListeners.forEach {
-                            it.onUserCameraStatusChange(linker)
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerCameraStatusChange(linker)
                         }
                     }
                 }
@@ -100,8 +100,8 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                             ?: return true
                     mMicLinkContext.getMicLinker(extMode.uid)?.let { linker ->
                         linker.extension.put(extMode.extension.key, extMode.extension.value)
-                        mMicLinkContext.mMicLinkerListeners.forEach {
-                            it.onUserExtension(linker, extMode.extension)
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerExtensionUpdate(linker, extMode.extension)
                         }
                     }
                 }
@@ -114,7 +114,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      * 获取当前房间所有连麦用户
      * @return
      */
-    override fun getAllLinker(): MutableList<QNMicLinker> {
+    override fun getAllLinker(): MutableList<QMicLinker> {
         return mMicLinkContext.allLinker
     }
 
@@ -141,7 +141,9 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
             liveroom_miclinker_kick,
             uidMsgMode
         )
-        RtmManager.rtmClient.sendChannelMsg(rtmMsg.toJsonString(), roomInfo?.liveId ?: "", true,
+        RtmManager.rtmClient.sendChannelMsg(rtmMsg.toJsonString(),
+            currentRoomInfo?.liveId ?: "",
+            true,
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack?.onSuccess(null)
@@ -160,7 +162,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      * @param extension
      */
     override fun updateExtension(
-        micLinker: QNMicLinker,
+        micLinker: QMicLinker,
         extension: QExtension,
         callBack: QLiveCallBack<Void>?
     ) {
@@ -177,7 +179,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                     )
                 RtmManager.rtmClient.sendChannelMsg(
                     rtmMsg.toJsonString(),
-                    roomInfo?.liveId ?: "",
+                    currentRoomInfo?.liveId ?: "",
                     true
                 )
                 callBack?.onSuccess(null)
@@ -189,12 +191,12 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
 
     }
 
-    override fun addMicLinkerListener(listener: QLinkMicService.MicLinkerListener) {
-        mMicLinkContext.mMicLinkerListeners.add(listener)
+    override fun addMicLinkerListener(listener: QLinkMicServiceListener) {
+        mMicLinkContext.mQLinkMicServiceListeners.add(listener)
     }
 
-    override fun removeMicLinkerListener(listener: QLinkMicService.MicLinkerListener?) {
-        mMicLinkContext.mMicLinkerListeners.remove(listener)
+    override fun removeMicLinkerListener(listener: QLinkMicServiceListener?) {
+        mMicLinkContext.mQLinkMicServiceListeners.remove(listener)
     }
 
     /**
@@ -202,7 +204,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      *
      * @return
      */
-    override fun getLinkMicInvitationHandler(): QNLinkMicInvitationHandler {
+    override fun getInvitationHandler(): QInvitationHandler {
         return mLinkMicInvitationHandler
     }
 
@@ -211,7 +213,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      *
      * @return
      */
-    override fun getAudienceMicLinker(): QNAudienceMicLinker {
+    override fun getAudienceMicHandler(): QAudienceMicHandler {
         return mAudienceMicLinker
     }
 
@@ -220,7 +222,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      *
      * @return
      */
-    override fun getAnchorHostMicLinker(): QNAnchorHostMicLinker {
+    override fun getAnchorHostMicHandler(): QAnchorHostMicHandler {
         return mAnchorHostMicLinker
     }
 
@@ -231,7 +233,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
         } else {
             mAudienceMicLinker.attachRoomClient(client)
         }
-        mLinkMicInvitationHandler.attachRoomClient(client)
+        mLinkMicInvitationHandler.attach()
         RtmManager.addRtmChannelListener(mRtmMsgListener)
     }
 
@@ -249,9 +251,9 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
         //添加一个房主麦位
-        mMicLinkContext.addLinker(QNMicLinker().apply {
+        mMicLinkContext.addLinker(QMicLinker().apply {
             user = roomInfo.anchor
-            userRoomId = roomInfo.liveId
+            userRoomID = roomInfo.liveId
             isOpenMicrophone = true
             isOpenCamera = true
         })

@@ -8,8 +8,8 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.qncube.chatservice.QChatRoomService
 import com.qncube.chatservice.QChatRoomServiceListener
 import com.qncube.linveroominner.Scheduler
-import com.qncube.liveroomcore.mode.QNLiveUser
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.*
 import com.qncube.uikitcore.ext.bg
 import kotlinx.android.synthetic.main.kit_view_online.view.*
@@ -24,25 +24,25 @@ class OnlineUserView : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
-    private var adapter: BaseQuickAdapter<QNLiveUser, BaseViewHolder> = OnlineUserViewAdapter()
+    private var adapter: BaseQuickAdapter<QLiveUser, BaseViewHolder> = OnlineUserViewAdapter()
 
     //聊天室监听
     private val mChatRoomServiceListener = object :
         QChatRoomServiceListener {
-        override fun onUserJoin(memberId: String) {
+        override fun onUserJoin(memberID: String) {
             refresh()
         }
 
-        override fun onUserLevel(memberId: String) {
+        override fun onUserLeft(memberID: String) {
             refresh()
         }
 
-        override fun onReceivedC2CMsg(msg: String, fromId: String, toId: String) {}
-        override fun onReceivedGroupMsg(msg: String, fromId: String, toId: String) {}
-        override fun onUserBeKicked(memberId: String) {}
-        override fun onUserBeMuted(isMute: Boolean, memberId: String, duration: Long) {}
-        override fun onAdminAdd(memberId: String) {}
-        override fun onAdminRemoved(memberId: String, reason: String) {}
+        override fun onReceivedC2CMsg(msg: String, fromID: String, toID: String) {}
+        override fun onReceivedGroupMsg(msg: String, fromID: String, toID: String) {}
+        override fun onUserKicked(memberID: String) {}
+        override fun onUserBeMuted(isMute: Boolean, memberID: String, duration: Long) {}
+        override fun onAdminAdd(memberID: String) {}
+        override fun onAdminRemoved(memberID: String, reason: String) {}
     }
 
     override fun getLayoutId(): Int {
@@ -62,7 +62,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
 
     private var roomId = ""
 
-    private val lazyFreshJob = com.qncube.linveroominner.Scheduler(30000) {
+    private val lazyFreshJob = Scheduler(30000) {
         refresh()
     }
 
@@ -85,7 +85,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
         }
     }
 
-    override fun onEntering(roomId: String, user: QNLiveUser) {
+    override fun onEntering(roomId: String, user: QLiveUser) {
         super.onEntering(roomId, user)
         this.roomId = roomId
     }
@@ -98,7 +98,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
     override fun onLeft() {
         super.onLeft()
         roomId = ""
-        adapter.setNewData(ArrayList<QNLiveUser>())
+        adapter.setNewData(ArrayList<QLiveUser>())
         lazyFreshJob.cancel()
     }
 

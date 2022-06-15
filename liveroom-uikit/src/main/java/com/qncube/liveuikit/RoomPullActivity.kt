@@ -5,34 +5,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
 import androidx.core.view.LayoutInflaterCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import com.pili.pldroid.player.widget.PLVideoView
-import com.qbcube.pkservice.QNPKService
-import com.qncube.chatservice.QChatRoomService
-import com.qncube.danmakuservice.QDanmakuService
-import com.qncube.linkmicservice.QLinkMicService
-import com.qncube.liveroomcore.QPlayerClient
+import com.qncube.lcommon.PreviewMode
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.QNLiveLogUtil
 import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
-import com.qncube.publicchatservice.QPublicChatService
 import com.qncube.lcommon.RtcException
+import com.qncube.linveroominner.QLiveDelegate
+import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 import com.qncube.uikitcore.ext.bg
-import com.qncube.uikitcore.view.CommonPagerAdapter
-import com.qncube.uikitcore.view.EmptyFragment
 import kotlinx.android.synthetic.main.activity_room_pull.*
-import kotlinx.android.synthetic.main.activity_room_pull.vpCover
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -40,7 +30,8 @@ import kotlin.coroutines.suspendCoroutine
 class RoomPullActivity : BaseFrameActivity() {
 
     companion object {
-        private var startCallBack: QLiveCallBack<QLiveRoomInfo>? = null
+        var replaceLayoutId = -1
+        var startCallBack: QLiveCallBack<QLiveRoomInfo>? = null
         fun start(context: Context, roomId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
             startCallBack = callBack
             val i = Intent(context, RoomPullActivity::class.java)
@@ -51,43 +42,7 @@ class RoomPullActivity : BaseFrameActivity() {
 
     private var mRoomId = ""
     private val mRoomClient by lazy {
-        QPlayerClient.createLivePullClient().apply {
-
-            registerService(
-                QChatRoomService::class.java,
-            )
-            registerService(
-                QNPKService::class.java,
-            )
-            registerService(
-                QLinkMicService::class.java,
-            )
-            registerService(
-                QDanmakuService::class.java,
-            )
-            registerService(
-                QPublicChatService::class.java,
-            )
-            registerService(
-                QRoomService::class.java
-            )
-            setPullClientListener { liveRoomStatus, msg ->
-                if (liveRoomStatus == QLiveStatus.OFF) {
-                    QLiveStatus.OFF.tipMsg.asToast()
-                    finish()
-                }
-                if (liveRoomStatus == QLiveStatus.ANCHOR_OFFLINE) {
-                    QLiveStatus.ANCHOR_OFFLINE.tipMsg.asToast()
-                }
-                QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
-            }
-        }
-    }
-
-    private val fragments by lazy {
-        listOf(EmptyFragment(), CoverFragment().apply {
-            mClient = mRoomClient
-        })
+        QLiveDelegate.qLiveSdk.createPlayerClientCall()
     }
 
     private val mKitContext by lazy {
@@ -126,47 +81,31 @@ class RoomPullActivity : BaseFrameActivity() {
 
     override fun init() {
         mRoomId = intent.getStringExtra("roomId") ?: ""
-        mRoomClient.pullPreview = player
-        vpCover.visibility = View.INVISIBLE
-        vpCover.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
-        vpCover.currentItem = 1
-
-        vpCover.post {
+        container.post {
             bg {
                 showLoading(true)
                 doWork {
                     val room = suspendJoinRoom(mRoomId)
-                    //  c?.onSuccess(null)
-
-                    vpCover.visibility = View.VISIBLE
                     startCallBack?.onSuccess(room)
                 }
                 catchError {
                     it.message?.asToast()
                     startCallBack?.onError(it.getCode(), it.message)
                     finish()
-                    //  c?.onError(it.getCode(), it.message)
                 }
-
                 onFinally {
                     startCallBack = null
                     showLoading(false)
                 }
             }
         }
-
-        player.displayAspectRatio = PLVideoView.ASPECT_RATIO_PAVED_PARENT
-
-        player.setOnVideoSizeChangedListener { w, h ->
-            Log.d("player", "  setOnVideoSizeChangedListener ${w} ${h}");
-        }
-
+        playerRenderView.setDisplayAspectRatio(PreviewMode.ASPECT_RATIO_PAVED_PARENT)
     }
 
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(QRoomService::class.java).currentRoomInfo != null
+            && mRoomClient.getService(QRoomService::class.java).roomInfo != null
         ) {
             return true
         }
@@ -175,7 +114,8 @@ class RoomPullActivity : BaseFrameActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mRoomClient.closeRoom()
+        mRoomClient.destroy()
+        startCallBack?.onError(-1, "")
         startCallBack = null
     }
 
@@ -184,6 +124,9 @@ class RoomPullActivity : BaseFrameActivity() {
     }
 
     override fun getLayoutId(): Int {
+        if (replaceLayoutId > 0) {
+            return replaceLayoutId
+        }
         return R.layout.activity_room_pull
     }
 

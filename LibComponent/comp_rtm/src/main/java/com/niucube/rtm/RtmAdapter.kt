@@ -48,6 +48,6 @@ interface RtmAdapter {
      * @param c2cMessageReceiver  c2c消息接收器
      * @param channelMsgReceiver 群消息接收器
      */
-    fun registerOriginImListener(c2cMessageReceiver:(msg: String, fromId: String, toId: String)->Unit , channelMsgReceiver:(msg: String, fromId: String, toId: String)->Unit)
+    fun registerOriginImListener(c2cMessageReceiver:(msg: String, fromID: String, toID: String)->Unit , channelMsgReceiver:(msg: String, fromID: String, toID: String)->Unit)
 
 }

@@ -6,10 +6,10 @@ import androidx.fragment.app.DialogFragment
 import com.qncube.lcommon.QCameraParam
 import com.qncube.lcommon.QMicrophoneParam
 import com.qncube.liveroomcore.been.QInvitation
-import com.qncube.linkmicservice.QNLinkMicInvitationHandler
 import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.linveroominner.asToast
+import com.qncube.liveroomcore.QInvitationHandlerListener
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.liveroomcore.asToast
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.dialog.LoadingDialog
@@ -26,7 +26,7 @@ class StartLinkView : QBaseRoomFrameLayout {
     )
 
     //连麦邀请监听
-    private val mInvitationListener = object : QNLinkMicInvitationHandler.InvitationListener {
+    private val mInvitationListener = object : QInvitationHandlerListener {
 
         override fun onReceivedApply(qInvitation: QInvitation) {}
 
@@ -44,7 +44,7 @@ class StartLinkView : QBaseRoomFrameLayout {
             LoadingDialog.cancelLoadingDialog()
             "主播同意你的申请".asToast()
             client?.getService(QLinkMicService::class.java)
-                ?.audienceMicLinker
+                ?.audienceMicHandler
                 ?.startLink(
                     null, if (MyLinkerInfoDialog.StartLinkStore.isVideoLink) {
                         QCameraParam()
@@ -75,7 +75,7 @@ class StartLinkView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QLinkMicService::class.java).linkMicInvitationHandler.addInvitationLister(
+        client!!.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener(
             mInvitationListener
         )
         this.setOnClickListener {
@@ -87,7 +87,7 @@ class StartLinkView : QBaseRoomFrameLayout {
                 "正在申请中，请稍后".asToast()
                 return@setOnClickListener
             }
-            if (client?.getService(QLinkMicService::class.java)?.audienceMicLinker?.isLinked() == true) {
+            if (client?.getService(QLinkMicService::class.java)?.audienceMicHandler?.isLinked() == true) {
                 MyLinkerInfoDialog(client!!.getService(QLinkMicService::class.java), user!!).show(
                     kitContext!!.fm,
                     ""
@@ -101,10 +101,10 @@ class StartLinkView : QBaseRoomFrameLayout {
                         super.onDialogPositiveClick(dialog, any)
                         with(LoadingDialog) { showLoading(kitContext!!.fm) }
                         MyLinkerInfoDialog.StartLinkStore.isVideoLink = any as Boolean
-                        client!!.getService(QLinkMicService::class.java).linkMicInvitationHandler.apply(
+                        client!!.getService(QLinkMicService::class.java).invitationHandler.apply(
                             15 * 1000,
                             roomInfo!!.liveId,
-                            roomInfo!!.anchorInfo.userId,
+                            roomInfo!!.anchor.userId,
                             null,
                             object :
                                 QLiveCallBack<QInvitation> {

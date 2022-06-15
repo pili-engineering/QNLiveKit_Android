@@ -3,8 +3,8 @@ package com.qncube.linveroominner
 import android.content.Context
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
 import com.niucube.rtm.RtmCallBack
-import com.nucube.http.OKHttpService
-import com.nucube.http.PageData
+import com.qncube.linveroominner.http.OKHttpService
+import com.qncube.linveroominner.http.PageData
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.qnim.QNIMManager
 import com.qncube.liveroomcore.QLiveCallBack
@@ -90,6 +90,7 @@ class UserDataSource {
                 val user = OKHttpService.get("/client/user/profile", null, InnerUser::class.java)
                 var isQnIm = false
                 isQnIm = try {
+                    loginUser = user
                     QNIMManager.mRtmAdapter.isLogin
                     true
                 } catch (e: NoClassDefFoundError) {
@@ -106,6 +107,7 @@ class UserDataSource {
                         object : RtmCallBack {
                             override fun onSuccess() {
                                 callBack.onSuccess(user)
+                                loginUser = user
                             }
 
                             override fun onFailure(code: Int, msg: String) {

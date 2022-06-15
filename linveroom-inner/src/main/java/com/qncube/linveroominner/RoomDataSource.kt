@@ -1,8 +1,8 @@
 package com.qncube.linveroominner
 
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
-import com.nucube.http.OKHttpService
-import com.nucube.http.PageData
+import com.qncube.linveroominner.http.OKHttpService
+import com.qncube.linveroominner.http.PageData
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.been.QExtension

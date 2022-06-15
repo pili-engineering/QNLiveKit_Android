@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RoomListActivity">
 
-    <com.qncube.liveuikit.RoomListView
+    <com.qncube.liveuikit.component.RoomListView
         android:id="@+id/roomListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

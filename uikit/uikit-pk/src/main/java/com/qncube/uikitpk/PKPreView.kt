@@ -6,18 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.nucube.rtclive.CameraMergeOption
-import com.nucube.rtclive.MicrophoneMergeOption
-import com.nucube.rtclive.MixStreamParams
-import com.nucube.rtclive.QNMergeOption
-import com.qbcube.pkservice.QNPKService
-import com.qbcube.pkservice.QNPKSession
-import com.qiniu.droid.rtc.QNTextureView
+import com.nucube.rtclive.QPushTextureView
+import com.qbcube.pkservice.QPKService
+import com.qbcube.pkservice.QPKMixStreamAdapter
+import com.qbcube.pkservice.QPKServiceListener
+import com.qbcube.pkservice.QPKSession
+import com.qncube.lcommon.CameraMergeOption
+import com.qncube.lcommon.MicrophoneMergeOption
+import com.qncube.lcommon.QMergeOption
+import com.qncube.lcommon.QMixStreamParams
 import com.qncube.linkmicservice.QLinkMicService
 import com.qncube.liveroomcore.QPlayerClient
 import com.qncube.liveroomcore.QClientType
-import com.qncube.liveroomcore.mode.Extension
 import com.qncube.liveroomcore.QPusherClient
+import com.qncube.liveroomcore.been.QExtension
 import com.qncube.uikitcore.LinkerUIHelper
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
@@ -51,7 +53,6 @@ class PKPreView : QBaseRoomFrameLayout {
     }
 }
 
-
 //观众端pk预览
 class PKAudiencePreview : QBaseRoomFrameLayout {
     constructor(context: Context) : this(context, null)
@@ -62,30 +63,29 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
-    private val mPKServiceListener = object : QNPKService.PKServiceListener {
-        override fun onInitPKer(pkSession: QNPKSession) {
+    private val mQPKServiceListener = object :
+        QPKServiceListener {
+
+        override fun onStart(pkSession: QPKSession) {
             addView()
         }
 
-        override fun onStart(pkSession: QNPKSession) {
-            addView()
-        }
-
-        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             removeView()
         }
 
-        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
+        override fun onStartTimeOut(pkSession: QPKSession) {}
 
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
     }
 
     private var originParent: ViewGroup? = null
     private var originIndex = 0
     private fun addView() {
-        val player = (client as QPlayerClient).pullPreview.view
+
+        val player =   (client as QPlayerClient).playerRenderView.getView()
         val parent = player.parent as ViewGroup
         originParent = parent
         originIndex = parent.indexOfChild(player)
@@ -101,7 +101,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 
     private fun removeView() {
-        val player = (client as QPlayerClient).pullPreview.view
+        val player =  (client as QPlayerClient).playerRenderView.getView()
         llPKContainer.removeView(player)
         originParent?.addView(
             player,
@@ -119,13 +119,13 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNPKService::class.java).addPKServiceListener(mPKServiceListener)
+        client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QNPKService::class.java)?.removePKServiceListener(mPKServiceListener)
+            client?.getService(QPKService::class.java)?.removeServiceListener(mQPKServiceListener)
         }
     }
 }
@@ -141,39 +141,40 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
     )
 
     //混流适配
-    private val mPKMixStreamAdapter = object : QNPKService.PKMixStreamAdapter {
+    private val mQPKMixStreamAdapter = object :
+        QPKMixStreamAdapter {
 
-        override fun onPKLinkerJoin(pkSession: QNPKSession): MutableList<QNMergeOption> {
-            val ops = ArrayList<QNMergeOption>()
+        override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
+            val ops = ArrayList<QMergeOption>()
             val peer = if (pkSession.initiator.userId == user?.userId) {
                 pkSession.receiver
             } else {
                 pkSession.initiator
             }
-            ops.add(QNMergeOption().apply {
+            ops.add(QMergeOption().apply {
                 uid = user!!.userId
                 cameraMergeOption = CameraMergeOption().apply {
                     isNeed = true
-                    mX = 0
-                    mY = 0
-                    mZ = 0
-                    mWidth = PKUIHelper.mixWidth / 2
-                    mHeight = PKUIHelper.mixHeight
+                    x = 0
+                    y = 0
+                    z = 0
+                    width = PKUIHelper.mixWidth / 2
+                    height = PKUIHelper.mixHeight
                     // mStretchMode=QNRenderMode.
                 }
                 microphoneMergeOption = MicrophoneMergeOption().apply {
                     isNeed = true
                 }
             })
-            ops.add(QNMergeOption().apply {
+            ops.add(QMergeOption().apply {
                 uid = peer.userId
                 cameraMergeOption = CameraMergeOption().apply {
                     isNeed = true
-                    mX = PKUIHelper.mixWidth / 2
-                    mY = 0
-                    mZ = 0
-                    mWidth = PKUIHelper.mixWidth / 2
-                    mHeight = PKUIHelper.mixHeight
+                    x = PKUIHelper.mixWidth / 2
+                    y = 0
+                    z = 0
+                    width = PKUIHelper.mixWidth / 2
+                    height = PKUIHelper.mixHeight
                     // mStretchMode=QNRenderMode.
                 }
                 microphoneMergeOption = MicrophoneMergeOption().apply {
@@ -183,17 +184,17 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             return ops
         }
 
-        override fun onPKMixStreamStart(pkSession: QNPKSession): MixStreamParams {
-            return MixStreamParams().apply {
+        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
+            return QMixStreamParams().apply {
                 mixStreamWidth = PKUIHelper.mixWidth
                 mixStringHeight = PKUIHelper.mixHeight
                 mixBitrate = 1500 * 1000
-                fps = 25
+                FPS = 25
             }
         }
 
-        override fun onPKLinkerLeft(): MutableList<QNMergeOption> {
-            val ops = ArrayList<QNMergeOption>()
+        override fun onPKLinkerLeft(): MutableList<QMergeOption> {
+            val ops = ArrayList<QMergeOption>()
             client?.getService(QLinkMicService::class.java)
                 ?.allLinker?.let {
                     ops.addAll(LinkerUIHelper.getLinkers(it.map { it.user }, roomInfo!!))
@@ -207,24 +208,23 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
     private var localRenderView: View? = null
 
     //PK监听
-    private val mPKServiceListener = object : QNPKService.PKServiceListener {
+    private val mQPKServiceListener = object :
+        QPKServiceListener {
 
-        override fun onInitPKer(pkSession: QNPKSession) {}
-
-        override fun onStart(pkSession: QNPKSession) {
+        override fun onStart(pkSession: QPKSession) {
             val peer = if (pkSession.initiator.userId == user?.userId) {
                 pkSession.receiver
             } else {
                 pkSession.initiator
             }
-            localRenderView = (client as QPusherClient).localPreView as View
+            localRenderView = (client as QPusherClient).pushRenderView.getView()
             originPreViewParent = localRenderView!!.parent as ViewGroup
             originIndex = originPreViewParent?.indexOfChild(localRenderView) ?: 0
             originPreViewParent?.removeView(localRenderView)
             flMeContainer.addView(localRenderView)
             flPeerContainer.addView(
-                QNTextureView(context).apply {
-                    client?.getService(QNPKService::class.java)
+                QPushTextureView(context).apply {
+                    client?.getService(QPKService::class.java)
                         ?.setPeerAnchorPreView(peer.userId, this)
                 },
                 ViewGroup.LayoutParams(
@@ -234,7 +234,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             )
         }
 
-        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             flMeContainer.removeView(localRenderView)
             originPreViewParent?.addView(
                 localRenderView, originIndex, ViewGroup.LayoutParams(
@@ -245,8 +245,8 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             flPeerContainer.removeAllViews()
         }
 
-        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {}
+        override fun onStartTimeOut(pkSession: QPKSession) {}
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
     }
 
     override fun getLayoutId(): Int {
@@ -254,15 +254,15 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNPKService::class.java).addPKServiceListener(mPKServiceListener)
-        client!!.getService(QNPKService::class.java).setPKMixStreamAdapter(mPKMixStreamAdapter)
+        client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
+        client!!.getService(QPKService::class.java).setPKMixStreamAdapter(mQPKMixStreamAdapter)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QNPKService::class.java)?.removePKServiceListener(mPKServiceListener)
-            client?.getService(QNPKService::class.java)?.setPKMixStreamAdapter(null)
+            client?.getService(QPKService::class.java)?.removeServiceListener(mQPKServiceListener)
+            client?.getService(QPKService::class.java)?.setPKMixStreamAdapter(null)
         }
     }
 

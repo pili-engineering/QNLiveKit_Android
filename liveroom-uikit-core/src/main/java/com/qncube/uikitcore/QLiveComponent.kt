@@ -3,16 +3,16 @@ package com.qncube.uikitcore
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.liveroomcore.QClientLifeCycleListener
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 
 interface QLiveComponent : QComponent,
     QClientLifeCycleListener {
 
     var client: QLiveClient?
     var roomInfo: QLiveRoomInfo?
-    var user: QNLiveUser?
+    var user: QLiveUser?
 
     open fun attachLiveClient( client: QLiveClient) {
         this.client = client
@@ -27,7 +27,7 @@ interface QLiveComponent : QComponent,
         this.roomInfo = roomInfo
     }
 
-    override fun onEntering(roomId: String, user: QNLiveUser) {
+    override fun onEntering(roomId: String, user: QLiveUser) {
         this.user = user
     }
 

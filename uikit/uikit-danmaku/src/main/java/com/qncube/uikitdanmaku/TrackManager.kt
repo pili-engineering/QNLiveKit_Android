@@ -3,7 +3,7 @@ package com.qncube.uikitdanmaku
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.qncube.danmakuservice.DanmakuModel
+import com.qncube.danmakuservice.QDanmaku
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 open class TrackManager {
 
     private val trackViews = ArrayList<IDanmakuView>()
-    private val trackModeQueue = LinkedList<DanmakuModel>()
+    private val trackModeQueue = LinkedList<QDanmaku>()
 
     /**
      * 礼物轨道view
@@ -46,7 +46,7 @@ open class TrackManager {
         }
     }
 
-    private fun dealOne(trackMode: DanmakuModel): Boolean {
+    private fun dealOne(trackMode: QDanmaku): Boolean {
         var deal = false
         trackViews.forEach {
             if (it.isShow()) {
@@ -76,7 +76,7 @@ open class TrackManager {
     /**
      * 忘轨道上添加新礼物
      */
-    fun onNewTrackArrive(trackMode: DanmakuModel) {
+    fun onNewTrackArrive(trackMode: QDanmaku) {
         Log.d("TrackManager", "onNewTrackArrive")
         trackModeQueue.add(trackMode)
         checkNext()

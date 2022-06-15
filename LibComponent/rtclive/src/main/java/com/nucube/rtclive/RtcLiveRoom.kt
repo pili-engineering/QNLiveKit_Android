@@ -193,7 +193,6 @@ open class RtcLiveRoom(
                     ?: p0
             }
         })
-
     }
 
     //启动音频采集
@@ -209,15 +208,8 @@ open class RtcLiveRoom(
                     )
                 )
         )
-
         localAudioTrack?.setAudioFrameListener { p0, p1, p2, p3, p4 ->
-            mAudioFrameListener?.onAudioFrameAvailable(
-                p0,
-                p1,
-                p2,
-                p3,
-                p4
-            )
+            mAudioFrameListener?.onAudioFrameAvailable(p0, p1, p2, p3, p4)
         }
     }
 

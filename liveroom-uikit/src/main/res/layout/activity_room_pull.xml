@@ -5,34 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
+    android:id="@+id/container"
     tools:context=".RoomPushActivity">
 
-    <com.qncube.liveuikit.SlotWrapView
-        android:id="@+id/bgImgContainer"
+    <com.qncube.liveuikit.component.RoomBackGroundView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qncube.playerclient.QNPLPlayer
-        android:id="@+id/player"
+    <com.qncube.playerclient.QPlayerTextureRenderView
+        android:id="@+id/playerRenderView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qncube.liveuikit.SlotWrapView
-        android:id="@+id/flPkContainer"
+    <com.qncube.uikitpk.PKPreView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.qncube.uikitpk.PKCoverView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.qncube.liveuikit.SlotWrapView
-        android:id="@+id/linkerCotiner"
+    <com.qncube.uikitlinkmic.MicLinkersView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         tools:background="#99000000"
         tools:layout_width="100dp" />
 
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vpCover"
+    <com.qncube.liveuikit.component.RoomCoverViewPage
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

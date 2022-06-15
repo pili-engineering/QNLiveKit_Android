@@ -10,7 +10,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
     private var localVideoTrack: QNLocalVideoTrack? = null
     private var localAudioTrack: QNLocalAudioTrack? = null
 
-    var mMixStreamParams: MixStreamParams? = null
+    var mQMixStreamParams: QMixStreamParams? = null
         private set
     private val tracksMap = HashMap<String, TrackMergeOption>()
     private val toDoAudioMergeOptionsMap = HashMap<String, TrackMergeOption>()
@@ -36,9 +36,9 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         this.localAudioTrack = audioTrack
     }
 
-    fun init(streamId: String, pushUrl: String, mixStreamParams: MixStreamParams) {
+    fun init(streamId: String, pushUrl: String, QMixStreamParams: QMixStreamParams) {
         isInit = true
-        this.mMixStreamParams = mixStreamParams
+        this.mQMixStreamParams = QMixStreamParams
         this.pushUrl = pushUrl
         this.streamId = streamId
         mEngine.setLiveStreamingListener(object : QNLiveStreamingListener {
@@ -141,13 +141,13 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
             streamID = streamId; // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
-            width = mMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
-            height = mMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mMixStreamParams!!.fps; // 设置合流任务的视频帧率
+            width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
+            height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
+            videoFrameRate = mQMixStreamParams!!.FPS; // 设置合流任务的视频帧率
 //           setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
-            bitrate = mMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
-            mMixStreamParams!!.qnBackGround?.let { background = it }
-            mMixStreamParams?.watermarks?.let {
+            bitrate = mQMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
+            mQMixStreamParams!!.qnBackGround?.let { background = it }
+            mQMixStreamParams?.watermarks?.let {
                 watermarks = it;
             }
         }
@@ -226,7 +226,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
     /**
      * 启动新的混流任务
      */
-    fun startNewMixStreamJob(mixStreamParams: MixStreamParams) {
+    fun startNewMixStreamJob(QMixStreamParams: QMixStreamParams) {
         Log.d("MixStreamHelperImp", "startNewMixStreamJob ")
         clear()
         if (mQNForwardJob != null) {
@@ -241,13 +241,13 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
 
             Log.d("MixStreamHelperImp", "startNewMixStreamJob${url} ")
 
-            width = mixStreamParams.mixStreamWidth; // 设置合流画布的宽度
-            height = mixStreamParams.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mixStreamParams.fps; // 设置合流任务的视频帧率
+            width = QMixStreamParams.mixStreamWidth; // 设置合流画布的宽度
+            height = QMixStreamParams.mixStringHeight; // 设置合流画布的高度
+            videoFrameRate = QMixStreamParams.FPS; // 设置合流任务的视频帧率
 //           setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
-            bitrate = mixStreamParams.mixBitrate; // 设置合流任务的码率，单位: kbps
-            mixStreamParams.qnBackGround?.let { background = it }
-            mixStreamParams.watermarks?.let {
+            bitrate = QMixStreamParams.mixBitrate; // 设置合流任务的码率，单位: kbps
+            QMixStreamParams.qnBackGround?.let { background = it }
+            QMixStreamParams.watermarks?.let {
                 watermarks = it;
             }
         }
@@ -335,12 +335,12 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
                 if (op is CameraMergeOption) {
                     mMergeTrackOptions.add(QNTranscodingLiveStreamingTrack().apply {
                         trackID = key
-                        x = op.mX
-                        y = op.mY
-                        zOrder = op.mZ
-                        width = op.mWidth
-                        height = op.mHeight
-                        renderMode = op.mStretchMode
+                        x = op.x
+                        y = op.y
+                        zOrder = op.z
+                        width = op.width
+                        height = op.height
+                        renderMode = op.stretchMode
                     })
                 }
                 if (op is MicrophoneMergeOption) {

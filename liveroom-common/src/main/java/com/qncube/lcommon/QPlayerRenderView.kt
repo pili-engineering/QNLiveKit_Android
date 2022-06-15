@@ -1,11 +1,13 @@
 package com.qncube.lcommon
 
 import android.view.Surface
+import android.view.View
 
 
 interface QPlayerRenderView {
     fun setRenderCallback(rendCallback: QRenderCallback)
     fun setDisplayAspectRatio(previewMode: PreviewMode)
+    fun getView(): View;
 }
 
 interface QRenderCallback {

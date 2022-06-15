@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="liveroom-uikit/src/main/res/drawable/kit_shape_007aff_50.xml" value="0.1425" />
+        <entry key="liveroom-uikit/src/main/res/layout/activity_room_list.xml" value="0.16394927536231885" />
+        <entry key="liveroom-uikit/src/main/res/layout/activity_room_pull.xml" value="0.14311043566362716" />
         <entry key="liveroom-uikit/src/main/res/layout/activity_room_push.xml" value="0.17481884057971014" />
+        <entry key="liveroom-uikit/src/main/res/layout/kit_btn_create_room.xml" value="0.19972826086956522" />
+        <entry key="liveroom-uikit/src/main/res/layout/kit_fragment_cover.xml" value="0.13019250253292808" />
+        <entry key="liveroom-uikit/src/main/res/layout/kit_room_list_toobar.xml" value="0.3088851928710938" />
         <entry key="uikit/uikit-danmaku/src/main/res/layout/kit_view_send_danmaku.xml" value="0.21240942028985507" />
         <entry key="uikit/uikit-linkmic/main/res/layout/kit_item_linker.xml" value="0.1956521739130435" />
         <entry key="uikit/uikit-linkmic/src/main/res/drawable/kit_select_my_camare.xml" value="0.1255" />

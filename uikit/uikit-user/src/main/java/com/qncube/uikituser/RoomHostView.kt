@@ -3,8 +3,8 @@ package com.qncube.uikituser
 import android.content.Context
 import android.util.AttributeSet
 import com.bumptech.glide.Glide
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.ext.toHtml
 import kotlinx.android.synthetic.main.kit_view_room_host_slot.view.*
@@ -19,7 +19,7 @@ class RoomHostView : QBaseRoomFrameLayout {
         defStyleAttr
     )
     //房主头像点击事件回调 提供点击事件自定义回调
-    var mClickCallBack: (anchor: QNLiveUser) -> Unit = {
+    var mClickCallBack: (anchor: QLiveUser) -> Unit = {
 
     }
 
@@ -34,7 +34,7 @@ class RoomHostView : QBaseRoomFrameLayout {
      * 副标题自定义回调 默认房间ID
      */
     var showSubTitleCall: ((room: QLiveRoomInfo) -> String) = {
-        "<font color='#ffffff'>" + it.anchorInfo.nick + "</font>"
+        "<font color='#ffffff'>" + it.anchor.nick + "</font>"
     }
 
     override fun getLayoutId(): Int {
@@ -47,12 +47,12 @@ class RoomHostView : QBaseRoomFrameLayout {
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
         ivHost.setOnClickListener {
-            mClickCallBack(roomInfo.anchorInfo)
+            mClickCallBack(roomInfo.anchor)
         }
         tvTitle.text = showHostTitleCall.invoke(roomInfo).toHtml()
         tvSubTitle.text = showSubTitleCall.invoke(roomInfo).toHtml()
         Glide.with(context!!)
-            .load(roomInfo.anchorInfo.avatar)
+            .load(roomInfo.anchor.avatar)
             .into(ivHost)
     }
 

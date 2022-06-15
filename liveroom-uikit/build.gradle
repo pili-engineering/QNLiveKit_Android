@@ -6,11 +6,10 @@ plugins {
 }
 
 android {
-    compileSdk 32
-
+    compileSdkVersion depend.compileSdkVersion
     defaultConfig {
-        minSdk 21
-        targetSdk 32
+        minSdkVersion depend.minSdkVersion
+        targetSdkVersion depend.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -48,6 +47,8 @@ dependencies {
     api project(':uikit:uikit-livepreview')
     api project(':uikit:uikit-linkmic')
     api project(':uikit:uikit-pk')
+
+    implementation project(':linveroom-inner')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

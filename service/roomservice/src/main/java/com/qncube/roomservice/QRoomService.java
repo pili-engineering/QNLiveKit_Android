@@ -13,37 +13,28 @@ import java.util.List;
  */
 public interface QRoomService extends QLiveService {
 
-    public interface RoomServiceListener {
-        /**
-         * 直播间某个属性变化
-         *
-         * @param extension
-         */
-        void onRoomExtensions(Exception extension);
-    }
+    public void addRoomServiceListener(QRoomServiceListener listener);
 
-    public void addRoomServiceListener(RoomServiceListener listener);
-
-    public void removeRoomServiceListener(RoomServiceListener listener);
+    public void removeRoomServiceListener(QRoomServiceListener listener);
 
     /**
      * 获取当前房间
      *
      * @return
      */
-    public QLiveRoomInfo getCurrentRoomInfo();
+    public QLiveRoomInfo getRoomInfo();
 
     /**
      * 刷新房间信息
      */
-    public void refreshRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);
+    public void getRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);
 
     /**
      * 跟新直播扩展信息
      *
-     * @param QExtension
+     * @param extension
      */
-    public void updateRoomExtension(QExtension QExtension, QLiveCallBack<Void> callBack);
+    public void updateExtension(QExtension extension, QLiveCallBack<Void> callBack);
 
 
     /**

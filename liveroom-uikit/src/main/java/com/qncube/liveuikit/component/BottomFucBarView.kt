@@ -3,10 +3,12 @@ package com.qncube.liveuikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.QClientType
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.liveroomcore.asToast
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.QPlayerClient
+import com.qncube.liveroomcore.QPusherClient
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveuikit.R
 import com.qncube.publicchatservice.QPublicChatService
 import com.qncube.uikitcore.QBaseRoomFrameLayout
@@ -99,7 +101,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
                 client?.getService(QPublicChatService::class.java)
                     ?.sendByeBye("离开了房间", null)
 
-                client?.leaveRoom(object :
+                val call = object :
                     QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
                         LoadingDialog.cancelLoadingDialog()
@@ -108,10 +110,15 @@ class BottomFucBarView : QBaseRoomLinearLayout {
 
                     override fun onSuccess(data: Void?) {
                         LoadingDialog.cancelLoadingDialog()
-                        client?.closeRoom()
+                        client?.destroy()
                         kitContext?.currentActivity?.finish()
                     }
-                })
+                }
+                if(client?.clientType == QClientType.PLAYER){
+                    ( client as QPlayerClient?)?.leaveRoom(call)
+                }else{
+                    ( client as QPusherClient?)?.closeRoom(call)
+                }
             }
         }
 

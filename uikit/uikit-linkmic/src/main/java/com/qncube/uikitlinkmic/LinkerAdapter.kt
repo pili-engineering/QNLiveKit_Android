@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qncube.liveroomcore.been.QNMicLinker
+import com.qncube.liveroomcore.been.QMicLinker
 import com.qncube.uikitcore.LinkerUIHelper
 import kotlinx.android.synthetic.main.kit_item_linker.view.*
 
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.kit_item_linker.view.*
  *麦位item
  */
 class LinkerAdapter() :
-    BaseQuickAdapter<QNMicLinker, BaseViewHolder>(R.layout.kit_item_linker, ArrayList()) {
+    BaseQuickAdapter<QMicLinker, BaseViewHolder>(R.layout.kit_item_linker, ArrayList()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val helper = super.onCreateViewHolder(parent, viewType)
@@ -35,7 +35,7 @@ class LinkerAdapter() :
         return helper
     }
 
-    override fun convert(helper: BaseViewHolder, item: QNMicLinker) {
+    override fun convert(helper: BaseViewHolder, item: QMicLinker) {
 
         if (!item.isOpenCamera) {
             //没有摄像头

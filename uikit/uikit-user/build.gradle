@@ -35,6 +35,8 @@ dependencies {
     api project(':liveroom-core')
     api project(':liveroom-uikit-core')
     api project(':service:chatservice')
+    implementation project(path: ':linveroom-inner')
+    implementation project(path: ':service:roomservice')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

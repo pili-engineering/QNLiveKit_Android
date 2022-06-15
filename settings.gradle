@@ -11,8 +11,7 @@ include ':liveroom-uikit'
 include ':linveroom-inner'
 include ':liveroom-common'
 
-include ':LibComponent:rtcexcepion'
-include ':LibComponent:comp_http'
+
 include ':LibComponent:rtclive'
 
 include ':service:linkmicservice'
@@ -39,3 +38,4 @@ include ':LibComponent:sdk_qnim'
 include ':LibComponent:comp_imadapter'
 
 
+include ':qlivesdk'

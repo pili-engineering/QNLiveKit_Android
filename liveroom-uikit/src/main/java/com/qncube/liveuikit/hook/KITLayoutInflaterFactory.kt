@@ -7,8 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QComponent
 import com.qncube.uikitcore.QLiveComponent
@@ -16,7 +16,7 @@ import com.qncube.uikitcore.QLiveComponent
 
 class KITLayoutInflaterFactory(
     private val appDelegate: AppCompatDelegate,
-    private val roomClient: QLiveClient,
+    private val roomClient: QLiveClient?,
     private val kitContext: KitContext
 ) : LayoutInflater.Factory2, QClientLifeCycleListener {
 
@@ -43,7 +43,7 @@ class KITLayoutInflaterFactory(
             view.attachKitContext(kitContext)
             kitContext.lifecycleOwner.lifecycle.addObserver(view)
         }
-        if (view is QLiveComponent) {
+        if (view is QLiveComponent && roomClient!=null)  {
             view.attachLiveClient(roomClient)
             mComponents.add(view)
         }
@@ -55,7 +55,7 @@ class KITLayoutInflaterFactory(
     }
 
 
-    override fun onEntering(liveId: String, user: QNLiveUser) {
+    override fun onEntering(liveId: String, user: QLiveUser) {
         mComponents.forEach {
             it.onEntering(liveId, user)
         }

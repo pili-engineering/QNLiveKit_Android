@@ -6,7 +6,7 @@ import com.niucube.rtm.leaveChannel
 import com.qncube.lcommon.IPlayer
 import com.qncube.lcommon.QPlayerEventListener
 import com.qncube.lcommon.QPlayerRenderView
-import com.qncube.lcommon.QRenderView
+import com.qncube.linveroominner.AppCache
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.QClientType
 import com.qncube.linveroominner.backGround
@@ -15,13 +15,17 @@ import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.roomservice.QRoomService
 
 class QPlayerClientImpl : QPlayerClient {
-
+    companion object {
+        fun create():QPlayerClient{
+            return QPlayerClientImpl()
+        }
+    }
     private val mRoomSource = com.qncube.linveroominner.RoomDataSource()
     private var renderView: QPlayerRenderView? = null
     private var mLiveStatusListener: QLiveStatusListener? = null
     private val mQNLiveRoomContext by lazy { com.qncube.linveroominner.QNLiveRoomContext(this) }
 
-    private val mPLEngine by lazy { PLEngine(com.qncube.linveroominner.AppCache.appContext) }
+    private val mPLEngine by lazy { PLEngine(AppCache.appContext) }
 
     //反射字段
     private var player: IPlayer? = null
@@ -64,7 +68,7 @@ class QPlayerClientImpl : QPlayerClient {
                 }
                 mQNLiveRoomContext.joinedRoom(roomInfo)
                 mPLEngine.setUp(roomInfo.rtmpUrl, null)
-                if (renderView != null && getService(QRoomService::class.java)?.currentRoomInfo != null) {
+                if (renderView != null && getService(QRoomService::class.java)?.roomInfo != null) {
                     mPLEngine.start()
                 }
                 callBack?.onSuccess(roomInfo)
@@ -105,13 +109,17 @@ class QPlayerClientImpl : QPlayerClient {
     override fun play(renderView: QPlayerRenderView) {
         this.renderView = renderView
         mPLEngine.setPlayerRenderView(renderView)
-        if (getService(QRoomService::class.java)?.currentRoomInfo != null) {
+        if (getService(QRoomService::class.java)?.roomInfo != null) {
             mPLEngine.start()
         }
     }
 
     override fun setPlayerEventListener(playerEventListener: QPlayerEventListener) {
         mPLEngine.setPlayerEventListener(playerEventListener)
+    }
+
+    override fun getPlayerRenderView(): QPlayerRenderView? {
+        return renderView
     }
 
     override fun getClientType(): QClientType {

@@ -2,13 +2,13 @@ package com.qncube.uikitlinkmic
 
 import androidx.fragment.app.DialogFragment
 import com.qncube.liveroomcore.been.QInvitation
-import com.qncube.linkmicservice.QNLinkMicInvitationHandler
 import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.linveroominner.asToast
+import com.qncube.liveroomcore.QInvitationHandlerListener
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.liveroomcore.asToast
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QLiveComponent
 import com.qncube.uikitcore.dialog.CommonTipDialog
@@ -21,10 +21,10 @@ class ShowLinkMicApplyComponent : QLiveComponent {
 
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
-    override var user: QNLiveUser? = null
+    override var user: QLiveUser? = null
     override var kitContext: KitContext? = null
 
-    private val mInvitationListener = object : QNLinkMicInvitationHandler.InvitationListener {
+    private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
             CommonTipDialog.TipBuild()
                 .setTittle("连麦申请")
@@ -35,7 +35,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
                     override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {
                         super.onDialogPositiveClick(dialog, any)
                         client!!.getService(QLinkMicService::class.java)
-                            .linkMicInvitationHandler.accept(qInvitation.invitationId, null,
+                            .invitationHandler.accept(qInvitation.invitationID, null,
                                 object :
                                     QLiveCallBack<Void> {
                                     override fun onError(code: Int, msg: String?) {
@@ -50,7 +50,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
                     override fun onDialogNegativeClick(dialog: DialogFragment, any: Any) {
                         super.onDialogNegativeClick(dialog, any)
                         client!!.getService(QLinkMicService::class.java)
-                            .linkMicInvitationHandler.reject(qInvitation.invitationId, null,
+                            .invitationHandler.reject(qInvitation.invitationID, null,
                                 object :
                                     QLiveCallBack<Void> {
                                     override fun onError(code: Int, msg: String?) {
@@ -74,7 +74,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
 
     override fun attachKitContext(context: KitContext) {
         super.attachKitContext(context)
-        client?.getService(QLinkMicService::class.java)?.linkMicInvitationHandler?.addInvitationLister(
+        client?.getService(QLinkMicService::class.java)?.invitationHandler?.addInvitationHandlerListener(
             mInvitationListener
         )
     }

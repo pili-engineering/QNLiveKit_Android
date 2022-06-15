@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
-import com.qncube.danmakuservice.DanmakuModel
+import com.qncube.danmakuservice.QDanmaku
 import kotlinx.android.synthetic.main.kit_item_danmu.view.*
 
 
@@ -24,12 +24,12 @@ interface IDanmakuView {
     /**
      * 是不是同一个轨道上的
      */
-    fun showInSameTrack(danmakuModel: DanmakuModel): Boolean
+    fun showInSameTrack(QDanmaku: QDanmaku): Boolean
 
     /**
      * 显示礼物
      */
-    fun onNewModel(danmakuModel: DanmakuModel)
+    fun onNewModel(QDanmaku: QDanmaku)
 
     /**
      * 是不是忙碌
@@ -94,10 +94,10 @@ class DanmuItemView : FrameLayout,IDanmuItemView {
         transX
     }
 
-    private var danmuke: DanmakuModel? = null
+    private var danmuke: QDanmaku? = null
     private var parentWidth: Int = 0
 
-    fun setDamukeAniml(danmuke: DanmakuModel, parentWidth: Int) {
+    fun setDamukeAniml(danmuke: QDanmaku, parentWidth: Int) {
         this.danmuke = danmuke
         this.parentWidth = parentWidth
         translationX = parentWidth.toFloat()
@@ -139,13 +139,13 @@ class DanmuTrackView : FrameLayout, IDanmakuView {
     private var mDanmuItemViews = ArrayList<IDanmuItemView>()
     override var finishedCall: (() -> Unit)? = {}
 
-    override fun showInSameTrack(trackMode: DanmakuModel): Boolean {
+    override fun showInSameTrack(trackMode: QDanmaku): Boolean {
         return false
     }
 
     private var nextAble = true;
 
-    override fun onNewModel(mode: DanmakuModel) {
+    override fun onNewModel(mode: QDanmaku) {
         val mDanmuItemView =
             LayoutInflater.from(context).inflate(R.layout.kit_view_danmu, this, false) as DanmuItemView
         mDanmuItemViews.add(mDanmuItemView)

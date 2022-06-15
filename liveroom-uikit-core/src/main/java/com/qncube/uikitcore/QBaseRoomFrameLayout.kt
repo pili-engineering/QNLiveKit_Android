@@ -7,13 +7,13 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 
 abstract class QBaseRoomFrameLayout : FrameLayout, QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
-    override var user: QNLiveUser? = null
+    override var user: QLiveUser? = null
     override var kitContext: KitContext? = null
 
     constructor(context: Context) : this(context, null)
@@ -42,7 +42,7 @@ abstract class QBaseRoomFrameLayout : FrameLayout, QLiveComponent {
 abstract class QBaseRoomLinearLayout : LinearLayout, QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
-    override var user: QNLiveUser? = null
+    override var user: QLiveUser? = null
     override var kitContext: KitContext? = null
 
     constructor(context: Context) : this(context, null)

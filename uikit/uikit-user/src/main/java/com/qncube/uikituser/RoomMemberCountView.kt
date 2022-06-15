@@ -4,8 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import com.qncube.chatservice.QChatRoomService
 import com.qncube.chatservice.QChatRoomServiceListener
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.linveroominner.Scheduler
+import com.qncube.chatservice.QChatRoomServiceImpl
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import kotlinx.android.synthetic.main.kit_view_room_member_count.view.*
 
@@ -21,15 +22,15 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
   //  private val mRoomDaraSource = RoomDataSource()
     private val mChatRoomServiceListener = object :
       QChatRoomServiceListener {
-        override fun onUserJoin(memberId: String) {
+        override fun onUserJoin(memberID: String) {
             refresh(true)
         }
 
-        override fun onUserLevel(memberId: String) {
+        override fun onUserLeft(memberID: String) {
             refresh(true)
         }
 
-        override fun onUserBeKicked(memberId: String) {
+        override fun onUserKicked(memberID: String) {
             refresh(false)
         }
     }
@@ -65,17 +66,17 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
     }
 
     private val mScheduler = com.qncube.linveroominner.Scheduler(15000) {
-//        if (roomInfo == null) {
-//            return@Scheduler
-//        }
-//        try {
-//            val room = client?.getService(Rooms).refreshRoomInfo(roomInfo!!.liveId)
-//            tvCount.text = room.onlineCount.toString()
-//            checkTextSize()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-        // todo
+        if (roomInfo == null) {
+            return@Scheduler
+        }
+        try {
+            val room = client?.getService(QRoomService::class.java)?.getRoomInfo()?:return@Scheduler
+            tvCount.text = room.onlineCount.toString()
+            checkTextSize()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
 

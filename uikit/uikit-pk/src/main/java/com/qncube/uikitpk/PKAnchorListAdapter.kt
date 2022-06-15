@@ -3,21 +3,18 @@ package com.qncube.uikitpk
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import kotlinx.android.synthetic.main.kit_item_pkable.view.*
 
 class PKAnchorListAdapter :
     BaseQuickAdapter<QLiveRoomInfo, BaseViewHolder>(R.layout.kit_item_pkable, ArrayList()) {
-
     var inviteCall: (room: QLiveRoomInfo) -> Unit = {
     }
-
     override fun convert(helper: BaseViewHolder, item: QLiveRoomInfo) {
-
-        Glide.with(mContext).load(item.anchorInfo.avatar)
+        Glide.with(mContext).load(item.anchor.avatar)
             .into(helper.itemView.ivAvatar)
         helper.itemView.tvRoomName.text = item.title
-        helper.itemView.tvAnchorName.text = item.anchorInfo.nick
+        helper.itemView.tvAnchorName.text = item.anchor.nick
         helper.itemView.ivInvite.setOnClickListener {
             inviteCall.invoke(item)
         }

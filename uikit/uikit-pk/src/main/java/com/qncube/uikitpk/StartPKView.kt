@@ -4,14 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import com.qbcube.pkservice.PKInvitation
-import com.qbcube.pkservice.QNPKInvitationHandler
-import com.qbcube.pkservice.QNPKService
-import com.qbcube.pkservice.QNPKSession
-import com.qncube.liveroomcore.mode.Extension
+import com.qbcube.pkservice.*
+import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.*
+import com.qncube.liveroomcore.been.QExtension
+import com.qncube.liveroomcore.been.QInvitation
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.dialog.FinalDialogFragment
@@ -30,55 +27,56 @@ class StartPKView : QBaseRoomFrameLayout {
     )
 
     private var showingPKListDialog: PKAbleListDialog? = null
-    private var mPkSession: QNPKSession? = null
+    private var mPkSession: QPKSession? = null
 
-    private val mPKServiceListener = object : QNPKService.PKServiceListener {
-        override fun onInitPKer(pkSession: QNPKSession) {}
-        override fun onStart(pkSession: QNPKSession) {
+    private val mQPKServiceListener = object :
+        QPKServiceListener {
+
+        override fun onStart(pkSession: QPKSession) {
             llStartPK.visibility = View.GONE
             tvStopPK.visibility = View.VISIBLE
             mPkSession = pkSession
         }
 
-        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             llStartPK.visibility = View.VISIBLE
             tvStopPK.visibility = View.GONE
             mPkSession = null
         }
 
-        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
+        override fun onStartTimeOut(pkSession: QPKSession) {
             "等待主播 ${pkSession.receiver.nick} 推流超时".asToast()
         }
 
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {}
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
     }
 
-    private val mPKInvitationListener = object : QNPKInvitationHandler.PKInvitationListener {
-        override fun onReceivedApply(pkInvitation: PKInvitation) {}
-        override fun onApplyCanceled(pkInvitation: PKInvitation) {}
-        override fun onApplyTimeOut(pkInvitation: PKInvitation) {
+    private val mPKInvitationListener = object : QInvitationHandlerListener {
+        override fun onReceivedApply(invitation: QInvitation) {}
+        override fun onApplyCanceled(invitation: QInvitation) {}
+        override fun onApplyTimeOut(invitation: QInvitation) {
             LoadingDialog.cancelLoadingDialog()
-            "邀请主播 ${pkInvitation.receiver.nick} 超时".asToast()
+            "邀请主播 ${invitation.receiver.nick} 超时".asToast()
         }
 
-        override fun onAccept(pkInvitation: PKInvitation) {
+        override fun onAccept(invitation: QInvitation) {
             LoadingDialog.cancelLoadingDialog()
-            "主播 ${pkInvitation.receiver.nick} 接受".asToast()
-            client?.getService(QNPKService::class.java)?.start(20 * 1000,
-                pkInvitation.receiverRoomId, pkInvitation.receiver.userId, null,
-                object : QLiveCallBack<QNPKSession> {
+            "主播 ${invitation.receiver.nick} 接受".asToast()
+            client?.getService(QPKService::class.java)?.start(20 * 1000,
+                invitation.receiverRoomID, invitation.receiver.userId, null,
+                object : QLiveCallBack<QPKSession> {
                     override fun onError(code: Int, msg: String) {
                         "开始pk失败 ${msg.asToast()}"
                     }
 
-                    override fun onSuccess(data: QNPKSession) {}
+                    override fun onSuccess(data: QPKSession) {}
                 })
             showingPKListDialog?.dismiss()
             showingPKListDialog = null
         }
 
-        override fun onReject(pkInvitation: PKInvitation) {
-            "主播 ${pkInvitation.receiver.nick} 拒绝".asToast()
+        override fun onReject(invitation: QInvitation) {
+            "主播 ${invitation.receiver.nick} 拒绝".asToast()
             LoadingDialog.cancelLoadingDialog()
         }
     }
@@ -88,14 +86,14 @@ class StartPKView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client!!.getService(QNPKService::class.java).addPKServiceListener(mPKServiceListener)
-        client!!.getService(QNPKService::class.java).pkInvitationHandler.addPKInvitationListener(
+        client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
+        client!!.getService(QPKService::class.java).invitationHandler.addInvitationHandlerListener(
             mPKInvitationListener
         )
 
         flPkBtn.setDoubleCheckClickListener {
             if (mPkSession != null) {
-                client?.getService(QNPKService::class.java)?.stop(object :
+                client?.getService(QPKService::class.java)?.stop(object :
                     QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
@@ -122,28 +120,19 @@ class StartPKView : QBaseRoomFrameLayout {
     }
 
     private fun showInvite(room: QLiveRoomInfo) {
-        client!!.getService(QNPKService::class.java)
-            .pkInvitationHandler
-            .applyJoin(10 * 1000, room.liveId, room.anchorInfo.userId, null,
-                object : QLiveCallBack<PKInvitation> {
+        client!!.getService(QPKService::class.java)
+            .invitationHandler
+            .apply(10 * 1000, room.liveId, room.anchor.userId, null,
+                object : QLiveCallBack<QInvitation> {
                     override fun onError(code: Int, msg: String?) {
                         "邀请失败${msg}".asToast()
                     }
 
-                    override fun onSuccess(data: PKInvitation) {
+                    override fun onSuccess(data: QInvitation) {
                         "等待对方接受".asToast()
                         LoadingDialog.showLoading(kitContext!!.fm)
                     }
                 })
     }
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QNPKService::class.java)?.removePKServiceListener(mPKServiceListener)
-            client?.getService(QNPKService::class.java)?.pkInvitationHandler?.removePKInvitationListener(
-                mPKInvitationListener
-            )
-        }
-    }
 }

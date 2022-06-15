@@ -1,47 +1,47 @@
 package com.qncube.linveroominner
 
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
-import com.nucube.http.OKHttpService
+import com.qncube.linveroominner.http.OKHttpService
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.been.QExtension
-import com.qncube.liveroomcore.been.QNMicLinker
+import com.qncube.liveroomcore.been.QMicLinker
 
 import org.json.JSONObject
 
 class LinkDateSource {
 
-    suspend fun getMicList(liveId: String): List<QNMicLinker> {
+    suspend fun getMicList(liveId: String): List<QMicLinker> {
         val p = ParameterizedTypeImpl(
-            arrayOf(QNMicLinker::class.java),
+            arrayOf(QMicLinker::class.java),
             List::class.java,
             List::class.java
         )
-        val resp: List<QNMicLinker> = OKHttpService.get(
+        val resp: List<QMicLinker> = OKHttpService.get(
             "/client/mic/room/list/${liveId}",
             null, null, p
         )
         return resp
     }
 
-    suspend fun upMic(linker: QNMicLinker): TokenData {
+    suspend fun upMic(linker: QMicLinker): TokenData {
         return OKHttpService.post("/client/mic/", JsonUtils.toJson(linker), TokenData::class.java)
     }
 
-    suspend fun downMic(linker: QNMicLinker) {
+    suspend fun downMic(linker: QMicLinker) {
         OKHttpService.delete("/client/mic/", JsonUtils.toJson(linker), Any::class.java)
     }
 
-    suspend fun updateExt(linker: QNMicLinker, extension: QExtension) {
+    suspend fun updateExt(linker: QMicLinker, extension: QExtension) {
         val jsonObj = JSONObject()
-        jsonObj.put("live_id", linker.userRoomId)
+        jsonObj.put("live_id", linker.userRoomID)
         jsonObj.put("user_id", linker.user.userId)
         jsonObj.put("extends", extension)
         OKHttpService.put("/client/mic/room/", jsonObj.toString(), Any::class.java)
     }
 
-    suspend fun switch(linker: QNMicLinker, isMic: Boolean, isOpen: Boolean) {
+    suspend fun switch(linker: QMicLinker, isMic: Boolean, isOpen: Boolean) {
         val jsonObj = JSONObject()
-        jsonObj.put("live_id", linker.userRoomId)
+        jsonObj.put("live_id", linker.userRoomID)
         jsonObj.put("user_id", linker.user.userId)
         jsonObj.put(
             "type", if (isMic) {

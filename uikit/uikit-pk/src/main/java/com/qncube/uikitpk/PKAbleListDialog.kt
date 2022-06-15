@@ -3,8 +3,7 @@ package com.qncube.uikitpk
 import android.graphics.Color
 import android.view.Gravity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.qncube.linveroominner.RoomDataSource
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.ext.ViewUtil
 import com.qncube.uikitcore.ext.bg
@@ -23,7 +22,6 @@ class PKAbleListDialog() : FinalDialogFragment() {
 
     private val mRoomDataSource = com.qncube.linveroominner.RoomDataSource()
     private val mAdapter = PKAnchorListAdapter()
-
 
     fun setInviteCall(inviteCall: (room: QLiveRoomInfo) -> Unit) {
         mAdapter.inviteCall = inviteCall

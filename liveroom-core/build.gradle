@@ -31,6 +31,7 @@ android {
 dependencies {
 
     api project(':liveroom-common')
+    implementation project(':LibComponent:comp_rtm')
     implementation project(':LibComponent:lib_json')
 
     testImplementation 'junit:junit:4.13.2'

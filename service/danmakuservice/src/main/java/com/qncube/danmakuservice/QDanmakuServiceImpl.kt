@@ -8,11 +8,11 @@ import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.QLiveClient
 
 class QDanmakuServiceImpl : QDanmakuService, BaseService() {
-    private val mDanmakuServiceListeners = ArrayList<QDanmakuService.QNDanmakuServiceListener>()
+    private val mDanmakuServiceListeners = ArrayList<QDanmakuServiceListener>()
     private val rtmMsgListener = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
-            if (msg.optAction() == DanmakuModel.action_danmu) {
-                val mode = JsonUtils.parseObject(msg.optData(), DanmakuModel::class.java) ?: return true
+        override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
+            if (msg.optAction() == QDanmaku.action_danmu) {
+                val mode = JsonUtils.parseObject(msg.optData(), QDanmaku::class.java) ?: return true
                 mDanmakuServiceListeners.forEach {
                     it.onReceiveDanmaku(mode)
                 }
@@ -32,11 +32,11 @@ class QDanmakuServiceImpl : QDanmakuService, BaseService() {
         RtmManager.removeRtmChannelListener(rtmMsgListener)
     }
 
-    override fun addDanmakuServiceListener(listener: QDanmakuService.QNDanmakuServiceListener) {
+    override fun addDanmakuServiceListener(listener:QDanmakuServiceListener) {
         mDanmakuServiceListeners.add(listener)
     }
 
-    override fun removeDanmakuServiceListener(listener: QDanmakuService.QNDanmakuServiceListener) {
+    override fun removeDanmakuServiceListener(listener:QDanmakuServiceListener) {
         mDanmakuServiceListeners.remove(listener)
     }
 
@@ -46,19 +46,19 @@ class QDanmakuServiceImpl : QDanmakuService, BaseService() {
     override fun sendDanmaku(
         msg: String,
         extensions: HashMap<String, String>?,
-        callBack: QLiveCallBack<DanmakuModel>?
+        callBack: QLiveCallBack<QDanmaku>?
     ) {
-        val mode = DanmakuModel().apply {
+        val mode = QDanmaku().apply {
             sendUser = user
             content = msg
-            senderRoomId = roomInfo?.liveId
-            this.extensions = extensions
+            senderRoomID = currentRoomInfo?.liveId
+            this.extension = extensions
         }
-        val rtmMsg = RtmTextMsg<DanmakuModel>(
-            DanmakuModel.action_danmu,
+        val rtmMsg = RtmTextMsg<QDanmaku>(
+            QDanmaku.action_danmu,
             mode
         )
-        RtmManager.rtmClient.sendChannelMsg(rtmMsg.toJsonString(), roomInfo?.chatId ?: "", true,
+        RtmManager.rtmClient.sendChannelMsg(rtmMsg.toJsonString(), currentRoomInfo?.chatId ?: "", true,
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack?.onSuccess(mode)

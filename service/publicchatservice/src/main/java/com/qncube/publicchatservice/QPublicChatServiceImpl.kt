@@ -10,19 +10,19 @@ import java.util.*
 
 class QPublicChatServiceImpl : QPublicChatService, BaseService() {
 
-    private val mListeners = LinkedList<QPublicChatService.QNPublicChatServiceLister>()
+    private val mListeners = LinkedList<QPublicChatServiceLister>()
 
     private val mRtmMsgListener = object : RtmMsgListener {
 
-        override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
+        override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
             if (
-                msg.optAction() == PubChatModel.action_welcome ||
-                msg.optAction() == PubChatModel.action_bye ||
-                msg.optAction() == PubChatModel.action_like ||
-                msg.optAction() == PubChatModel.action_puchat ||
-                msg.optAction() == PubChatModel.action_pubchat_custom
+                msg.optAction() == QPublicChat.action_welcome ||
+                msg.optAction() == QPublicChat.action_bye ||
+                msg.optAction() == QPublicChat.action_like ||
+                msg.optAction() == QPublicChat.action_puchat ||
+                msg.optAction() == QPublicChat.action_pubchat_custom
             ) {
-                val mode = JsonUtils.parseObject(msg.optData(), PubChatModel::class.java)
+                val mode = JsonUtils.parseObject(msg.optData(), QPublicChat::class.java)
                 mListeners.forEach {
                     it.onReceivePublicChat(mode)
                 }
@@ -42,11 +42,11 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
         RtmManager.removeRtmChannelListener(mRtmMsgListener)
     }
 
-    private fun sendModel(model: PubChatModel, callBack: QLiveCallBack<PubChatModel>?) {
+    private fun sendModel(model: QPublicChat, callBack: QLiveCallBack<QPublicChat>?) {
         val msg = RtmTextMsg(model.action, model).toJsonString()
         RtmManager.rtmClient.sendChannelMsg(
             msg,
-            roomInfo?.chatId ?: "",
+            currentRoomInfo?.chatId ?: "",
             true,
             object : RtmCallBack {
                 override fun onSuccess() {
@@ -63,12 +63,12 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
      * 发送 聊天室聊天
      * @param msg
      */
-    override fun sendPublicChat(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
-        sendModel(PubChatModel().apply {
-            action = PubChatModel.action_puchat
+    override fun sendPublicChat(msg: String, callBack: QLiveCallBack<QPublicChat>?) {
+        sendModel(QPublicChat().apply {
+            action = QPublicChat.action_puchat
             sendUser = user
             content = msg
-            senderRoomId = roomInfo?.liveId
+            senderRoomId = currentRoomInfo?.liveId
         }, callBack)
     }
 
@@ -77,12 +77,12 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
      *
      * @param msg
      */
-    override fun sendWelCome(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
-        sendModel(PubChatModel().apply {
-            action = PubChatModel.action_welcome
+    override fun sendWelCome(msg: String, callBack: QLiveCallBack<QPublicChat>?) {
+        sendModel(QPublicChat().apply {
+            action = QPublicChat.action_welcome
             sendUser = user
             content = msg
-            senderRoomId = roomInfo?.liveId
+            senderRoomId = currentRoomInfo?.liveId
         }, callBack)
     }
 
@@ -91,12 +91,12 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
      *
      * @param msg
      */
-    override fun sendByeBye(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
-        sendModel(PubChatModel().apply {
-            action = PubChatModel.action_bye
+    override fun sendByeBye(msg: String, callBack: QLiveCallBack<QPublicChat>?) {
+        sendModel(QPublicChat().apply {
+            action = QPublicChat.action_bye
             sendUser = user
             content = msg
-            senderRoomId = roomInfo?.liveId
+            senderRoomId = currentRoomInfo?.liveId
         }, callBack)
     }
 
@@ -106,12 +106,12 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
      * @param msg
      * @param callBack
      */
-    override fun sendLike(msg: String, callBack: QLiveCallBack<PubChatModel>?) {
-        sendModel(PubChatModel().apply {
-            action = PubChatModel.action_like
+    override fun sendLike(msg: String, callBack: QLiveCallBack<QPublicChat>?) {
+        sendModel(QPublicChat().apply {
+            action = QPublicChat.action_like
             sendUser = user
             content = msg
-            senderRoomId = roomInfo?.liveId
+            senderRoomId = currentRoomInfo?.liveId
         }, callBack)
     }
 
@@ -126,22 +126,22 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
     override fun sendCustomPubChat(
         act: String,
         msg: String,
-        callBack: QLiveCallBack<PubChatModel>?
+        callBack: QLiveCallBack<QPublicChat>?
     ) {
-        val mode = PubChatModel().apply {
+        val mode = QPublicChat().apply {
             action = act
             sendUser = user
             content = msg
-            senderRoomId = roomInfo?.liveId
+            senderRoomId = currentRoomInfo?.liveId
         }
 
         val rtmmsg = RtmTextMsg(
-            PubChatModel.action_pubchat_custom,
+            QPublicChat.action_pubchat_custom,
             mode
         ).toJsonString()
         RtmManager.rtmClient.sendChannelMsg(
             rtmmsg,
-            roomInfo?.chatId ?: "",
+            currentRoomInfo?.chatId ?: "",
             false,
             object : RtmCallBack {
                 override fun onSuccess() {
@@ -157,17 +157,17 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
     /**
      * 往本地公屏插入消息 不发送到远端
      */
-    override fun pubLocalMsg(chatModel: PubChatModel) {
+    override fun pubMsgToLocal(chatModel: QPublicChat) {
         mListeners.forEach {
             it.onReceivePublicChat(chatModel)
         }
     }
 
-    override fun addPublicChatServiceLister(lister: QPublicChatService.QNPublicChatServiceLister) {
+    override fun addServiceLister(lister: QPublicChatServiceLister) {
         mListeners.add(lister)
     }
 
-    override fun removePublicChatServiceLister(lister: QPublicChatService.QNPublicChatServiceLister) {
+    override fun removeServiceLister(lister: QPublicChatServiceLister) {
         mListeners.remove(lister)
     }
 

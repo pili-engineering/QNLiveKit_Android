@@ -1,6 +1,7 @@
 package com.qncube.liveuikit
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,32 +16,29 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.qncube.lcommon.QCameraParam
 import com.qncube.lcommon.QMicrophoneParam
-import com.qbcube.pkservice.QNPKService
-import com.qiniu.droid.rtc.QNConnectionState
-import com.qncube.chatservice.QChatRoomService
-import com.qncube.danmakuservice.QDanmakuService
-import com.qncube.linkmicservice.QLinkMicService
+import com.qncube.kitlivepre.BaseLivePreView
+import com.qncube.lcommon.RtcException
+import com.qncube.linveroominner.QLiveDelegate
+import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.QNLiveLogUtil
-import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
-import com.qncube.publicchatservice.QPublicChatService
-import com.qncube.liveroomcore.QPusherClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
-import com.qncube.pushclient.QNPushClientListener
 import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
+import com.qncube.uikitcore.dialog.LoadingDialog
+import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.ext.permission.PermissionAnywhere
-import com.qncube.uikitcore.view.CommonPagerAdapter
-import com.qncube.uikitcore.view.EmptyFragment
 import kotlinx.android.synthetic.main.activity_room_push.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class RoomPushActivity : BaseFrameActivity() {
-
     private var roomId = ""
 
     companion object {
+        var replaceLayoutId = -1
         private var startCallBack: QLiveCallBack<QLiveRoomInfo>? = null
 
         fun start(
@@ -65,49 +63,7 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     private val mRoomClient by lazy {
-        QPusherClient.createLivePushClient().apply {
-            registerService(
-                QChatRoomService::class.java,
-            )
-            registerService(
-                QNPKService::class.java,
-            )
-            registerService(
-                QLinkMicService::class.java,
-            )
-            registerService(
-                QDanmakuService::class.java,
-            )
-            registerService(
-                QPublicChatService::class.java,
-            )
-            registerService(
-                QRoomService::class.java
-            )
-            setPushClientListener(object : QNPushClientListener {
-                override fun onConnectionStateChanged(state: QNConnectionState?, msg: String?) {
-
-                }
-
-                override fun onRoomStatusChange(liveRoomStatus: QLiveStatus, msg: String?) {
-                    QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
-                }
-
-                override fun onCameraStatusChange(isOpen: Boolean) {
-
-                }
-
-                override fun onMicrophoneStatusChange(isOpen: Boolean) {
-
-                }
-            })
-        }
-    }
-
-    private val fragments by lazy {
-        listOf(EmptyFragment(), CoverFragment().apply {
-            mClient = mRoomClient
-        })
+        QLiveDelegate.qLiveSdk.createPusherClientCall()
     }
 
     private val mKitContext by lazy {
@@ -119,22 +75,33 @@ class RoomPushActivity : BaseFrameActivity() {
         }
     }
 
-    private val mQClientLifeCycleListener = object :
-        QClientLifeCycleListener {
-        override fun onEntering(roomId: String, user: QNLiveUser) {}
+    private suspend fun createSuspend(p: QCreateRoomParam) = suspendCoroutine<QLiveRoomInfo> { ct ->
+        QLiveDelegate.qRooms.createRoom(p, object :
+            QLiveCallBack<QLiveRoomInfo> {
+            override fun onError(code: Int, msg: String) {
+                ct.resumeWithException(RtcException(code, msg))
+            }
 
-        override fun onJoined(roomInfo: QLiveRoomInfo) {
-            startCallBack?.onSuccess(roomInfo)
-            startCallBack = null
-            prevContainer.visibility = View.GONE
-            vpCover.visibility = View.VISIBLE
-        }
-
-        override fun onLeft() {}
-
-        override fun onDestroyed() {}
+            override fun onSuccess(data: QLiveRoomInfo) {
+                ct.resume(data)
+            }
+        })
     }
 
+    private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QLiveRoomInfo> { cont ->
+        mRoomClient.joinRoom(roomId, object :
+            QLiveCallBack<QLiveRoomInfo> {
+            override fun onError(code: Int, msg: String?) {
+                cont.resumeWithException(RtcException(code, msg ?: ""))
+            }
+
+            override fun onSuccess(data: QLiveRoomInfo) {
+                cont.resume(data)
+            }
+        })
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//设置透明状态栏
@@ -149,34 +116,59 @@ class RoomPushActivity : BaseFrameActivity() {
 
     private fun start() {
         roomId = intent.getStringExtra("roomId") ?: ""
-
-        mRoomClient.enableCamera(QCameraParam())
+        mRoomClient.enableCamera(QCameraParam(), preTextureView)
         mRoomClient.enableMicrophone(QMicrophoneParam())
-        mRoomClient.localPreView = preTextureView
-        vpCover.visibility = View.INVISIBLE
-        vpCover.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
-        vpCover.currentItem = 1
-        mRoomClient.addRoomLifeCycleListener(mQClientLifeCycleListener)
+        (mLivePreView as BaseLivePreView?)?.onStartCreateCall = { param, call ->
+            bg {
+                LoadingDialog.showLoading(supportFragmentManager)
+                doWork {
+                    val info = createSuspend(param)
+                    suspendJoinRoom(info.liveId)
+                    startCallBack?.onSuccess(null)
+                    startCallBack = null
+                    call.onSuccess(null)
+                }
+                catchError {
+                    it.message?.asToast()
+                    call.onError(it.getCode(), it.message)
+                }
+                onFinally {
+                    LoadingDialog.cancelLoadingDialog()
+                }
+            }
+        }
 
         if (roomId.isEmpty()) {
-//            prevContainer.attach(
-//                QNLiveRoomUIKit.mViewSlotTable.mLivePreViewSlot,
-//                this, mKitContext, mRoomClient
-//            )
+            mLivePreView?.visibility = View.GONE
         } else {
-            mRoomClient!!.joinRoom(roomId, null)
+            bg {
+                LoadingDialog.showLoading(supportFragmentManager)
+                doWork {
+                    suspendJoinRoom(roomId)
+                    startCallBack?.onSuccess(null)
+                    startCallBack = null
+                }
+                catchError {
+                    startCallBack?.onError(it.getCode(), "")
+                    startCallBack = null
+                    it.message?.asToast()
+                    finish()
+                }
+                onFinally {
+                    LoadingDialog.cancelLoadingDialog()
+                }
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mRoomClient.closeRoom()
+        mRoomClient.destroy()
         startCallBack?.onError(-1, "")
         startCallBack = null
     }
 
     override fun init() {
-
         PermissionAnywhere.requestPermission(
             this,
             arrayOf(
@@ -198,7 +190,7 @@ class RoomPushActivity : BaseFrameActivity() {
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(QRoomService::class.java).currentRoomInfo != null
+            && mRoomClient.getService(QRoomService::class.java).roomInfo != null
         ) {
             return true
         }
@@ -210,7 +202,9 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     override fun getLayoutId(): Int {
+        if (replaceLayoutId > 0) {
+            return replaceLayoutId
+        }
         return R.layout.activity_room_push
     }
-
 }

@@ -1,10 +1,10 @@
 package com.qncube.uikitcore
 
-import com.nucube.rtclive.CameraMergeOption
-import com.nucube.rtclive.MicrophoneMergeOption
-import com.nucube.rtclive.QNMergeOption
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.lcommon.CameraMergeOption
+import com.qncube.lcommon.MicrophoneMergeOption
+import com.qncube.lcommon.QMergeOption
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 
 /**
  * 混流参数
@@ -72,24 +72,24 @@ object LinkerUIHelper {
         }
     }
 
-    fun getLinkers(micLinkers : List<QNLiveUser>,roomInfo: QLiveRoomInfo): ArrayList<QNMergeOption> {
-        val ops = ArrayList<QNMergeOption>()
+    fun getLinkers(micLinkers : List<QLiveUser>, roomInfo: QLiveRoomInfo): ArrayList<QMergeOption> {
+        val ops = ArrayList<QMergeOption>()
         var lastX =
             mixWidth - mixMicWidth - micRightMixMargin
 
 
         var lastY = mixTopMargin
         micLinkers.forEach {
-            if (it.userId == roomInfo?.anchorInfo?.userId) {
-                ops.add(QNMergeOption().apply {
+            if (it.userId == roomInfo.anchor?.userId) {
+                ops.add(QMergeOption().apply {
                     uid = it.userId
                     cameraMergeOption = CameraMergeOption().apply {
                         isNeed = true
-                        mX = 0
-                        mY = 0
-                        mZ = 0
-                        mWidth = mixWidth
-                        mHeight = mixHeight
+                        x = 0
+                        y = 0
+                        z = 0
+                        width = mixWidth
+                        height = mixHeight
                         // mStretchMode=QNRenderMode.
                     }
                     microphoneMergeOption = MicrophoneMergeOption().apply {
@@ -97,15 +97,15 @@ object LinkerUIHelper {
                     }
                 })
             } else {
-                ops.add(QNMergeOption().apply {
+                ops.add(QMergeOption().apply {
                     uid = it.userId
                     cameraMergeOption = CameraMergeOption().apply {
                         isNeed = true
-                        mX = lastX
-                        mY = lastY
-                        mZ = 1
-                        mWidth = mixMicWidth
-                        mHeight = mixMicHeight
+                        x = lastX
+                        y = lastY
+                        z = 1
+                        width = mixMicWidth
+                        height = mixMicHeight
                         // mStretchMode=QNRenderMode.
                     }
                     lastY += micBottomMixMargin + mixMicHeight

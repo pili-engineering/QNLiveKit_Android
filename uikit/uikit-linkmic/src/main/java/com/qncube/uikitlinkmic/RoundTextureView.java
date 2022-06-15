@@ -7,9 +7,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 
-import com.qiniu.droid.rtc.QNTextureView;
+import com.nucube.rtclive.QPushTextureView;
+import com.qncube.lcommon.QPushRenderView;
 
-public class RoundTextureView extends QNTextureView {
+
+public class RoundTextureView extends QPushTextureView {
     public RoundTextureView(Context context) {
         super(context);
         init();

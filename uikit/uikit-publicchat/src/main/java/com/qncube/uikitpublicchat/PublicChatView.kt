@@ -6,8 +6,9 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.qncube.publicchatservice.PubChatModel
+import com.qncube.publicchatservice.QPublicChat
 import com.qncube.publicchatservice.QPublicChatService
+import com.qncube.publicchatservice.QPublicChatServiceLister
 import com.qncube.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_publicchatslotview.view.*
 
@@ -24,30 +25,31 @@ class PublicChatView : QBaseRoomFrameLayout {
     private var mRoomNoticeHeader: RoomNoticeView? = null
     private var hasHeader = false
     private val mAdapter = PubChatAdapter().apply {
-        mAvatarClickCall = { item: PubChatModel, view: View ->
+        mAvatarClickCall = { item: QPublicChat, view: View ->
             //点击头像事件
         }
     }
 
     //消息监听
-    private val mPublicChatServiceLister = QPublicChatService.QNPublicChatServiceLister {
-        if (it.senderRoomId != roomInfo?.liveId) {
-            return@QNPublicChatServiceLister
+    private val mPublicChatServiceLister =
+        QPublicChatServiceLister {
+            if (it.senderRoomId != roomInfo?.liveId) {
+              return@QPublicChatServiceLister
+            }
+            mAdapter.addData(it)
+            val position = if (hasHeader) {
+                mAdapter.data.size
+            } else {
+                mAdapter.data.size - 1
+            }
+            recyChat.smoothScrollToPosition(position)
         }
-        mAdapter.addData(it)
-        val position = if (hasHeader) {
-            mAdapter.data.size
-        } else {
-            mAdapter.data.size - 1
-        }
-        recyChat.smoothScrollToPosition(position)
-    }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
             client?.getService(QPublicChatService::class.java)
-                ?.removePublicChatServiceLister(mPublicChatServiceLister)
+                ?.removeServiceLister(mPublicChatServiceLister)
         }
     }
 
@@ -57,7 +59,7 @@ class PublicChatView : QBaseRoomFrameLayout {
 
     override fun initView() {
         client!!.getService(QPublicChatService::class.java)
-            .addPublicChatServiceLister(mPublicChatServiceLister)
+            .addServiceLister(mPublicChatServiceLister)
 
         recyChat.layoutManager = LinearLayoutManager(context)
         recyChat.adapter = mAdapter

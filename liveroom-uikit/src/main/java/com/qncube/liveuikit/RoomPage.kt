@@ -1,6 +1,10 @@
 package com.qncube.liveuikit
 
+import android.content.Context
 import com.qncube.kitlivepre.LivePreView
+import com.qncube.linveroominner.UserDataSource
+import com.qncube.liveroomcore.QLiveCallBack
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveuikit.component.BottomFucBarView
 import com.qncube.liveuikit.component.InnerCoverView
 import com.qncube.liveuikit.component.OuterCoverView
@@ -19,8 +23,6 @@ import com.qncube.uikitpublicchat.InputView
 import com.qncube.uikitpublicchat.PublicChatView
 import com.qncube.uikitpublicchat.RoomNoticeView
 import com.qncube.uikituser.*
-import java.util.*
-
 
 /**
  * 槽位表
@@ -141,4 +143,29 @@ class RoomPage {
         KITFunctionInflaterFactory.functionComponents.add(component)
     }
 
+    companion object{
+       internal fun joinRoom(
+            context: Context,
+            roomInfo: QLiveRoomInfo,
+            callBack: QLiveCallBack<QLiveRoomInfo>?
+        ) {
+            if (roomInfo.anchor.userId == UserDataSource.loginUser.userId) {
+                RoomPushActivity.start(context, roomInfo.liveId, callBack)
+            } else {
+                RoomPullActivity.start(context, roomInfo.liveId, callBack)
+            }
+        }
+
+      internal  fun joinRoom(
+            context: Context,
+            liveRoomId: String,
+            callBack: QLiveCallBack<QLiveRoomInfo>?
+        ) {
+            RoomPullActivity.start(context, liveRoomId, callBack)
+        }
+
+        internal fun createAndJoinRoom(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
+            RoomPushActivity.start(context, callBack)
+        }
+    }
 }

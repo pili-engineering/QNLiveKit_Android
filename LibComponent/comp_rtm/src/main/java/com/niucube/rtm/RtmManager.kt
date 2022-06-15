@@ -50,17 +50,17 @@ object RtmManager {
         adapter.registerOriginImListener(RtmManager::handleC2cMessage, RtmManager::handleChannelMsg)
     }
 
-    private fun handleC2cMessage(msg: String, fromId: String, toId: String) {
+    private fun handleC2cMessage(msg: String, fromID: String, toID: String) {
         mRtmC2cListeners.forEach {
-            if (it.onNewMsg(msg, fromId, toId)) {
+            if (it.onNewMsg(msg, fromID, toID)) {
                 return@forEach
             }
         }
     }
 
-    private fun handleChannelMsg(msg: String, fromId: String, toId: String) {
+    private fun handleChannelMsg(msg: String, fromID: String, toID: String) {
         mRtmChannelListeners.forEach {
-            if (it.onNewMsg(msg,  fromId, toId)) {
+            if (it.onNewMsg(msg,  fromID, toID)) {
                 return@forEach
             }
         }

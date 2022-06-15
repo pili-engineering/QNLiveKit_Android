@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
 import android.widget.FrameLayout
 import com.pili.pldroid.player.common.ViewMeasurer
 import com.qncube.lcommon.PreviewMode
@@ -41,6 +42,10 @@ class QSurfaceRenderView : FrameLayout, QPlayerRenderView {
 
     override fun setDisplayAspectRatio(previewMode: PreviewMode) {
         mDisplayAspectRatio = previewMode
+    }
+
+    override fun getView(): View {
+        return this
     }
 
     fun setZOrderOnTop(onTop: Boolean) {

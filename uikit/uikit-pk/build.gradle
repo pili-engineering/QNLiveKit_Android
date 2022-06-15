@@ -34,10 +34,10 @@ dependencies {
 
     api project(':liveroom-core')
     api project(':liveroom-uikit-core')
-    api project(':service:linkmicservice')
     api project(':service:pkservice')
-    compileOnly project(path: ':liveroom-pushclient')
-    compileOnly project(path: ':liveroom-pullclient')
+    implementation project(':linveroom-inner')
+    compileOnly project(path: ':service:linkmicservice')
+    compileOnly project(path: ':LibComponent:rtclive')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

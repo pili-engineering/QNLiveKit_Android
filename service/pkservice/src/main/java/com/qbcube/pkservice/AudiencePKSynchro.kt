@@ -1,35 +1,34 @@
 package com.qbcube.pkservice
 
-import com.qbcube.pkservice.mode.PKInfo
-import com.qncube.liveroomcore.mode.Extension
+import com.qncube.linveroominner.PKDateSource
+import com.qncube.linveroominner.PKInfo
+import com.qncube.linveroominner.backGround
 import com.qncube.liveroomcore.*
-import com.qncube.linveroominner.RoomDataSource
-import com.qncube.linveroominner.UserDataSource
-import com.qncube.linveroominner.Scheduler
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QExtension
 import com.qncube.liveroomcore.service.BaseService
 import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import java.util.*
 
 class AudiencePKSynchro() : BaseService() {
 
     private val mPKDateSource = PKDateSource()
     private val mUserSource = com.qncube.linveroominner.UserDataSource()
-    var mListenersCall: (() -> LinkedList<QNPKService.PKServiceListener>)? = null
-    var mPKSession: QNPKSession? = null
+    var mListenersCall: (() -> LinkedList<QPKServiceListener>)? = null
+    var mPKSession: QPKSession? = null
         private set
 
     private val repeatSynchroJob = com.qncube.linveroominner.Scheduler(6000) {
-        if (roomInfo == null) {
+        if (currentRoomInfo == null) {
             return@Scheduler
         }
         backGround {
             doWork {
-                if (roomInfo?.pkId?.isEmpty() == false) {
+                if (currentRoomInfo?.pkId?.isEmpty() == false) {
                     //当前房间在PK
-                    val info = mPKDateSource.getPkInfo(roomInfo?.liveId ?: "")
+                    val info = mPKDateSource.getPkInfo(currentRoomInfo?.liveId ?: "")
                     if (info.status == PKStatus.RelaySessionStatusStopped.intValue && mPKSession != null) {
-                        roomInfo?.pkId = ""
+                        currentRoomInfo?.pkId = ""
                         mListenersCall?.invoke()?.forEach {
                             it.onStop(mPKSession!!, -1, "time out")
                         }
@@ -37,7 +36,7 @@ class AudiencePKSynchro() : BaseService() {
                     }
                 } else {
                     val reFreshRoom = com.qncube.linveroominner.RoomDataSource()
-                        .refreshRoomInfo(roomInfo!!.liveId)
+                        .refreshRoomInfo(currentRoomInfo!!.liveId)
                     if (!reFreshRoom.pkId.isEmpty() && mPKSession == null) {
 
                         val info = mPKDateSource.getPkInfo(reFreshRoom.liveId ?: "")
@@ -47,53 +46,47 @@ class AudiencePKSynchro() : BaseService() {
                             val inver = mUserSource.searchUserByUserId(info.initUserId)
                             val pk = fromPkInfo(info, inver, recever)
                             mPKSession = pk
-                            roomInfo?.pkId = reFreshRoom.pkId
+                            currentRoomInfo?.pkId = reFreshRoom.pkId
                             mListenersCall?.invoke()?.forEach {
                                 it.onStart(mPKSession!!)
                             }
                         }
-
                     }
                 }
             }
             catchError {
             }
         }
-
     }
 
-    private val mPKServiceListener = object : QNPKService.PKServiceListener {
+    private val mQPKServiceListener = object :
+        QPKServiceListener {
 
-        override fun onInitPKer(pkSession: QNPKSession) {}
-
-        override fun onStart(pkSession: QNPKSession) {
+        override fun onStart(pkSession: QPKSession) {
             mPKSession = pkSession
             // repeatSynchroJob.start()
         }
-
-        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             mPKSession = null
             // repeatSynchroJob.cancel()
-            roomInfo?.pkId = ""
+            currentRoomInfo?.pkId = ""
         }
-
-        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
+        override fun onStartTimeOut(pkSession: QPKSession) {
         }
-
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
     }
 
     override fun attachRoomClient(client: QLiveClient) {
         super.attachRoomClient(client)
-        mListenersCall?.invoke()?.add(mPKServiceListener)
+        mListenersCall?.invoke()?.add(mQPKServiceListener)
     }
 
     /**
      * 进入回
      * @param user
      */
-    override fun onEntering(liveId: String, user: QNLiveUser) {
+    override fun onEntering(liveId: String, user: QLiveUser) {
     }
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
@@ -108,7 +101,7 @@ class AudiencePKSynchro() : BaseService() {
                         val pk = fromPkInfo(info, inver, recever)
                         mPKSession = pk
                         mListenersCall?.invoke()?.forEach {
-                            it.onInitPKer(pk)
+                            it.onStart(pk)
                         }
                     }
                 }
@@ -134,20 +127,20 @@ class AudiencePKSynchro() : BaseService() {
     }
 
 
-    private fun fromPkInfo(info: PKInfo, inver: QNLiveUser, recver: QNLiveUser): QNPKSession {
-        return QNPKSession().apply {
+    private fun fromPkInfo(info: PKInfo, inver: QLiveUser, recver: QLiveUser): QPKSession {
+        return QPKSession().apply {
             //PK场次ID
-            sessionId = info.id
+            sessionID = info.id
             //发起方
             initiator = inver
             //接受方
             receiver = recver
             //发起方所在房间
-            initiatorRoomId = info.initRoomId
+            initiatorRoomID = info.initRoomId
             //接受方所在房间
-            receiverRoomId = info.recvRoomId
+            receiverRoomID = info.recvRoomId
             //扩展字段
-            extensions = info.extensions
+            extension = info.extensions
             //pk 状态 0邀请过程  1pk中 2结束 其他自定义状态比如惩罚时间
             status = info.status
             //pk开始时间戳

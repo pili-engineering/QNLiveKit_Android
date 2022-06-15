@@ -16,10 +16,10 @@ public interface QChatRoomService extends QLiveService {
     /**
      *  发c2c消息
      * @param msg
-     * @param memberId
+     * @param memberID
      * @param callBack
      */
-    void sendCustomC2CMsg(String msg, String memberId, QLiveCallBack<Void> callBack);
+    void sendCustomC2CMsg(String msg, String memberID, QLiveCallBack<Void> callBack);
 
     /**
      * 发群消息
@@ -32,34 +32,34 @@ public interface QChatRoomService extends QLiveService {
     /**
      * 踢人
      * @param msg
-     * @param memberId
+     * @param memberID
      * @param callBack
      */
-    void kickUser(String msg, String memberId, QLiveCallBack<Void> callBack);
+    void kickUser(String msg, String memberID, QLiveCallBack<Void> callBack);
 
     /**
      * 禁言
      * @param isMute
      * @param msg
-     * @param memberId
+     * @param memberID
      * @param duration
      * @param callBack
      */
-    void muteUser(boolean isMute , String msg, String memberId, long duration , QLiveCallBack<Void> callBack);
+    void muteUser(boolean isMute , String msg, String memberID, long duration , QLiveCallBack<Void> callBack);
 
     /**
      * 添加管理员
-     * @param memberId
+     * @param memberID
      * @param callBack
      */
-    void addAdmin( String memberId, QLiveCallBack<Void> callBack);
+    void addAdmin( String memberID, QLiveCallBack<Void> callBack);
 
     /**
      * 移除管理员
      * @param msg
-     * @param memberId
+     * @param memberID
      * @param callBack
      */
-    void removeAdmin(String msg, String memberId, QLiveCallBack<Void> callBack);
+    void removeAdmin(String msg, String memberID, QLiveCallBack<Void> callBack);
 
 }

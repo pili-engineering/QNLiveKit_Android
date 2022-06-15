@@ -12,13 +12,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/LibComponent" />
-            <option value="$PROJECT_DIR$/LibComponent/comp_http" />
             <option value="$PROJECT_DIR$/LibComponent/comp_imadapter" />
             <option value="$PROJECT_DIR$/LibComponent/comp_player" />
             <option value="$PROJECT_DIR$/LibComponent/comp_qnrtcsdk" />
             <option value="$PROJECT_DIR$/LibComponent/comp_rtm" />
             <option value="$PROJECT_DIR$/LibComponent/lib_json" />
-            <option value="$PROJECT_DIR$/LibComponent/rtcexcepion" />
             <option value="$PROJECT_DIR$/LibComponent/rtclive" />
             <option value="$PROJECT_DIR$/LibComponent/sdk_qnim" />
             <option value="$PROJECT_DIR$/app" />
@@ -29,6 +27,7 @@
             <option value="$PROJECT_DIR$/liveroom-pushclient" />
             <option value="$PROJECT_DIR$/liveroom-uikit" />
             <option value="$PROJECT_DIR$/liveroom-uikit-core" />
+            <option value="$PROJECT_DIR$/qlivesdk" />
             <option value="$PROJECT_DIR$/service" />
             <option value="$PROJECT_DIR$/service/chatservice" />
             <option value="$PROJECT_DIR$/service/danmakuservice" />

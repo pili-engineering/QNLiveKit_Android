@@ -6,6 +6,7 @@ import com.niucube.rtm.leaveChannel
 import com.nucube.rtclive.*
 import com.qiniu.droid.rtc.*
 import com.qncube.lcommon.*
+import com.qncube.linveroominner.AppCache
 import com.qncube.linveroominner.backGround
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.QClientType
@@ -14,10 +15,16 @@ import com.qncube.liveroomcore.been.QLiveRoomInfo
 
 class QPusherClientImpl : QPusherClient {
 
+    companion object {
+        fun create():QPusherClient{
+            return QPusherClientImpl()
+        }
+    }
+
     private val mRoomSource = com.qncube.linveroominner.RoomDataSource()
     private val mQNLiveRoomContext by lazy { com.qncube.linveroominner.QNLiveRoomContext(this) }
     private var mLiveStatusListener: QLiveStatusListener? = null
-    private var mLocalPreView: QNRenderView? = null
+    private var mLocalPreView: QPushRenderView? = null
     private var mCameraParams: QCameraParam =
         QCameraParam()
     private var mQMicrophoneParam: QMicrophoneParam =
@@ -28,7 +35,7 @@ class QPusherClientImpl : QPusherClient {
     private var mRtcLiveRoom: RtcLiveRoom? = null
 
     private val mRtcRoom by lazy {
-        RtcLiveRoom(com.qncube.linveroominner.AppCache.appContext)
+        RtcLiveRoom(AppCache.appContext)
     }
 
     init {
@@ -73,9 +80,7 @@ class QPusherClientImpl : QPusherClient {
         backGround {
             doWork {
                 mQNLiveRoomContext.enter(roomId, com.qncube.linveroominner.UserDataSource.loginUser)
-
                 val roomInfo = mRoomSource.pubRoom(roomId)
-
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.joinChannel(roomInfo.chatId)
                 }
@@ -83,11 +88,11 @@ class QPusherClientImpl : QPusherClient {
                     mRtcRoom.mMixStreamManager.init(
                         roomId,
                         roomInfo.pushUrl,
-                        MixStreamParams().apply {
+                        QMixStreamParams().apply {
                             this.mixStreamWidth = mCameraParams.width
                             this.mixStringHeight = mCameraParams.height
                             this.mixBitrate = mCameraParams.bitrate
-                            this.fps = mCameraParams.FPS
+                            this.FPS = mCameraParams.FPS
                         })
                     mRtcRoom.mMixStreamManager.setTrack(
                         mRtcRoom.localVideoTrack,
@@ -136,9 +141,9 @@ class QPusherClientImpl : QPusherClient {
 
     override fun enableCamera(cameraParam: QCameraParam?, renderView: QPushRenderView) {
         cameraParam?.let { mCameraParams = it }
-        this.mLocalPreView = renderView as QNRenderView
+        this.mLocalPreView = renderView
         mRtcRoom.enableCamera(cameraParam ?: QCameraParam())
-        mRtcRoom.setLocalPreView(mLocalPreView!!)
+        mRtcRoom.setLocalPreView(mLocalPreView as QNRenderView)
     }
 
     override fun enableMicrophone(microphoneParams: QMicrophoneParam?) {
@@ -172,6 +177,10 @@ class QPusherClientImpl : QPusherClient {
 
     override fun setAudioFrameListener(frameListener: QAudioFrameListener?) {
         mRtcRoom.setAudioFrameListener(QAudioFrameListenerWrap(frameListener))
+    }
+
+    override fun getPushRenderView(): QPushRenderView? {
+        return mLocalPreView
     }
 
     override fun getClientType(): QClientType {

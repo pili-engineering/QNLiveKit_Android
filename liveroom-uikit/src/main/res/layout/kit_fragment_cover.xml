@@ -7,13 +7,11 @@
     tools:ignore="MissingDefaultResource">
 
     <!--             里层-->
-    <com.qncube.liveuikit.SlotWrapView
-        android:id="@+id/emptyInnerSlot"
+    <com.qncube.liveuikit.component.InnerCoverView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:id="@+id/flMedilaView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,18 +25,18 @@
             tools:layout_height="70dp">
             <!--             左上-->
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikituser.RoomHostView
                 android:id="@+id/roomHostSlot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikituser.OnlineUserView
                 android:id="@+id/onLineUserSlot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikituser.RoomMemberCountView
                 android:id="@+id/roomMemberSlot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,13 +54,13 @@
             android:orientation="vertical">
             <!--             右上-->
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikituser.RoomIdView
                 android:id="@+id/roomIdSlot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikituser.RoomTimerView
                 android:id="@+id/roomTimerSlot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -81,18 +79,18 @@
             tools:layout_height="100dp">
 
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikitpublicchat.InputView
                 android:id="@+id/inPutSlot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.uikitpk.StartPKView
                 android:id="@+id/startPKSlot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.qncube.liveuikit.SlotWrapView
+            <com.qncube.liveuikit.component.BottomFucBarView
                 android:id="@+id/bottomBarSlot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -100,7 +98,7 @@
         </LinearLayout>
 
 
-        <com.qncube.liveuikit.SlotWrapView
+        <com.qncube.uikitpublicchat.PublicChatView
             android:id="@+id/pubchatSlot"
             android:layout_width="wrap_content"
             android:layout_height="250dp"
@@ -109,23 +107,22 @@
             tools:background="#000000"
             tools:layout_width="100dp" />
 
-        <com.qncube.liveuikit.SlotWrapView
-            android:id="@+id/pkCover"
+        <com.qncube.uikitpk.PKCoverView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:background="#99000000" />
 
 
-        <com.qncube.liveuikit.SlotWrapView
-            android:id="@+id/danmakuSlot"
+        <com.qncube.uikitdanmaku.DanmakuTrackManagerView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:background="#99000000" />
     </RelativeLayout>
 
     <!--             外层-->
-    <com.qncube.liveuikit.SlotWrapView
-        android:id="@+id/emptyOutSlot"
+    <com.qncube.liveuikit.component.OuterCoverView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

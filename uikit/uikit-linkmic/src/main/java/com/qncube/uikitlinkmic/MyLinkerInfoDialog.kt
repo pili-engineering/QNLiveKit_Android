@@ -1,16 +1,18 @@
 package com.qncube.uikitlinkmic
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.view.Gravity
 import android.view.View
 import com.bumptech.glide.Glide
 import com.qncube.linkmicservice.QLinkMicService
-import com.qncube.liveroomcore.been.QNMicLinker
+import com.qncube.linveroominner.Scheduler
+import com.qncube.linveroominner.asToast
+import com.qncube.liveroomcore.been.QMicLinker
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.dialog.LoadingDialog
-import com.qncube.linveroominner.Scheduler
+import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_dialog_my_linker_info.*
 import java.text.DecimalFormat
@@ -18,7 +20,7 @@ import java.text.DecimalFormat
 /**
  * 我的连麦信息弹窗
  */
-class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
+class MyLinkerInfoDialog(val service: QLinkMicService, val me: QLiveUser) :
     FinalDialogFragment() {
 
     public object StartLinkStore {
@@ -32,7 +34,8 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
     }
 
     private var timeDiff = 0
-    private val mScheduler = com.qncube.linveroominner.Scheduler(1000) {
+    @SuppressLint("SetTextI18n")
+    private val mScheduler = Scheduler(1000) {
         tvTime?.text = "连麦中，通话${formatTime(timeDiff)}"
         timeDiff++
     }
@@ -66,25 +69,25 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
         }
         refreshInfo()
         ivCameraStatus.setDoubleCheckClickListener {
-            service.audienceMicLinker.muteLocalCamera(ivCameraStatus.isSelected,
-                object : QLiveCallBack<Void> {
+            service.audienceMicHandler.muteCamera(ivCameraStatus.isSelected,
+                object : QLiveCallBack<Boolean> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
                     }
 
-                    override fun onSuccess(data: Void?) {
+                    override fun onSuccess(data: Boolean) {
                         refreshInfo()
                     }
                 })
         }
         ivMicStatus.setDoubleCheckClickListener {
-            service.audienceMicLinker.muteLocalMicrophone(ivMicStatus.isSelected,
-                object : QLiveCallBack<Void> {
+            service.audienceMicHandler.muteMicrophone(ivMicStatus.isSelected,
+                object : QLiveCallBack<Boolean> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
                     }
 
-                    override fun onSuccess(data: Void?) {
+                    override fun onSuccess(data: Boolean) {
                         refreshInfo()
                     }
                 })
@@ -95,7 +98,7 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
             .into(ivAvatar)
         tvHangup.setDoubleCheckClickListener {
             LoadingDialog.showLoading(childFragmentManager)
-            service.audienceMicLinker.stopLink(object :
+            service.audienceMicHandler.stopLink(object :
                 QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast()
@@ -108,11 +111,10 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
                 }
             })
         }
-
     }
 
     private fun refreshInfo() {
-        var myMic: QNMicLinker? = null
+        var myMic: QMicLinker? = null
         service.allLinker.forEach {
             if (it.user.userId == me.userId) {
                 myMic = it
@@ -122,12 +124,10 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QNLiveUser) :
         myMic ?: return
         ivCameraStatus.isSelected = myMic!!.isOpenCamera
         ivMicStatus.isSelected = myMic!!.isOpenMicrophone
-
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         mScheduler.cancel()
         super.onDismiss(dialog)
-
     }
 }

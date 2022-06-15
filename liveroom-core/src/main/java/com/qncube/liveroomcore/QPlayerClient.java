@@ -19,10 +19,11 @@ public interface QPlayerClient extends QLiveClient {
 
     void destroy();                                                              //销毁
 
-    void play(@NotNull QPlayerRenderView renderView);                                           //绑定播放器渲染视图
+    void play(@NotNull QPlayerRenderView renderView);                            //绑定播放器渲染视图
 
     void setPlayerEventListener(QPlayerEventListener playerEventListener);       //设置拉流端事件回调
 
+    QPlayerRenderView getPlayerRenderView();                                     //获得已经绑定的RenderView
 }
 
 

@@ -8,7 +8,7 @@ import com.qncube.liveroomcore.been.QLiveUser
 open class BaseService : QLiveService, QClientLifeCycleListener {
 
     protected var user: QLiveUser? = null
-    protected var roomInfo: QLiveRoomInfo? = null
+    protected var currentRoomInfo: QLiveRoomInfo? = null
     protected var client: QLiveClient? = null
 
     /**
@@ -26,7 +26,7 @@ open class BaseService : QLiveService, QClientLifeCycleListener {
      * @param roomInfo
      */
     override fun onJoined(roomInfo: QLiveRoomInfo) {
-        this.roomInfo = roomInfo
+        this.currentRoomInfo = roomInfo
     }
 
     /**

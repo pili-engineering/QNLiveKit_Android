@@ -2,7 +2,7 @@ package com.qncube.uikituser
 
 import android.content.Context
 import android.util.AttributeSet
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qncube.uikitcore.ext.toHtml
 import kotlinx.android.synthetic.main.kit_view_room_id.view.*

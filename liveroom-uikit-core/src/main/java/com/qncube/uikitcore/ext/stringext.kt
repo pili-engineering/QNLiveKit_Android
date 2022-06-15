@@ -8,7 +8,7 @@ import android.view.View
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.qncube.liveroomcore.CoroutineScopeWrap
+import com.qncube.linveroominner.CoroutineScopeWrap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainCoroutineDispatcher

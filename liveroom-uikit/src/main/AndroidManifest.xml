@@ -12,19 +12,22 @@
 
     <application>
         <activity
+            android:name=".RoomListActivity"
+            android:exported="false" />
+        <activity
             android:name=".RoomPullActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".RoomPushActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustNothing" />
     </application>
 
 </manifest>

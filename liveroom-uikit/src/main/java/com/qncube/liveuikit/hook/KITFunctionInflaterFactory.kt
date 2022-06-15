@@ -2,8 +2,8 @@ package com.qncube.liveuikit.hook
 
 import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
-import com.qncube.liveroomcore.mode.QNLiveUser
+import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QLiveComponent
 import kotlin.collections.HashSet
@@ -25,7 +25,7 @@ object KITFunctionInflaterFactory : QClientLifeCycleListener {
         }
     }
 
-    override fun onEntering(liveId: String, user: QNLiveUser) {
+    override fun onEntering(liveId: String, user: QLiveUser) {
         functionComponents.forEach {
             it.onEntering(liveId, user)
         }

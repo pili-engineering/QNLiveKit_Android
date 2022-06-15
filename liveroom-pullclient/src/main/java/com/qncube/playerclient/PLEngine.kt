@@ -76,8 +76,8 @@ internal class PLEngine(val context: Context) : IPlayer {
 
     override fun release() {
         mIMediaPlayer.release()
-        if (mRenderView is QTextureRenderView) {
-            (mRenderView as QTextureRenderView).stopPlayback()
+        if (mRenderView is QPlayerTextureRenderView) {
+            (mRenderView as QPlayerTextureRenderView).stopPlayback()
         }
 //        if(mRenderView is QSurfaceRenderView){
 //            (mRenderView as QSurfaceRenderView).stopPlayback()
@@ -165,8 +165,8 @@ internal class PLEngine(val context: Context) : IPlayer {
     }
     private val mPLOnVideoSizeChangedListener =
         PLOnVideoSizeChangedListener { p0, p1 ->
-            if (mRenderView is QTextureRenderView) {
-                (mRenderView as QTextureRenderView).setVideoSize(p0, p1)
+            if (mRenderView is QPlayerTextureRenderView) {
+                (mRenderView as QPlayerTextureRenderView).setVideoSize(p0, p1)
             }
             if (mRenderView is QSurfaceRenderView) {
                 (mRenderView as QSurfaceRenderView).setVideoSize(p0, p1)

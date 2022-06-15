@@ -3,10 +3,11 @@ package com.qncube.liveuikit.component
 import android.content.Context
 import android.util.AttributeSet
 import com.bumptech.glide.Glide
-import com.qbcube.pkservice.QNPKService
-import com.qbcube.pkservice.QNPKSession
-import com.qncube.liveroomcore.mode.Extension
-import com.qncube.liveroomcore.mode.QLiveRoomInfo
+import com.qbcube.pkservice.QPKService
+import com.qbcube.pkservice.QPKServiceListener
+import com.qbcube.pkservice.QPKSession
+import com.qncube.liveroomcore.been.QExtension
+import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.uikitcore.*
 import kotlinx.android.synthetic.main.kit_img_bg.view.*
 
@@ -28,24 +29,20 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
-    private val mPKServiceListener = object : QNPKService.PKServiceListener {
-        override fun onInitPKer(pkSession: QNPKSession) {
+    private val mQPKServiceListener = object :
+        QPKServiceListener {
+
+        override fun onStart(pkSession: QPKSession) {
             ivBg.setImageResource(defaultBackGroundImg)
         }
 
-        override fun onStart(pkSession: QNPKSession) {
-            ivBg.setImageResource(defaultBackGroundImg)
-        }
-
-        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             Glide.with(context!!).load(roomInfo?.coverUrl)
                 .into(ivBg)
         }
 
-        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
-        }
-
-        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: com.qncube.liveroomcore.mode.Extension) {}
+        override fun onStartTimeOut(pkSession: QPKSession) {}
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
     }
 
 
@@ -54,7 +51,7 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
-        client?.getService(QNPKService::class.java)?.addPKServiceListener(mPKServiceListener)
+        client?.getService(QPKService::class.java)?.addServiceListener(mQPKServiceListener)
         ivBg.setImageResource(defaultBackGroundImg)
     }
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Toast
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.publicchatservice.PubChatModel
+import com.qncube.publicchatservice.QPublicChat
 import com.qncube.publicchatservice.QPublicChatService
 import com.qncube.uikitcore.QBaseRoomFrameLayout
 import com.qucube.uikitinput.RoomInputDialog
@@ -29,12 +29,12 @@ class InputView : QBaseRoomFrameLayout {
                 sendPubCall = {
                     client?.getService(QPublicChatService::class.java)
                         ?.sendPublicChat(it, object :
-                            QLiveCallBack<PubChatModel> {
+                            QLiveCallBack<QPublicChat> {
                             override fun onError(code: Int, msg: String) {
                                 Toast.makeText(context, "发送失败" + msg, Toast.LENGTH_SHORT).show()
                             }
 
-                            override fun onSuccess(data: PubChatModel?) {
+                            override fun onSuccess(data: QPublicChat?) {
                             }
                         })
                 }

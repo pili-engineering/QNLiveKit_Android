@@ -32,7 +32,7 @@ class QNIMAdapter : RtmAdapter {
 
     class MsgCallTemp(
         val msg: String,
-        val fromId: String,
+        val fromID: String,
         val peerId: String,
         val isDispatchToLocal: Boolean,
         val callBack: RtmCallBack?,
@@ -40,9 +40,9 @@ class QNIMAdapter : RtmAdapter {
     )
 
     private val mMsgCallMap: HashMap<Long, MsgCallTemp> = HashMap<Long, MsgCallTemp>()
-    private var c2cMessageReceiver: (msg: String, fromId: String, toId: String) -> Unit =
+    private var c2cMessageReceiver: (msg: String, fromID: String, toID: String) -> Unit =
         { _, _, _ -> }
-    private var channelMsgReceiver: (msg: String, fromId: String, toId: String) -> Unit =
+    private var channelMsgReceiver: (msg: String, fromID: String, toID: String) -> Unit =
         { _, _, _ -> }
     private val mChatListener: BMXChatServiceListener = object : BMXChatServiceListener() {
 
@@ -57,9 +57,9 @@ class QNIMAdapter : RtmAdapter {
                     if (call.isDispatchToLocal) {
                         if (call.isC2c) c2cMessageReceiver(
                             call.msg,
-                            call.fromId,
+                            call.fromID,
                             call.peerId
-                        ) else channelMsgReceiver(call.msg, call.fromId, call.peerId)
+                        ) else channelMsgReceiver(call.msg, call.fromID, call.peerId)
                     }
 
                     call.callBack?.onSuccess()
@@ -289,8 +289,8 @@ class QNIMAdapter : RtmAdapter {
      * @param channelMsgReceiver 群消息接收器
      */
     override fun registerOriginImListener(
-        c2cMessageReceiver: (msg: String, fromId: String, toId: String) -> Unit,
-        channelMsgReceiver: (msg: String, fromId: String, toId: String) -> Unit
+        c2cMessageReceiver: (msg: String, fromID: String, toID: String) -> Unit,
+        channelMsgReceiver: (msg: String, fromID: String, toID: String) -> Unit
     ) {
         this.c2cMessageReceiver = c2cMessageReceiver
         this.channelMsgReceiver = channelMsgReceiver
