@@ -315,7 +315,7 @@ interface QLinkMicServiceListener{
     void onLinkerMicrophoneStatusChange(QMicLinker micLinker);                           //麦上麦克风变化回调
     void onLinkerCameraStatusChange(QMicLinker micLinker);                               //麦上摄像头变化回调
     void onLinkerKicked(QMicLinker micLinker, String msg);                               //踢人事件回调
-    void onLinkerExtension(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
+    void onLinkerExtensionUpdate(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
 }
 
 class QAnchorHostMicLinker {
