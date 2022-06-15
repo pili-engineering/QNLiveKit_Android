@@ -458,8 +458,9 @@ interface QRoomService {
     void addServiceListener(QRoomServiceListener listener);
     QLiveRoomInfo getRoomInfo();
     void getRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                             //刷新房间信息
-    void updateRoomInfoExtension(QExtension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
+    void updateExtension(QExtension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
     void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                         //当前房间现在用户
+    
 }
 
 interface QRoomServiceListener{
