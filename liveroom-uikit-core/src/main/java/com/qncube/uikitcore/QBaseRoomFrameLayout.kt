@@ -14,7 +14,7 @@ abstract class QBaseRoomFrameLayout : FrameLayout, QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: LiveKitContext? = null
+    override var kitContext: QLiveKitUIContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -43,7 +43,7 @@ abstract class QBaseRoomLinearLayout : LinearLayout, QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: LiveKitContext? = null
+    override var kitContext: QLiveKitUIContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -75,7 +75,7 @@ class QLiveEmptyView : View, QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: LiveKitContext? = null
+    override var kitContext: QLiveKitUIContext? = null
 
 }
 
@@ -88,6 +88,6 @@ class QEmptyView : View, QComponent {
         defStyleAttr
     ) {
     }
-    override var kitContext: KitContext? = null
+    override var QUIKitContext: QUIKitContext? = null
 
 }

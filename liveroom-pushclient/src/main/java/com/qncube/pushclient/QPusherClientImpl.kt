@@ -176,10 +176,6 @@ class QPusherClientImpl : QPusherClient, QRTCLiveProvider {
         mRtcRoom.setAudioFrameListener(QAudioFrameListenerWrap(frameListener))
     }
 
-    override fun getPushRenderView(): QPushRenderView? {
-        return mLocalPreView
-    }
-
     override fun getClientType(): QClientType {
         return QClientType.PUSHER
     }

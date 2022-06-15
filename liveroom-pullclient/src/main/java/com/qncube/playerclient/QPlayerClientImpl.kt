@@ -117,10 +117,6 @@ class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
         mQPLEngine.setPlayerEventListener(playerEventListener)
     }
 
-    override fun getPlayerRenderView(): QPlayerRenderView? {
-        return renderView
-    }
-
     override fun getClientType(): QClientType {
         return QClientType.PLAYER
     }

@@ -23,7 +23,6 @@ public interface QPlayerClient extends QLiveClient {
 
     void setPlayerEventListener(QPlayerEventListener playerEventListener);       //设置拉流端事件回调
 
-    QPlayerRenderView getPlayerRenderView();                                     //获得已经绑定的RenderView
 }
 
 

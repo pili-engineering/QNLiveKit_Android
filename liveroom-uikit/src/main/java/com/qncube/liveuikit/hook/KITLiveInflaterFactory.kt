@@ -9,8 +9,8 @@ import com.qncube.linveroominner.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
-import com.qncube.uikitcore.KitContext
-import com.qncube.uikitcore.LiveKitContext
+import com.qncube.uikitcore.QUIKitContext
+import com.qncube.uikitcore.QLiveKitUIContext
 import com.qncube.uikitcore.QComponent
 import com.qncube.uikitcore.QLiveComponent
 
@@ -18,13 +18,12 @@ import com.qncube.uikitcore.QLiveComponent
 class KITLiveInflaterFactory(
     private val appDelegate: AppCompatDelegate,
     private val roomClient: QLiveClient,
-    private val kitContext: LiveKitContext
+    private val kitContext: QLiveKitUIContext
 ) : LayoutInflater.Factory2, QClientLifeCycleListener {
 
     companion object {
         val replaceViews = HashMap<String, Class<out QLiveComponent>>()
     }
-
     val mComponents = HashSet<QLiveComponent>()
     override fun onCreateView(
         parent: View?,
@@ -78,7 +77,7 @@ class KITLiveInflaterFactory(
 
 class KITInflaterFactory(
     private val appDelegate: AppCompatDelegate,
-    private val kitContext: KitContext
+    private val QUIKitContext: QUIKitContext
 ) : LayoutInflater.Factory2 {
     companion object {
         val replaceViews = HashMap<String, Class<out QComponent>>()
@@ -98,7 +97,7 @@ class KITInflaterFactory(
         } else {
             appDelegate.createView(parent, name, context, attrs)
         }
-        (view as QComponent).attachKitContext(kitContext)
+        (view as QComponent).attachKitContext(QUIKitContext)
         return view
     }
 

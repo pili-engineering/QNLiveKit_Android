@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.nucube.http.OKHttpService
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.QLiveCallBack
-import com.qncube.liveroomcore.QNLiveRoomEngine
-import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.uikitcore.dialog.LoadingDialog
 import com.qncube.uikitcore.ext.bg
 import kotlinx.android.synthetic.main.activity_main.*

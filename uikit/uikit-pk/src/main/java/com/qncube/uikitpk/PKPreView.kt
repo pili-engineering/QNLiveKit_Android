@@ -84,8 +84,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     private var originParent: ViewGroup? = null
     private var originIndex = 0
     private fun addView() {
-
-        val player =   (client as QPlayerClient).playerRenderView.getView()
+        val player = kitContext?.getPlayerRenderViewCall?.invoke()?.getView() ?: return
         val parent = player.parent as ViewGroup
         originParent = parent
         originIndex = parent.indexOfChild(player)
@@ -101,7 +100,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 
     private fun removeView() {
-        val player =  (client as QPlayerClient).playerRenderView.getView()
+        val player = kitContext?.getPlayerRenderViewCall?.invoke()?.getView() ?: return
         llPKContainer.removeView(player)
         originParent?.addView(
             player,
@@ -217,7 +216,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             } else {
                 pkSession.initiator
             }
-            localRenderView = (client as QPusherClient).pushRenderView.getView()
+            localRenderView = kitContext?.getPusherRenderViewCall?.invoke()?.getView() ?: return
             originPreViewParent = localRenderView!!.parent as ViewGroup
             originIndex = originPreViewParent?.indexOfChild(localRenderView) ?: 0
             originPreViewParent?.removeView(localRenderView)
@@ -225,7 +224,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             flPeerContainer.addView(
                 QPushTextureView(context).apply {
                     client?.getService(QPKService::class.java)
-                        ?.setPeerAnchorPreView(peer.userId, this)
+                        ?.setPeerAnchorPreView(this)
                 },
                 ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,

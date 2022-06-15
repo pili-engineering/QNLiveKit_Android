@@ -17,7 +17,7 @@ import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveuikit.R
 import com.qncube.liveuikit.RoomPage
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.QComponent
 import com.qncube.uikitcore.ext.ViewUtil
 import com.qncube.uikitcore.ext.bg
@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.kit_roomlist_item_room.view.*
 import kotlinx.android.synthetic.main.kit_view_room_list.view.*
 
 class RoomListView : FrameLayout, QComponent {
-    override var kitContext: KitContext? = null
+    override var QUIKitContext: QUIKitContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -42,7 +42,7 @@ class RoomListView : FrameLayout, QComponent {
     private val mAdapter = RoomListAdapter()
     private var mLifecycleOwner: LifecycleOwner? = null
 
-    override fun attachKitContext(context: KitContext) {
+    override fun attachKitContext(context: QUIKitContext) {
         super.attachKitContext(context)
         mSmartRecyclerView.setUp(
             mAdapter,

@@ -8,8 +8,9 @@ import android.view.LayoutInflater
 import androidx.core.view.LayoutInflaterCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import com.qncube.liveuikit.hook.KITInflaterFactory
 import com.qncube.liveuikit.hook.KITLiveInflaterFactory
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 
 class RoomListActivity : BaseFrameActivity() {
@@ -20,19 +21,19 @@ class RoomListActivity : BaseFrameActivity() {
         }
     }
 
-    private val mKitContext by lazy {
-        object : KitContext {
-            override var androidContext: Context = this@RoomListActivity
-            override var fm: FragmentManager = supportFragmentManager
-            override var currentActivity: Activity = this@RoomListActivity
-            override var lifecycleOwner: LifecycleOwner = this@RoomListActivity
-        }
+    private val mQUIKitContext by lazy {
+        QUIKitContext(
+            this@RoomListActivity,
+            supportFragmentManager,
+            this@RoomListActivity,
+            this@RoomListActivity
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         LayoutInflaterCompat.setFactory2(
             LayoutInflater.from(this),
-            KITLiveInflaterFactory(delegate, null, mKitContext)
+            KITInflaterFactory(delegate, mQUIKitContext)
         )
         super.onCreate(savedInstanceState)
     }

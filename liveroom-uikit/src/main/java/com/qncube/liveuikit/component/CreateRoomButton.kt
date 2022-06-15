@@ -9,12 +9,12 @@ import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveuikit.R
 import com.qncube.liveuikit.RoomPage
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.QComponent
 import kotlinx.android.synthetic.main.kit_btn_create_room.view.*
 
 class CreateRoomButton : FrameLayout, QComponent {
-    override var kitContext: KitContext? = null
+    override var QUIKitContext: QUIKitContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

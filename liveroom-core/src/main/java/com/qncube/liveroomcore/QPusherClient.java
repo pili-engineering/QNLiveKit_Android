@@ -36,5 +36,4 @@ public interface QPusherClient extends QLiveClient {
 
     void setAudioFrameListener(QAudioFrameListener frameListener);                 //设置本地音频数据监听
 
-    QPushRenderView getPushRenderView(); //获得已经绑定的RenderView
 }

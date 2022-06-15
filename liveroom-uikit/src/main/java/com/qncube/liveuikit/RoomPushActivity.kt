@@ -18,17 +18,21 @@ import com.qncube.lcommon.QCameraParam
 import com.qncube.lcommon.QMicrophoneParam
 import com.qncube.lcommon.RtcException
 import com.qncube.linveroominner.QLiveDelegate
+import com.qncube.linveroominner.UserDataSource
 import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.*
 import com.qncube.liveuikit.hook.KITLiveInflaterFactory
 import com.qncube.liveroomcore.been.QLiveRoomInfo
+import com.qncube.liveuikit.hook.KITFunctionInflaterFactory
 import com.qncube.roomservice.QRoomService
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QLiveKitUIContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 import com.qncube.uikitcore.dialog.LoadingDialog
 import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.activity_room_push.*
+import java.util.function.Function
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -65,44 +69,53 @@ class RoomPushActivity : BaseFrameActivity() {
         QLiveDelegate.qLiveSdk.createPusherClientCall()
     }
 
-    private val mKitContext by lazy {
-        object : KitContext {
-            override var androidContext: Context = this@RoomPushActivity
-            override var fm: FragmentManager = supportFragmentManager
-            override var currentActivity: Activity = this@RoomPushActivity
-            override var lifecycleOwner: LifecycleOwner = this@RoomPushActivity
-            override var leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
-                mRoomClient.closeRoom(object : QLiveCallBack<Void> {
-                    override fun onError(code: Int, msg: String?) {
-                        it.onError(code, msg)
-                    }
-
-                    override fun onSuccess(data: Void?) {
-                        it.onSuccess(data)
-                    }
-                })
+    private val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
+        mRoomClient.closeRoom(object : QLiveCallBack<Void> {
+            override fun onError(code: Int, msg: String?) {
+                it.onError(code, msg)
             }
-            override var createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
-                { p, c ->
-                    bg {
-                        LoadingDialog.showLoading(supportFragmentManager)
-                        doWork {
-                            val room = createSuspend(p)
-                            suspendJoinRoom(room.liveId)
-                            startCallBack?.onSuccess(null)
-                            startCallBack = null
-                            c.onSuccess(null)
-                        }
-                        catchError {
-                            it.message?.asToast()
-                            c.onError(it.getCode(), it.message)
-                        }
-                        onFinally {
-                            LoadingDialog.cancelLoadingDialog()
-                        }
-                    }
+
+            override fun onSuccess(data: Void?) {
+                mInflaterFactory.onLeft()
+                KITFunctionInflaterFactory.onLeft()
+                it.onSuccess(data)
+            }
+        })
+    }
+
+    private val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
+        { p, c ->
+            bg {
+                LoadingDialog.showLoading(supportFragmentManager)
+                doWork {
+                    val room = createSuspend(p)
+                    suspendJoinRoom(room.liveId)
+                    startCallBack?.onSuccess(null)
+                    startCallBack = null
+                    c.onSuccess(null)
                 }
+                catchError {
+                    it.message?.asToast()
+                    c.onError(it.getCode(), it.message)
+                }
+                onFinally {
+                    LoadingDialog.cancelLoadingDialog()
+                }
+            }
+
         }
+
+
+    private val mQUIKitContext by lazy {
+        QLiveKitUIContext(
+            this@RoomPushActivity,
+            supportFragmentManager,
+            this@RoomPushActivity,
+            this@RoomPushActivity,
+            leftRoomActionCall,
+            createAndJoinRoomActionCall,
+            { null }, { preTextureView }
+        )
     }
 
     private suspend fun createSuspend(p: QCreateRoomParam) = suspendCoroutine<QLiveRoomInfo> { ct ->
@@ -119,6 +132,8 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QLiveRoomInfo> { cont ->
+        mInflaterFactory.onEntering(roomId, UserDataSource.loginUser)
+        KITFunctionInflaterFactory.onEntering(roomId, UserDataSource.loginUser)
         mRoomClient.joinRoom(roomId, object :
             QLiveCallBack<QLiveRoomInfo> {
             override fun onError(code: Int, msg: String?) {
@@ -127,19 +142,26 @@ class RoomPushActivity : BaseFrameActivity() {
 
             override fun onSuccess(data: QLiveRoomInfo) {
                 cont.resume(data)
+                mInflaterFactory.onJoined(data)
+                KITFunctionInflaterFactory.onJoined(data)
             }
         })
     }
 
-    @SuppressLint("ObsoleteSdkInt")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//设置透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
-        }
+    private val mInflaterFactory by lazy {
+        KITLiveInflaterFactory(
+            delegate,
+            mRoomClient,
+            mQUIKitContext
+        )
+    }
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//设置透明状态栏
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
         LayoutInflaterCompat.setFactory2(
             LayoutInflater.from(this),
-            KITLiveInflaterFactory(delegate, mRoomClient, mKitContext)
+            mInflaterFactory
         )
         super.onCreate(savedInstanceState)
     }
@@ -148,9 +170,12 @@ class RoomPushActivity : BaseFrameActivity() {
         roomId = intent.getStringExtra("roomId") ?: ""
         mRoomClient.enableCamera(QCameraParam(), preTextureView)
         mRoomClient.enableMicrophone(QMicrophoneParam())
+
+        KITFunctionInflaterFactory.attachKitContext(mQUIKitContext)
         if (roomId.isEmpty()) {
             mLivePreView?.visibility = View.GONE
         } else {
+
             bg {
                 LoadingDialog.showLoading(supportFragmentManager)
                 doWork {
@@ -173,6 +198,8 @@ class RoomPushActivity : BaseFrameActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mInflaterFactory.onDestroyed()
+        KITFunctionInflaterFactory.onDestroyed()
         mRoomClient.destroy()
         startCallBack?.onError(-1, "")
         startCallBack = null

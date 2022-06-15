@@ -7,20 +7,17 @@ import androidx.viewpager.widget.ViewPager
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
-import com.qncube.liveuikit.CoverFragment
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.QLiveComponent
-import com.qncube.uikitcore.view.CommonPagerAdapter
+import com.qncube.uikitcore.QLiveKitUIContext
 import com.qncube.uikitcore.view.CommonViewPagerAdapter
-import com.qncube.uikitcore.view.EmptyFragment
 
 class RoomCoverViewPage : ViewPager, QLiveComponent {
 
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: KitContext? = null
-
+    override var kitContext: QLiveKitUIContext? = null
     private val views = ArrayList<View>()
 
     constructor(context: Context) : this(context, null)
@@ -28,7 +25,7 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
         visibility = View.INVISIBLE
     }
 
-    override fun attachKitContext(context: KitContext) {
+    override fun attachKitContext(context: QLiveKitUIContext) {
         super.attachKitContext(context)
         views.clear()
         for (i in 0 until childCount) {

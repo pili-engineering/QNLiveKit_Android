@@ -9,8 +9,9 @@ import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.QLiveComponent
+import com.qncube.uikitcore.QLiveKitUIContext
 import com.qncube.uikitcore.dialog.CommonTipDialog
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 
@@ -22,7 +23,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: KitContext? = null
+    override var kitContext: QLiveKitUIContext? = null
 
     private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
@@ -72,7 +73,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
         override fun onReject(qInvitation: QInvitation) {}
     }
 
-    override fun attachKitContext(context: KitContext) {
+    override fun attachKitContext(context: QLiveKitUIContext) {
         super.attachKitContext(context)
         client?.getService(QLinkMicService::class.java)?.invitationHandler?.addInvitationHandlerListener(
             mInvitationListener

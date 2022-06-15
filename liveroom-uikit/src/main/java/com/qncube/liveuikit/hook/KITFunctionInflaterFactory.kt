@@ -4,8 +4,7 @@ import com.qncube.linveroominner.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
-import com.qncube.uikitcore.KitContext
-import com.qncube.uikitcore.LiveKitContext
+import com.qncube.uikitcore.QLiveKitUIContext
 import com.qncube.uikitcore.QLiveComponent
 import kotlin.collections.HashSet
 
@@ -20,7 +19,7 @@ object KITFunctionInflaterFactory :
         }
     }
 
-    fun attachKitContext(context: LiveKitContext) {
+    fun attachKitContext(context: QLiveKitUIContext) {
         functionComponents.forEach {
             it.attachKitContext(context)
             context.lifecycleOwner.lifecycle.addObserver(it)

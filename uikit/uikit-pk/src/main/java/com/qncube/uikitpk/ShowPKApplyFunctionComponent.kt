@@ -7,8 +7,9 @@ import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.been.QInvitation
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
-import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.QLiveComponent
+import com.qncube.uikitcore.QLiveKitUIContext
 import com.qncube.uikitcore.dialog.CommonTipDialog
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 
@@ -18,7 +19,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: KitContext? = null
+    override var kitContext: QLiveKitUIContext ? = null
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(pkInvitation: QInvitation) {
