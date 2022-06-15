@@ -319,10 +319,10 @@ interface QLinkMicServiceListener{
 }
 
 class QAnchorHostMicLinker {
-    void setMixStreamAdapter(MixStreamAdapter mixStreamAdapter);                       //设置混流适配器
+    void setMixStreamAdapter(QMixStreamAdapter mixStreamAdapter);                       //设置混流适配器
 }
 
-interface MixStreamAdapter {
+interface QMixStreamAdapter {
      List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
 }
 
