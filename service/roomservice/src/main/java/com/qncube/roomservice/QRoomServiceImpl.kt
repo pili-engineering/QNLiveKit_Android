@@ -9,7 +9,7 @@ import com.qncube.linveroominner.UserDataSource
 import com.qncube.linveroominner.backGround
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.been.QExtension
-import com.qncube.liveroomcore.service.BaseService
+import com.qncube.linveroominner.BaseService
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
 import java.lang.Exception

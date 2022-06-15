@@ -5,7 +5,7 @@ import com.qncube.liveroomcore.QInvitationHandler;
 import com.qncube.liveroomcore.been.QExtension;
 import com.qncube.liveroomcore.QLiveCallBack;
 import com.qncube.liveroomcore.been.QMicLinker;
-import com.qncube.liveroomcore.service.QLiveService;
+import com.qncube.liveroomcore.QLiveService;
 
 import org.jetbrains.annotations.NotNull;
 

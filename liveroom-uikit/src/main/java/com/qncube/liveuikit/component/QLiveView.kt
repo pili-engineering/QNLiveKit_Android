@@ -1,8 +1,7 @@
 package com.qncube.liveuikit.component
 
-import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
-import com.qncube.uikitcore.QComponent
-import com.qncube.uikitcore.QEmptyView
+import com.qncube.liveuikit.hook.KITLiveInflaterFactory
+import com.qncube.uikitcore.QLiveEmptyView
 import com.qncube.uikitcore.QLiveComponent
 
 //内置UI型号组件
@@ -30,16 +29,16 @@ open class QLiveView(private val originViewClass: Class<out QLiveComponent>) {
     private fun checkReplace() {
         if (isEnable) {
             if (replaceClass != null) {
-                KITLayoutInflaterFactory.replaceViews[originViewClass.name] = replaceClass!!
+                KITLiveInflaterFactory.replaceViews[originViewClass.name] = replaceClass!!
             } else {
-                KITLayoutInflaterFactory.replaceViews.remove(
+                KITLiveInflaterFactory.replaceViews.remove(
                     originViewClass.name
                 )
             }
         } else {
-            KITLayoutInflaterFactory.replaceViews.put(
+            KITLiveInflaterFactory.replaceViews.put(
                 originViewClass.name,
-                QEmptyView::class.java
+                QLiveEmptyView::class.java
             )
         }
     }

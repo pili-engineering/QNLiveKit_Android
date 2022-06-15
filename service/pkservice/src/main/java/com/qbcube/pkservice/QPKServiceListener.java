@@ -21,7 +21,6 @@ public interface QPKServiceListener {
 
     /**
      * 扩展自定义字段跟新
-     *
      * @param QExtension
      */
     void onPKExtensionUpdate(@NotNull QPKSession pkSession, @NotNull QExtension QExtension);

@@ -21,13 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * 开播预览槽位
  */
-class LivePreView : QBaseRoomFrameLayout, BaseLivePreView {
-
-    /**
-     *  请求创建和加入房间的回调
-     */
-    override var onStartCreateCall: ((param: QCreateRoomParam, call: QLiveCallBack<Void>) -> Unit)? =
-        null
+class LivePreView : QBaseRoomFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -53,7 +47,7 @@ class LivePreView : QBaseRoomFrameLayout, BaseLivePreView {
                 return@setOnClickListener
             }
             val noticeStr = etNotice.text.toString() ?: ""
-            onStartCreateCall?.invoke(QCreateRoomParam().apply {
+            kitContext?.createAndJoinRoomActionCall?.invoke(QCreateRoomParam().apply {
                 title = titleStr
                 notice = noticeStr
                 coverURL = UserDataSource.loginUser.avatar ?: ""

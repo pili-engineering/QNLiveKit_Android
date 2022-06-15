@@ -1,10 +1,10 @@
 package com.qbcube.pkservice;
 
-import com.qiniu.droid.rtc.QNRenderView;
+import com.qncube.lcommon.QPushRenderView;
 import com.qncube.liveroomcore.QInvitationHandler;
 import com.qncube.liveroomcore.been.QExtension;
 import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.service.QLiveService;
+import com.qncube.liveroomcore.QLiveService;
 
 import java.util.HashMap;
 
@@ -46,12 +46,10 @@ public interface QPKService extends QLiveService {
     void stop(QLiveCallBack<Void> callBack);
 
     /**
-     * 设置某人的连麦预览
-     *
-     * @param uid  麦上用户ID
+     * 设置对方的连麦预览
      * @param view
      */
-    void setPeerAnchorPreView(String uid, QNRenderView view);
+    void setPeerAnchorPreView( QPushRenderView view);
 
     /**
      * 获得pk邀请处理

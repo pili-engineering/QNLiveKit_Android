@@ -3,7 +3,7 @@ package com.qncube.danmakuservice
 import com.niucube.rtm.*
 import com.niucube.rtm.msg.RtmTextMsg
 import com.qiniu.jsonutil.JsonUtils
-import com.qncube.liveroomcore.service.BaseService
+import com.qncube.linveroominner.BaseService
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.QLiveClient
 

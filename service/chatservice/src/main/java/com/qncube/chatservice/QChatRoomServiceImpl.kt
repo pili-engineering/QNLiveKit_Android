@@ -3,7 +3,7 @@ package com.qncube.chatservice
 import com.niucube.rtm.*
 import com.qiniu.droid.imsdk.QNIMClient
 import com.qncube.liveroomcore.*
-import com.qncube.liveroomcore.service.BaseService
+import com.qncube.linveroominner.BaseService
 import im.floo.floolib.BMXErrorCode
 import im.floo.floolib.BMXGroup
 import im.floo.floolib.BMXGroupServiceListener

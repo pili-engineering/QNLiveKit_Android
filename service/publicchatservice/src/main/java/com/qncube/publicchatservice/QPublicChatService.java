@@ -1,7 +1,7 @@
 package com.qncube.publicchatservice;
 
 import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.service.QLiveService;
+import com.qncube.liveroomcore.QLiveService;
 
 public interface QPublicChatService extends QLiveService {
 

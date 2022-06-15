@@ -7,22 +7,22 @@ import com.nucube.rtclive.*
 import com.qiniu.droid.rtc.*
 import com.qncube.lcommon.*
 import com.qncube.linveroominner.AppCache
+import com.qncube.linveroominner.QNLiveRoomContext
 import com.qncube.linveroominner.backGround
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.QClientType
-import com.qncube.liveroomcore.service.QLiveService
+import com.qncube.liveroomcore.QLiveService
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 
-class QPusherClientImpl : QPusherClient {
+class QPusherClientImpl : QPusherClient, QRTCLiveProvider {
 
     companion object {
-        fun create():QPusherClient{
+        fun create(): QPusherClient {
             return QPusherClientImpl()
         }
     }
 
     private val mRoomSource = com.qncube.linveroominner.RoomDataSource()
-    private val mQNLiveRoomContext by lazy { com.qncube.linveroominner.QNLiveRoomContext(this) }
     private var mLiveStatusListener: QLiveStatusListener? = null
     private var mLocalPreView: QPushRenderView? = null
     private var mCameraParams: QCameraParam =
@@ -30,29 +30,26 @@ class QPusherClientImpl : QPusherClient {
     private var mQMicrophoneParam: QMicrophoneParam =
         QMicrophoneParam()
     private var mConnectionStatusLister: QConnectionStatusLister? = null
-
-    //用于反射字段名字勿动
-    private var mRtcLiveRoom: RtcLiveRoom? = null
-
     private val mRtcRoom by lazy {
-        RtcLiveRoom(AppCache.appContext)
-    }
-
-    init {
-        mRtcLiveRoom = mRtcRoom
-        mRtcRoom.addExtraQNRTCEngineEventListener(
-            object : DefaultExtQNClientEventListener {
-                override fun onConnectionStateChanged(
-                    p0: QNConnectionState,
-                    p1: QNConnectionDisconnectedInfo?
-                ) {
-                    super.onConnectionStateChanged(p0, p1)
-                    mConnectionStatusLister?.onConnectionStatusChanged(p0.toQConnectionState())
+        QRtcLiveRoom(AppCache.appContext).apply {
+            addExtraQNRTCEngineEventListener(
+                object : DefaultExtQNClientEventListener {
+                    override fun onConnectionStateChanged(
+                        p0: QNConnectionState,
+                        p1: QNConnectionDisconnectedInfo?
+                    ) {
+                        super.onConnectionStateChanged(p0, p1)
+                        mConnectionStatusLister?.onConnectionStatusChanged(p0.toQConnectionState())
+                    }
                 }
+            )
+        }
+    }
+    private val mQNLiveRoomContext by lazy {
+        QNLiveRoomContext(this).apply {
+            mRoomScheduler.roomStatusChange = {
+                mLiveStatusListener?.onLiveStatusChanged(it)
             }
-        )
-        mQNLiveRoomContext.mRoomScheduler.roomStatusChange = {
-            mLiveStatusListener?.onLiveStatusChanged(it)
         }
     }
 
@@ -185,5 +182,12 @@ class QPusherClientImpl : QPusherClient {
 
     override fun getClientType(): QClientType {
         return QClientType.PUSHER
+    }
+
+    /**
+     * 获得rtc对象
+     */
+    override var rtcRoomGetter: (() -> QRtcLiveRoom) = {
+        mRtcRoom
     }
 }

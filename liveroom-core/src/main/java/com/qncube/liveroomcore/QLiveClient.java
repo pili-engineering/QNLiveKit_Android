@@ -1,7 +1,6 @@
 package com.qncube.liveroomcore;
 
 import com.qncube.liveroomcore.been.QLiveRoomInfo;
-import com.qncube.liveroomcore.service.QLiveService;
 
 //房间客户端
 public interface QLiveClient {

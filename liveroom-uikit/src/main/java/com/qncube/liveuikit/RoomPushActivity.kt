@@ -16,12 +16,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.qncube.lcommon.QCameraParam
 import com.qncube.lcommon.QMicrophoneParam
-import com.qncube.kitlivepre.BaseLivePreView
 import com.qncube.lcommon.RtcException
 import com.qncube.linveroominner.QLiveDelegate
 import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.*
-import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
+import com.qncube.liveuikit.hook.KITLiveInflaterFactory
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.KitContext
@@ -72,6 +71,37 @@ class RoomPushActivity : BaseFrameActivity() {
             override var fm: FragmentManager = supportFragmentManager
             override var currentActivity: Activity = this@RoomPushActivity
             override var lifecycleOwner: LifecycleOwner = this@RoomPushActivity
+            override var leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
+                mRoomClient.closeRoom(object : QLiveCallBack<Void> {
+                    override fun onError(code: Int, msg: String?) {
+                        it.onError(code, msg)
+                    }
+
+                    override fun onSuccess(data: Void?) {
+                        it.onSuccess(data)
+                    }
+                })
+            }
+            override var createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
+                { p, c ->
+                    bg {
+                        LoadingDialog.showLoading(supportFragmentManager)
+                        doWork {
+                            val room = createSuspend(p)
+                            suspendJoinRoom(room.liveId)
+                            startCallBack?.onSuccess(null)
+                            startCallBack = null
+                            c.onSuccess(null)
+                        }
+                        catchError {
+                            it.message?.asToast()
+                            c.onError(it.getCode(), it.message)
+                        }
+                        onFinally {
+                            LoadingDialog.cancelLoadingDialog()
+                        }
+                    }
+                }
         }
     }
 
@@ -109,7 +139,7 @@ class RoomPushActivity : BaseFrameActivity() {
         }
         LayoutInflaterCompat.setFactory2(
             LayoutInflater.from(this),
-            KITLayoutInflaterFactory(delegate, mRoomClient, mKitContext)
+            KITLiveInflaterFactory(delegate, mRoomClient, mKitContext)
         )
         super.onCreate(savedInstanceState)
     }
@@ -118,26 +148,6 @@ class RoomPushActivity : BaseFrameActivity() {
         roomId = intent.getStringExtra("roomId") ?: ""
         mRoomClient.enableCamera(QCameraParam(), preTextureView)
         mRoomClient.enableMicrophone(QMicrophoneParam())
-        (mLivePreView as BaseLivePreView?)?.onStartCreateCall = { param, call ->
-            bg {
-                LoadingDialog.showLoading(supportFragmentManager)
-                doWork {
-                    val info = createSuspend(param)
-                    suspendJoinRoom(info.liveId)
-                    startCallBack?.onSuccess(null)
-                    startCallBack = null
-                    call.onSuccess(null)
-                }
-                catchError {
-                    it.message?.asToast()
-                    call.onError(it.getCode(), it.message)
-                }
-                onFinally {
-                    LoadingDialog.cancelLoadingDialog()
-                }
-            }
-        }
-
         if (roomId.isEmpty()) {
             mLivePreView?.visibility = View.GONE
         } else {

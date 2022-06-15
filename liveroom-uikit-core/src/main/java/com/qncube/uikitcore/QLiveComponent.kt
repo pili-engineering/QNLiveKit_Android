@@ -1,26 +1,34 @@
 package com.qncube.uikitcore
 
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.liveroomcore.QClientLifeCycleListener
+import com.qncube.linveroominner.QClientLifeCycleListener
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
 
-interface QLiveComponent : QComponent,
-    QClientLifeCycleListener {
+interface QLiveComponent :
+    QClientLifeCycleListener , LifecycleEventObserver {
 
     var client: QLiveClient?
     var roomInfo: QLiveRoomInfo?
     var user: QLiveUser?
-
-    open fun attachLiveClient( client: QLiveClient) {
-        this.client = client
-
+    var kitContext: LiveKitContext?
+    fun attachKitContext(context: LiveKitContext) {
+        this.kitContext = context
+        context.lifecycleOwner.lifecycle.addObserver(this)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        super.onStateChanged(source, event)
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            kitContext = null
+        }
+    }
+
+    open fun attachLiveClient(client: QLiveClient) {
+        this.client = client
+
     }
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
@@ -36,7 +44,7 @@ interface QLiveComponent : QComponent,
     }
 
     override fun onDestroyed() {
-        client =null
+        client = null
     }
 
 }

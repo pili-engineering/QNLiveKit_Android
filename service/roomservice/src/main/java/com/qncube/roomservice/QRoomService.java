@@ -4,7 +4,7 @@ import com.qncube.liveroomcore.been.QExtension;
 import com.qncube.liveroomcore.QLiveCallBack;
 import com.qncube.liveroomcore.been.QLiveRoomInfo;
 import com.qncube.liveroomcore.been.QLiveUser;
-import com.qncube.liveroomcore.service.QLiveService;
+import com.qncube.liveroomcore.QLiveService;
 
 import java.util.List;
 

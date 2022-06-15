@@ -2,7 +2,7 @@ package com.qncube.chatservice;
 
 
 import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.service.QLiveService;
+import com.qncube.liveroomcore.QLiveService;
 
 /**
  * 聊天室服务

@@ -80,6 +80,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
             }
         }
     }
+
     //关闭房间菜单
     class CloseRoomView : QBaseRoomFrameLayout {
 
@@ -114,11 +115,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
                         kitContext?.currentActivity?.finish()
                     }
                 }
-                if(client?.clientType == QClientType.PLAYER){
-                    ( client as QPlayerClient?)?.leaveRoom(call)
-                }else{
-                    ( client as QPusherClient?)?.closeRoom(call)
-                }
+                kitContext?.leftRoomActionCall?.invoke(call)
             }
         }
 

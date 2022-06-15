@@ -1,7 +1,7 @@
 package com.qncube.linkmicservice
 
 import com.nucube.rtclive.DefaultExtQNClientEventListener
-import com.nucube.rtclive.RtcLiveRoom
+import com.nucube.rtclive.QRtcLiveRoom
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.been.QMicLinker
 import java.util.*
@@ -65,6 +65,6 @@ class MicLinkContext {
             }
         }
     }
-    lateinit var mRtcLiveRoom: RtcLiveRoom
+    lateinit var mQRtcLiveRoom: QRtcLiveRoom
 
 }

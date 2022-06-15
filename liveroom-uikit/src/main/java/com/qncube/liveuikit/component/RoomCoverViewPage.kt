@@ -11,6 +11,7 @@ import com.qncube.liveuikit.CoverFragment
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QLiveComponent
 import com.qncube.uikitcore.view.CommonPagerAdapter
+import com.qncube.uikitcore.view.CommonViewPagerAdapter
 import com.qncube.uikitcore.view.EmptyFragment
 
 class RoomCoverViewPage : ViewPager, QLiveComponent {
@@ -20,14 +21,21 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
     override var user: QLiveUser? = null
     override var kitContext: KitContext? = null
 
-    private val fragments by lazy {
-        listOf(EmptyFragment(), CoverFragment())
-    }
+    private val views = ArrayList<View>()
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         visibility = View.INVISIBLE
-        adapter = CommonPagerAdapter(fragments, kitContext!!.fm)
+    }
+
+    override fun attachKitContext(context: KitContext) {
+        super.attachKitContext(context)
+        views.clear()
+        for (i in 0 until childCount) {
+            views.add(getChildAt(i))
+        }
+        removeAllViews()
+        adapter = CommonViewPagerAdapter(views)
         currentItem = 1
     }
 

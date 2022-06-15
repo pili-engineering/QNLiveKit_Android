@@ -7,7 +7,7 @@ import com.qiniu.jsonutil.JsonUtils
 import com.qncube.linveroominner.*
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.been.QExtension
-import com.qncube.liveroomcore.service.BaseService
+import com.qncube.linveroominner.BaseService
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.liveroomcore.been.QMicLinker
@@ -25,10 +25,17 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
 
     private val mLinkDateSource = LinkDateSource()
     private val mMicLinkContext = MicLinkContext()
-    private val mAudienceMicLinker: QAudienceMicHandlerImpl =
-        QAudienceMicHandlerImpl(mMicLinkContext)
-    private val mAnchorHostMicLinker: QAnchorHostMicHandlerImpl =
-        QAnchorHostMicHandlerImpl(mMicLinkContext)
+    private val mAudienceMicLinker: QAudienceMicHandlerImpl by lazy {
+        QAudienceMicHandlerImpl(
+            mMicLinkContext
+        )
+    }
+
+    private val mAnchorHostMicLinker: QAnchorHostMicHandlerImpl by lazy {
+        QAnchorHostMicHandlerImpl(
+            mMicLinkContext
+        )
+    }
     private val mLinkMicInvitationHandler = QInvitationHandlerImpl("liveroom_linkmic_invitation")
 
     private val mRtmMsgListener = object : RtmMsgListener {
@@ -125,7 +132,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      * @param preview
      */
     override fun setUserPreview(uid: String, preview: QNRenderView) {
-        mMicLinkContext.mRtcLiveRoom.setUserCameraWindowView(uid, preview)
+        mMicLinkContext.mQRtcLiveRoom.setUserCameraWindowView(uid, preview)
     }
 
     /**
@@ -290,4 +297,6 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
         mLinkMicInvitationHandler.onDestroyed()
         RtmManager.removeRtmChannelListener(mRtmMsgListener)
     }
+
+
 }

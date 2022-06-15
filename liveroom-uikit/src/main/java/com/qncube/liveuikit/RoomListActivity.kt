@@ -3,13 +3,12 @@ package com.qncube.liveuikit
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.view.LayoutInflaterCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
+import com.qncube.liveuikit.hook.KITLiveInflaterFactory
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 
@@ -33,7 +32,7 @@ class RoomListActivity : BaseFrameActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         LayoutInflaterCompat.setFactory2(
             LayoutInflater.from(this),
-            KITLayoutInflaterFactory(delegate, null, mKitContext)
+            KITLiveInflaterFactory(delegate, null, mKitContext)
         )
         super.onCreate(savedInstanceState)
     }

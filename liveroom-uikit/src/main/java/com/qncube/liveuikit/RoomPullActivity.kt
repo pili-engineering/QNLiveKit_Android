@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.qncube.lcommon.PreviewMode
 import com.qncube.liveroomcore.*
-import com.qncube.liveuikit.hook.KITLayoutInflaterFactory
+import com.qncube.liveuikit.hook.KITLiveInflaterFactory
 import com.qncube.lcommon.RtcException
 import com.qncube.linveroominner.QLiveDelegate
 import com.qncube.linveroominner.asToast
@@ -51,6 +51,21 @@ class RoomPullActivity : BaseFrameActivity() {
             override var fm: FragmentManager = supportFragmentManager
             override var currentActivity: Activity = this@RoomPullActivity
             override var lifecycleOwner: LifecycleOwner = this@RoomPullActivity
+            override var leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
+                mRoomClient.leaveRoom(object : QLiveCallBack<Void> {
+                    override fun onError(code: Int, msg: String?) {
+                        it.onError(code, msg)
+                    }
+
+                    override fun onSuccess(data: Void?) {
+                        it.onSuccess(data)
+                    }
+                })
+            }
+            override var createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
+                { p, c ->
+                    "player activity can not create".asToast()
+                }
         }
     }
 
@@ -74,7 +89,7 @@ class RoomPullActivity : BaseFrameActivity() {
         }
         LayoutInflaterCompat.setFactory2(
             LayoutInflater.from(this),
-            KITLayoutInflaterFactory(delegate, mRoomClient, mKitContext)
+            KITLiveInflaterFactory(delegate, mRoomClient, mKitContext)
         )
         super.onCreate(savedInstanceState)
     }
@@ -87,6 +102,7 @@ class RoomPullActivity : BaseFrameActivity() {
                 doWork {
                     val room = suspendJoinRoom(mRoomId)
                     startCallBack?.onSuccess(room)
+                    mRoomClient.play(playerRenderView)
                 }
                 catchError {
                     it.message?.asToast()

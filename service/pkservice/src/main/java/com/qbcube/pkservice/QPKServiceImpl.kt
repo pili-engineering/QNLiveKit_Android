@@ -4,16 +4,18 @@ import android.text.TextUtils
 import android.util.Base64
 import com.niucube.rtm.*
 import com.niucube.rtm.msg.RtmTextMsg
-import com.nucube.rtclive.CameraMergeOption
 import com.nucube.rtclive.DefaultExtQNClientEventListener
-import com.nucube.rtclive.MicrophoneMergeOption
-import com.nucube.rtclive.RtcLiveRoom
+import com.nucube.rtclive.QRTCLiveProvider
+import com.nucube.rtclive.QRtcLiveRoom
 import com.qiniu.droid.rtc.*
 import com.qiniu.jsonutil.JsonUtils
+import com.qncube.lcommon.CameraMergeOption
+import com.qncube.lcommon.MicrophoneMergeOption
+import com.qncube.lcommon.QPushRenderView
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.QNLiveLogUtil
 import com.qncube.liveroomcore.QClientType
-import com.qncube.liveroomcore.service.BaseService
+import com.qncube.linveroominner.BaseService
 import com.qncube.lcommon.RtcException
 import com.qncube.linveroominner.*
 import com.qncube.liveroomcore.been.QExtension
@@ -64,9 +66,7 @@ class QPKServiceImpl : QPKService, BaseService() {
             backGround {
                 doWork {
                     val pkOutline = mPKDateSource.recevPk(mPKSessionTemp?.sessionID ?: "")
-
-                    val field = client!!.getRtc()
-                    val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
+                    val room: QRtcLiveRoom = rtcRoomGetter
                     //转发
                     val sourceInfo = QNMediaRelayInfo(room.roomName, room.roomToken)
                     val configuration = QNMediaRelayConfiguration(sourceInfo)
@@ -248,14 +248,12 @@ class QPKServiceImpl : QPKService, BaseService() {
 
         backGround {
             doWork {
-
                 try {
                     mPKDateSource.stopPk(mPKSession?.sessionID ?: "")
                 } catch (e: Exception) {
                     e.printStackTrace()
                     QNLiveLogUtil.LogE("pk 对方离开房间 上报结束失败 ${e.message} ")
                 }
-
                 stopMediaRelay()
                 try {
                     RtmManager.rtmClient.sendChannelMsg(
@@ -290,47 +288,45 @@ class QPKServiceImpl : QPKService, BaseService() {
         if (mQPKMixStreamAdapter == null) {
             return
         }
-        val field = client!!.getRtc()
-        val mRtcLiveRoom: RtcLiveRoom = field.get(client) as RtcLiveRoom
-
+        val mQRtcLiveRoom: QRtcLiveRoom = rtcRoomGetter
         if (mPKSession != null) {
-            mRtcLiveRoom.mMixStreamManager.startNewMixStreamJob(
+            mQRtcLiveRoom.mMixStreamManager.startNewMixStreamJob(
                 mQPKMixStreamAdapter!!.onPKMixStreamStart(
                     mPKSession!!
                 )
             )
             val ops = mQPKMixStreamAdapter?.onPKLinkerJoin(mPKSession!!)
             ops?.forEach {
-                mRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
+                mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
                     false
                 )
-                mRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
+                mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
                     it.uid,
                     it.cameraMergeOption,
                     false
                 )
             }
-            mRtcLiveRoom.mMixStreamManager.commitOpt()
+            mQRtcLiveRoom.mMixStreamManager.commitOpt()
         } else {
 
-            if (mRtcLiveRoom.mMixStreamManager
+            if (mQRtcLiveRoom.mMixStreamManager
                     .roomUser == 1
             ) {
-                mRtcLiveRoom.mMixStreamManager.startForwardJob()
+                mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
             } else {
-                mRtcLiveRoom.mMixStreamManager.stopMixStreamJob()
-                mRtcLiveRoom.mMixStreamManager.startMixStreamJob()
+                mQRtcLiveRoom.mMixStreamManager.stopMixStreamJob()
+                mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
             }
 
-            mRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
+            mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                 peerId,
                 MicrophoneMergeOption(),
                 false
             )
-            mRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
+            mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
                 peerId,
                 CameraMergeOption(),
                 false
@@ -338,18 +334,18 @@ class QPKServiceImpl : QPKService, BaseService() {
 
             val ops = mQPKMixStreamAdapter?.onPKLinkerLeft()
             ops?.forEach {
-                mRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
+                mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
                     false
                 )
-                mRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
+                mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
                     it.uid,
                     it.cameraMergeOption,
                     false
                 )
             }
-            mRtcLiveRoom.mMixStreamManager.commitOpt()
+            mQRtcLiveRoom.mMixStreamManager.commitOpt()
         }
     }
 
@@ -359,8 +355,7 @@ class QPKServiceImpl : QPKService, BaseService() {
         RtmManager.addRtmChannelListener(groupListener)
 
         if (client.clientType == QClientType.PUSHER) {
-            val field = client!!.getRtc()
-            val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
+            val room: QRtcLiveRoom = rtcRoomGetter
             room.addExtraQNRTCEngineEventListener(defaultExtQNClientEventListener)
             pkPKInvitationHandlerImpl.attach()
         } else {
@@ -472,8 +467,7 @@ class QPKServiceImpl : QPKService, BaseService() {
                         mPKSession
                     ).toJsonString(), receiver.imUid, false
                 )
-                val field = client!!.getRtc()
-                val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
+                val room: QRtcLiveRoom = rtcRoomGetter
                 //转发
                 val sourceInfo = QNMediaRelayInfo(room.roomName, room.roomToken)
                 val configuration = QNMediaRelayConfiguration(sourceInfo)
@@ -527,8 +521,7 @@ class QPKServiceImpl : QPKService, BaseService() {
 
     private suspend fun stopMediaRelay() =
         suspendCoroutine<Unit> { continuation ->
-            val field = client!!.getRtc()
-            val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
+            val room: QRtcLiveRoom = rtcRoomGetter
             room.mClient.stopMediaRelay(object : QNMediaRelayResultCallback {
                 override fun onResult(p0: MutableMap<String, QNMediaRelayState>) {
                     continuation.resume(Unit)
@@ -586,10 +579,14 @@ class QPKServiceImpl : QPKService, BaseService() {
      * @param uid  麦上用户ID
      * @param view
      */
-    override fun setPeerAnchorPreView(uid: String, view: QNRenderView) {
-        val field = client!!.getRtc()
-        val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
-        room.setUserCameraWindowView(uid, view)
+    override fun setPeerAnchorPreView(view: QPushRenderView) {
+        val room: QRtcLiveRoom = rtcRoomGetter
+        val peer = if (mPKSession!!.initiator.userId == user?.userId) {
+            mPKSession!!.receiver.userId
+        } else {
+            mPKSession!!.initiator.userId
+        }
+        room.setUserCameraWindowView(peer, view as QNRenderView)
     }
 
     /**
@@ -599,5 +596,13 @@ class QPKServiceImpl : QPKService, BaseService() {
     override fun getInvitationHandler(): QInvitationHandler {
         return pkPKInvitationHandlerImpl
     }
+
+    /**
+     * 获得rtc对象
+     */
+    private val rtcRoomGetter by lazy {
+        ( client as QRTCLiveProvider).rtcRoomGetter.invoke()
+    }
+
 
 }

@@ -2,7 +2,7 @@ package com.qncube.danmakuservice;
 
 
 import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.service.QLiveService;
+import com.qncube.liveroomcore.QLiveService;
 
 import java.util.HashMap;
 

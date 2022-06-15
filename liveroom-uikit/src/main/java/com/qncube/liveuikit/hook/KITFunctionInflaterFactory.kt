@@ -1,14 +1,16 @@
 package com.qncube.liveuikit.hook
 
-import com.qncube.liveroomcore.QClientLifeCycleListener
+import com.qncube.linveroominner.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.uikitcore.KitContext
+import com.qncube.uikitcore.LiveKitContext
 import com.qncube.uikitcore.QLiveComponent
 import kotlin.collections.HashSet
 
-object KITFunctionInflaterFactory : QClientLifeCycleListener {
+object KITFunctionInflaterFactory :
+    QClientLifeCycleListener {
 
     val functionComponents = HashSet<QLiveComponent>()
 
@@ -18,7 +20,7 @@ object KITFunctionInflaterFactory : QClientLifeCycleListener {
         }
     }
 
-    fun attachKitContext(context: KitContext) {
+    fun attachKitContext(context: LiveKitContext) {
         functionComponents.forEach {
             it.attachKitContext(context)
             context.lifecycleOwner.lifecycle.addObserver(it)
