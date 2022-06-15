@@ -304,8 +304,8 @@ interface QLinkMicService extends QLiveService {
     void setUserPreview(String uID, QRenderView preview);                             //设置某个连麦者的预览 
     void kickOutUser(String uID, String msg, QLiveCallBack<Void> callBack);           // 踢麦
     void updateExtension(QMicLinker micLinker, QExtension extension,QLiveCallBack<Void> callBack); //跟新麦位扩展字段
-    QAudienceMicLinker getAudienceMicLinker();                                        // 用户连麦器 
-    QAnchorHostMicLinker getAnchorHostMicLinker();                                    //主播连麦器
+    QAudienceMicHandler getAudienceMicHandler();                                        // 用户连麦器 
+    QAnchorHostMicHandler getAnchorHostMicHandler();                                    //主播连麦器
     QInvitationHandler getInvitationHandler();                                        //邀请处理器   
 }
  
@@ -318,7 +318,7 @@ interface QLinkMicServiceListener{
     void onLinkerExtensionUpdate(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
 }
 
-class QAnchorHostMicLinker {
+class QAnchorHostMicHandler {
     void setMixStreamAdapter(QMixStreamAdapter mixStreamAdapter);                       //设置混流适配器
 }
 
@@ -326,7 +326,7 @@ interface QMixStreamAdapter {
      List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
 }
 
-class QAudienceMicLinker{
+class QAudienceMicHandler{
      void removeListener(QLinkMicListener listener);               
      void addListener(QLinkMicListener listener);
      void startLink(HashMap<String,String> extension,CameraParams cameraParams, MicrophoneParams microphoneParams, QLiveCallBack<Void> callBack  );//上麦
