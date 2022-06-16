@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":LibComponent:comp_rtm:unitTest" external.linked.project.path="$MODULE_DIR$/../../../../LibComponent/comp_rtm" external.root.project.path="$MODULE_DIR$/../../../.." external.system.id="GRADLE" external.system.module.type="sourceSet" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="4" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xallow-no-source-files" />
+        </compilerSettings>
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/tmp/kotlin-classes/debugUnitTest" />
+          <option name="classpath" value="$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/intermediates/compile_library_classes_jar/debug/classes.jar:/Users/manjialle/AndroidStudioProjects/lowcode/QNLiveKit_Android/LibComponent/lib_json/build/intermediates/compile_library_classes_jar/debug/classes.jar:/Users/manjialle/.gradle/caches/transforms-3/e3c5e733b3b55da4c7b01853644227cf/transformed/jetified-kotlinx-coroutines-android-1.3.9.jar:/Users/manjialle/.gradle/caches/transforms-3/76b6a2f8396248ec6bf1f5d6adc48292/transformed/jetified-kotlin-stdlib-jdk8-1.6.21.jar:/Users/manjialle/.gradle/caches/transforms-3/996245ede409771c571d4af67627ae0e/transformed/jetified-junit-4.14-SNAPSHOT.jar:/Users/manjialle/.gradle/caches/transforms-3/c50ed4630ac357ca07ee1445582ea4f5/transformed/jetified-hamcrest-core-1.3.jar:/Users/manjialle/.gradle/caches/transforms-3/624c1960e671402471a82a41e537a733/transformed/jetified-fastjson-1.2.61.jar:/Users/manjialle/.gradle/caches/transforms-3/b56bea9649f1302656a5f9ac3e6005d4/transformed/jetified-kotlin-stdlib-jdk7-1.6.21.jar:/Users/manjialle/.gradle/caches/transforms-3/7b9e175f602738eb401d93e7f0bbeda2/transformed/jetified-kotlinx-coroutines-core-jvm-1.3.9.jar:/Users/manjialle/.gradle/caches/transforms-3/6906fdaa9568ce2e3ce2e804f97c1dcc/transformed/jetified-kotlin-stdlib-1.6.21.jar:/Users/manjialle/.gradle/caches/transforms-3/82ab5b5ad9659926d6830ebe1757c84d/transformed/jetified-kotlin-stdlib-common-1.6.21.jar:/Users/manjialle/.gradle/caches/transforms-3/0ed2b0c0806a9d048b2af3aea7174675/transformed/jetified-annotations-13.0.jar:/Users/manjialle/Library/Android/sdk/platforms/android-31/android.jar:/Users/manjialle/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="moduleName" value="comp_rtm_debug" />
+          <option name="friendPaths">
+            <array>
+              <option value="$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/tmp/kotlin-classes/debug" />
+              <option value="$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/intermediates/javac/debug/classes" />
+              <option value="$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/intermediates/compile_library_classes_jar/debug/classes.jar" />
+            </array>
+          </option>
+          <option name="languageVersion" value="1.6" />
+          <option name="apiVersion" value="1.6" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+          <option name="errors">
+            <ArgumentParseErrors />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
+        <afterSyncTasks>
+          <task>generateDebugSources</task>
+        </afterSyncTasks>
+        <option name="ALLOW_USER_CONFIGURATION" value="false" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/main/res;file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/debug/res;file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/generated/res/rs/debug;file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/generated/res/resValues/debug" />
+        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/androidTest/res;file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/androidTestDebug/res;file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/generated/res/rs/androidTest/debug;file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/generated/res/resValues/androidTest/debug" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
+        <option name="PROJECT_TYPE" value="1" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/build/generated/ap_generated_sources/debugUnitTest/out" />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/test/java" isTestSource="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/comp_rtm/src/testDebug" />
+    <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="QNLiveKit.LibComponent.comp_rtm.main" scope="TEST" />
+    <orderEntry type="module" module-name="QNLiveKit.LibComponent.lib_json.main" scope="TEST" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.14-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.alibaba:fastjson:1.2.61" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.3.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.6.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="QNLiveKit.LibComponent.comp_rtm.main" />
+</module>

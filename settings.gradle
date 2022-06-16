@@ -1,0 +1,41 @@
+
+rootProject.name = "QNLiveKit"
+include ':app'
+
+
+include ':liveroom-core'
+include ':liveroom-pushclient'
+include ':liveroom-pullclient'
+include ':liveroom-uikit-core'
+include ':liveroom-uikit'
+include ':linveroom-inner'
+include ':liveroom-common'
+
+
+include ':LibComponent:rtclive'
+
+include ':service:linkmicservice'
+include ':service:pkservice'
+include ':service:chatservice'
+include ':service:danmakuservice'
+include ':service:publicchatservice'
+include ':service:roomservice'
+
+include ':uikit:uikit-user'
+include ':uikit:uikit-danmaku'
+include ':uikit:uikit-publicchat'
+include ':uikit:uiwidget-input'
+include ':uikit:uiwidget-Emoji'
+include ':uikit:uikit-livepreview'
+include ':uikit:uikit-linkmic'
+include ':uikit:uikit-pk'
+
+include ':LibComponent:lib_json'
+include ':LibComponent:comp_qnrtcsdk'
+include ':LibComponent:comp_rtm'
+include ':LibComponent:comp_player'
+include ':LibComponent:sdk_qnim'
+include ':LibComponent:comp_imadapter'
+
+
+include ':qlivesdk'

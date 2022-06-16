@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":LibComponent:lib_json:main" external.linked.project.path="$MODULE_DIR$/../../../../LibComponent/lib_json" external.root.project.path="$MODULE_DIR$/../../../.." external.system.id="GRADLE" external.system.module.type="sourceSet" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="4" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xallow-no-source-files" />
+        </compilerSettings>
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/../../../../LibComponent/lib_json/build/tmp/kotlin-classes/debug" />
+          <option name="classpath" value="$MODULE_DIR$/../../../../LibComponent/lib_json/build/intermediates/compile_r_class_jar/debug/R.jar:/Users/manjialle/.gradle/caches/transforms-3/624c1960e671402471a82a41e537a733/transformed/jetified-fastjson-1.2.61.jar:/Users/manjialle/.gradle/caches/transforms-3/a5bdc1988285271f03c86b41e2ff8333/transformed/jetified-kotlin-stdlib-jdk7-1.5.21.jar:/Users/manjialle/.gradle/caches/transforms-3/457624228df96002d6d7e66b6f4f0afb/transformed/jetified-core-ktx-1.7.0-api.jar:/Users/manjialle/.gradle/caches/transforms-3/3f69b2f573ec8f5077ec3721a1a38b65/transformed/jetified-kotlin-stdlib-1.5.31.jar:/Users/manjialle/.gradle/caches/transforms-3/0ed2b0c0806a9d048b2af3aea7174675/transformed/jetified-annotations-13.0.jar:/Users/manjialle/.gradle/caches/transforms-3/14e438ca4339d932d09950bedd8583eb/transformed/jetified-kotlin-stdlib-common-1.5.31.jar:/Users/manjialle/.gradle/caches/transforms-3/9f8b333602c403350be9355f2ccc528a/transformed/core-1.7.0-api.jar:/Users/manjialle/.gradle/caches/transforms-3/828d31b6e9283cc4d78dbb97bb58e705/transformed/lifecycle-runtime-2.3.1-api.jar:/Users/manjialle/.gradle/caches/transforms-3/0a667ac9c03882c093853177c83c53d4/transformed/versionedparcelable-1.1.1-api.jar:/Users/manjialle/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.3.1/fc466261d52f4433863642fb40d12441ae274a98/lifecycle-common-2.3.1.jar:/Users/manjialle/.gradle/caches/modules-2/files-2.1/androidx.arch.core/core-common/2.1.0/b3152fc64428c9354344bd89848ecddc09b6f07e/core-common-2.1.0.jar:/Users/manjialle/.gradle/caches/modules-2/files-2.1/androidx.collection/collection/1.0.0/42858b26cafdaa69b6149f45dfc2894007bc2c7a/collection-1.0.0.jar:/Users/manjialle/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation/1.2.0/57136ff68ee784c6e19db34ed4a175338fadfde1/annotation-1.2.0.jar:/Users/manjialle/.gradle/caches/transforms-3/075f2684ddaba3416a122d80735024f3/transformed/jetified-annotation-experimental-1.1.0-api.jar:/Users/manjialle/Library/Android/sdk/platforms/android-31/android.jar:/Users/manjialle/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="moduleName" value="lib_json_debug" />
+          <option name="languageVersion" value="1.6" />
+          <option name="apiVersion" value="1.6" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+          <option name="errors">
+            <ArgumentParseErrors />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
+        <afterSyncTasks>
+          <task>generateDebugSources</task>
+        </afterSyncTasks>
+        <option name="ALLOW_USER_CONFIGURATION" value="false" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/main/res;file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/debug/res;file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/rs/debug;file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/resValues/debug" />
+        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/androidTest/res;file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/androidTestDebug/res;file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/rs/androidTest/debug;file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/resValues/androidTest/debug" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
+        <option name="PROJECT_TYPE" value="1" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/aidl_source_output_dir/debug/out" />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/ap_generated_sources/debug/out">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/ap_generated_sources/debug/out" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/renderscript_source_output_dir/debug/out" />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/resValues/debug">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/resValues/debug" type="java-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/res/rs/debug" />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/source/buildConfig/debug">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/debug" />
+    <content url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../LibComponent/lib_json/src/main/java" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.alibaba:fastjson:1.2.61" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.5.31" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.annotation:annotation:1.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.core:core-ktx:1.7.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.core:core:1.7.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime:2.3.1@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable:1.1.1@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.annotation:annotation-experimental:1.1.0@aar" level="project" />
+  </component>
+</module>

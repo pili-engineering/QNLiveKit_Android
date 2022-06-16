@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: ./LibComponent/comp_player/libs/pldroid-player-2.4.0.jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/LibComponent/comp_player/libs/pldroid-player-2.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
