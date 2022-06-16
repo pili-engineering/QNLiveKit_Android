@@ -6,6 +6,7 @@ import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 
 import com.qlive.core.QLiveService
+import com.qlive.coreimpl.datesource.UserDataSource
 
 class QNLiveRoomContext(private val mClient: QLiveClient) {
 
@@ -13,6 +14,8 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
     private val mLifeCycleListener = ArrayList<QClientLifeCycleListener>()
     val mRoomScheduler = com.qlive.coreimpl.RoomScheduler()
     var roomInfo: QLiveRoomInfo? = null
+    private set
+    private var liveId = ""
 
     init {
         mLifeCycleListener.add(mRoomScheduler)
@@ -27,8 +30,10 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
             serviceMap[serviceClass] = obj
             mLifeCycleListener.add(obj)
             obj.attachRoomClient(mClient)
-            if (roomInfo != null) {
+            if (liveId.isNotEmpty()) {
                 obj.onEntering(roomInfo!!.liveID, UserDataSource.loginUser)
+            }
+            if (roomInfo != null) {
                 obj.onJoined(roomInfo!!)
             }
         } catch (e: Exception) {
@@ -45,21 +50,8 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
         return serviceObj
     }
 
-    /**
-     * 添加房间生命周期状态监听
-     *
-     * @param lifeCycleListener
-     */
-    fun addRoomLifeCycleListener(lifeCycleListener: QClientLifeCycleListener) {
-        mLifeCycleListener.add(lifeCycleListener)
-    }
-
-    //移除房间生命周期状态监听
-    fun removeRoomLifeCycleListener(lifeCycleListener: QClientLifeCycleListener) {
-        mLifeCycleListener.remove(lifeCycleListener)
-    }
-
     fun enter(liveId: String, user: QLiveUser) {
+        this.liveId = liveId
         mLifeCycleListener.forEach {
             it.onEntering(liveId, user)
         }

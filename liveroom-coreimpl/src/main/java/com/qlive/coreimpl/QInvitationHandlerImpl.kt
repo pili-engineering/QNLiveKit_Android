@@ -8,6 +8,9 @@ import com.qlive.core.*
 import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.coreimpl.datesource.UserDataSource
+import com.qlive.coreimpl.util.backGround
+import com.qlive.coreimpl.util.getCode
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -94,7 +97,7 @@ open class QInvitationHandlerImpl(val ivName: String) : QInvitationHandler,
         backGround {
             doWork {
                 val receiver =
-                    com.qlive.coreimpl.UserDataSource().searchUserByUserId(receiverUID)
+                    UserDataSource().searchUserByUserId(receiverUID)
                 val pkInvitation = QInvitation()
                 pkInvitation.extension = extension
                 pkInvitation.initiator = user

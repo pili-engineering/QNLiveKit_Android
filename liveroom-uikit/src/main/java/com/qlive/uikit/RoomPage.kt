@@ -2,7 +2,7 @@ package com.qlive.uikit
 
 import android.content.Context
 import com.qlive.kitlivepre.LivePreView
-import com.qlive.coreimpl.UserDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikit.component.*

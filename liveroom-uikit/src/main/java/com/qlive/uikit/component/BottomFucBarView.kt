@@ -18,7 +18,6 @@ import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitdanmaku.SendDanmakuView
 import com.qlive.uikitlinkmic.StartLinkView
-import com.qlive.uikitinput.RoomInputDialog
 import kotlinx.android.synthetic.main.kit_close_menu_view.view.*
 
 
@@ -121,7 +120,7 @@ class CloseRoomView : QBaseRoomFrameLayout {
 
     override fun initView() {
         ivClose.setOnClickListener {
-            LoadingDialog.showLoading(kitContext!!.fm)
+            LoadingDialog.showLoading(kitContext!!.fragmentManager)
             client?.getService(QPublicChatService::class.java)
                 ?.sendByeBye("离开了房间", null)
 

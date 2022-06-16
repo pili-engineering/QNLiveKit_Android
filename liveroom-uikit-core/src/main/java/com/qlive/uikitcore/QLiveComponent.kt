@@ -14,12 +14,12 @@ interface QLiveComponent :
     var client: QLiveClient?
     var roomInfo: QLiveRoomInfo?
     var user: QLiveUser?
-    var kitContext: QLiveKitUIContext?
+    var kitContext: QLiveUIKitContext?
 
     /**
      * 绑定上下文回调
      */
-    fun attachKitContext(context: QLiveKitUIContext) {
+    fun attachKitContext(context: QLiveUIKitContext) {
         this.kitContext = context
         context.lifecycleOwner.lifecycle.addObserver(this)
     }

@@ -8,13 +8,16 @@ import com.qiniu.droid.rtc.*
 import com.qlive.avparam.*
 import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
-import com.qlive.coreimpl.backGround
+import com.qlive.coreimpl.util.backGround
 import com.qlive.core.*
 import com.qlive.core.QClientType
 import com.qlive.core.QLiveService
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.coreimpl.datesource.RoomDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
+import com.qlive.coreimpl.util.getCode
 
-class QPusherClientImpl : QPusherClient, QRTCLiveProvider {
+class QPusherClientImpl : QPusherClient, QRTCProvider {
 
     companion object {
         fun create(): QPusherClient {
@@ -22,7 +25,7 @@ class QPusherClientImpl : QPusherClient, QRTCLiveProvider {
         }
     }
 
-    private val mRoomSource = com.qlive.coreimpl.RoomDataSource()
+    private val mRoomSource = RoomDataSource()
     private var mLiveStatusListener: QLiveStatusListener? = null
     private var mLocalPreView: QPushRenderView? = null
     private var mCameraParams: QCameraParam =
@@ -76,11 +79,14 @@ class QPusherClientImpl : QPusherClient, QRTCLiveProvider {
     override fun joinRoom(roomId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
-                mQNLiveRoomContext.enter(roomId, com.qlive.coreimpl.UserDataSource.loginUser)
+                mQNLiveRoomContext.enter(roomId, UserDataSource.loginUser)
+                //业务接口发布房间
                 val roomInfo = mRoomSource.pubRoom(roomId)
+                //加群
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.joinChannel(roomInfo.chatID)
                 }
+                //初始化混流器
                 if (!mRtcRoom.mMixStreamManager.isInit) {
                     mRtcRoom.mMixStreamManager.init(
                         roomId,
@@ -96,8 +102,11 @@ class QPusherClientImpl : QPusherClient, QRTCLiveProvider {
                         mRtcRoom.localAudioTrack
                     )
                 }
+                //加入rtc房间
                 mRtcRoom.joinRtc(roomInfo.roomToken, "")
+                //开始发布本地轨道
                 mRtcRoom.publishLocal()
+                //开始单路转推
                 mRtcRoom.mMixStreamManager.startForwardJob()
                 mQNLiveRoomContext.joinedRoom(roomInfo)
 

@@ -1,6 +1,6 @@
 package com.qlive.linkmicservice
 
-import com.qlive.rtclive.QRTCLiveProvider
+import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qlive.avparam.CameraMergeOption
 import com.qlive.avparam.MicrophoneMergeOption
@@ -127,6 +127,6 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
      * 获得rtc对象
      */
     private val rtcRoomGetter by lazy {
-        (client as QRTCLiveProvider).rtcRoomGetter.invoke()
+        (client as QRTCProvider).rtcRoomGetter.invoke()
     }
 }

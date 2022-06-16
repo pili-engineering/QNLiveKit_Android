@@ -89,7 +89,7 @@ class StartLinkView : QBaseRoomFrameLayout {
             }
             if (client?.getService(QLinkMicService::class.java)?.audienceMicHandler?.isLinked() == true) {
                 MyLinkerInfoDialog(client!!.getService(QLinkMicService::class.java), user!!).show(
-                    kitContext!!.fm,
+                    kitContext!!.fragmentManager,
                     ""
                 )
                 return@setOnClickListener
@@ -99,7 +99,7 @@ class StartLinkView : QBaseRoomFrameLayout {
                 mDefaultListener = object : FinalDialogFragment.BaseDialogListener() {
                     override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {
                         super.onDialogPositiveClick(dialog, any)
-                        with(LoadingDialog) { showLoading(kitContext!!.fm) }
+                        with(LoadingDialog) { showLoading(kitContext!!.fragmentManager) }
                         MyLinkerInfoDialog.StartLinkStore.isVideoLink = any as Boolean
                         client!!.getService(QLinkMicService::class.java).invitationHandler.apply(
                             15 * 1000,
@@ -121,7 +121,7 @@ class StartLinkView : QBaseRoomFrameLayout {
                         )
                     }
                 }
-            }.show(kitContext!!.fm, "")
+            }.show(kitContext!!.fragmentManager, "")
         }
     }
 

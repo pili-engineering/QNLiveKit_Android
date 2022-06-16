@@ -13,7 +13,7 @@ import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
 import com.qlive.avparam.RtcException
 import com.qlive.coreimpl.QLiveDelegate
-import com.qlive.coreimpl.UserDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.asToast
 import com.qlive.core.*
 import com.qlive.core.been.QCreateRoomParam
@@ -21,7 +21,7 @@ import com.qlive.uikit.hook.KITLiveInflaterFactory
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
 import com.qlive.roomservice.QRoomService
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.bg
@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_room_push.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import com.qlive.coreimpl.util.getCode
 
 class RoomPushActivity : BaseFrameActivity() {
     private var roomId = ""
@@ -63,7 +64,7 @@ class RoomPushActivity : BaseFrameActivity() {
         QLiveDelegate.qLiveSdk.createPusherClientCall()
     }
     private val mQUIKitContext by lazy {
-        QLiveKitUIContext(
+        QLiveUIKitContext(
             this@RoomPushActivity,
             supportFragmentManager,
             this@RoomPushActivity,

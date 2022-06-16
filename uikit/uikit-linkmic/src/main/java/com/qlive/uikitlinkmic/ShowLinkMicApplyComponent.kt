@@ -10,7 +10,7 @@ import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.QLiveComponent
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 
@@ -22,7 +22,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: QLiveKitUIContext? = null
+    override var kitContext: QLiveUIKitContext? = null
 
     private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
@@ -63,7 +63,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
                     }
                 }
                 ).build()
-                .show(kitContext!!.fm, "")
+                .show(kitContext!!.fragmentManager, "")
         }
 
         override fun onApplyCanceled(qInvitation: QInvitation) {}

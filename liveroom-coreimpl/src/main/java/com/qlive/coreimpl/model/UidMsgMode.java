@@ -1,4 +1,4 @@
-package com.qlive.coreimpl;
+package com.qlive.coreimpl.model;
 
 public class UidMsgMode {
     public String uid;

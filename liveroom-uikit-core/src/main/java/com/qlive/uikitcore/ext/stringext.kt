@@ -7,7 +7,7 @@ import android.text.Spanned
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.qlive.coreimpl.CoroutineScopeWrap
+import com.qlive.coreimpl.util.CoroutineScopeWrap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.launch

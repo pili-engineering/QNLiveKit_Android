@@ -4,6 +4,8 @@ import com.qlive.core.QClientLifeCycleListener
 import com.qlive.core.*
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.coreimpl.datesource.RoomDataSource
+import com.qlive.coreimpl.util.backGround
 
 open class RoomScheduler : QClientLifeCycleListener {
 
@@ -13,7 +15,7 @@ open class RoomScheduler : QClientLifeCycleListener {
     private var roomStatus = 0
     private var anchorStatus = 1
     var roomStatusChange: (status: QLiveStatus) -> Unit = {}
-    private val roomDataSource = com.qlive.coreimpl.RoomDataSource()
+    private val roomDataSource = RoomDataSource()
     private val mHeartBeatJob = Scheduler(8000) {
         if (roomInfo == null) {
             return@Scheduler
@@ -31,7 +33,7 @@ open class RoomScheduler : QClientLifeCycleListener {
                     anchorStatus = room.anchorStatus
                     roomStatusChange.invoke(anchorStatus.anchorStatusToLiveStatus())
                 }
-                QNLiveLogUtil.LogE("res.liveStatus ${res.liveStatus}   room.anchorStatus ${room.anchorStatus} ")
+                QLiveLogUtil.LogE("res.liveStatus ${res.liveStatus}   room.anchorStatus ${room.anchorStatus} ")
             }
             catchError {
 

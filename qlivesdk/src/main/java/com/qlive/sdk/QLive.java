@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.qlive.coreimpl.QLiveDelegate;
 import com.qlive.core.QTokenGetter;
-import com.qlive.coreimpl.UserDataSource;
+import com.qlive.coreimpl.datesource.UserDataSource;
 import com.qlive.core.QLiveCallBack;
 import com.qlive.core.QPlayerClient;
 import com.qlive.core.QPusherClient;

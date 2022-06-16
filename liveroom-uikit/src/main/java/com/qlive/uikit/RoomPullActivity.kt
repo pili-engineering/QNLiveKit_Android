@@ -12,19 +12,20 @@ import com.qlive.core.*
 import com.qlive.uikit.hook.KITLiveInflaterFactory
 import com.qlive.avparam.RtcException
 import com.qlive.coreimpl.QLiveDelegate
-import com.qlive.coreimpl.UserDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.asToast
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
 import com.qlive.roomservice.QRoomService
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import com.qlive.uikitcore.ext.bg
 import kotlinx.android.synthetic.main.activity_room_pull.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import com.qlive.coreimpl.util.getCode
 
 class RoomPullActivity : BaseFrameActivity() {
 
@@ -63,7 +64,7 @@ class RoomPullActivity : BaseFrameActivity() {
         }
 
     private val mQUIKitContext by lazy {
-        QLiveKitUIContext(
+        QLiveUIKitContext(
             this@RoomPullActivity,
             supportFragmentManager,
             this@RoomPullActivity,

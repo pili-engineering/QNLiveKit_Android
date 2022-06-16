@@ -4,7 +4,7 @@ import com.qlive.core.QClientLifeCycleListener
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.QLiveComponent
 import kotlin.collections.HashSet
 
@@ -19,7 +19,7 @@ object KITFunctionInflaterFactory :
         }
     }
 
-    fun attachKitContext(context: QLiveKitUIContext) {
+    fun attachKitContext(context: QLiveUIKitContext) {
         functionComponents.forEach {
             it.attachKitContext(context)
             context.lifecycleOwner.lifecycle.addObserver(it)

@@ -1,5 +1,5 @@
 package com.qlive.avparam
 
-interface QPlayerLiveProvider {
+interface QPlayerProvider {
     var playerGetter: (() -> QIPlayer)
 }

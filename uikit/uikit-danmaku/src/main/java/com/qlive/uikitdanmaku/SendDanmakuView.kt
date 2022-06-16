@@ -29,7 +29,7 @@ class SendDanmakuView : QBaseRoomFrameLayout {
                 sendPubCall = {
                     send(it)
                 }
-            }.show(kitContext!!.fm, "")
+            }.show(kitContext!!.fragmentManager, "")
         }
     }
 

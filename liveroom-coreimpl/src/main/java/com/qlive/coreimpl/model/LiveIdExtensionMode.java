@@ -1,4 +1,4 @@
-package com.qlive.coreimpl;
+package com.qlive.coreimpl.model;
 
 import com.qlive.core.been.QExtension;
 

@@ -2,7 +2,7 @@ package com.qlive.core
 
 import android.util.Log
 
-object QNLiveLogUtil {
+object QLiveLogUtil {
 
     var isLogAble = true
     private val tag = "QNLiveRoom"

@@ -114,7 +114,7 @@ class StartPKView : QBaseRoomFrameLayout {
                         showingPKListDialog = null
                     }
                 })
-                showingPKListDialog?.show(kitContext!!.fm, "")
+                showingPKListDialog?.show(kitContext!!.fragmentManager, "")
             }
         }
     }
@@ -130,7 +130,7 @@ class StartPKView : QBaseRoomFrameLayout {
 
                     override fun onSuccess(data: QInvitation) {
                         "等待对方接受".asToast()
-                        LoadingDialog.showLoading(kitContext!!.fm)
+                        LoadingDialog.showLoading(kitContext!!.fragmentManager)
                     }
                 })
     }

@@ -38,7 +38,7 @@ class InputView : QBaseRoomFrameLayout {
                             }
                         })
                 }
-            }.show(kitContext!!.fm, "")
+            }.show(kitContext!!.fragmentManager, "")
         }
     }
 }

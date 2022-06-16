@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.qlive.core.*
 import com.qlive.core.QPusherClient
-import com.qlive.coreimpl.UserDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.toast
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.QBaseRoomFrameLayout

@@ -1,19 +1,21 @@
 package com.qlive.pkservice
 
-import com.qlive.coreimpl.PKDateSource
-import com.qlive.coreimpl.PKInfo
-import com.qlive.coreimpl.backGround
+import com.qlive.coreimpl.datesource.PKDateSource
+import com.qlive.coreimpl.model.PKInfo
+import com.qlive.coreimpl.util.backGround
 import com.qlive.core.*
 import com.qlive.core.been.QExtension
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.coreimpl.datesource.RoomDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
 import java.util.*
 
 class AudiencePKSynchro() : BaseService() {
 
     private val mPKDateSource = PKDateSource()
-    private val mUserSource = com.qlive.coreimpl.UserDataSource()
+    private val mUserSource = UserDataSource()
     var mListenersCall: (() -> LinkedList<QPKServiceListener>)? = null
     var mPKSession: QPKSession? = null
         private set
@@ -35,7 +37,7 @@ class AudiencePKSynchro() : BaseService() {
                         mPKSession = null
                     }
                 } else {
-                    val reFreshRoom = com.qlive.coreimpl.RoomDataSource()
+                    val reFreshRoom = RoomDataSource()
                         .refreshRoomInfo(currentRoomInfo!!.liveID)
                     if (!reFreshRoom.pkID.isEmpty() && mPKSession == null) {
 

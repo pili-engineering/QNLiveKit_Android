@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.Gravity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.coreimpl.datesource.RoomDataSource
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.ext.ViewUtil
 import com.qlive.uikitcore.ext.bg
@@ -20,7 +21,7 @@ class PKAbleListDialog() : FinalDialogFragment() {
         applyGravityStyle(Gravity.BOTTOM)
     }
 
-    private val mRoomDataSource = com.qlive.coreimpl.RoomDataSource()
+    private val mRoomDataSource = RoomDataSource()
     private val mAdapter = PKAnchorListAdapter()
 
     fun setInviteCall(inviteCall: (room: QLiveRoomInfo) -> Unit) {

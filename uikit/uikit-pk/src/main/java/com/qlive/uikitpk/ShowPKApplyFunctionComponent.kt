@@ -8,7 +8,7 @@ import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.QLiveComponent
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 
@@ -18,7 +18,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null
-    override var kitContext: QLiveKitUIContext ? = null
+    override var kitContext: QLiveUIKitContext ? = null
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(pkInvitation: QInvitation) {
@@ -59,7 +59,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
                     }
                 }
                 ).build()
-                .show(kitContext!!.fm, "")
+                .show(kitContext!!.fragmentManager, "")
         }
 
         override fun onApplyCanceled(pkInvitation: QInvitation) {}
