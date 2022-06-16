@@ -425,7 +425,6 @@ class QMergeOption {
        int z = 0;
        int width = 0;
        int height = 0;
-       QRenderMode stretchMode; //混流缩放模式
      }
  
     class MicrophoneMergeOption  {
@@ -602,6 +601,23 @@ interface QLiveComponent  {
     void onDestroyed();                                                    //client销毁
 }
 
+//内置房间里的UI型号组件基类
+class QLiveView{
+    <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的UI
+    void setIsEnable(boolean isEnable);                             //移除/禁用 
+}
+//内置UI型号组件基类
+class QView{
+    <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
+    void setIsEnable(boolean isEnable);
+}
+//内置功能型号组件 - 处理事件没有UI
+class QLiveFunctionComponent{
+    <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的处理器
+    void setIsEnable(boolean isEnable);
+}
+
+
 
 /**
  * uikit UI组件上下文
@@ -629,23 +645,6 @@ class QLiveUIKitContext(
         val getPlayerRenderViewCall: () -> QPlayerRenderView?, //获取当前播放器预览窗口
         val getPusherRenderViewCall: () -> QPushRenderView?,  //获取推流预览窗口
         )
-
-
-//内置房间里的UI型号组件基类
-class QLiveView{
-    <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的UI
-    void setIsEnable(boolean isEnable);                             //移除/禁用 
-}
-//内置UI型号组件基类
-class QView{
-    <T extends QComponent> void replace(Class<T> replaceClass); //替换成你的UI
-    void setIsEnable(boolean isEnable);
-}
-//内置功能型号组件 - 处理事件没有UI
-class QLiveFunctionComponent{
-    <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的处理器
-    void setIsEnable(boolean isEnable);
-}
 ```
 
 
