@@ -7,32 +7,39 @@
     android:keepScreenOn="true"
     tools:context=".RoomPushActivity">
 
-    <com.qncube.liveuikit.component.RoomBackGroundView
+    <com.qlive.uikit.component.RoomBackGroundView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.nucube.rtclive.QPushTextureView
+    <com.qlive.rtclive.QPushTextureView
         android:id="@+id/preTextureView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qncube.uikitpk.PKPreView
+    <com.qlive.uikitpk.PKPreView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qncube.uikitpk.PKCoverView
+    <com.qlive.uikitpk.PKCoverView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.qlive.uikitlinkmic.MicLinkersView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        tools:background="#99000000"
+        tools:layout_width="100dp" />
 
-    <com.qncube.kitlivepre.LivePreView
+    <com.qlive.kitlivepre.LivePreView
         android:id="@+id/mLivePreView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qncube.liveuikit.component.RoomCoverViewPage
+    <com.qlive.uikit.component.RoomCoverViewPage
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -44,7 +51,7 @@
             tools:ignore="MissingDefaultResource">
 
             <!--             里层-->
-            <com.qncube.liveuikit.component.InnerCoverView
+            <com.qlive.uikit.component.InnerCoverView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -62,18 +69,18 @@
                     tools:layout_height="70dp">
                     <!--             左上-->
 
-                    <com.qncube.uikituser.RoomHostView
+                    <com.qlive.uikituser.RoomHostView
                         android:id="@+id/roomHostSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <com.qncube.uikituser.OnlineUserView
+                    <com.qlive.uikituser.OnlineUserView
                         android:id="@+id/onLineUserSlot"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <com.qncube.uikituser.RoomMemberCountView
+                    <com.qlive.uikituser.RoomMemberCountView
                         android:id="@+id/roomMemberSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -91,13 +98,13 @@
                     android:orientation="vertical">
                     <!--             右上-->
 
-                    <com.qncube.uikituser.RoomIdView
+                    <com.qlive.uikituser.RoomIdView
                         android:id="@+id/roomIdSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
 
-                    <com.qncube.uikituser.RoomTimerView
+                    <com.qlive.uikituser.RoomTimerView
                         android:id="@+id/roomTimerSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -116,18 +123,18 @@
                     tools:layout_height="100dp">
 
 
-                    <com.qncube.uikitpublicchat.InputView
+                    <com.qlive.uikitpublicchat.InputView
                         android:id="@+id/inPutSlot"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <com.qncube.uikitpk.StartPKView
+                    <com.qlive.uikitpk.StartPKView
                         android:id="@+id/startPKSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <com.qncube.liveuikit.component.BottomFucBarView
+                    <com.qlive.uikit.component.BottomFucBarView
                         android:id="@+id/bottomBarSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -135,23 +142,33 @@
                 </LinearLayout>
 
 
-                <com.qncube.uikitpublicchat.PublicChatView
-                    android:id="@+id/pubchatSlot"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="250dp"
+                    android:layout_height="300dp"
                     android:layout_above="@+id/llBottom"
-                    android:orientation="vertical"
-                    tools:background="#000000"
-                    tools:layout_width="100dp" />
+                    android:gravity="bottom"
+                    android:orientation="vertical">
 
-                <com.qncube.uikitpk.PKCoverView
+                    <com.qlive.uikitpublicchat.RoomNoticeView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
+                    <com.qlive.uikitpublicchat.PublicChatView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        tools:background="#000000"
+                        tools:layout_width="100dp" />
+
+                </LinearLayout>
+
+                <com.qlive.uikitpk.PKCoverView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:background="#99000000" />
 
 
-                <com.qncube.uikitdanmaku.DanmakuTrackManagerView
+                <com.qlive.uikitdanmaku.DanmakuTrackManagerView
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -159,11 +176,11 @@
             </RelativeLayout>
 
             <!--             外层-->
-            <com.qncube.liveuikit.component.OuterCoverView
+            <com.qlive.uikit.component.OuterCoverView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </FrameLayout>
-    </com.qncube.liveuikit.component.RoomCoverViewPage>
+    </com.qlive.uikit.component.RoomCoverViewPage>
 
 </FrameLayout>

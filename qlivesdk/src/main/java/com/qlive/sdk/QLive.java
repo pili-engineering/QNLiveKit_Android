@@ -4,17 +4,16 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.qncube.linveroominner.QLiveDelegate;
-import com.qncube.linveroominner.QRoomImpl;
-import com.qncube.linveroominner.QTokenGetter;
-import com.qncube.linveroominner.UserDataSource;
-import com.qncube.liveroomcore.QLiveCallBack;
-import com.qncube.liveroomcore.QPlayerClient;
-import com.qncube.liveroomcore.QPusherClient;
-import com.qncube.liveroomcore.QRooms;
-import com.qncube.liveuikit.QLiveUIKit;
-import com.qncube.playerclient.QPlayerClientImpl;
-import com.qncube.pushclient.QPusherClientImpl;
+import com.qlive.coreimpl.QLiveDelegate;
+import com.qlive.core.QTokenGetter;
+import com.qlive.coreimpl.UserDataSource;
+import com.qlive.core.QLiveCallBack;
+import com.qlive.core.QPlayerClient;
+import com.qlive.core.QPusherClient;
+import com.qlive.core.QRooms;
+import com.qlive.uikit.QLiveUIKit;
+import com.qlive.playerclient.QPlayerClientImpl;
+import com.qlive.pushclient.QPusherClientImpl;
 
 public class QLive {
 

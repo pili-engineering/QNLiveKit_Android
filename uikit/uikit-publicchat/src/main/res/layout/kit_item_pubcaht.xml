@@ -7,7 +7,7 @@
     android:layout_marginBottom="3dp"
     android:orientation="horizontal">
 
-    <com.qncube.uikitcore.view.CircleImageView
+    <com.qlive.uikitcore.view.CircleImageView
         android:id="@+id/ivAvatar"
         android:layout_width="24dp"
         android:layout_height="24dp"

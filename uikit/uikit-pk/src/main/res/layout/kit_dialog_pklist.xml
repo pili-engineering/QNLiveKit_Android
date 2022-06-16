@@ -53,7 +53,7 @@
                 android:textSize="13sp" />
         </FrameLayout>
 
-        <com.qncube.uikitcore.refresh.SmartRecyclerView
+        <com.qlive.uikitcore.refresh.SmartRecyclerView
             android:id="@+id/mSmartRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

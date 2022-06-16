@@ -114,13 +114,13 @@ liveUIKit.launch(context);
 RoomPage roomPage = liveUIKit.getRoomPage();
 
 //每个内置UI组件都可以配置自己的替换实现
-roomPage.noticeViewComponent.replace(CustomView.Class);
+roomPage.noticeView.replace(CustomView.Class);
            
 //每个内置UI组件都可以禁用
-roomPage.noticeViewComponent.isEnable = false;
+roomPage.noticeView.isEnable = false;
            
 //插入全局覆盖层
-roomPage.mOuterCoverComponent.replace(CustomView.Class)
+roomPage.outerCoverView.replace(CustomView.Class)
         
 //可选 配置直播列表样式
 RoomListPage roomListPage =  liveUIKit.getRoomListPage();
@@ -180,7 +180,7 @@ class QLiveRoomInfo {
     long onlineCount;
     long startTime;
     long endTime;
-    String chatId;
+    String chatID;
     String pushURL;
     String hlsURL;
     String rtmpURL;
@@ -582,29 +582,58 @@ class RoomPage {
 //kit基础类说明 非dom
 //组件
 interface QComponent {
-    void attachKitContext(KitContext context);
+    //绑定UI上下文
+    void attachKitContext(QUIKitContext context);
 }
 //房间内的UI组件
-interface QLiveComponent extends QComponent{
+interface QLiveComponent  {
+
+    //生命周期 绑定UI上下文
+    void attachKitContext(QLiveUIKitContext context);
+    //生命周期  绑定房间客户端
     void attachLiveClient(QLiveClient client);
+    //生命周期  房间正在进入
     void onEntering(String roomID,QLiveUser user);                         //正在加入房间
+    //生命周期  房间加入成功
     void onJoined(QRoomInfo roomInfo);                                     //加入了某个房间  
+    //生命周期  当前房间已经离开 - 我是观众-离开 我是主播对应关闭房间
     void onLeft();                                                         //离开了某个房间 
+    //生命周期  client销毁 == 房间页面将要退出
     void onDestroyed();                                                    //client销毁
 }
 
-//组件的上下文
-interface KitContext {
-    Context getAndroidContext();                                               //安卓上下文
-    FragmentManager getAndroidFragmentManager();                               //安卓fm
-    FragmentActivity getCurrentActivity();                                     //所在的Activity
-    LifecycleOwner getLifecycleOwner();                                        //安卓容器页面生命周期
-}
+
+/**
+ * uikit UI组件上下文
+ * 1在UI组件中能获取平台特性的能力 如activiy 显示弹窗
+ */
+class QUIKitContext(
+        val androidContext: Context,
+        val fm: FragmentManager,
+        val currentActivity: Activity,
+        val lifecycleOwner: LifecycleOwner,
+        )
+
+/**
+ * uikit 房间里的UI组件上下文
+ * 1在UI组件中能获取平台特性的能力 如activiy 显示弹窗
+ * 2能获取房间client 主要资源和关键操作
+ */
+class QLiveUIKitContext(
+        val androidContext: Context, //安卓上下文
+        val fm: FragmentManager,     //显示弹窗上下文
+        val currentActivity: Activity, //当前activity
+        val lifecycleOwner: LifecycleOwner, //页面生命周期
+        val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit, //离开房间操作
+        val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit,//创建并加入操作
+        val getPlayerRenderViewCall: () -> QPlayerRenderView?, //获取当前播放器预览窗口
+        val getPusherRenderViewCall: () -> QPushRenderView?,  //获取推流预览窗口
+        )
 
 
-//内置UI型号组件基类
+//内置房间里的UI型号组件基类
 class QLiveView{
-    <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的UI
+    <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的UI
     void setIsEnable(boolean isEnable);                             //移除/禁用 
 }
 //内置UI型号组件基类
@@ -614,29 +643,9 @@ class QView{
 }
 //内置功能型号组件 - 处理事件没有UI
 class QLiveFunctionComponent{
-    <T extends QRoomComponent> void replace(Class<T> replaceClass); //替换成你的处理器
+    <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
 ```
 
 
-```
-client 基类
-QLiveClient{
-     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
-     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
-    
-    //获得当前client实际类型
-     ClientType getClientType()
-     
-     protected void join( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);           //加入房间
-     protected void left( QLiveCallBack<Void> callBack);                                   //离开房间- 主播close 观众leave 对应父类生命周期统一叫left
-     protected void destroy();                                                              //销毁
-   
-}
-   
-enum QClientType{
-   PUSHER,PLAYER
-}
-
-```

@@ -41,9 +41,8 @@ dependencies {
     api project(':service:chatservice')
     api project(':service:danmakuservice')
     api project(':service:publicchatservice')
+    implementation project(':liveroom-coreimpl')
 
-
-    implementation project(':linveroom-inner')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

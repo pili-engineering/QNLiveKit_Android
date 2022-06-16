@@ -8,11 +8,10 @@ include ':liveroom-pushclient'
 include ':liveroom-pullclient'
 include ':liveroom-uikit-core'
 include ':liveroom-uikit'
-include ':linveroom-inner'
-include ':liveroom-common'
+include ':liveroom-coreimpl'
 
 
-include ':LibComponent:rtclive'
+
 
 include ':service:linkmicservice'
 include ':service:pkservice'
@@ -30,12 +29,12 @@ include ':uikit:uikit-livepreview'
 include ':uikit:uikit-linkmic'
 include ':uikit:uikit-pk'
 
+include ':LibComponent:comp_avparam'
 include ':LibComponent:lib_json'
-include ':LibComponent:comp_qnrtcsdk'
 include ':LibComponent:comp_rtm'
 include ':LibComponent:comp_player'
 include ':LibComponent:sdk_qnim'
 include ':LibComponent:comp_imadapter'
-
+include ':LibComponent:comp_rtclive'
 
 include ':qlivesdk'

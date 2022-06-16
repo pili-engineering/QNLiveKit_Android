@@ -30,7 +30,7 @@ android {
 
 dependencies {
 
-    api project(':liveroom-common')
+    api project(':LibComponent:comp_avparam')
     implementation project(':LibComponent:comp_rtm')
     implementation project(':LibComponent:lib_json')
 

@@ -9,7 +9,7 @@
     android:paddingBottom="9dp"
     tools:ignore="MissingDefaultResource">
 
-    <com.qncube.uikitcore.view.CircleImageView
+    <com.qlive.uikitcore.view.CircleImageView
         android:id="@+id/ivAvatar"
         android:layout_width="32dp"
         android:layout_height="32dp" />
