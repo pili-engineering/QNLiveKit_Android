@@ -12,17 +12,16 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/LibComponent" />
+            <option value="$PROJECT_DIR$/LibComponent/comp_avparam" />
             <option value="$PROJECT_DIR$/LibComponent/comp_imadapter" />
             <option value="$PROJECT_DIR$/LibComponent/comp_player" />
-            <option value="$PROJECT_DIR$/LibComponent/comp_qnrtcsdk" />
+            <option value="$PROJECT_DIR$/LibComponent/comp_rtclive" />
             <option value="$PROJECT_DIR$/LibComponent/comp_rtm" />
             <option value="$PROJECT_DIR$/LibComponent/lib_json" />
-            <option value="$PROJECT_DIR$/LibComponent/rtclive" />
             <option value="$PROJECT_DIR$/LibComponent/sdk_qnim" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/linveroom-inner" />
-            <option value="$PROJECT_DIR$/liveroom-common" />
             <option value="$PROJECT_DIR$/liveroom-core" />
+            <option value="$PROJECT_DIR$/liveroom-coreimpl" />
             <option value="$PROJECT_DIR$/liveroom-pullclient" />
             <option value="$PROJECT_DIR$/liveroom-pushclient" />
             <option value="$PROJECT_DIR$/liveroom-uikit" />

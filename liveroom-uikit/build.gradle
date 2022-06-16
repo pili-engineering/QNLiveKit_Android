@@ -47,8 +47,8 @@ dependencies {
     api project(':uikit:uikit-livepreview')
     api project(':uikit:uikit-linkmic')
     api project(':uikit:uikit-pk')
+    implementation project(':liveroom-coreimpl')
 
-    implementation project(':linveroom-inner')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".RoomListActivity">
 
-    <com.qncube.liveuikit.component.RoomListToolbar
+    <com.qlive.uikit.component.RoomListToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -15,11 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.qncube.liveuikit.component.RoomListView
+        <com.qlive.uikit.component.RoomListView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.qncube.liveuikit.component.CreateRoomButton
+        <com.qlive.uikit.component.CreateRoomButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"

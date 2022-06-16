@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-            <com.qncube.uikitcore.view.CircleImageView
+            <com.qlive.uikitcore.view.CircleImageView
                 android:id="@+id/ivAvatarInner"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

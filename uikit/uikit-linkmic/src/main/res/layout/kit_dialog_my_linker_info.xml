@@ -25,7 +25,7 @@
             android:textColor="#333333"
             android:textSize="16sp" />
 
-        <com.qncube.uikitcore.view.CircleImageView
+        <com.qlive.uikitcore.view.CircleImageView
             android:id="@+id/ivAvatar"
             android:layout_width="56dp"
             android:layout_height="56dp"

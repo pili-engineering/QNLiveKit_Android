@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     tools:ignore="MissingDefaultResource">
 
-    <com.qncube.uikitcore.view.CircleImageView
+    <com.qlive.uikitcore.view.CircleImageView
         android:id="@+id/ivSenderAvatar"
         android:layout_width="32dp"
         android:layout_height="32dp"

@@ -180,7 +180,7 @@ class QLiveRoomInfo {
     long onlineCount;
     long startTime;
     long endTime;
-    String chatId;
+    String chatID;
     String pushURL;
     String hlsURL;
     String rtmpURL;
