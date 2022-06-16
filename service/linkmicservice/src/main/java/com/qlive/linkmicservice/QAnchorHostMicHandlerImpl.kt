@@ -110,11 +110,12 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
     }
 
     override fun attachRoomClient(client: QLiveClient) {
+        super.attachRoomClient(client)
         val room: QRtcLiveRoom = rtcRoomGetter
         context.mQLinkMicServiceListeners.addFirst(mQLinkMicServiceListener)
         context.mQRtcLiveRoom = room
         context.mQRtcLiveRoom.addExtraQNRTCEngineEventListener(context.mExtQNClientEventListener)
-        super.attachRoomClient(client)
+
     }
 
     override fun onDestroyed() {

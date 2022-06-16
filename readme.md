@@ -114,13 +114,13 @@ liveUIKit.launch(context);
 RoomPage roomPage = liveUIKit.getRoomPage();
 
 //每个内置UI组件都可以配置自己的替换实现
-roomPage.noticeViewComponent.replace(CustomView.Class);
+roomPage.noticeView.replace(CustomView.Class);
            
 //每个内置UI组件都可以禁用
-roomPage.noticeViewComponent.isEnable = false;
+roomPage.noticeView.isEnable = false;
            
 //插入全局覆盖层
-roomPage.mOuterCoverComponent.replace(CustomView.Class)
+roomPage.outerCoverView.replace(CustomView.Class)
         
 //可选 配置直播列表样式
 RoomListPage roomListPage =  liveUIKit.getRoomListPage();
@@ -589,7 +589,7 @@ interface QComponent {
 interface QLiveComponent  {
 
     //生命周期 绑定UI上下文
-    void attachKitContext(QLiveKitUIContext context);
+    void attachKitContext(QLiveUIKitContext context);
     //生命周期  绑定房间客户端
     void attachLiveClient(QLiveClient client);
     //生命周期  房间正在进入
@@ -619,7 +619,7 @@ class QUIKitContext(
  * 1在UI组件中能获取平台特性的能力 如activiy 显示弹窗
  * 2能获取房间client 主要资源和关键操作
  */
-class QLiveKitUIContext(
+class QLiveUIKitContext(
         val androidContext: Context, //安卓上下文
         val fm: FragmentManager,     //显示弹窗上下文
         val currentActivity: Activity, //当前activity
@@ -649,23 +649,3 @@ class QLiveFunctionComponent{
 ```
 
 
-```
-client 基类
-QLiveClient{
-     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
-     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
-    
-    //获得当前client实际类型
-     ClientType getClientType()
-     
-     protected void join( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);           //加入房间
-     protected void left( QLiveCallBack<Void> callBack);                                   //离开房间- 主播close 观众leave 对应父类生命周期统一叫left
-     protected void destroy();                                                              //销毁
-   
-}
-   
-enum QClientType{
-   PUSHER,PLAYER
-}
-
-```
