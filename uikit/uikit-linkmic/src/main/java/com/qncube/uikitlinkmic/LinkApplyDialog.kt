@@ -3,7 +3,7 @@ package com.qncube.uikitlinkmic
 import android.Manifest
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
-import com.qncube.liveroomcore.asToast
+import com.qncube.linveroominner.asToast
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.kit_dialog_apply.*

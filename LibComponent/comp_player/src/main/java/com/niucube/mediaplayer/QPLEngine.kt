@@ -84,7 +84,6 @@ class QPLEngine(val context: Context) : QIPlayer {
 //        }
     }
 
-
     override fun setUp(uir: String, headers: Map<String, String>?) {
         mIMediaPlayer.stop()
         mIMediaPlayer.setDataSource(uir, headers)
@@ -146,6 +145,7 @@ class QPLEngine(val context: Context) : QIPlayer {
     fun setPlayerRenderView(renderView: QPlayerRenderView) {
         this.mRenderView = renderView
         renderView.setRenderCallback(mQRenderCallback)
+        mSurface = renderView.getSurface()
     }
 
     private fun isPlaying(): Boolean {
@@ -153,6 +153,7 @@ class QPLEngine(val context: Context) : QIPlayer {
     }
 
     private val mOnPreparedListener = PLOnPreparedListener { mp ->
+        mIMediaPlayer.start()
         mPlayerEventListener?.onPrepared(mp)
     }
 

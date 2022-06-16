@@ -36,7 +36,7 @@ class RoomListActivity : BaseFrameActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_room_list
+        return R.layout.kit_activity_room_list
     }
 
 }

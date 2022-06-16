@@ -94,7 +94,6 @@ object OKHttpService {
         }
     }
 
-
     suspend fun <T> put(
         path: String, jsonString: String, clazz: Class<T>? = null,
         type: Type? = null
@@ -139,7 +138,6 @@ object OKHttpService {
         }
     }
 
-
     suspend fun <T> get(
         path: String,
         map: Map<String, String>?,
@@ -158,7 +156,6 @@ object OKHttpService {
             }
         }
         val path2 = path + params
-
         mExecutorService.execute {
             try {
                 val resp = request("get", path2, "{}", clazz, type)

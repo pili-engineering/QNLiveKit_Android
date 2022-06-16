@@ -1,5 +1,6 @@
 package com.qncube.linveroominner
 
+import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
@@ -26,6 +27,10 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
             serviceMap[serviceClass] = obj
             mLifeCycleListener.add(obj)
             obj.attachRoomClient(mClient)
+            if (roomInfo != null) {
+                obj.onEntering(roomInfo!!.liveId, UserDataSource.loginUser)
+                obj.onJoined(roomInfo!!)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -5,13 +5,8 @@ import com.qncube.kitlivepre.LivePreView
 import com.qncube.linveroominner.UserDataSource
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.been.QLiveRoomInfo
-import com.qncube.liveuikit.component.BottomFucBarView
-import com.qncube.liveuikit.component.InnerCoverView
-import com.qncube.liveuikit.component.OuterCoverView
-import com.qncube.liveuikit.component.RoomBackGroundView
+import com.qncube.liveuikit.component.*
 import com.qncube.uikitcore.QLiveComponent
-import com.qncube.liveuikit.component.QLiveFunctionComponent
-import com.qncube.liveuikit.component.QLiveView
 import com.qncube.liveuikit.hook.KITFunctionInflaterFactory
 import com.qncube.uikitdanmaku.DanmakuTrackManagerView
 import com.qncube.uikitlinkmic.*
@@ -168,4 +163,6 @@ class RoomPage {
             RoomPushActivity.start(context, callBack)
         }
     }
+
+    private val mRoomCoverViewPage = QLiveView(RoomCoverViewPage::class.java)
 }

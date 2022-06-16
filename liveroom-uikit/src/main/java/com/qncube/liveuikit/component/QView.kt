@@ -8,8 +8,10 @@ import com.qncube.uikitcore.QLiveEmptyView
 //内置UI型号组件
 public open class QView(val originViewClass: Class<out QComponent>) {
 
+    init {
+        KITInflaterFactory.innerComponentClass.put(originViewClass.name,originViewClass)
+    }
     var replaceClass: Class<out QComponent>? = null
-
     /**
      * 是否可用
      */

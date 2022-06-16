@@ -25,19 +25,17 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
         visibility = View.INVISIBLE
     }
 
-    override fun attachKitContext(context: QLiveKitUIContext) {
-        super.attachKitContext(context)
-        views.clear()
-        for (i in 0 until childCount) {
-            views.add(getChildAt(i))
-        }
-        removeAllViews()
-        adapter = CommonViewPagerAdapter(views)
-        currentItem = 1
-    }
-
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
         visibility = View.VISIBLE
+        if(views.isEmpty()){
+            views.clear()
+            for (i in 0 until childCount) {
+                views.add(getChildAt(i))
+            }
+            removeAllViews()
+            adapter = CommonViewPagerAdapter(views)
+            currentItem = 1
+        }
     }
 }

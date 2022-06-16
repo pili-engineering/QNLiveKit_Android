@@ -21,6 +21,7 @@ object QLiveDelegate {
     fun init(context: Context, tokenGetter: QTokenGetter, callBack: QLiveCallBack<Void>?) {
         AppCache.appContext = context
         OKHttpService.tokenGetter = tokenGetter
+
         UserDataSource().loginUser(context, object : QLiveCallBack<QLiveUser> {
             override fun onError(code: Int, msg: String?) {
                 callBack?.onError(code, msg)

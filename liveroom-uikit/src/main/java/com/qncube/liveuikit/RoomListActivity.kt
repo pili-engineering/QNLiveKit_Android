@@ -1,15 +1,11 @@
 package com.qncube.liveuikit
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.view.LayoutInflaterCompat
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
 import com.qncube.liveuikit.hook.KITInflaterFactory
-import com.qncube.liveuikit.hook.KITLiveInflaterFactory
 import com.qncube.uikitcore.QUIKitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
 
@@ -41,7 +37,11 @@ class RoomListActivity : BaseFrameActivity() {
     override fun init() {
     }
 
+    override fun isToolBarEnable(): Boolean {
+        return false
+    }
+
     override fun getLayoutId(): Int {
-        return R.layout.activity_room_list
+        return R.layout.kit_activity_room_list
     }
 }

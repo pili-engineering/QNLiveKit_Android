@@ -27,7 +27,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
         }
 
         override fun onUserLeft(memberID: String) {
-            refresh(true)
+            refresh(false)
         }
 
         override fun onUserKicked(memberID: String) {
@@ -76,9 +76,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout{
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
-
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)

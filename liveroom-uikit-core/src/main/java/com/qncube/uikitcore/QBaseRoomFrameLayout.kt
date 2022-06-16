@@ -88,6 +88,6 @@ class QEmptyView : View, QComponent {
         defStyleAttr
     ) {
     }
-    override var QUIKitContext: QUIKitContext? = null
+    override var kitContext: QUIKitContext? = null
 
 }

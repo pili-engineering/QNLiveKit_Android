@@ -8,6 +8,7 @@ interface QPlayerRenderView {
     fun setRenderCallback(rendCallback: QRenderCallback)
     fun setDisplayAspectRatio(previewMode: PreviewMode)
     fun getView(): View;
+    fun getSurface():Surface?
 }
 
 interface QRenderCallback {

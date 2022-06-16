@@ -7,9 +7,14 @@ import com.qncube.linveroominner.http.OKHttpService
 import com.qncube.linveroominner.http.PageData
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.qnim.QNIMManager
+import com.qncube.linveroominner.http.NetBzException
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.been.QLiveUser
 import com.qncube.liveroomcore.getCode
+import kotlin.coroutines.coroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class UserDataSource {
 
@@ -84,9 +89,23 @@ class UserDataSource {
         )[0]
     }
 
+    private suspend fun getToken() = suspendCoroutine<String> { coroutine->
+        OKHttpService.tokenGetter!!.getTokenInfo(object : QLiveCallBack<String> {
+            override fun onError(code: Int, msg: String?) {
+                coroutine.resumeWithException(NetBzException(code,msg))
+            }
+
+            override fun onSuccess(data: String) {
+                OKHttpService.token = data
+                coroutine.resume(data)
+            }
+        })
+    }
+
     fun loginUser(context: Context, callBack: QLiveCallBack<QLiveUser>) {
         backGround {
             doWork {
+                getToken()
                 val user = OKHttpService.get("/client/user/profile", null, InnerUser::class.java)
                 var isQnIm = false
                 isQnIm = try {

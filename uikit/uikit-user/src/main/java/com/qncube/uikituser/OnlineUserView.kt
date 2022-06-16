@@ -8,11 +8,16 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.qncube.chatservice.QChatRoomService
 import com.qncube.chatservice.QChatRoomServiceListener
 import com.qncube.linveroominner.Scheduler
+import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
+import com.qncube.roomservice.QRoomService
 import com.qncube.uikitcore.*
 import com.qncube.uikitcore.ext.bg
 import kotlinx.android.synthetic.main.kit_view_online.view.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class OnlineUserView : QBaseRoomFrameLayout {
 
@@ -55,7 +60,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
         recyOnline?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapter.setOnItemClickListener { _, view, position ->
-
+            //点击事件
         }
         recyOnline.adapter = adapter
     }
@@ -66,19 +71,29 @@ class OnlineUserView : QBaseRoomFrameLayout {
         refresh()
     }
 
+    private suspend fun getOnlineUser() = suspendCoroutine<List<QLiveUser>> { ct ->
+        client?.getService(QRoomService::class.java)?.getOnlineUser(1, 10,
+            object : QLiveCallBack<List<QLiveUser>> {
+                override fun onError(code: Int, msg: String?) {
+                    ct.resumeWithException(Exception(msg))
+                }
+
+                override fun onSuccess(data: List<QLiveUser>) {
+                    ct.resume(data)
+                }
+            })
+    }
+
     private fun refresh() {
         if (roomId.isEmpty()) {
             return
         }
         kitContext?.lifecycleOwner?.bg {
             doWork {
-                //todo
-//                client?.getService(Rooms)
-//                val users = mUserDataSource.getOnlineUser(roomId, 1, 10).list.filter {
-//                    it.userId != roomInfo?.anchorInfo?.userId
-//                }
-
-                //      adapter.setNewData(users)
+                val users = getOnlineUser().filter {
+                    it.userId != roomInfo?.anchor?.userId
+                }
+                adapter.setNewData(users)
             }
             catchError {
             }

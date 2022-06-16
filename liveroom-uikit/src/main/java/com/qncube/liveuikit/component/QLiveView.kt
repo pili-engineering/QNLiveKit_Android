@@ -1,5 +1,6 @@
 package com.qncube.liveuikit.component
 
+import com.qncube.liveuikit.hook.KITInflaterFactory
 import com.qncube.liveuikit.hook.KITLiveInflaterFactory
 import com.qncube.uikitcore.QLiveEmptyView
 import com.qncube.uikitcore.QLiveComponent
@@ -7,6 +8,9 @@ import com.qncube.uikitcore.QLiveComponent
 //内置UI型号组件
 open class QLiveView(private val originViewClass: Class<out QLiveComponent>) {
 
+    init {
+        KITLiveInflaterFactory.innerComponentClass.put(originViewClass.name,originViewClass)
+    }
     private var replaceClass: Class<out QLiveComponent>? = null
 
     /**

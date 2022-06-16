@@ -14,7 +14,7 @@ import com.qncube.uikitcore.QComponent
 import kotlinx.android.synthetic.main.kit_btn_create_room.view.*
 
 class CreateRoomButton : FrameLayout, QComponent {
-    override var QUIKitContext: QUIKitContext? = null
+    override var kitContext: QUIKitContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

@@ -5,6 +5,10 @@ import com.qncube.uikitcore.QLiveComponent
 
 class QLiveFunctionComponent(val originComponent: QLiveComponent) {
 
+    init {
+        KITFunctionInflaterFactory.functionComponents.add(originComponent)
+    }
+
     private var replaceComponent: (QLiveComponent)? = null
 
     var isEnable: Boolean = true

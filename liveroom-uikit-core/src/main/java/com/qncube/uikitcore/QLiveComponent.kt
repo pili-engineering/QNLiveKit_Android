@@ -4,12 +4,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.qncube.liveroomcore.QLiveClient
-import com.qncube.linveroominner.QClientLifeCycleListener
+import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
 
 interface QLiveComponent :
-    QClientLifeCycleListener , LifecycleEventObserver {
+    QClientLifeCycleListener, LifecycleEventObserver {
 
     var client: QLiveClient?
     var roomInfo: QLiveRoomInfo?

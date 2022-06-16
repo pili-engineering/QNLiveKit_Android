@@ -2,6 +2,7 @@ package com.niucube.mediaplayer
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -14,6 +15,7 @@ import com.qncube.lcommon.QRenderCallback
 class QSurfaceRenderView : FrameLayout, QPlayerRenderView {
 
     private lateinit var mRenderView: PLSurfaceRenderView
+    private var mSurface: Surface? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -42,10 +44,16 @@ class QSurfaceRenderView : FrameLayout, QPlayerRenderView {
 
     override fun setDisplayAspectRatio(previewMode: PreviewMode) {
         mDisplayAspectRatio = previewMode
+        val childView = getChildAt(0)
+        childView?.requestLayout()
     }
 
     override fun getView(): View {
         return this
+    }
+
+    override fun getSurface(): Surface? {
+        return mSurface
     }
 
     fun setZOrderOnTop(onTop: Boolean) {
@@ -75,6 +83,7 @@ class QSurfaceRenderView : FrameLayout, QPlayerRenderView {
 
         private val mSurfaceCallback: SurfaceHolder.Callback = object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
+                mSurface = holder.surface
                 if (mQRenderCallback != null) {
                     mQRenderCallback!!.onSurfaceCreated(holder.surface, 0, 0)
                 }
@@ -86,12 +95,14 @@ class QSurfaceRenderView : FrameLayout, QPlayerRenderView {
                 width: Int,
                 height: Int
             ) {
+                mSurface = holder.surface
                 if (mQRenderCallback != null) {
                     mQRenderCallback!!.onSurfaceChanged(holder.surface, width, height)
                 }
             }
 
             override fun surfaceDestroyed(holder: SurfaceHolder) {
+                mSurface = null
                 if (mQRenderCallback != null) {
                     mQRenderCallback!!.onSurfaceDestroyed(holder.surface)
                 }

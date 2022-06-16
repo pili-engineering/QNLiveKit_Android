@@ -19,7 +19,7 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
 
     companion object {
         //默认背景图片
-        var defaultBackGroundImg = R.drawable.kit_dafault_room_bg
+        var defaultBackGroundImg = com.qncube.liveuikit.R.drawable.kit_dafault_room_bg
     }
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -47,7 +47,8 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.kit_img_bg
+
+        return com.qncube.liveuikit.R.layout.kit_img_bg
     }
 
     override fun initView() {

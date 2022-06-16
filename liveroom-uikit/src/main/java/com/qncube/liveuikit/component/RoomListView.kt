@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.qncube.linveroominner.QLiveDelegate
 import com.qncube.liveroomcore.QLiveCallBack
 import com.qncube.linveroominner.asToast
 import com.qncube.liveroomcore.been.QLiveRoomInfo
@@ -24,9 +26,12 @@ import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.refresh.CommonEmptyView
 import kotlinx.android.synthetic.main.kit_roomlist_item_room.view.*
 import kotlinx.android.synthetic.main.kit_view_room_list.view.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class RoomListView : FrameLayout, QComponent {
-    override var QUIKitContext: QUIKitContext? = null
+    override var kitContext: QUIKitContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -40,7 +45,6 @@ class RoomListView : FrameLayout, QComponent {
     }
 
     private val mAdapter = RoomListAdapter()
-    private var mLifecycleOwner: LifecycleOwner? = null
 
     override fun attachKitContext(context: QUIKitContext) {
         super.attachKitContext(context)
@@ -59,20 +63,38 @@ class RoomListView : FrameLayout, QComponent {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast()
                 }
+
                 override fun onSuccess(data: QLiveRoomInfo?) {
                 }
             })
         }
-        mLifecycleOwner?.lifecycleScope?.launchWhenResumed {
+
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        super.onStateChanged(source, event)
+        if (event == Lifecycle.Event.ON_RESUME) {
             mSmartRecyclerView.startRefresh()
         }
     }
 
+    private suspend fun suspendLoad(page: Int) = suspendCoroutine<List<QLiveRoomInfo>> { ct ->
+        QLiveDelegate.qRooms.listRoom(page + 1, 20, object : QLiveCallBack<List<QLiveRoomInfo>> {
+            override fun onError(code: Int, msg: String?) {
+                ct.resumeWithException(Exception(msg))
+            }
+
+            override fun onSuccess(data: List<QLiveRoomInfo>?) {
+                ct.resume(data ?: ArrayList<QLiveRoomInfo>())
+            }
+        })
+    }
+
     private fun load(page: Int) {
-        mLifecycleOwner?.bg {
+        kitContext?.lifecycleOwner?.bg {
             doWork {
-                QLiveDelegate.qRooms.listRoom(page + 1, 20)
-                mSmartRecyclerView.onFetchDataFinish(data.list, true)
+                val list = suspendLoad(page)
+                mSmartRecyclerView.onFetchDataFinish(list, true)
             }
             catchError {
                 mSmartRecyclerView.onFetchDataError()

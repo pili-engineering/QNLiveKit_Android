@@ -114,6 +114,7 @@ class RoomPullActivity : BaseFrameActivity() {
         mRoomId = intent.getStringExtra("roomId") ?: ""
 
         KITFunctionInflaterFactory.attachKitContext(mQUIKitContext)
+        KITFunctionInflaterFactory.attachLiveClient(mRoomClient)
         mInflaterFactory.onEntering(mRoomId, UserDataSource.loginUser)
         KITFunctionInflaterFactory.onEntering(mRoomId, UserDataSource.loginUser)
 

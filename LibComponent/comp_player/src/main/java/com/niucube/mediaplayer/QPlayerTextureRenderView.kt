@@ -50,7 +50,7 @@ open class QPlayerTextureRenderView : FrameLayout, QPlayerRenderView {
     internal fun setVideoSize(width: Int, height: Int) {
         mVideoWidth = width
         mVideoHeight = height
-        requestLayout()
+        mRenderView.requestLayout()
     }
 
     internal fun stopPlayback() {
@@ -75,10 +75,16 @@ open class QPlayerTextureRenderView : FrameLayout, QPlayerRenderView {
 
     override fun setDisplayAspectRatio(previewMode: PreviewMode) {
         mDisplayAspectRatio = previewMode
+        val childView = getChildAt(0)
+        childView?.requestLayout()
     }
 
     override fun getView(): View {
         return this
+    }
+
+    override fun getSurface(): Surface? {
+        return mSurface
     }
 
     fun setMirror(mirror: Boolean) {

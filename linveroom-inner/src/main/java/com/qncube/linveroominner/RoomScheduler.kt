@@ -1,5 +1,6 @@
 package com.qncube.linveroominner
 
+import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser

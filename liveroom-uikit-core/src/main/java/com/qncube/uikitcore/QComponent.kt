@@ -6,17 +6,16 @@ import androidx.lifecycle.LifecycleOwner
 
 interface QComponent : LifecycleEventObserver {
 
-    var QUIKitContext: QUIKitContext?
+    var kitContext: QUIKitContext?
 
     fun attachKitContext(context: QUIKitContext) {
-        this.QUIKitContext = context
+        this.kitContext = context
         context.lifecycleOwner.lifecycle.addObserver(this)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         if (event == Lifecycle.Event.ON_DESTROY) {
-            QUIKitContext = null
+            kitContext = null
         }
     }
-
 }

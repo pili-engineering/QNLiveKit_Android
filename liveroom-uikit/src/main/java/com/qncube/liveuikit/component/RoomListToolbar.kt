@@ -10,7 +10,7 @@ import com.qncube.uikitcore.QComponent
 import kotlinx.android.synthetic.main.kit_room_list_toobar.view.*
 
 class RoomListToolbar : FrameLayout, QComponent {
-    override var QUIKitContext: QUIKitContext? = null
+    override var kitContext: QUIKitContext? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -21,7 +21,7 @@ class RoomListToolbar : FrameLayout, QComponent {
     ) {
         LayoutInflater.from(context).inflate(R.layout.kit_room_list_toobar, this, true)
         tvBack.setOnClickListener {
-            QUIKitContext?.currentActivity?.finish()
+            kitContext?.currentActivity?.finish()
         }
     }
 

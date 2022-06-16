@@ -3,6 +3,7 @@ package com.qncube.linveroominner
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtminvitation.*
 import com.qiniu.jsonutil.JsonUtils
+import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.been.QInvitation
 import com.qncube.liveroomcore.been.QLiveRoomInfo

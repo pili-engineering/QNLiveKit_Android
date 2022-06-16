@@ -1,9 +1,6 @@
 package com.qncube.liveuikit
 
-import com.qncube.liveuikit.component.CreateRoomButton
-import com.qncube.liveuikit.component.QLiveView
-import com.qncube.liveuikit.component.QView
-import com.qncube.liveuikit.component.RoomListView
+import com.qncube.liveuikit.component.*
 
 class RoomListPage {
     /**
@@ -11,7 +8,7 @@ class RoomListPage {
      */
     var customLayoutID = -1
 
-    var appbar = QView(CreateRoomButton::class.java)
+    var appbar = QView(RoomListToolbar::class.java)
 
     var roomListView = QView(RoomListView::class.java)
 

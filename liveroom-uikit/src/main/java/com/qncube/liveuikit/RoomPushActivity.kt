@@ -68,13 +68,23 @@ class RoomPushActivity : BaseFrameActivity() {
     private val mRoomClient by lazy {
         QLiveDelegate.qLiveSdk.createPusherClientCall()
     }
+    private val mQUIKitContext by lazy {
+        QLiveKitUIContext(
+            this@RoomPushActivity,
+            supportFragmentManager,
+            this@RoomPushActivity,
+            this@RoomPushActivity,
+            leftRoomActionCall,
+            createAndJoinRoomActionCall,
+            { null }, { preTextureView }
+        )
+    }
 
     private val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
         mRoomClient.closeRoom(object : QLiveCallBack<Void> {
             override fun onError(code: Int, msg: String?) {
                 it.onError(code, msg)
             }
-
             override fun onSuccess(data: Void?) {
                 mInflaterFactory.onLeft()
                 KITFunctionInflaterFactory.onLeft()
@@ -104,19 +114,6 @@ class RoomPushActivity : BaseFrameActivity() {
             }
 
         }
-
-
-    private val mQUIKitContext by lazy {
-        QLiveKitUIContext(
-            this@RoomPushActivity,
-            supportFragmentManager,
-            this@RoomPushActivity,
-            this@RoomPushActivity,
-            leftRoomActionCall,
-            createAndJoinRoomActionCall,
-            { null }, { preTextureView }
-        )
-    }
 
     private suspend fun createSuspend(p: QCreateRoomParam) = suspendCoroutine<QLiveRoomInfo> { ct ->
         QLiveDelegate.qRooms.createRoom(p, object :
@@ -170,12 +167,10 @@ class RoomPushActivity : BaseFrameActivity() {
         roomId = intent.getStringExtra("roomId") ?: ""
         mRoomClient.enableCamera(QCameraParam(), preTextureView)
         mRoomClient.enableMicrophone(QMicrophoneParam())
-
         KITFunctionInflaterFactory.attachKitContext(mQUIKitContext)
-        if (roomId.isEmpty()) {
+        KITFunctionInflaterFactory.attachLiveClient(mRoomClient)
+        if (roomId.isNotEmpty()) {
             mLivePreView?.visibility = View.GONE
-        } else {
-
             bg {
                 LoadingDialog.showLoading(supportFragmentManager)
                 doWork {

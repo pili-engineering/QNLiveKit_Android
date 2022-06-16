@@ -1,6 +1,6 @@
 package com.qncube.liveuikit.hook
 
-import com.qncube.linveroominner.QClientLifeCycleListener
+import com.qncube.liveroomcore.QClientLifeCycleListener
 import com.qncube.liveroomcore.QLiveClient
 import com.qncube.liveroomcore.been.QLiveRoomInfo
 import com.qncube.liveroomcore.been.QLiveUser
