@@ -31,7 +31,6 @@ abstract class QBaseRoomFrameLayout : FrameLayout, QLiveComponent {
         }
     }
 
-
     /**
      * 绑定上下文回调
      */

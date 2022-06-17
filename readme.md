@@ -23,7 +23,6 @@ QliveUIKit liveUIKit = QLive.getLiveUIKit()
 //跳转到直播列表页面
 liveUIKit.launch(context);
 
-
 ```
 
 ### 自定义UI
@@ -105,9 +104,10 @@ roomPage.innerCoverView.replace(CustomView::class.java)
 方法1 无侵入式修改
 
 拷贝kit布局xml文件 修改属性参数如边距排列方式
+```
 //设置自定义布局ID
 roomPage.customLayoutID = R.layout.customlayout
-
+```
 方法2 直接修改kit开源代码
 
 ### 添加功能组件
