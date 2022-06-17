@@ -32,17 +32,13 @@ android {
 
 dependencies {
 
-    api project(':liveroom-core')
-    compileOnly project(path: ':LibComponent:comp_rtclive')
-    implementation project(':liveroom-coreimpl')
+    api project(':qlivesdk')
     api 'com.github.bumptech.glide:glide:4.11.0'
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
     api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     api depend.runtime_ktx()
     api depend.recyclerview()
     api depend.appcompat()
-
-
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -11,7 +11,6 @@ QLive.init(context ,new QTokenGetter(){
         }
         },new QLiveCallBack<Void>{});
 
-
 Map ext = new HashMap()
 ext.put("vip","1"); //自定义vip等级
 ext.put("level","22");//扩展用户等级
@@ -72,12 +71,19 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 替换原来内置的UI组件
 
 ```kotlin
-val roomPage =   QLive.getLiveUIKit().getRoomPage()
+val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
 //替换公告
 roomPage.roomNoticeView.replace(CustomNoticeView::class.java)
 //替换底部功能栏
 roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
+//.....每个组件都可以替换
+
+val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
+//替换房间列表页面的创建按钮
+roomListPage.createRoomButton.replace(CustomCreateRoomButton::class.java)
+//.....每个组件都可以替换
 ```
+
 方法2 修改kit组件源码
 
 ### 添加UI组件
@@ -105,8 +111,13 @@ roomPage.innerCoverView.replace(CustomView::class.java)
 
 拷贝kit布局xml文件 修改属性参数如边距排列方式
 ```
-//设置自定义布局ID
-roomPage.customLayoutID = R.layout.customlayout
+//自定义房间页面观众房间的布局
+roomPage.playerCustomLayoutID = R.layout.customlayout
+//自定义房间页面主播房间的布局
+roomPage.anchorCustomLayoutID = R.layout.customlayout
+//自定义房间列表页面布局
+roomListPage=customLayoutID = R.layout.customlayout
+
 ```
 方法2 直接修改kit开源代码
 
@@ -252,10 +263,11 @@ class QLive {
 }
 
 class QLiveUIKit{
-    static RoomListPage getRoomListPage();      //房间列表页面 -ui组件表
-    static RoomPage getRoomPage();              //房间页面 - ui组件表
-    static void launch(Context context);        //启动 跳转直播列表页面
+    <T extends QPage> T getPage(Class<T> pageClass); //获取内置UI页面
+    void launch(Context context);        //启动 跳转直播列表页面
 }
+
+
 
 interface QTokenGetter{
   void getTokenInfo( QLiveCallBack<String> callback);
@@ -632,7 +644,7 @@ class QDanmaku {
 
 ```java
 //主播列表
-class RoomListPage  {
+class RoomListPage extends QPage {
     setCustomLayoutId(int layoutID); //替换整体布局
     AppBarView appbar;  //页面toolbar      
     RoomListViewView roomListView; //房间列表
@@ -642,7 +654,8 @@ class RoomListPage  {
 //房间列表页面
 class RoomPage {
 
-    setCustomLayoutId(int layoutID); //替换整体布局
+    setPlayerCustomLayoutId(int layoutID); //替换整体布局 替换观众端
+    setAnchorCustomLayoutId(int layoutID); //替换整体布局 替换主播端
 
     LivePrepareView livePreView ;//开播准备
     RoomBackGroundView roomBackGroundView;//房间背景

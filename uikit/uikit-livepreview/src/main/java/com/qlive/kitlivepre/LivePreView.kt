@@ -5,11 +5,12 @@ import android.util.AttributeSet
 import android.view.View
 import com.qlive.core.*
 import com.qlive.core.QPusherClient
-import com.qlive.coreimpl.datesource.UserDataSource
-import com.qlive.coreimpl.toast
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.core.been.QCreateRoomParam
+import com.qlive.core.been.QLiveUser
+import com.qlive.sdk.QLive
+import com.qlive.uikitcore.ext.asToast
 import kotlinx.android.synthetic.main.kit_live_preview.view.*
 
 /**
@@ -37,7 +38,8 @@ class LivePreView : QBaseRoomFrameLayout {
         tvStart.setOnClickListener {
             val titleStr = etTitle.text.toString()
             if (titleStr.isEmpty()) {
-                context!!.resources.toast(R.string.preview_tip_input_title)
+                "请输入标题".asToast(context)
+
                 return@setOnClickListener
             }
             val noticeStr = etNotice.text.toString() ?: ""
@@ -45,7 +47,7 @@ class LivePreView : QBaseRoomFrameLayout {
                 QCreateRoomParam().apply {
                 title = titleStr
                 notice = noticeStr
-                coverURL = UserDataSource.loginUser.avatar ?: ""
+                coverURL = user?.avatar ?: ""
             }, object : QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {}
                 override fun onSuccess(data: Void?) {}
@@ -53,13 +55,16 @@ class LivePreView : QBaseRoomFrameLayout {
         }
 
         llBeauty.setOnClickListener {
-
         }
 
         llSwitch.setOnClickListener {
             (client as QPusherClient)
                 .switchCamera(null)
         }
+    }
+
+    override fun onEntering(roomId: String, user: QLiveUser) {
+        super.onEntering(roomId, user)
     }
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {

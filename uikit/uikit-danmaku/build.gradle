@@ -32,10 +32,8 @@ android {
 
 dependencies {
 
-    api project(':liveroom-core')
     api project(':liveroom-uikit-core')
     api project(':service:danmakuservice')
-    implementation project(':liveroom-coreimpl')
     implementation project(':uikit:uiwidget-input')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

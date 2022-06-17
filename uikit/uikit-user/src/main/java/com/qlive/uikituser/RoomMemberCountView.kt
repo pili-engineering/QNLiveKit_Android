@@ -8,6 +8,7 @@ import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.roomservice.QRoomService
 import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.Scheduler
 import kotlinx.android.synthetic.main.kit_view_room_member_count.view.*
 
 class RoomMemberCountView : QBaseRoomFrameLayout {
@@ -69,7 +70,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout {
 //        }
     }
 
-    private val mScheduler = com.qlive.coreimpl.Scheduler(15000) {
+    private val mScheduler = Scheduler(15000) {
         if (roomInfo == null) {
             return@Scheduler
         }

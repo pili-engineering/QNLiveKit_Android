@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-
+    api project(':liveroom-uikit-core')
     api project(':liveroom-pullclient')
     api project(':liveroom-pushclient')
 
@@ -47,8 +47,6 @@ dependencies {
     api project(':uikit:uikit-livepreview')
     api project(':uikit:uikit-linkmic')
     api project(':uikit:uikit-pk')
-    implementation project(':liveroom-coreimpl')
-
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

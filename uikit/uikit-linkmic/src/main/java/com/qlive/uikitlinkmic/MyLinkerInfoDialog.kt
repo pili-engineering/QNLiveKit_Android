@@ -4,15 +4,15 @@ import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.coreimpl.Scheduler
-import com.qlive.coreimpl.asToast
 import com.qlive.core.been.QMicLinker
 import com.qlive.core.*
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.core.been.QLiveUser
+import com.qlive.uikitcore.Scheduler
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_dialog_my_linker_info.*
 import java.text.DecimalFormat
@@ -72,7 +72,7 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QLiveUser) :
             service.audienceMicHandler.muteCamera(ivCameraStatus.isSelected,
                 object : QLiveCallBack<Boolean> {
                     override fun onError(code: Int, msg: String?) {
-                        msg?.asToast()
+                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onSuccess(data: Boolean) {
@@ -84,7 +84,7 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QLiveUser) :
             service.audienceMicHandler.muteMicrophone(ivMicStatus.isSelected,
                 object : QLiveCallBack<Boolean> {
                     override fun onError(code: Int, msg: String?) {
-                        msg?.asToast()
+                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onSuccess(data: Boolean) {
@@ -101,7 +101,7 @@ class MyLinkerInfoDialog(val service: QLinkMicService, val me: QLiveUser) :
             service.audienceMicHandler.stopLink(object :
                 QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {
-                    msg?.asToast()
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                     LoadingDialog.cancelLoadingDialog()
                 }
 

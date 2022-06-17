@@ -110,8 +110,10 @@ class QPKServiceImpl : QPKService, BaseService() {
                     QLiveLogUtil.LogE("pk 接收方确认回复pk成功 ")
                 }
                 catchError {
-                    it.message?.asToast()
                     QLiveLogUtil.LogE("pk 接收方确认回复pk 错误 ${it.getCode()} ${it.message}")
+                    mServiceListeners.forEach {
+                        it.onStartTimeOut(mPKSessionTemp!!)
+                    }
                 }
                 onFinally {
                     mPKSessionTemp = null

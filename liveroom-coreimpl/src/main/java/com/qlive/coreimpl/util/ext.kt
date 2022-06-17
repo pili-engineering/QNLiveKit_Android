@@ -1,6 +1,7 @@
-package com.qlive.coreimpl
+package com.qlive.coreimpl.util
 import android.content.res.Resources
 import android.widget.Toast
+import com.qlive.coreimpl.AppCache
 
 
 fun String.asToast() {

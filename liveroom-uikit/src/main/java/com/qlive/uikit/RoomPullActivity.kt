@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.view.LayoutInflaterCompat
 import com.qlive.avparam.PreviewMode
 import com.qlive.core.*
 import com.qlive.uikit.hook.KITLiveInflaterFactory
 import com.qlive.avparam.RtcException
-import com.qlive.coreimpl.QLiveDelegate
-import com.qlive.coreimpl.datesource.UserDataSource
-import com.qlive.coreimpl.asToast
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
@@ -25,7 +23,8 @@ import kotlinx.android.synthetic.main.activity_room_pull.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import com.qlive.coreimpl.util.getCode
+import com.qlive.sdk.QLive
+import com.qlive.uikitcore.getCode
 
 class RoomPullActivity : BaseFrameActivity() {
 
@@ -42,7 +41,7 @@ class RoomPullActivity : BaseFrameActivity() {
 
     private var mRoomId = ""
     private val mRoomClient by lazy {
-        QLiveDelegate.qLiveSdk.createPlayerClientCall()
+       QLive.createPlayerClient()
     }
 
     private val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
@@ -60,7 +59,7 @@ class RoomPullActivity : BaseFrameActivity() {
     }
     private val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
         { p, c ->
-            "player activity can not create".asToast()
+            Toast.makeText(this,  "player activity can not create", Toast.LENGTH_SHORT).show()
         }
 
     private val mQUIKitContext by lazy {
@@ -112,8 +111,8 @@ class RoomPullActivity : BaseFrameActivity() {
 
         KITFunctionInflaterFactory.attachKitContext(mQUIKitContext)
         KITFunctionInflaterFactory.attachLiveClient(mRoomClient)
-        mInflaterFactory.onEntering(mRoomId, UserDataSource.loginUser)
-        KITFunctionInflaterFactory.onEntering(mRoomId, UserDataSource.loginUser)
+        mInflaterFactory.onEntering(mRoomId, QLive.getLoginUser())
+        KITFunctionInflaterFactory.onEntering(mRoomId, QLive.getLoginUser())
 
         container.post {
             bg {
@@ -126,7 +125,7 @@ class RoomPullActivity : BaseFrameActivity() {
                     KITFunctionInflaterFactory.onJoined(room)
                 }
                 catchError {
-                    it.message?.asToast()
+                    Toast.makeText(this@RoomPullActivity,  it.message, Toast.LENGTH_SHORT).show()
                     startCallBack?.onError(it.getCode(), it.message)
                     finish()
                 }

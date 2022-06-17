@@ -8,19 +8,19 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.view.LayoutInflaterCompat
 import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
 import com.qlive.avparam.RtcException
-import com.qlive.coreimpl.QLiveDelegate
-import com.qlive.coreimpl.datesource.UserDataSource
-import com.qlive.coreimpl.asToast
 import com.qlive.core.*
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.uikit.hook.KITLiveInflaterFactory
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
 import com.qlive.roomservice.QRoomService
+import com.qlive.sdk.QLive
+import com.qlive.uikitcore.KitException
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import com.qlive.uikitcore.dialog.LoadingDialog
@@ -28,9 +28,9 @@ import com.qlive.uikitcore.ext.bg
 import com.qlive.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.activity_room_push.*
 import kotlin.coroutines.resume
+import com.qlive.uikitcore.getCode
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import com.qlive.coreimpl.util.getCode
 
 class RoomPushActivity : BaseFrameActivity() {
     private var roomId = ""
@@ -61,7 +61,7 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     private val mRoomClient by lazy {
-        QLiveDelegate.qLiveSdk.createPusherClientCall()
+        QLive.createPusherClient()
     }
     private val mQUIKitContext by lazy {
         QLiveUIKitContext(
@@ -100,7 +100,7 @@ class RoomPushActivity : BaseFrameActivity() {
                     c.onSuccess(null)
                 }
                 catchError {
-                    it.message?.asToast()
+                    Toast.makeText(this@RoomPushActivity,  it.message, Toast.LENGTH_SHORT).show()
                     c.onError(it.getCode(), it.message)
                 }
                 onFinally {
@@ -111,10 +111,10 @@ class RoomPushActivity : BaseFrameActivity() {
         }
 
     private suspend fun createSuspend(p: QCreateRoomParam) = suspendCoroutine<QLiveRoomInfo> { ct ->
-        QLiveDelegate.qRooms.createRoom(p, object :
+        QLive.getRooms().createRoom(p, object :
             QLiveCallBack<QLiveRoomInfo> {
             override fun onError(code: Int, msg: String) {
-                ct.resumeWithException(RtcException(code, msg))
+                ct.resumeWithException(KitException(code, msg))
             }
 
             override fun onSuccess(data: QLiveRoomInfo) {
@@ -124,12 +124,12 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QLiveRoomInfo> { cont ->
-        mInflaterFactory.onEntering(roomId, UserDataSource.loginUser)
-        KITFunctionInflaterFactory.onEntering(roomId, UserDataSource.loginUser)
+        mInflaterFactory.onEntering(roomId, QLive.getLoginUser())
+        KITFunctionInflaterFactory.onEntering(roomId, QLive.getLoginUser())
         mRoomClient.joinRoom(roomId, object :
             QLiveCallBack<QLiveRoomInfo> {
             override fun onError(code: Int, msg: String?) {
-                cont.resumeWithException(RtcException(code, msg ?: ""))
+                cont.resumeWithException(KitException(code, msg ?: ""))
             }
 
             override fun onSuccess(data: QLiveRoomInfo) {
@@ -176,7 +176,7 @@ class RoomPushActivity : BaseFrameActivity() {
                 catchError {
                     startCallBack?.onError(it.getCode(), "")
                     startCallBack = null
-                    it.message?.asToast()
+                    Toast.makeText(this@RoomPushActivity,  it.message, Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 onFinally {
@@ -206,7 +206,7 @@ class RoomPushActivity : BaseFrameActivity() {
             if (grantedPermissions.size == 2) {
                 start()
             } else {
-                "请同意必要的权限".asToast()
+                Toast.makeText(this, "请同意必要的权限", Toast.LENGTH_SHORT).show()
                 startCallBack?.onError(-1, "no permission")
                 startCallBack = null
                 finish()

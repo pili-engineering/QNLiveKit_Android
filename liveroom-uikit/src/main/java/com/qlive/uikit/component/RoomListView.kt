@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,10 +13,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qlive.coreimpl.QLiveDelegate
 import com.qlive.core.QLiveCallBack
-import com.qlive.coreimpl.asToast
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.sdk.QLive
 import com.qlive.uikit.R
 import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.QUIKitContext
@@ -60,7 +60,7 @@ class RoomListView : FrameLayout, QComponent {
             RoomPage.joinRoom(context.currentActivity, it, object :
                 QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
-                    msg?.asToast()
+                    Toast.makeText(kitContext?.androidContext, msg, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onSuccess(data: QLiveRoomInfo?) {
@@ -78,7 +78,7 @@ class RoomListView : FrameLayout, QComponent {
     }
 
     private suspend fun suspendLoad(page: Int) = suspendCoroutine<List<QLiveRoomInfo>> { ct ->
-        QLiveDelegate.qRooms.listRoom(page + 1, 20, object : QLiveCallBack<List<QLiveRoomInfo>> {
+        QLive.getRooms().listRoom(page + 1, 20, object : QLiveCallBack<List<QLiveRoomInfo>> {
             override fun onError(code: Int, msg: String?) {
                 ct.resumeWithException(Exception(msg))
             }

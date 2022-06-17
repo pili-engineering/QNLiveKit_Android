@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.Scheduler
 import com.qlive.uikitcore.ext.toHtml
 import kotlinx.android.synthetic.main.kit_view_room_timer.view.*
 import java.text.DecimalFormat
@@ -35,7 +36,7 @@ class RoomTimerView : QBaseRoomFrameLayout {
     }
 
     private var total = 0;
-    private val mScheduler = com.qlive.coreimpl.Scheduler(1000) {
+    private val mScheduler = Scheduler(1000) {
         total++
         tvTimer.text = showTimeCall(total).toHtml()
     }

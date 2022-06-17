@@ -1,11 +1,11 @@
 package com.qlive.uikitlinkmic
 
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.qlive.core.been.QInvitation
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.coreimpl.asToast
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
@@ -41,7 +41,7 @@ class ShowLinkMicApplyComponent : QLiveComponent {
                                 object :
                                     QLiveCallBack<Void> {
                                     override fun onError(code: Int, msg: String?) {
-                                        msg?.asToast()
+                                        Toast.makeText(kitContext!!.androidContext, msg, Toast.LENGTH_SHORT).show()
                                     }
 
                                     override fun onSuccess(data: Void?) {
