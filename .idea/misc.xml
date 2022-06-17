@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16893115942028986" />
         <entry key="liveroom-uikit/src/main/res/drawable/kit_dafault_room_bg.xml" value="0.134" />
         <entry key="liveroom-uikit/src/main/res/drawable/kit_shape_007aff_50.xml" value="0.1425" />
         <entry key="liveroom-uikit/src/main/res/layout/activity_room_list.xml" value="0.16394927536231885" />

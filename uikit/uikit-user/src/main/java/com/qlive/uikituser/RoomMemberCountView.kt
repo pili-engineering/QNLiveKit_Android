@@ -6,7 +6,6 @@ import com.qlive.chatservice.QChatRoomService
 import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QLiveUser
 import com.qlive.roomservice.QRoomService
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import kotlinx.android.synthetic.main.kit_view_room_member_count.view.*
@@ -106,7 +105,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout {
 
     override fun initView() {
         client!!.getService(QChatRoomService::class.java)
-            .addChatServiceListener(mChatRoomServiceListener)
+            .addServiceListener(mChatRoomServiceListener)
     }
 
 }

@@ -9,6 +9,7 @@ import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.core.QLiveCallBack
+import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.bg
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,12 +20,18 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+
+
+
+
 class MainActivity : AppCompatActivity() {
 
     private var user: com.qlive.qnlivekit.BZUser? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         loginBtn.setOnClickListener {
 
             bg {

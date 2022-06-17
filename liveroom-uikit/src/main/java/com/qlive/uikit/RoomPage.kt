@@ -132,7 +132,7 @@ class RoomPage {
     /**
      *  全局底层覆盖自定义UI
      */
-    val mInnerCoverView = QLiveView(InnerCoverView::class.java)
+    val innerCoverView = QLiveView(InnerCoverView::class.java)
 
     /**
      * 主播收到pk邀请 展示弹窗 事件监听功能组件
@@ -147,7 +147,7 @@ class RoomPage {
     /**
      * 注册自定义功能组件  事件处理组件无UI
      */
-    fun addFucComponent(component: QLiveComponent) {
+    fun addFunctionComponent(component: QLiveComponent) {
         KITFunctionInflaterFactory.functionComponents.add(component)
     }
 

@@ -2,86 +2,86 @@
 ```java
 无UI
 //初始化
-QLive.init(context ,new QTokenGetter(){
-   //业务请求token
-    void getTokenInfo( QLiveCallBack<String> callback){
+        QLive.init(context ,new QTokenGetter(){
+        //业务请求token
+        void getTokenInfo( QLiveCallBack<String> callback){
         GetTokenApi.getToken(callback);
-     }
-   
- },new QLiveCallBack<Void>{});
+        }
 
-Map extension = new HashMap()
-extension.put("vip","1"); //自定义vip等级
-extension.put("level","22");//扩展用户等级
+        },new QLiveCallBack<Void>{});
+
+        Map extension = new HashMap()
+        extension.put("vip","1"); //自定义vip等级
+        extension.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
+        QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
 
 //创建房间
-QRooms rooms = QLive.getRooms();
-QCreateRoomParam param = new QCreateRoomParam();
-param.setTitle("xxxtitle");
-rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
-    void onSuccess(QLiveRoomInfo roomInfo){}
-    void onError(int code, String msg) {}
-});
+        QRooms rooms = QLive.getRooms();
+        QCreateRoomParam param = new QCreateRoomParam();
+        param.setTitle("xxxtitle");
+        rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
+        void onSuccess(QLiveRoomInfo roomInfo){}
+        void onError(int code, String msg) {}
+        });
 
 // 主播推流
 //创建推流client
- QPusherClient client = QLive.createPusherClient();
- 
-QMicrophoneParam microphoneParams = new QMicrophoneParam();
-microphoneParam.setSampleRate(48000);
-//启动麦克风模块
-client.enableMicrophone(microphoneParam);
+        QPusherClient client = QLive.createPusherClient();
 
-QCameraParam cameraParam = new QCameraParam()
-cameraParam.setFPS(15)
+        QMicrophoneParam microphoneParams = new QMicrophoneParam();
+        microphoneParam.setSampleRate(48000);
+//启动麦克风模块
+        client.enableMicrophone(microphoneParam);
+
+        QCameraParam cameraParam = new QCameraParam()
+        cameraParam.setFPS(15)
 //启动摄像头模块
-client.enableCamera(cameraParam,findViewById(R.id.renderView));
+        client.enableCamera(cameraParam,findViewById(R.id.renderView));
 
 //注册房间端监听
-client.setLiveStatusListener(new: QLiveStatusListener{})
+        client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
-client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
-     void onSuccess(QLiveRoomInfo roomInfo){}
-     void onError(int code, String msg) {}
-});
+        client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
+        void onSuccess(QLiveRoomInfo roomInfo){}
+        void onError(int code, String msg) {}
+        });
 
 //关闭
-client.closeRoom(new QLiveCallBack<Void> {
-     void onSuccess(Void) {}
-     void onError(int code, String msg) {}
- });
+        client.closeRoom(new QLiveCallBack<Void> {
+        void onSuccess(Void) {}
+        void onError(int code, String msg) {}
+        });
 //销毁
-client.destroy();
+        client.destroy();
 
 
 
 //用户拉流房间
-QPlayerClient client = QLive.createPlayerClient();
+        QPlayerClient client = QLive.createPlayerClient();
 
 //注册房间端监听
-client.setLiveStatusListener(new: QLiveStatusListener{})
+        client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
-client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
-     override void onSuccess(QLiveRoomInfo roomInfo){}
-     override void onError(int code, String msg) {}
- });
+        client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
+        override void onSuccess(QLiveRoomInfo roomInfo){}
+        override void onError(int code, String msg) {}
+        });
 
 //播放
-client.play(findViewById(R.id.renderView));
+        client.play(findViewById(R.id.renderView));
 
 //离开房间
-client.leaveRoom(new QLiveCallBack<Void> {
-    void onSuccess(Void) {}
-    void onError(int code, String msg) {}
-});
+        client.leaveRoom(new QLiveCallBack<Void> {
+        void onSuccess(Void) {}
+        void onError(int code, String msg) {}
+        });
 
 //关闭
-client.destroy(); 
+        client.destroy(); 
 ```
 
 
@@ -110,26 +110,130 @@ QliveUIKit liveUIKit = QLive.getLiveUIKit()
 liveUIKit.launch(context);
 
 
-//配置UI (可选);
-RoomPage roomPage = liveUIKit.getRoomPage();
+```
 
-//每个内置UI组件都可以配置自己的替换实现
-roomPage.noticeView.replace(CustomView.Class);
-           
-//每个内置UI组件都可以禁用
-roomPage.noticeView.isEnable = false;
-           
-//插入全局覆盖层
-roomPage.outerCoverView.replace(CustomView.Class)
+### 自定义UI
+
+#### 修改现有的UI组件
+  
+
+1创建自定义UI组件 继承QLiveComponent，调用replace方法无侵入式替换
+```kotlin
+
+class CustomNoticeView :FrameLayout, QLiveComponent {
+    
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ){
+        //自己的公告布局
+        LayoutInflater.from(context).inflate(R.layout.customnoticeview,this,true)
+    }
+
+    //绑定UI组件上下文
+    override fun attachKitContext(context: QLiveUIKitContext) {}
+    //绑定房间客户端 通过client可以获取业务实现
+    override fun attachLiveClient(client: QLiveClient) {}
+    //进入回调
+    override fun onEntering(liveId: String, user: QLiveUser) { }
+    // 加入回调
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+        //设置房间公告文本
+       tvNotice.setText("房间公告："+roomInfo.notice)
+    }
+    //离开回调
+    override fun onLeft() { }
+    // 销毁
+    override fun onDestroyed() { }
+    //安卓activity生命周期
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {}
+}
+
+```
+
+替换原来内置的UI组件
+
+```kotlin
+val roomPage =   QLive.getLiveUIKit().getRoomPage()
+//替换公告
+roomPage.roomNoticeView.replace(CustomNoticeView::class.java)
+//替换底部功能栏
+roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
+```
+2 修改kit组件源码
+
+#### 添加UI组件
+
+1 无侵入式添加
+
+```kotlin
+class CustomView :FrameLayout, QLiveComponent {
+   //  实现自己额外的多个UI布局
+}
+
+//在房间内置UI上层添加自己的多个额外的UI组件
+roomPage.outerCoverView.replace(CustomView::class.java)
+//在房间内置UI下层添加自己的多个额外的UI组件
+roomPage.innerCoverView.replace(CustomView::class.java)
+```
+
+2 修改kit开源代码
+
+
+#### 修改布局
+
+
+1 无侵入式修改
+
+拷贝kit布局xml文件 修改属性参数如边距排列方式
+//设置自定义布局ID
+roomPage.customLayoutID = R.layout.customlayout
+
+2 直接修改kit开源代码
+
+#### 添加功能组件
+
+自定义组件继承 QLiveComponent 处理自定义关心的事件
+```
+class CustomFunctionComponent : QLiveComponent {
+    //
+    lateinit var context: QLiveUIKitContext
+    //绑定UI组件上下文
+    override fun attachKitContext(context: QLiveUIKitContext) {
+        this.context = context
+    }
+    //绑定房间客户端
+    override fun attachLiveClient(client: QLiveClient) {
         
-//可选 配置直播列表样式
-RoomListPage roomListPage =  liveUIKit.getRoomListPage();
+        //注册聊天室监听
+        client.getService(QChatRoomService::class.java).addServiceListener(object :
+            QChatRoomServiceListener {
+            override fun onUserKicked(memberID: String) {
+                if(memberID==meId){
+                    //显示提示弹窗
+                   showDialog( context.fragmentManager,"你被踢了")
+                }
+            }
+        })
+    }
+    //进入回调
+    override fun onEntering(liveId: String, user: QLiveUser) { }
+    // 加入回调
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+    }
+    //离开回调
+    override fun onLeft() { }
+    // 销毁
+    override fun onDestroyed() { }
+    //安卓activity生命周期
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {}
+}
 
-//如果需要将直播列表
-View view = roomListPage.roomListView.create(context);
-//添加到自己想要的地方
-addView(view);
-
+  //添加到房间业务
+  roomPage.addFunctionComponent(CustomFunctionComponent())
 ```
 
 
@@ -152,7 +256,7 @@ class QLiveUIKit{
 }
 
 interface QTokenGetter{
-  void getTokenInfo( QLiveCallBack<String> callback);
+    void getTokenInfo( QLiveCallBack<String> callback);
 }
 
 class QUserInfo{
@@ -205,7 +309,7 @@ class QCreateRoomParam {
 
 ```java
 class QPusherClient {
-   
+
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
     void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
@@ -223,7 +327,7 @@ class QPusherClient {
 }
 
 class QPlayerClient {
-   
+
     <T extends QLiveService> T getService(Class<T> serviceClass);                //获得插件服务
     void setLiveStatusListener(QLiveStatusListener liveStatusListener);          //房间状态监听
     void joinRoom( String roomID, QLiveCallBack<QLiveRoomInfo> callBack);        //加入房间
@@ -248,7 +352,7 @@ enum QLiveStatus {
 };
 
 enum QCameraFace{
-  FRONT,BACK
+    FRONT,BACK
 };
 
 interface QConnectionStatusLister{
@@ -261,7 +365,7 @@ class QMicrophoneParam {
     int channelCount = 1;
     int bitrate = 64000;
 }
- 
+
 class QCameraParam {
     int width = 720;
     int height = 1280;
@@ -275,7 +379,7 @@ class QLiveUser {
     String avatar;
     String nick;
     Map<String,String> extension; //用户扩展字段
-} 
+}
 
 enum QRoomConnectionState{
     DISCONNECTED,
@@ -308,7 +412,7 @@ interface QLinkMicService extends QLiveService {
     QAnchorHostMicHandler getAnchorHostMicHandler();                                    //主播连麦器
     QInvitationHandler getInvitationHandler();                                        //邀请处理器   
 }
- 
+
 interface QLinkMicServiceListener{
     void onLinkerJoin(QMicLinker micLinker);                                        //有人上麦回调
     void onLinkerLeft(QMicLinker micLinker);                                             //有人下麦回调
@@ -323,24 +427,24 @@ class QAnchorHostMicHandler {
 }
 
 interface QMixStreamAdapter {
-     List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
+    List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
 }
 
 class QAudienceMicHandler{
-     void removeListener(QLinkMicListener listener);               
-     void addListener(QLinkMicListener listener);
-     void startLink(HashMap<String,String> extension,CameraParams cameraParams, MicrophoneParams microphoneParams, QLiveCallBack<Void> callBack  );//上麦
-     void stopLink();                                                               //下麦  
-     void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
-     void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
-     void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);            //禁/不禁用本地麦克风流
-   
-     setVideoFrameListener(QVideoFrameListener frameListener);
-     setAudioFrameListener(QAudioFrameListener frameListener);
-    
-     interface QLinkMicListener{
+    void removeListener(QLinkMicListener listener);
+    void addListener(QLinkMicListener listener);
+    void startLink(HashMap<String,String> extension,CameraParams cameraParams, MicrophoneParams microphoneParams, QLiveCallBack<Void> callBack  );//上麦
+    void stopLink();                                                               //下麦  
+    void switchCamera(QLiveCallBack<QCameraMode> callBack);                        //切换摄像头
+    void muteCamera(boolean muted,QLiveCallBack<Boolean> callBack);                //禁/不禁用本地视频流
+    void muteMicrophone(boolean muted,QLiveCallBack<Boolean> callBack);            //禁/不禁用本地麦克风流
+
+    setVideoFrameListener(QVideoFrameListener frameListener);
+    setAudioFrameListener(QAudioFrameListener frameListener);
+
+    interface QLinkMicListener{
         onRoleChange(boolean isLinker);                                             //本地角色变化
-     }
+    }
 }
 ```
 
@@ -365,20 +469,20 @@ interface QPKServiceListener{
 }
 //pk混流适配
 interface QPKMixStreamAdapter{
-     QMixStreamParam onPKMixStreamStart(QPKSession pkSession); //pk 开始返回 混流画布参数
-     List<QMergeOption> onPKLinkerJoin(QPKSession pkSession);    //PK 开始如何混流
-     List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
+    QMixStreamParam onPKMixStreamStart(QPKSession pkSession); //pk 开始返回 混流画布参数
+    List<QMergeOption> onPKLinkerJoin(QPKSession pkSession);    //PK 开始如何混流
+    List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
 }
 
 class QPKSession {
-     String sessionID;
-     QLiveUser initiator;
-     QLiveUser receiver;
-     String initiatorRoomID;
-     String receiverRoomID;
-     Map<String, String> extension;
-     int status;
-     long startTimeStamp;
+    String sessionID;
+    QLiveUser initiator;
+    QLiveUser receiver;
+    String initiatorRoomID;
+    String receiverRoomID;
+    Map<String, String> extension;
+    int status;
+    long startTimeStamp;
 }
 ```
 
@@ -401,34 +505,34 @@ interface QInvitationHandlerListener{
 }
 
 class QInvitation{
-     QLiveUser initiator;
-     QLiveUser receiver;
-     String initiatorRoomID;
-     String receiverRoomID;
-     HashMap<String,String> extension;
-     int linkType;
-     
-     @JSONField(serialize = false)
-     int invitationID;
+    QLiveUser initiator;
+    QLiveUser receiver;
+    String initiatorRoomID;
+    String receiverRoomID;
+    HashMap<String,String> extension;
+    int linkType;
+
+    @JSONField(serialize = false)
+    int invitationID;
 }
 ```
 ```java
 class QMergeOption {
-    String uID;                               
+    String uID;
     CameraMergeOption  cameraMergeOption;
     MicrophoneMergeOption microphoneMergeOption;
- 
+
     class CameraMergeOption  {
-       boolean isNeed = true;
-       int x = 0;
-       int y = 0;
-       int z = 0;
-       int width = 0;
-       int height = 0;
-     }
- 
+        boolean isNeed = true;
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        int width = 0;
+        int height = 0;
+    }
+
     class MicrophoneMergeOption  {
-       boolean isNeed = true;
+        boolean isNeed = true;
     }
 }
 
@@ -472,7 +576,7 @@ interface QRoomService {
     void getRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                             //刷新房间信息
     void updateExtension(QExtension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
     void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                         //当前房间现在用户
-    
+
 }
 
 interface QRoomServiceListener{
@@ -514,10 +618,10 @@ interface QNDanmakuServiceListener {
     void onReceiveDanmaku(QDanmaku danmaku);
 }
 class QDanmaku {
-   QLiveUser sendUser;
-   String content;
-   String senderRoomID; 
-   HashMap<String, String> extension;
+    QLiveUser sendUser;
+    String content;
+    String senderRoomID;
+    HashMap<String, String> extension;
 }
 
 ```
@@ -537,10 +641,10 @@ class RoomListPage  {
 class RoomPage {
 
     setCustomLayoutId(int layoutID); //替换整体布局
-    
+
     LivePrepareView livePreView ;//开播准备
     RoomBackGroundView roomBackGroundView;//房间背景
-    
+
     //顶部 
     RoomHostView roomHostView; //左上角房主
     OnlineUserView onlineUserView ;//右上角在线用户槽位
@@ -548,25 +652,25 @@ class RoomPage {
     RoomIDView roomIDView ;//右上角房间
     RoomTimerView roomTimerView;//右上角房间计时器
     DanmakuTrackView danmakuTrackView;//弹幕
-    
-    
+
+
     //中部
     PublicChatView publicChatView ;//公屏聊天
     RoomNoticeView roomNoticeView ;//公告
-    
+
     PKPreView pkPreview;//pk主播两个小窗口
     PKCoverView pkCoverview;//pk覆盖层自定义UI
- 
+
     LinkersView linkersView;//连麦中的用户 
-    
-    
+
+
     //底部
-    
+
     ShowInputView showInputView;//房间底部 输入框
-      StartPKView startPKView;//主播开始pk按钮
+    StartPKView startPKView;//主播开始pk按钮
     BottomFucBarView bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
-    
-    
+
+
     OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
     InnerCoverView innerCoverView ;//全局底层覆盖自定义 空槽位
 

@@ -9,9 +9,9 @@ import com.qlive.core.QLiveService;
  */
 public interface QChatRoomService extends QLiveService {
 
-    public void addChatServiceListener(QChatRoomServiceListener chatServiceListener);
+    public void addServiceListener(QChatRoomServiceListener chatServiceListener);
 
-    public void removeChatServiceListener(QChatRoomServiceListener chatServiceListener);
+    public void removeServiceListener(QChatRoomServiceListener chatServiceListener);
 
     /**
      *  发c2c消息

@@ -56,7 +56,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
 
     override fun initView() {
         client!!.getService(QChatRoomService::class.java)
-            .addChatServiceListener(mChatRoomServiceListener)
+            .addServiceListener(mChatRoomServiceListener)
         recyOnline?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapter.setOnItemClickListener { _, view, position ->

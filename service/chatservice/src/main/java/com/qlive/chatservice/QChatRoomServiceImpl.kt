@@ -165,11 +165,11 @@ class QChatRoomServiceImpl : BaseService(),
     }
 
     private val mChatServiceListeners = ArrayList<QChatRoomServiceListener>()
-    override fun addChatServiceListener(chatServiceListener: QChatRoomServiceListener) {
+    override fun addServiceListener(chatServiceListener: QChatRoomServiceListener) {
         mChatServiceListeners.add(chatServiceListener)
     }
 
-    override fun removeChatServiceListener(chatServiceListener: QChatRoomServiceListener) {
+    override fun removeServiceListener(chatServiceListener: QChatRoomServiceListener) {
         mChatServiceListeners.remove(chatServiceListener)
     }
 
