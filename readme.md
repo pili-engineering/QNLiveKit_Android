@@ -235,7 +235,6 @@ client.leaveRoom(new QLiveCallBack<Void> {
     void onSuccess(Void) {}
     void onError(int code, String msg) {}
 });
-
 //销毁
 client.destroy(); 
 ```
