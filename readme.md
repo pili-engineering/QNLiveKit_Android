@@ -82,6 +82,16 @@ val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
 //替换房间列表页面的创建按钮
 roomListPage.createRoomButton.replace(CustomCreateRoomButton::class.java)
 //.....每个组件都可以替换
+
+```
+删除内置UI组件
+```kotlin
+val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
+//删除公告
+roomPage.roomNoticeView.setEnable(false)
+//删除底部功能栏
+roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
+//.....每个组件都可以删除
 ```
 
 方法2 修改kit组件源码
@@ -116,7 +126,7 @@ roomPage.playerCustomLayoutID = R.layout.customlayout
 //自定义房间页面主播房间的布局
 roomPage.anchorCustomLayoutID = R.layout.customlayout
 //自定义房间列表页面布局
-roomListPage=customLayoutID = R.layout.customlayout
+roomListPage.customLayoutID = R.layout.customlayout
 
 ```
 方法2 直接修改kit开源代码
