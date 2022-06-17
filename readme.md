@@ -3,8 +3,6 @@
 ### UIKIT
 
 ```java
-//UIKIT
-//初始化
 //初始化
 QLive.init(context ,new QTokenGetter(){
         //业务请求token
@@ -60,8 +58,9 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
        tvNotice.setText("房间公告："+roomInfo.notice)
     }
     //离开回调
-    override fun onLeft() { 
-        tvNotice.setText("“)//房间切换/离开 清空UI
+    override fun onLeft() {
+        //房间切换/离开 清空UI
+        tvNotice.setText("")
     }
     // 销毁
     override fun onDestroyed() { }
@@ -237,10 +236,9 @@ client.leaveRoom(new QLiveCallBack<Void> {
     void onError(int code, String msg) {}
 });
 
-//关闭
+//销毁
 client.destroy(); 
 ```
-
 
 
 ## 初始化
