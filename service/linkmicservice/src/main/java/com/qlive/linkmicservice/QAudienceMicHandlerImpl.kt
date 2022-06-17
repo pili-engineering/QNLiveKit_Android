@@ -1,7 +1,7 @@
 package com.qlive.linkmicservice
 
 import android.util.Log
-import com.qlive.avparam.QPlayerLiveProvider
+import com.qlive.avparam.QPlayerProvider
 import com.qlive.rtm.RtmException
 import com.qlive.rtm.RtmManager
 import com.qlive.rtm.msg.RtmTextMsg
@@ -19,6 +19,11 @@ import com.qlive.core.*
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QMicLinker
+import com.qlive.coreimpl.datesource.LinkDateSource
+import com.qlive.coreimpl.model.MuteMode
+import com.qlive.coreimpl.model.UidMode
+import com.qlive.coreimpl.util.backGround
+import com.qlive.coreimpl.util.getCode
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -340,6 +345,6 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
     }
 
     private val playerGetter by lazy {
-        (client as QPlayerLiveProvider).playerGetter.invoke()
+        (client as QPlayerProvider).playerGetter.invoke()
     }
 }

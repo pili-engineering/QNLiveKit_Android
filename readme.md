@@ -1,4 +1,171 @@
 ## exmaple:
+
+### UIKIT
+
+```java
+//初始化
+QLive.init(context ,new QTokenGetter(){
+        //业务请求token
+        void getTokenInfo( QLiveCallBack<String> callback){
+            GetTokenApi.getToken(callback);
+        }
+        },new QLiveCallBack<Void>{});
+
+Map ext = new HashMap()
+ext.put("vip","1"); //自定义vip等级
+ext.put("level","22");//扩展用户等级
+
+//跟新/绑定 业务端的用户信息
+QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+
+QliveUIKit liveUIKit = QLive.getLiveUIKit()
+//跳转到直播列表页面
+liveUIKit.launch(context);
+
+```
+
+### 自定义UI
+
+### 修改现有的UI组件
+
+方法1 创建自定义UI组件 继承QLiveComponent，调用replace方法无侵入式替换
+```kotlin
+
+class CustomNoticeView :FrameLayout, QLiveComponent {
+    
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ){
+        //自己的公告布局
+        LayoutInflater.from(context).inflate(R.layout.customnoticeview,this,true)
+    }
+
+    //绑定UI组件上下文
+    override fun attachKitContext(context: QLiveUIKitContext) {}
+    //绑定房间客户端 通过client可以获取业务实现
+    override fun attachLiveClient(client: QLiveClient) {}
+    //进入回调
+    override fun onEntering(liveId: String, user: QLiveUser) { }
+    // 加入回调
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+        //设置房间公告文本
+       tvNotice.setText("房间公告："+roomInfo.notice)
+    }
+    //离开回调
+    override fun onLeft() {
+        //房间切换/离开 清空UI
+        tvNotice.setText("")
+    }
+    // 销毁
+    override fun onDestroyed() { }
+    //安卓activity生命周期
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {}
+}
+
+```
+
+替换原来内置的UI组件
+
+```kotlin
+val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
+//替换公告
+roomPage.roomNoticeView.replace(CustomNoticeView::class.java)
+//替换底部功能栏
+roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
+//.....每个组件都可以替换
+
+val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
+//替换房间列表页面的创建按钮
+roomListPage.createRoomButton.replace(CustomCreateRoomButton::class.java)
+//.....每个组件都可以替换
+```
+
+方法2 修改kit组件源码
+
+### 添加UI组件
+
+方法1 无侵入式添加
+
+```kotlin
+class CustomView :FrameLayout, QLiveComponent {
+   //  实现自己额外的多个UI布局
+}
+
+//在房间内置UI上层添加自己的多个额外的UI组件
+roomPage.outerCoverView.replace(CustomView::class.java)
+//在房间内置UI下层添加自己的多个额外的UI组件
+roomPage.innerCoverView.replace(CustomView::class.java)
+```
+
+方法2 修改kit开源代码
+
+
+### 修改布局
+
+
+方法1 无侵入式修改
+
+拷贝kit布局xml文件 修改属性参数如边距排列方式
+```
+//自定义房间页面观众房间的布局
+roomPage.playerCustomLayoutID = R.layout.customlayout
+//自定义房间页面主播房间的布局
+roomPage.anchorCustomLayoutID = R.layout.customlayout
+//自定义房间列表页面布局
+roomListPage=customLayoutID = R.layout.customlayout
+
+```
+方法2 直接修改kit开源代码
+
+### 添加功能组件
+
+方法1 自定义组件继承 QLiveComponent 处理自定义关心的事件
+```
+class CustomFunctionComponent : QLiveComponent {
+    //
+    lateinit var context: QLiveUIKitContext
+    //绑定UI组件上下文
+    override fun attachKitContext(context: QLiveUIKitContext) {
+        this.context = context
+    }
+    //绑定房间客户端
+    override fun attachLiveClient(client: QLiveClient) {
+        
+        //注册聊天室监听
+        client.getService(QChatRoomService::class.java).addServiceListener(object :
+            QChatRoomServiceListener {
+            override fun onUserKicked(memberID: String) {
+                if(memberID==meId){
+                    //显示提示弹窗
+                   showDialog( context.fragmentManager,"你被踢了")
+                }
+            }
+        })
+    }
+    //进入回调
+    override fun onEntering(liveId: String, user: QLiveUser) { }
+    // 加入回调
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
+    }
+    //离开回调
+    override fun onLeft() { }
+    // 销毁
+    override fun onDestroyed() { }
+    //安卓activity生命周期
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {}
+}
+
+  //添加到房间业务
+  roomPage.addFunctionComponent(CustomFunctionComponent())
+```
+方法2 修改源码
+
+### 无UI
+
 ```java
 无UI
 //初始化
@@ -79,59 +246,9 @@ client.leaveRoom(new QLiveCallBack<Void> {
     void onSuccess(Void) {}
     void onError(int code, String msg) {}
 });
-
-//关闭
+//销毁
 client.destroy(); 
 ```
-
-
-
-```java
-//UIKIT
-//初始化
-//初始化
-QLive.init(context ,new QTokenGetter(){
-        //业务请求token
-        void getTokenInfo( QLiveCallBack<String> callback){
-            GetTokenApi.getToken(callback);
-        }
-        },new QLiveCallBack<Void>{});
-
-
-Map ext = new HashMap()
-ext.put("vip","1"); //自定义vip等级
-ext.put("level","22");//扩展用户等级
-
-//跟新/绑定 业务端的用户信息
-QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
-
-QliveUIKit liveUIKit = QLive.getLiveUIKit()
-//跳转到直播列表页面
-liveUIKit.launch(context);
-
-
-//配置UI (可选);
-RoomPage roomPage = liveUIKit.getRoomPage();
-
-//每个内置UI组件都可以配置自己的替换实现
-roomPage.noticeView.replace(CustomView.Class);
-           
-//每个内置UI组件都可以禁用
-roomPage.noticeView.isEnable = false;
-           
-//插入全局覆盖层
-roomPage.outerCoverView.replace(CustomView.Class)
-        
-//可选 配置直播列表样式
-RoomListPage roomListPage =  liveUIKit.getRoomListPage();
-
-//如果需要将直播列表
-View view = roomListPage.roomListView.create(context);
-//添加到自己想要的地方
-addView(view);
-
-```
-
 
 
 ## 初始化
@@ -146,10 +263,11 @@ class QLive {
 }
 
 class QLiveUIKit{
-    static RoomListPage getRoomListPage();      //房间列表页面 -ui组件表
-    static RoomPage getRoomPage();              //房间页面 - ui组件表
-    static void launch(Context context);        //启动 跳转直播列表页面
+    <T extends QPage> T getPage(Class<T> pageClass); //获取内置UI页面
+    void launch(Context context);        //启动 跳转直播列表页面
 }
+
+
 
 interface QTokenGetter{
   void getTokenInfo( QLiveCallBack<String> callback);
@@ -526,7 +644,7 @@ class QDanmaku {
 
 ```java
 //主播列表
-class RoomListPage  {
+class RoomListPage extends QPage {
     setCustomLayoutId(int layoutID); //替换整体布局
     AppBarView appbar;  //页面toolbar      
     RoomListViewView roomListView; //房间列表
@@ -536,11 +654,12 @@ class RoomListPage  {
 //房间列表页面
 class RoomPage {
 
-    setCustomLayoutId(int layoutID); //替换整体布局
-    
+    setPlayerCustomLayoutId(int layoutID); //替换整体布局 替换观众端
+    setAnchorCustomLayoutId(int layoutID); //替换整体布局 替换主播端
+
     LivePrepareView livePreView ;//开播准备
     RoomBackGroundView roomBackGroundView;//房间背景
-    
+
     //顶部 
     RoomHostView roomHostView; //左上角房主
     OnlineUserView onlineUserView ;//右上角在线用户槽位
@@ -548,25 +667,25 @@ class RoomPage {
     RoomIDView roomIDView ;//右上角房间
     RoomTimerView roomTimerView;//右上角房间计时器
     DanmakuTrackView danmakuTrackView;//弹幕
-    
-    
+
+
     //中部
     PublicChatView publicChatView ;//公屏聊天
     RoomNoticeView roomNoticeView ;//公告
-    
+
     PKPreView pkPreview;//pk主播两个小窗口
     PKCoverView pkCoverview;//pk覆盖层自定义UI
- 
+
     LinkersView linkersView;//连麦中的用户 
-    
-    
+
+
     //底部
-    
+
     ShowInputView showInputView;//房间底部 输入框
-      StartPKView startPKView;//主播开始pk按钮
+    StartPKView startPKView;//主播开始pk按钮
     BottomFucBarView bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
-    
-    
+
+
     OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
     InnerCoverView innerCoverView ;//全局底层覆盖自定义 空槽位
 

@@ -1,5 +1,7 @@
-package com.qlive.coreimpl
+package com.qlive.coreimpl.datesource
 
+import com.qlive.coreimpl.model.PKInfo
+import com.qlive.coreimpl.model.PKOutline
 import com.qlive.coreimpl.http.OKHttpService
 import org.json.JSONObject
 

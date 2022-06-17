@@ -32,7 +32,6 @@ android {
 
 dependencies {
 
-    api project(':liveroom-core')
     api project(':liveroom-uikit-core')
     api project(':service:publicchatservice')
     api project(':uikit:uiwidget-input')

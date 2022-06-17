@@ -2,8 +2,8 @@ package com.qlive.uikitlinkmic
 
 import android.Manifest
 import android.view.Gravity
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.qlive.coreimpl.asToast
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.kit_dialog_apply.*
@@ -54,7 +54,7 @@ class LinkApplyDialog : FinalDialogFragment() {
                 call.invoke(true)
             } else {
                 call.invoke(false)
-                "请同意必要的权限".asToast()
+                Toast.makeText(requireContext(), "请同意必要的权限", Toast.LENGTH_SHORT).show()
             }
         }
     }

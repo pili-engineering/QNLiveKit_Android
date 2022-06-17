@@ -7,12 +7,12 @@ import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
 import com.qlive.core.been.QInvitation
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.coreimpl.asToast
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
+import com.qlive.uikitcore.ext.asToast
 
 //开始连麦按钮
 class StartLinkView : QBaseRoomFrameLayout {
@@ -42,7 +42,7 @@ class StartLinkView : QBaseRoomFrameLayout {
         override fun onAccept(qInvitation: QInvitation) {
             MyLinkerInfoDialog.StartLinkStore.isInviting = false
             LoadingDialog.cancelLoadingDialog()
-            "主播同意你的申请".asToast()
+            "主播同意你的申请".asToast(context)
             client?.getService(QLinkMicService::class.java)
                 ?.audienceMicHandler
                 ?.startLink(
@@ -53,7 +53,7 @@ class StartLinkView : QBaseRoomFrameLayout {
                     }, QMicrophoneParam(),
                     object : QLiveCallBack<Void> {
                         override fun onError(code: Int, msg: String?) {
-                            msg?.asToast()
+                            msg?.asToast(context)
                         }
 
                         override fun onSuccess(data: Void?) {
@@ -65,7 +65,7 @@ class StartLinkView : QBaseRoomFrameLayout {
 
         override fun onReject(qInvitation: QInvitation) {
             MyLinkerInfoDialog.StartLinkStore.isInviting = false
-            "主播拒绝你的连麦申请".asToast()
+            "主播拒绝你的连麦申请".asToast(context)
             LoadingDialog.cancelLoadingDialog()
         }
     }
@@ -84,12 +84,12 @@ class StartLinkView : QBaseRoomFrameLayout {
             }
 
             if (MyLinkerInfoDialog.StartLinkStore.isInviting) {
-                "正在申请中，请稍后".asToast()
+                "正在申请中，请稍后".asToast(context)
                 return@setOnClickListener
             }
             if (client?.getService(QLinkMicService::class.java)?.audienceMicHandler?.isLinked() == true) {
                 MyLinkerInfoDialog(client!!.getService(QLinkMicService::class.java), user!!).show(
-                    kitContext!!.fm,
+                    kitContext!!.fragmentManager,
                     ""
                 )
                 return@setOnClickListener
@@ -99,7 +99,7 @@ class StartLinkView : QBaseRoomFrameLayout {
                 mDefaultListener = object : FinalDialogFragment.BaseDialogListener() {
                     override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {
                         super.onDialogPositiveClick(dialog, any)
-                        with(LoadingDialog) { showLoading(kitContext!!.fm) }
+                        with(LoadingDialog) { showLoading(kitContext!!.fragmentManager) }
                         MyLinkerInfoDialog.StartLinkStore.isVideoLink = any as Boolean
                         client!!.getService(QLinkMicService::class.java).invitationHandler.apply(
                             15 * 1000,
@@ -109,19 +109,19 @@ class StartLinkView : QBaseRoomFrameLayout {
                             object :
                                 QLiveCallBack<QInvitation> {
                                 override fun onError(code: Int, msg: String?) {
-                                    msg?.asToast()
+                                    msg?.asToast(context)
                                     LoadingDialog.cancelLoadingDialog()
                                 }
 
                                 override fun onSuccess(data: QInvitation) {
                                     MyLinkerInfoDialog.StartLinkStore.isInviting = true
-                                    "等待主播同意".asToast()
+                                    "等待主播同意".asToast(context)
                                 }
                             }
                         )
                     }
                 }
-            }.show(kitContext!!.fm, "")
+            }.show(kitContext!!.fragmentManager, "")
         }
     }
 

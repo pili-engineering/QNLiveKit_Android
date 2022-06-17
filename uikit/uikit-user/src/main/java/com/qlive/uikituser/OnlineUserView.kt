@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.qlive.chatservice.QChatRoomService
 import com.qlive.chatservice.QChatRoomServiceListener
-import com.qlive.coreimpl.Scheduler
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
@@ -56,7 +55,7 @@ class OnlineUserView : QBaseRoomFrameLayout {
 
     override fun initView() {
         client!!.getService(QChatRoomService::class.java)
-            .addChatServiceListener(mChatRoomServiceListener)
+            .addServiceListener(mChatRoomServiceListener)
         recyOnline?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapter.setOnItemClickListener { _, view, position ->

@@ -7,11 +7,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.qlive.core.QClientLifeCycleListener
 import com.qlive.core.QLiveClient
-import com.qlive.core.QNLiveLogUtil
+import com.qlive.core.QLiveLogUtil
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.QUIKitContext
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.QComponent
 import com.qlive.uikitcore.QLiveComponent
 
@@ -19,7 +19,7 @@ import com.qlive.uikitcore.QLiveComponent
 class KITLiveInflaterFactory(
     private val appDelegate: AppCompatDelegate,
     private val roomClient: QLiveClient,
-    private val kitContext: QLiveKitUIContext
+    private val kitContext: QLiveUIKitContext
 ) : LayoutInflater.Factory2, QClientLifeCycleListener {
 
     companion object {
@@ -41,9 +41,9 @@ class KITLiveInflaterFactory(
         } else {
             appDelegate.createView(parent, name, context, attrs)
         }
-        QNLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name)
+        QLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name)
         if(view is QLiveComponent){
-            QNLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name+" attachKitContext ")
+            QLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name+" attachKitContext ")
             (view as QLiveComponent).attachKitContext(kitContext)
             (view as QLiveComponent).attachLiveClient(roomClient)
             mComponents.add(view)
@@ -106,7 +106,7 @@ class KITInflaterFactory(
         else {
             appDelegate.createView(parent, name, context, attrs)
         }
-        QNLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name+" "+(view==null))
+        QLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name+" "+(view==null))
         if (view is QComponent){
             (view as QComponent).attachKitContext(QUIKitContext)
         }

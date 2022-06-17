@@ -3,9 +3,9 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.qlive.coreimpl.asToast
 import com.qlive.core.QClientType
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
@@ -18,7 +18,6 @@ import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitdanmaku.SendDanmakuView
 import com.qlive.uikitlinkmic.StartLinkView
-import com.qlive.uikitinput.RoomInputDialog
 import kotlinx.android.synthetic.main.kit_close_menu_view.view.*
 
 
@@ -121,7 +120,7 @@ class CloseRoomView : QBaseRoomFrameLayout {
 
     override fun initView() {
         ivClose.setOnClickListener {
-            LoadingDialog.showLoading(kitContext!!.fm)
+            LoadingDialog.showLoading(kitContext!!.fragmentManager)
             client?.getService(QPublicChatService::class.java)
                 ?.sendByeBye("离开了房间", null)
 
@@ -129,7 +128,7 @@ class CloseRoomView : QBaseRoomFrameLayout {
                 QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {
                     LoadingDialog.cancelLoadingDialog()
-                    msg?.asToast()
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onSuccess(data: Void?) {

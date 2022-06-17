@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import com.qlive.pkservice.*
-import com.qlive.coreimpl.asToast
 import com.qlive.core.*
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QInvitation
@@ -13,6 +12,7 @@ import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
+import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_start_pk_view.view.*
 
@@ -45,7 +45,7 @@ class StartPKView : QBaseRoomFrameLayout {
         }
 
         override fun onStartTimeOut(pkSession: QPKSession) {
-            "等待主播 ${pkSession.receiver.nick} 推流超时".asToast()
+            "等待主播 ${pkSession.receiver.nick} 推流超时".asToast(context)
         }
 
         override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
@@ -56,17 +56,17 @@ class StartPKView : QBaseRoomFrameLayout {
         override fun onApplyCanceled(invitation: QInvitation) {}
         override fun onApplyTimeOut(invitation: QInvitation) {
             LoadingDialog.cancelLoadingDialog()
-            "邀请主播 ${invitation.receiver.nick} 超时".asToast()
+            "邀请主播 ${invitation.receiver.nick} 超时".asToast(context)
         }
 
         override fun onAccept(invitation: QInvitation) {
             LoadingDialog.cancelLoadingDialog()
-            "主播 ${invitation.receiver.nick} 接受".asToast()
+            "主播 ${invitation.receiver.nick} 接受".asToast(context)
             client?.getService(QPKService::class.java)?.start(20 * 1000,
                 invitation.receiverRoomID, invitation.receiver.userId, null,
                 object : QLiveCallBack<QPKSession> {
                     override fun onError(code: Int, msg: String) {
-                        "开始pk失败 ${msg.asToast()}"
+                        "开始pk失败 ${msg.asToast(context)}"
                     }
 
                     override fun onSuccess(data: QPKSession) {}
@@ -76,7 +76,7 @@ class StartPKView : QBaseRoomFrameLayout {
         }
 
         override fun onReject(invitation: QInvitation) {
-            "主播 ${invitation.receiver.nick} 拒绝".asToast()
+            "主播 ${invitation.receiver.nick} 拒绝".asToast(context)
             LoadingDialog.cancelLoadingDialog()
         }
     }
@@ -96,7 +96,7 @@ class StartPKView : QBaseRoomFrameLayout {
                 client?.getService(QPKService::class.java)?.stop(object :
                     QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
-                        msg?.asToast()
+                        msg?.asToast(context)
                     }
 
                     override fun onSuccess(data: Void?) {
@@ -114,7 +114,7 @@ class StartPKView : QBaseRoomFrameLayout {
                         showingPKListDialog = null
                     }
                 })
-                showingPKListDialog?.show(kitContext!!.fm, "")
+                showingPKListDialog?.show(kitContext!!.fragmentManager, "")
             }
         }
     }
@@ -125,12 +125,12 @@ class StartPKView : QBaseRoomFrameLayout {
             .apply(10 * 1000, room.liveID, room.anchor.userId, null,
                 object : QLiveCallBack<QInvitation> {
                     override fun onError(code: Int, msg: String?) {
-                        "邀请失败${msg}".asToast()
+                        "邀请失败${msg}".asToast(context)
                     }
 
                     override fun onSuccess(data: QInvitation) {
-                        "等待对方接受".asToast()
-                        LoadingDialog.showLoading(kitContext!!.fm)
+                        "等待对方接受".asToast(context)
+                        LoadingDialog.showLoading(kitContext!!.fragmentManager)
                     }
                 })
     }

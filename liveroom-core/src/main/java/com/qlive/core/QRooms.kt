@@ -3,9 +3,6 @@ package com.qlive.core
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.core.been.QLiveRoomInfo
 
-
-
-
 interface QRooms {
 
     fun createRoom(param: QCreateRoomParam, callBack: QLiveCallBack<QLiveRoomInfo>?) //创建房间

@@ -34,7 +34,6 @@ dependencies {
 
     compileOnly project(':liveroom-pullclient')
     compileOnly project(':liveroom-pushclient')
-    compileOnly project(':liveroom-uikit')
 
     api project(':service:linkmicservice')
     api project(':service:pkservice')
@@ -42,7 +41,6 @@ dependencies {
     api project(':service:danmakuservice')
     api project(':service:publicchatservice')
     implementation project(':liveroom-coreimpl')
-
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

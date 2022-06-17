@@ -1,13 +1,18 @@
 package com.qlive.uikitcore.ext
 
+import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.Spanned
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.qlive.coreimpl.CoroutineScopeWrap
+import com.qlive.uikitcore.CoroutineScopeWrap
+import com.qlive.uikitcore.QComponent
+import com.qlive.uikitcore.QLiveComponent
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -48,4 +53,11 @@ fun View.setDoubleCheckClickListener(call: (view: View) -> Unit) {
         }
         mLastClickTime = now
     }
+}
+
+fun String.asToast(context: Context?){
+    if(context==null){
+        return
+    }
+    Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
 }

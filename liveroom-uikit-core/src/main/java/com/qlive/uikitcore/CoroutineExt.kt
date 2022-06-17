@@ -1,4 +1,4 @@
-package com.qlive.coreimpl
+package com.qlive.uikitcore
 
 import kotlinx.coroutines.*
 import java.lang.Exception

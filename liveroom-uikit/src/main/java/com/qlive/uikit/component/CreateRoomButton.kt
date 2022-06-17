@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import com.qlive.coreimpl.asToast
+import android.widget.Toast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikit.R
@@ -27,7 +27,7 @@ class CreateRoomButton : FrameLayout, QComponent {
         tvCreateRoom.setOnClickListener {
             RoomPage.createAndJoinRoom(context, object : QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
-                    msg?.asToast()
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onSuccess(data: QLiveRoomInfo?) {}

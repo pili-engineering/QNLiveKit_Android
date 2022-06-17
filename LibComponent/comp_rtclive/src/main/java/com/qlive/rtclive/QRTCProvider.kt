@@ -3,7 +3,7 @@ package com.qlive.rtclive
 /**
  * 依赖rtc 的插件
  */
-interface QRTCLiveProvider {
+interface QRTCProvider {
     /**
      * 获得rtc对象
      */

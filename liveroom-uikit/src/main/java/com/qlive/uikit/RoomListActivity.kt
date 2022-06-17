@@ -12,6 +12,7 @@ import com.qlive.uikitcore.activity.BaseFrameActivity
 class RoomListActivity : BaseFrameActivity() {
 
     companion object {
+        var replaceLayoutID = -1
         fun start(context: Context) {
             context.startActivity(Intent(context, RoomListActivity::class.java))
         }
@@ -42,6 +43,9 @@ class RoomListActivity : BaseFrameActivity() {
     }
 
     override fun getLayoutId(): Int {
+        if(replaceLayoutID>0){
+            return  replaceLayoutID
+        }
         return R.layout.kit_activity_room_list
     }
 }

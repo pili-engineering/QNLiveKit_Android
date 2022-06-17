@@ -5,6 +5,7 @@ import com.qlive.core.been.QCreateRoomParam
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QRooms
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.coreimpl.datesource.RoomDataSource
 
 class QRoomImpl private constructor() : QRooms {
 

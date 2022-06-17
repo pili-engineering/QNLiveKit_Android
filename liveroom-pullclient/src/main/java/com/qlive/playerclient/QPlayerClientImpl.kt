@@ -1,7 +1,7 @@
 package com.qlive.playerclient
 
-import com.qlive.avparam.QPlayerLiveProvider
-import com.qlive.qplayer.QPLEngine
+import com.qlive.avparam.QPlayerProvider
+import com.qlive.qplayer.QMediaPlayer
 import com.qlive.rtm.RtmManager
 import com.qlive.rtm.joinChannel
 import com.qlive.rtm.leaveChannel
@@ -12,23 +12,25 @@ import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.core.*
 import com.qlive.core.QClientType
-import com.qlive.coreimpl.backGround
+import com.qlive.coreimpl.util.backGround
 import com.qlive.core.QLiveService
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.roomservice.QRoomService
+import com.qlive.coreimpl.datesource.RoomDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
+import com.qlive.coreimpl.util.getCode
 
-class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
+class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
     companion object {
         fun create(): QPlayerClient {
             return QPlayerClientImpl()
         }
     }
 
-    private val mQPLEngine by lazy { QPLEngine(AppCache.appContext) }
-    private val mRoomSource = com.qlive.coreimpl.RoomDataSource()
-    private var renderView: QPlayerRenderView? = null
+    private val mMediaPlayer by lazy { QMediaPlayer(AppCache.appContext) }
+    private val mRoomSource = RoomDataSource()
+    private var mPlayerRenderView: QPlayerRenderView? = null
     private var mLiveStatusListener: QLiveStatusListener? = null
-    private val mQNLiveRoomContext by lazy {
+    private val mLiveContext by lazy {
         QNLiveRoomContext(this).apply {
             mRoomScheduler.roomStatusChange = {
                 mLiveStatusListener?.onLiveStatusChanged(it)
@@ -44,7 +46,7 @@ class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
      * @return
     </T> */
     override fun <T : QLiveService> getService(serviceClass: Class<T>): T? {
-        return mQNLiveRoomContext.getService(serviceClass)
+        return mLiveContext.getService(serviceClass)
     }
 
     override fun setLiveStatusListener(liveStatusListener: QLiveStatusListener?) {
@@ -59,16 +61,17 @@ class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
     override fun joinRoom(liveId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
-                mQNLiveRoomContext.enter(liveId, com.qlive.coreimpl.UserDataSource.loginUser)
+                mLiveContext.enter(liveId, UserDataSource.loginUser)
                 val roomInfo = mRoomSource.joinRoom(liveId)
-
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.joinChannel(roomInfo.chatID)
                 }
-                mQNLiveRoomContext.joinedRoom(roomInfo)
-                mQPLEngine.setUp(roomInfo.rtmpURL, null)
-                if (renderView != null && getService(QRoomService::class.java)?.roomInfo != null) {
-                    mQPLEngine.start()
+                mLiveContext.joinedRoom(roomInfo)
+                //设置播放地址
+                mMediaPlayer.setUp(roomInfo.rtmpURL, null)
+                if (mPlayerRenderView != null) {
+                    //开始拉流
+                    mMediaPlayer.start()
                 }
                 callBack?.onSuccess(roomInfo)
             }
@@ -83,15 +86,14 @@ class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
      * @param callBack
      */
     override fun leaveRoom(callBack: QLiveCallBack<Void>?) {
-
         backGround {
             doWork {
-                mRoomSource.leaveRoom(mQNLiveRoomContext.roomInfo?.liveID ?: "")
+                mRoomSource.leaveRoom(mLiveContext.roomInfo?.liveID ?: "")
                 if (RtmManager.isInit) {
-                    RtmManager.rtmClient.leaveChannel(mQNLiveRoomContext.roomInfo?.chatID ?: "")
+                    RtmManager.rtmClient.leaveChannel(mLiveContext.roomInfo?.chatID ?: "")
                 }
-                mQNLiveRoomContext.leaveRoom()
-                mQPLEngine.stop()
+                mLiveContext.leaveRoom()
+                mMediaPlayer.stop()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -101,20 +103,21 @@ class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
     }
 
     override fun destroy() {
-        mQPLEngine.release()
-        mQNLiveRoomContext.destroy()
+        mMediaPlayer.release()
+        mLiveContext.destroy()
     }
 
     override fun play(renderView: QPlayerRenderView) {
-        this.renderView = renderView
-        mQPLEngine.setPlayerRenderView(renderView)
-        if (getService(QRoomService::class.java)?.roomInfo != null) {
-            mQPLEngine.start()
+        this.mPlayerRenderView = renderView
+        mMediaPlayer.setPlayerRenderView(renderView)
+        if (mLiveContext.roomInfo != null) {
+            //已经加入了房间就播放
+            mMediaPlayer.start()
         }
     }
 
     override fun setPlayerEventListener(playerEventListener: QPlayerEventListener) {
-        mQPLEngine.setPlayerEventListener(playerEventListener)
+        mMediaPlayer.setPlayerEventListener(playerEventListener)
     }
 
     override fun getClientType(): QClientType {
@@ -122,6 +125,6 @@ class QPlayerClientImpl : QPlayerClient, QPlayerLiveProvider {
     }
 
     override var playerGetter: (() -> QIPlayer) = {
-        mQPLEngine
+        mMediaPlayer
     }
 }

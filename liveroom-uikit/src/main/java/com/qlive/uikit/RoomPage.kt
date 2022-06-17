@@ -2,12 +2,14 @@ package com.qlive.uikit
 
 import android.content.Context
 import com.qlive.kitlivepre.LivePreView
-import com.qlive.coreimpl.UserDataSource
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.sdk.QLive
+import com.qlive.sdk.QPage
 import com.qlive.uikit.component.*
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
+import com.qlive.uikitcore.getCode
 import com.qlive.uikitdanmaku.DanmakuTrackManagerView
 import com.qlive.uikitlinkmic.*
 import com.qlive.uikitpk.PKCoverView
@@ -22,25 +24,7 @@ import com.qlive.uikituser.*
 /**
  * 槽位表
  */
-class RoomPage {
-
-    /**
-     * 自定义主播端布局 如果需要替换自定义布局
-     */
-    var customAnchorRoomLayoutID = -1
-        set(value) {
-            field = value
-            RoomPushActivity.replaceLayoutId = value
-        }
-
-    /**
-     *  自定义观众端布局 如果需要替换自定义布局
-     */
-    var customPlayerRoomLayoutID = -1
-        set(value) {
-            field = value
-            RoomPullActivity.replaceLayoutId = value
-        }
+class RoomPage : QPage {
 
     /**
      * 房间背景UI组件
@@ -132,7 +116,7 @@ class RoomPage {
     /**
      *  全局底层覆盖自定义UI
      */
-    val mInnerCoverView = QLiveView(InnerCoverView::class.java)
+    val innerCoverView = QLiveView(InnerCoverView::class.java)
 
     /**
      * 主播收到pk邀请 展示弹窗 事件监听功能组件
@@ -147,7 +131,7 @@ class RoomPage {
     /**
      * 注册自定义功能组件  事件处理组件无UI
      */
-    fun addFucComponent(component: QLiveComponent) {
+    fun addFunctionComponent(component: QLiveComponent) {
         KITFunctionInflaterFactory.functionComponents.add(component)
     }
 
@@ -157,11 +141,12 @@ class RoomPage {
             roomInfo: QLiveRoomInfo,
             callBack: QLiveCallBack<QLiveRoomInfo>?
         ) {
-            if (roomInfo.anchor.userId == UserDataSource.loginUser.userId) {
+            if (roomInfo.anchor.userId == QLive.getLoginUser().userId) {
                 RoomPushActivity.start(context, roomInfo.liveID, callBack)
             } else {
                 RoomPullActivity.start(context, roomInfo.liveID, callBack)
             }
+
         }
 
         internal fun joinRoom(
@@ -178,4 +163,24 @@ class RoomPage {
     }
 
     private val mRoomCoverViewPage = QLiveView(RoomCoverViewPage::class.java)
+
+    /**
+     * 自定义布局 如果需要替换自定义布局
+     * 自定义主播端布局 如果需要替换自定义布局
+     */
+    var anchorCustomLayoutID = -1
+        set(value) {
+            field = value
+            RoomPushActivity.replaceLayoutId = value
+        }
+
+    /**
+     *  自定义观众端布局 如果需要替换自定义布局
+     */
+    var playerCustomLayoutID = -1
+        set(value) {
+            field = value
+            RoomPullActivity.replaceLayoutId = value
+        }
+
 }

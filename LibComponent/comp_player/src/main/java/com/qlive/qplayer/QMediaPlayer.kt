@@ -9,7 +9,7 @@ import com.qlive.avparam.QPlayerEventListener
 import com.qlive.avparam.QPlayerRenderView
 import com.qlive.avparam.QRenderCallback
 
-class QPLEngine(val context: Context) : QIPlayer {
+class QMediaPlayer(val context: Context) : QIPlayer {
 
     private var mPlayerEventListener: QPlayerEventListener? = null
     private var isLossPause = false
@@ -79,9 +79,6 @@ class QPLEngine(val context: Context) : QIPlayer {
         if (mRenderView is QPlayerTextureRenderView) {
             (mRenderView as QPlayerTextureRenderView).stopPlayback()
         }
-//        if(mRenderView is QSurfaceRenderView){
-//            (mRenderView as QSurfaceRenderView).stopPlayback()
-//        }
     }
 
     override fun setUp(uir: String, headers: Map<String, String>?) {
@@ -164,6 +161,7 @@ class QPLEngine(val context: Context) : QIPlayer {
     private val mOnInfoListener = PLOnInfoListener { what, extra, _ ->
         mPlayerEventListener?.onInfo(what, extra)
     }
+
     private val mPLOnVideoSizeChangedListener =
         PLOnVideoSizeChangedListener { p0, p1 ->
             if (mRenderView is QPlayerTextureRenderView) {

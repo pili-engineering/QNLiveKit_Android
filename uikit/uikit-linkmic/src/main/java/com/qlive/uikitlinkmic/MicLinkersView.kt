@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,6 @@ import com.qlive.linkmicservice.QAnchorHostMicHandler
 import com.qlive.linkmicservice.QAudienceMicHandler
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.linkmicservice.QLinkMicServiceListener
-import com.qlive.coreimpl.asToast
 import com.qlive.core.been.QMicLinker
 import com.qlive.core.*
 import com.qlive.core.QClientType
@@ -89,7 +89,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
                 linkService.audienceMicHandler.stopLink(object :
                     QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
-                        msg?.asToast()
+                        Toast.makeText(context,msg, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onSuccess(data: Void?) {}

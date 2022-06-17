@@ -11,7 +11,7 @@ import com.qlive.danmakuservice.QDanmakuService
 import com.qlive.danmakuservice.QDanmakuServiceListener
 import com.qlive.core.QLiveClient
 import com.qlive.uikitcore.QBaseRoomFrameLayout
-import com.qlive.uikitcore.QLiveKitUIContext
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.ext.ViewUtil
 
 /**
@@ -27,7 +27,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
     private var mDanmukeViewSlot: QNDanmukeViewSlot = object : QNDanmukeViewSlot {
         override fun createView(
             lifecycleOwner: LifecycleOwner,
-            context: QLiveKitUIContext,
+            context: QLiveUIKitContext,
             client: QLiveClient,
             container: ViewGroup?
         ): IDanmakuView {
@@ -96,7 +96,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
          */
         fun createView(
             lifecycleOwner: LifecycleOwner,
-            context: QLiveKitUIContext,
+            context: QLiveUIKitContext,
             client: QLiveClient,
             container: ViewGroup?
         ): IDanmakuView

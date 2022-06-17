@@ -2,15 +2,12 @@
 rootProject.name = "QNLiveKit"
 include ':app'
 
-
 include ':liveroom-core'
 include ':liveroom-pushclient'
 include ':liveroom-pullclient'
 include ':liveroom-uikit-core'
 include ':liveroom-uikit'
 include ':liveroom-coreimpl'
-
-
 
 
 include ':service:linkmicservice'
