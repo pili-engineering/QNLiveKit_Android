@@ -96,6 +96,12 @@ roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
 
 方法2 修改kit组件源码
 
+组件库源码位于：
+
+```
+liveroom-uikit:com.qlive.uikit.component
+```
+
 ### 添加UI组件
 
 方法1 无侵入式添加
