@@ -27,13 +27,6 @@ class RoomListActivity : BaseFrameActivity() {
 //        }
     }
 
-    override fun isTitleCenter(): Boolean {
-        return true
-    }
-
-    override fun isToolBarEnable(): Boolean {
-        return true
-    }
 
     override fun getLayoutId(): Int {
         return R.layout.kit_activity_room_list

@@ -158,10 +158,6 @@ class RoomPullActivity : BaseFrameActivity() {
         startCallBack = null
     }
 
-    override fun isToolBarEnable(): Boolean {
-        return false
-    }
-
     override fun getLayoutId(): Int {
         if (replaceLayoutId > 0) {
             return replaceLayoutId

@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'com.kezong.fat-aar'
 }
 
 android {
@@ -30,23 +31,54 @@ android {
     }
 }
 
+
+//编译sdk模式
+def buidSdk = false
+fataar {
+    transitive = true
+}
+
+def version = 'qlive-uikit-1.0.0'
+task makeAAR(type: Copy) {
+    from('build/outputs/aar/')
+    into('build/aarFloder/')
+    include('liveroom-uikit-release.aar')
+    rename('liveroom-uikit-release', version)
+}
+makeAAR.dependsOn(build)
+
 dependencies {
-    api project(':liveroom-uikit-core')
-    api project(':liveroom-pullclient')
-    api project(':liveroom-pushclient')
 
-    api project(':service:linkmicservice')
-    api project(':service:pkservice')
-    api project(':service:chatservice')
-    api project(':service:danmakuservice')
-    api project(':service:publicchatservice')
+    if (buidSdk) {
+        compileOnly project(':liveroom-pullclient')
+        compileOnly project(':liveroom-pushclient')
+        api project(':qlivesdk')
 
-    api project(':uikit:uikit-user')
-    api project(':uikit:uikit-danmaku')
-    api project(':uikit:uikit-publicchat')
-    api project(':uikit:uikit-livepreview')
-    api project(':uikit:uikit-linkmic')
-    api project(':uikit:uikit-pk')
+        embed project(':liveroom-uikit-core')
+        embed project(':uikit:uikit-user')
+        embed project(':uikit:uikit-danmaku')
+        embed project(':uikit:uikit-publicchat')
+        embed project(':uikit:uikit-livepreview')
+        embed project(':uikit:uikit-linkmic')
+        embed project(':uikit:uikit-pk')
+
+        embed project(':uikit:uiwidget-input')
+        embed project(':uikit:uiwidget-Emoji')
+
+    } else {
+        api project(':liveroom-uikit-core')
+        api project(':uikit:uikit-user')
+        api project(':uikit:uikit-danmaku')
+        api project(':uikit:uikit-publicchat')
+        api project(':uikit:uikit-livepreview')
+        api project(':uikit:uikit-linkmic')
+        api project(':uikit:uikit-pk')
+
+        compileOnly project(':qlivesdk')
+        compileOnly project(':liveroom-pullclient')
+        compileOnly project(':liveroom-pushclient')
+    }
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

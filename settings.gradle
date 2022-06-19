@@ -1,6 +1,11 @@
 
 rootProject.name = "QNLiveKit"
 include ':app'
+include ':app-sdk:qlive-sdk'
+include ':app-sdk:qlive-sdk-pullclinet'
+include ':app-sdk:qlive-sdk-pushclinet'
+include ':app-sdk:qlive-sdk-uikit'
+
 
 include ':liveroom-core'
 include ':liveroom-pushclient'
@@ -35,3 +40,5 @@ include ':LibComponent:comp_imadapter'
 include ':LibComponent:comp_rtclive'
 
 include ':qlivesdk'
+
+

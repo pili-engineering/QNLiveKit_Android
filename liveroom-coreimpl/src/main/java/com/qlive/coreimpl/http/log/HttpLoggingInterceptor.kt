@@ -1,6 +1,7 @@
 package com.qlive.coreimpl.http.log
 
 
+import com.qlive.core.QLiveLogUtil
 import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -101,7 +102,8 @@ class HttpLoggingInterceptor @JvmOverloads constructor(
             @JvmField
             val DEFAULT: Logger = object : Logger {
                 override fun log(message: String) {
-                    Platform.get().log(INFO, message, null)
+                   // Platform.get().log(INFO, message, null)
+                    QLiveLogUtil.d("HTTP", message )
                 }
             }
         }

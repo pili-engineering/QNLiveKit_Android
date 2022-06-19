@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'com.kezong.fat-aar'
 }
 
 android {
@@ -30,17 +31,61 @@ android {
     }
 }
 
+//编译sdk模式
+def buidSdk = false
+fataar {
+    transitive = true
+}
+def version = 'qlive-sdk-1.0.0'
+task makeAAR(type: Copy) {
+    from('build/outputs/aar/')
+    into('build/aarFloder/')
+    include('qlivesdk-release.aar')
+    rename ('qlivesdk-release', version)
+}
+makeAAR.dependsOn(build)
+
 dependencies {
 
-    compileOnly project(':liveroom-pullclient')
-    compileOnly project(':liveroom-pushclient')
+    if (buidSdk) {
+        compileOnly project(':liveroom-pullclient')
+        compileOnly project(':liveroom-pushclient')
 
-    api project(':service:linkmicservice')
-    api project(':service:pkservice')
-    api project(':service:chatservice')
-    api project(':service:danmakuservice')
-    api project(':service:publicchatservice')
-    implementation project(':liveroom-coreimpl')
+        embed project(':service:linkmicservice')
+        embed project(':service:pkservice')
+        embed project(':service:chatservice')
+        embed project(':service:danmakuservice')
+        embed project(':service:publicchatservice')
+        embed project(':service:roomservice')
+
+        embed project(':liveroom-core')
+        embed project(':liveroom-coreimpl')
+
+        embed project(':LibComponent:comp_avparam')
+        embed project(':LibComponent:lib_json')
+        embed project(':LibComponent:comp_rtm')
+        embed project(':LibComponent:sdk_qnim')
+        embed project(':LibComponent:comp_imadapter')
+
+        embed 'com.alibaba:fastjson:1.2.61'
+        // include ':LibComponent:comp_rtclive'
+        // include ':LibComponent:comp_player'
+        api project(':liveroom-core')
+    } else {
+        compileOnly project(':liveroom-pullclient')
+        compileOnly project(':liveroom-pushclient')
+
+        api project(':service:linkmicservice')
+        api project(':service:pkservice')
+        api project(':service:chatservice')
+        api project(':service:danmakuservice')
+        api project(':service:publicchatservice')
+
+        api project(':liveroom-core')
+        implementation project(':liveroom-coreimpl')
+
+
+    }
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

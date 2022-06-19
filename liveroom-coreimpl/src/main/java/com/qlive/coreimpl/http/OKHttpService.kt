@@ -3,11 +3,11 @@ package com.qlive.coreimpl.http
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.core.QTokenGetter
+import com.qlive.coreimpl.http.log.HttpLoggingInterceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.logging.HttpLoggingInterceptor
 import java.lang.reflect.Type
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor

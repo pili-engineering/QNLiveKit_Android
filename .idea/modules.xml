@@ -30,6 +30,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/lib_json/QNLiveKit.LibComponent.lib_json.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LibComponent/sdk_qnim/QNLiveKit.LibComponent.sdk_qnim.iml" filepath="$PROJECT_DIR$/.idea/modules/LibComponent/sdk_qnim/QNLiveKit.LibComponent.sdk_qnim.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-sdk/QNLiveKit.app-sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/app-sdk/QNLiveKit.app-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk/QNLiveKit.app-sdk.qlive-sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk/QNLiveKit.app-sdk.qlive-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk-pullclinet/QNLiveKit.app-sdk.qlive-sdk-pullclinet.iml" filepath="$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk-pullclinet/QNLiveKit.app-sdk.qlive-sdk-pullclinet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk-pushclinet/QNLiveKit.app-sdk.qlive-sdk-pushclinet.iml" filepath="$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk-pushclinet/QNLiveKit.app-sdk.qlive-sdk-pushclinet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk-uikit/QNLiveKit.app-sdk.qlive-sdk-uikit.iml" filepath="$PROJECT_DIR$/.idea/modules/app-sdk/qlive-sdk-uikit/QNLiveKit.app-sdk.qlive-sdk-uikit.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/QNLiveKit.app.unitTest.iml" />

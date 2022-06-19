@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'com.kezong.fat-aar'
 }
 
 android {
@@ -29,12 +30,35 @@ android {
     }
 }
 
+//编译sdk模式
+def buidSdk = false
+fataar {
+    transitive = true
+}
+
+def version = 'qlive-pullclient-1.0.0'
+task makeAAR(type: Copy) {
+    from('build/outputs/aar/')
+    into('build/aarFloder/')
+    include('liveroom-pullclient-release.aar')
+    rename ('liveroom-pullclient-release', version)
+}
+makeAAR.dependsOn(build)
+
 dependencies {
 
-    api project(':liveroom-core')
-    api project(':LibComponent:comp_player')
-    api project(':service:roomservice')
-    implementation project(':liveroom-coreimpl')
+    if (buidSdk) {
+        embed project(':LibComponent:comp_player')
+        compileOnly project(':liveroom-core')
+        compileOnly project(':service:roomservice')
+        compileOnly project(':liveroom-coreimpl')
+    }else {
+        api project(':LibComponent:comp_player')
+        api project(':liveroom-core')
+        api project(':service:roomservice')
+        implementation project(':liveroom-coreimpl')
+    }
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

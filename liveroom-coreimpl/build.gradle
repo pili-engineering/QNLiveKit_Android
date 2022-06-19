@@ -34,7 +34,7 @@ dependencies {
     api project(':LibComponent:comp_rtm')
 
     compileOnly project( ':LibComponent:comp_imadapter')
-    api 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+
     api 'com.squareup.okhttp3:okhttp:4.2.2'
     api project(':LibComponent:lib_json')
 

@@ -38,10 +38,6 @@ class RoomListActivity : BaseFrameActivity() {
     override fun init() {
     }
 
-    override fun isToolBarEnable(): Boolean {
-        return false
-    }
-
     override fun getLayoutId(): Int {
         if(replaceLayoutID>0){
             return  replaceLayoutID

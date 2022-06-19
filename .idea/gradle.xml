@@ -20,6 +20,11 @@
             <option value="$PROJECT_DIR$/LibComponent/lib_json" />
             <option value="$PROJECT_DIR$/LibComponent/sdk_qnim" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app-sdk" />
+            <option value="$PROJECT_DIR$/app-sdk/qlive-sdk" />
+            <option value="$PROJECT_DIR$/app-sdk/qlive-sdk-pullclinet" />
+            <option value="$PROJECT_DIR$/app-sdk/qlive-sdk-pushclinet" />
+            <option value="$PROJECT_DIR$/app-sdk/qlive-sdk-uikit" />
             <option value="$PROJECT_DIR$/liveroom-core" />
             <option value="$PROJECT_DIR$/liveroom-coreimpl" />
             <option value="$PROJECT_DIR$/liveroom-pullclient" />

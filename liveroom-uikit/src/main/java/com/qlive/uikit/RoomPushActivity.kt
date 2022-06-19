@@ -224,9 +224,6 @@ class RoomPushActivity : BaseFrameActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun isToolBarEnable(): Boolean {
-        return false
-    }
 
     override fun getLayoutId(): Int {
         if (replaceLayoutId > 0) {

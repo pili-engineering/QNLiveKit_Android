@@ -8,6 +8,14 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16893115942028986" />
         <entry key="app/src/main/res/layout/activity_web.xml" value="0.26763990267639903" />
         <entry key="liveroom-uikit-core/src/main/res/drawable/kit_shape_ccffffff_top_16.xml" value="0.134" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/fragment_empty.xml" value="0.1" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/frame_base_container.xml" value="0.17481884057971014" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/frame_base_toolbar_center.xml" value="0.17481884057971014" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/frame_base_toolbar_normal.xml" value="0.1" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/kit_dialog_common_tip.xml" value="0.1" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/kit_dialog_loading.xml" value="0.1" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/kit_layout_refresh_recyclerview.xml" value="0.1" />
+        <entry key="liveroom-uikit-core/src/main/res/layout/kit_view_custom_empty.xml" value="0.1" />
         <entry key="liveroom-uikit/src/main/res/drawable/kit_dafault_room_bg.xml" value="0.134" />
         <entry key="liveroom-uikit/src/main/res/drawable/kit_shape_007aff_50.xml" value="0.1425" />
         <entry key="liveroom-uikit/src/main/res/layout/activity_room_list.xml" value="0.16394927536231885" />
