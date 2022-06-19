@@ -88,9 +88,9 @@ roomListPage.createRoomButton.replace(CustomCreateRoomButton::class.java)
 ```kotlin
 val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
 //删除公告
-roomPage.roomNoticeView.setEnable(false)
+roomPage.roomNoticeView.isEnable = false
 //删除底部功能栏
-roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
+roomPage.bottomFucBar.isEnable = false
 //.....每个组件都可以删除
 ```
 
