@@ -17,7 +17,6 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
     private val mQLinkMicServiceListener = object :
         QLinkMicServiceListener {
         private val mOps = HashMap<String, QMergeOption>()
-        override fun onInitLinkers(linkers: MutableList<QMicLinker>) {}
         override fun onLinkerJoin(micLinker: QMicLinker) {
             if (context.mQRtcLiveRoom.mMixStreamManager.mQNMergeJob == null) {
                 // context.mRtcLiveRoom.mMixStreamManager.clear()
@@ -49,16 +48,16 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
                 return
             }
             val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, false)
-            context.mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
-                micLinker.user?.userId ?: "",
-                MicrophoneMergeOption(),
-                false
-            )
-            context.mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
-                micLinker.user?.userId ?: "",
-                CameraMergeOption(),
-                false
-            )
+//            context.mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
+//                micLinker.user?.userId ?: "",
+//                MicrophoneMergeOption(),
+//                false
+//            )
+//            context.mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
+//                micLinker.user?.userId ?: "",
+//                CameraMergeOption(),
+//                false
+//            )
             mOps.clear()
             ops?.forEach {
                 mOps.put(it.uid, it)

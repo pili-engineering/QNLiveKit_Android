@@ -51,7 +51,8 @@ class PKAbleListDialog() : FinalDialogFragment() {
         bg {
             doWork {
                 val data = suspendLoad(page).filter {
-                    it.anchorStatus == 1 && it.anchor.userId != QLive.getLoginUser().userId
+                   // it.anchorStatus == 1 &&
+                            it.anchor.userId != QLive.getLoginUser().userId
                 }
                 mSmartRecyclerView.onFetchDataFinish(data, true)
             }

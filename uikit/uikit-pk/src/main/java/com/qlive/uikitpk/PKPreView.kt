@@ -1,9 +1,14 @@
 package com.qlive.uikitpk
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.qlive.rtclive.QPushTextureView
@@ -18,8 +23,11 @@ import com.qlive.avparam.QMixStreamParams
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
+import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.LinkerUIHelper
 import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.ext.ViewUtil
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
 
 /**
@@ -39,6 +47,7 @@ class PKPreView : QBaseRoomFrameLayout {
         return -1
     }
 
+    private var childView: QBaseRoomFrameLayout?=null
     override fun initView() {
         val view = if (client?.clientType == QClientType.PLAYER) {
             PKAudiencePreview(context)
@@ -48,7 +57,45 @@ class PKPreView : QBaseRoomFrameLayout {
         view.attachKitContext(kitContext!!)
         view.attachLiveClient(client!!)
         addView(view)
+        childView = view
     }
+
+
+    /**
+     * 进入回调
+     * @param user 进入房间的用户
+     * @param liveId 房间ID
+     */
+    override fun onEntering(roomId: String, user: QLiveUser){
+        super.onEntering(roomId, user)
+        childView?.onEntering(roomId,user)
+    }
+
+    /**
+     * 加入回调
+     * @param roomInfo 房间信息
+     */
+    override fun onJoined(roomInfo: QLiveRoomInfo){
+        super.onJoined(roomInfo)
+        childView?.onJoined(roomInfo)
+    }
+
+    /**
+     * 用户离开回调
+     */
+    override fun onLeft(){
+        super.onLeft()
+        childView?.onLeft()
+    }
+
+    /**
+     * 销毁
+     */
+    override fun onDestroyed(){
+        super.onDestroyed()
+        childView?.onDestroyed()
+    }
+
 }
 
 //观众端pk预览
@@ -200,8 +247,6 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         }
     }
 
-    private var originPreViewParent: ViewGroup? = null
-    private var originIndex = -1;
     private var localRenderView: View? = null
 
     //PK监听
@@ -214,11 +259,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             } else {
                 pkSession.initiator
             }
-            localRenderView = kitContext?.getPusherRenderViewCall?.invoke()?.getView() ?: return
-            originPreViewParent = localRenderView!!.parent as ViewGroup
-            originIndex = originPreViewParent?.indexOfChild(localRenderView) ?: 0
-            originPreViewParent?.removeView(localRenderView)
-            flMeContainer.addView(localRenderView)
+            changeMeRenderViewToPk()
             flPeerContainer.addView(
                 QPushTextureView(context).apply {
                     client?.getService(QPKService::class.java)
@@ -232,13 +273,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         }
 
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
-            flMeContainer.removeView(localRenderView)
-            originPreViewParent?.addView(
-                localRenderView, originIndex, ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            )
+            changeMeRenderViewToStopPk()
             flPeerContainer.removeAllViews()
         }
 
@@ -261,6 +296,88 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             client?.getService(QPKService::class.java)?.removeServiceListener(mQPKServiceListener)
             client?.getService(QPKService::class.java)?.setPKMixStreamAdapter(null)
         }
+    }
+
+    private var pkScaleX = 0f
+    private var pkScaleY = 0f
+
+    private var originPreViewParent: ViewGroup? = null
+    private var originIndex = -1;
+    private fun changeMeRenderViewToPk() {
+        localRenderView = kitContext?.getPusherRenderViewCall?.invoke()?.getView() ?: return
+
+        pkScaleX = (flMeContainer.width / localRenderView!!.width.toFloat())
+        pkScaleY = flMeContainer.height / (localRenderView!!.height.toFloat())
+        localRenderView!!.pivotX = 0f
+        localRenderView!!.pivotY = localRenderView!!.height/2f
+
+        val scaleX = ObjectAnimator.ofFloat(
+            localRenderView!!,
+            "scaleX",
+            1f, pkScaleX
+        )
+        scaleX.duration = 500
+        scaleX.repeatCount = 0
+        val scaleY = ObjectAnimator.ofFloat(
+            localRenderView!!,
+            "scaleY",
+            1f,
+            pkScaleY
+        )
+        scaleY.duration = 500
+        scaleY.repeatCount = 0
+
+        val translationY = ObjectAnimator.ofFloat(
+            localRenderView!!,
+            "translationY",
+            0f,
+           - (localRenderView!!.height / 2f - (flMeContainer.height / 2f + llPKContainer.y))
+        )
+
+        AnimatorSet().apply {
+            play(scaleX).with(scaleY).with(translationY)
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(p0: Animator?) {}
+
+                override fun onAnimationEnd(p0: Animator?) {
+                    originPreViewParent = localRenderView!!.parent as ViewGroup
+                    originIndex = originPreViewParent?.indexOfChild(localRenderView) ?: 0
+                    originPreViewParent?.removeView(localRenderView)
+                    flMeContainer.addView(localRenderView)
+                    flPeerContainer.addView(
+                        QPushTextureView(context).apply {
+                            client?.getService(QPKService::class.java)
+                                ?.setPeerAnchorPreView(this)
+                        },
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                    )
+                    localRenderView!!.scaleX = 1f
+                    localRenderView!!.scaleY = 1f
+                    localRenderView!!.translationY = 0f
+                }
+
+                override fun onAnimationCancel(p0: Animator?) {
+
+                }
+
+                override fun onAnimationRepeat(p0: Animator?) {}
+            })
+        }.start()
+    }
+
+    private fun changeMeRenderViewToStopPk() {
+        localRenderView = kitContext?.getPusherRenderViewCall?.invoke()?.getView() ?: return
+        flMeContainer.removeView(localRenderView)
+        originPreViewParent?.addView(
+            localRenderView, originIndex, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
+        flPeerContainer.removeAllViews()
     }
 
 }

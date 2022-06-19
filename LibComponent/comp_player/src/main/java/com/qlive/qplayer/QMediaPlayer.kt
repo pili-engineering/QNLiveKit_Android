@@ -17,10 +17,12 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     val mIMediaPlayer: PLMediaPlayer by lazy {
         val m = PLMediaPlayer(context,
             AVOptions().apply {
-                setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
+                //setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
                 setInteger(AVOptions.KEY_FAST_OPEN, 1);
                 setInteger(AVOptions.KEY_OPEN_RETRY_TIMES, 5);
                 setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+
+                setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
             }
         )
         m.isLooping = false
@@ -75,10 +77,12 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     }
 
     override fun release() {
+        mPlayerEventListener=null
         mIMediaPlayer.release()
         if (mRenderView is QPlayerTextureRenderView) {
             (mRenderView as QPlayerTextureRenderView).stopPlayback()
         }
+        mSurface = null
     }
 
     override fun setUp(uir: String, headers: Map<String, String>?) {

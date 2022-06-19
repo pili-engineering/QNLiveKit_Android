@@ -9,6 +9,7 @@ import com.qlive.jsonutil.JsonUtils
 import com.qlive.coreimpl.http.NetBzException
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveUser
+import com.qlive.coreimpl.model.AppConfig
 import com.qlive.coreimpl.util.getCode
 import com.qlive.coreimpl.model.InnerUser
 import com.qlive.coreimpl.util.backGround
@@ -90,10 +91,10 @@ class UserDataSource {
         )[0]
     }
 
-    private suspend fun getToken() = suspendCoroutine<String> { coroutine->
+    private suspend fun getToken() = suspendCoroutine<String> { coroutine ->
         OKHttpService.tokenGetter!!.getTokenInfo(object : QLiveCallBack<String> {
             override fun onError(code: Int, msg: String?) {
-                coroutine.resumeWithException(NetBzException(code,msg))
+                coroutine.resumeWithException(NetBzException(code, msg))
             }
 
             override fun onSuccess(data: String) {
@@ -108,35 +109,16 @@ class UserDataSource {
             doWork {
                 getToken()
                 val user = OKHttpService.get("/client/user/profile", null, InnerUser::class.java)
-                var isQnIm = false
-                isQnIm = try {
-                    loginUser = user
-                    QNIMManager.mRtmAdapter.isLogin
-                    true
-                } catch (e: NoClassDefFoundError) {
-                    e.printStackTrace()
-                    false
-                }
-                if (isQnIm) {
-                    QNIMManager.init("cigzypnhoyno", context)
-                    QNIMManager.mRtmAdapter.login(
-                        user.userId,
-                        user.imUid,
-                        user.im_username,
-                        user.im_password,
-                        object : RtmCallBack {
-                            override fun onSuccess() {
-                                callBack.onSuccess(user)
-                                loginUser = user
-                            }
-
-                            override fun onFailure(code: Int, msg: String) {
-                                callBack.onError(code, msg)
-                                // callBack.onSuccess(user)
-                            }
-                        }
-                    )
-                }
+                val appConfig = OKHttpService.get("/client/app/config", null, AppConfig::class.java)
+                QNIMManager.init(appConfig.im_app_id, context)
+                QNIMManager.mRtmAdapter.loginSuspend(
+                    user.userId,
+                    user.imUid,
+                    user.im_username,
+                    user.im_password
+                )
+                loginUser = user
+                callBack.onSuccess(loginUser)
             }
             catchError {
                 callBack.onError(it.getCode(), it.message)

@@ -2,6 +2,7 @@ package com.qlive.pkservice
 
 import android.text.TextUtils
 import android.util.Base64
+import android.util.Log
 import com.qlive.rtm.*
 import com.qlive.rtm.msg.RtmTextMsg
 import com.qlive.rtclive.DefaultExtQNClientEventListener
@@ -225,7 +226,10 @@ class QPKServiceImpl : QPKService, BaseService() {
                         resetMixStream(mPKSession?.receiver?.userId ?: "")
 
                     }
-                    catchError {}
+                    catchError {
+                        Log.e("pkpkpkpkpk",it.message?:"")
+                        it.printStackTrace()
+                    }
                 }
             } else {
                 QLiveLogUtil.LogE("pk 接收方收到对方流 ")
@@ -432,6 +436,7 @@ class QPKServiceImpl : QPKService, BaseService() {
      * @param extension
      */
     override fun updatePKExtension(extension: QExtension, callBack: QLiveCallBack<Void>?) {
+
     }
 
     override fun start(

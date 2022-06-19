@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/shape_007aff_6radius.xml" value="0.133" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16893115942028986" />
         <entry key="app/src/main/res/layout/activity_web.xml" value="0.26763990267639903" />
+        <entry key="liveroom-uikit-core/src/main/res/drawable/kit_shape_ccffffff_top_16.xml" value="0.134" />
         <entry key="liveroom-uikit/src/main/res/drawable/kit_dafault_room_bg.xml" value="0.134" />
         <entry key="liveroom-uikit/src/main/res/drawable/kit_shape_007aff_50.xml" value="0.1425" />
         <entry key="liveroom-uikit/src/main/res/layout/activity_room_list.xml" value="0.16394927536231885" />
@@ -23,6 +24,9 @@
         <entry key="uikit/uikit-linkmic/src/main/res/drawable/kit_select_seat_mic.xml" value="0.1265" />
         <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_anchor_pk_preview.xml" value="0.19293478260869565" />
         <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_dialog_apply.xml" value="0.14311043566362716" />
+        <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_dialog_my_linker_info.xml" value="0.16802536231884058" />
+        <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_item_linker.xml" value="0.625" />
+        <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_item_linker_surface.xml" value="0.4408126609912818" />
         <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_view_linkers.xml" value="0.1703125" />
         <entry key="uikit/uikit-linkmic/src/main/res/layout/kit_view_start_link.xml" value="0.21240942028985507" />
         <entry key="uikit/uikit-pk/src/main/res/layout/kit_anchor_pk_preview.xml" value="0.17074275362318841" />
@@ -30,6 +34,7 @@
         <entry key="uikit/uikit-pk/src/main/res/layout/kit_item_pkable.xml" value="0.17074275362318841" />
         <entry key="uikit/uikit-pk/src/main/res/layout/kit_pk_cover_view.xml" value="0.18568840579710144" />
         <entry key="uikit/uikit-pk/src/main/res/layout/kit_start_pk_view.xml" value="0.17074275362318841" />
+        <entry key="uikit/uikit-publicchat/src/main/res/layout/kit_item_pubcaht.xml" value="0.19157608695652173" />
         <entry key="uikit/uikit-publicchat/src/main/res/layout/kit_view_publicchatslotview.xml" value="0.17572463768115942" />
         <entry key="uikit/uikit-user/src/main/res/layout/kit_view_room_member_count.xml" value="0.15070921985815602" />
       </map>

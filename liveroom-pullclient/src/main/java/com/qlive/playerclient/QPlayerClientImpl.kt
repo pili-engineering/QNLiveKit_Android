@@ -103,6 +103,8 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
     }
 
     override fun destroy() {
+        mLiveStatusListener=null
+
         mMediaPlayer.release()
         mLiveContext.destroy()
     }

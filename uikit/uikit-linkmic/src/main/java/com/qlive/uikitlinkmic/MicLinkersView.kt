@@ -1,5 +1,6 @@
 package com.qlive.uikitlinkmic
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
@@ -41,6 +42,9 @@ class MicLinkersView : QBaseRoomFrameLayout {
     //麦位列表适配器
     private var mLinkerAdapter: BaseQuickAdapter<QMicLinker, BaseViewHolder> =
         LinkerAdapter().apply {
+            isOnMic = {
+                isMyOnMic()
+            }
             setOnItemChildClickListener { _, view, position ->
                 //麦位点击事件
             }
@@ -49,14 +53,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
     //麦位监听
     private val mQLinkMicServiceListener = object :
         QLinkMicServiceListener {
-        override fun onInitLinkers(linkers: MutableList<QMicLinker>) {
-            Log.d("LinkerSlot", " 同步麦位${linkers.size}")
-            val lcs = linkers.filter {
-                it.user.userId != roomInfo?.anchor?.userId
-            }
-            mLinkerAdapter.setNewData(lcs)
-
-        }
 
         override fun onLinkerJoin(micLinker: QMicLinker) {
             Log.d("LinkerSlot", " onUserJoinLink 有人上麦 ${micLinker.user.nick}")
@@ -76,6 +72,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
         override fun onLinkerMicrophoneStatusChange(micLinker: QMicLinker) {
             val index = mLinkerAdapter.indexOf(micLinker)
             mLinkerAdapter.notifyItemChanged(index)
+            mMicSeatView.convertItem(index, micLinker)
         }
 
         override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
@@ -89,7 +86,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
                 linkService.audienceMicHandler.stopLink(object :
                     QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
-                        Toast.makeText(context,msg, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onSuccess(data: Void?) {}
@@ -106,6 +103,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
         /**
          * 本地角色变化
          */
+        @SuppressLint("NotifyDataSetChanged")
         override fun onRoleChange(isLinker: Boolean) {
             Log.d("LinkerSlot", " lonLocalRoleChange 本地角色变化 ${isLinker}")
             if (isLinker) {
@@ -119,6 +117,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
                     removePreview(mLinkerAdapter.indexOf(it), it)
                 }
             }
+            mLinkerAdapter.notifyDataSetChanged()
         }
     }
 
@@ -142,7 +141,8 @@ class MicLinkersView : QBaseRoomFrameLayout {
                 mQAudienceMicHandler
             )
         }
-        client!!.getService(QLinkMicService::class.java).addMicLinkerListener(mQLinkMicServiceListener)
+        client!!.getService(QLinkMicService::class.java)
+            .addMicLinkerListener(mQLinkMicServiceListener)
 
         recyLinker.layoutManager = LinearLayoutManager(context)
         flLinkContent.post {
@@ -227,6 +227,14 @@ class MicLinkersView : QBaseRoomFrameLayout {
             client?.getService(QLinkMicService::class.java)
                 ?.removeMicLinkerListener(mQLinkMicServiceListener)
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onLeft() {
+        super.onLeft()
+        mLinkerAdapter.data.clear()
+        mLinkerAdapter.notifyDataSetChanged()
+        mMicSeatView.clear();
     }
 
 }

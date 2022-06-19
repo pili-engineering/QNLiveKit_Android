@@ -1,14 +1,17 @@
 package com.qlive.uikitlinkmic
+
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.been.QMicLinker
 import com.qlive.uikitcore.LinkerUIHelper
+import com.qlive.uikitcore.ext.ViewUtil
 import kotlinx.android.synthetic.main.kit_item_linker_surface.view.*
 
 //麦位预览
@@ -25,30 +28,34 @@ class MicSeatPreView : LinearLayout {
         val itemView: View =
             LayoutInflater.from(context).inflate(R.layout.kit_item_linker_surface, this, false)
 
-        val tempLp: LinearLayout.LayoutParams =
-            itemView.tempView.layoutParams as LinearLayout.LayoutParams
-        tempLp.height = LinkerUIHelper.micBottomUIMargin
-        itemView.tempView.layoutParams = tempLp
-
-        val sfLp = itemView.flSurfaceContainer.layoutParams
+        val sfLp = itemView.llContiner.layoutParams
         sfLp.width = LinkerUIHelper.uiMicWidth
-        sfLp.height = LinkerUIHelper.uiMicHeight
-        itemView.flSurfaceContainer.layoutParams = sfLp
+        sfLp.height = LinkerUIHelper.uiMicHeight + LinkerUIHelper.micBottomUIMargin
+
+        itemView.llContiner.layoutParams = sfLp
+
         addView(itemView)
 
         val container = itemView.flSurfaceContainer as FrameLayout
-        val size = Math.min(LinkerUIHelper.uiMicWidth, LinkerUIHelper.uiMicHeight)
+        val size = ViewUtil.dip2px(96f)
         container.addView(
             RoundTextureView(context).apply {
                 linkService.setUserPreview(micLinker.user?.userId ?: "", this)
                 setRadius((size / 2).toFloat())
             },
             FrameLayout.LayoutParams(
-                size,
-                size,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER
             )
         )
+
+        itemView.ivMicStatus.isSelected = micLinker.isOpenMicrophone
+        if (micLinker.isOpenCamera) {
+            itemView.ivMicStatus.visibility = View.VISIBLE
+        } else {
+            itemView.ivMicStatus.visibility = View.GONE
+        }
     }
 
     fun removeItem(index: Int) {
@@ -68,5 +75,16 @@ class MicSeatPreView : LinearLayout {
         } else {
             container.visibility = View.INVISIBLE
         }
+        val mic = getChildAt(index).ivMicStatus
+        mic.isSelected = item.isOpenMicrophone
+        if (item.isOpenCamera) {
+            mic.visibility = View.VISIBLE
+        } else {
+            mic.visibility = View.GONE
+        }
+    }
+
+    fun clear() {
+        removeAllViews()
     }
 }

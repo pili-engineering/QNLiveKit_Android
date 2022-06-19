@@ -13,13 +13,6 @@ import java.util.List;
 public interface QLinkMicServiceListener {
 
     /**
-     * 观众初始化进入直播间 回调给观众当前有哪些人在连麦
-     *
-     * @param linkers
-     */
-    void onInitLinkers(@NotNull List<QMicLinker> linkers);
-
-    /**
      * 有人上麦
      *
      * @param micLinker

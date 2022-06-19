@@ -129,6 +129,11 @@ class RoomPage : QPage {
     val showLinkMicApplyComponent = QLiveFunctionComponent(ShowLinkMicApplyComponent())
 
     /**
+     * 房主离线事件处理
+     */
+    val anchorOfflineMonitorComponent = QLiveFunctionComponent(AnchorOfflineMonitorComponent())
+
+    /**
      * 注册自定义功能组件  事件处理组件无UI
      */
     fun addFunctionComponent(component: QLiveComponent) {

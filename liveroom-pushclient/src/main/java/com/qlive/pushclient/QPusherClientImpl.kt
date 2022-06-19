@@ -137,6 +137,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     }
 
     override fun destroy() {
+        mLiveStatusListener=null
         mRtcRoom.close()
         mQNLiveRoomContext.destroy()
     }

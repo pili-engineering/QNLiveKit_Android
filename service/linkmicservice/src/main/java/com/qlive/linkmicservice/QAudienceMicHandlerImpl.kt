@@ -30,6 +30,15 @@ import kotlin.collections.HashMap
 
 class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler, BaseService() {
 
+    init {
+        context.hostLeftCall = {
+            if (isLinked()) {
+                QLiveLogUtil.LogE("房主下麦")
+                stopLink(null)
+            }
+        }
+    }
+
     private val mLinkDateSource = LinkDateSource()
     private var mPlayer: QIPlayer? = null
     private val mQLinkMicListeners = ArrayList<QAudienceMicHandler.QLinkMicListener>()
@@ -57,6 +66,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         return newKey == oldKey
     }
 
+    //麦位同步
     private val mMicListJob = com.qlive.coreimpl.Scheduler(5000) {
         if (currentRoomInfo == null) {
             return@Scheduler
@@ -67,10 +77,15 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         backGround {
             doWork {
                 val list = mLinkDateSource.getMicList(currentRoomInfo?.liveID ?: "")
+                if (isLinked()) {
+                    return@doWork
+                }
                 if (compare(context.allLinker, list)) {
                     return@doWork
                 }
                 val toRemve = LinkedList<QMicLinker>()
+                val newAdd = LinkedList<QMicLinker>()
+
                 context.allLinker.forEach { old ->
                     var isContainer = false
                     if (old.user.userId == currentRoomInfo?.anchor?.userId) {
@@ -86,12 +101,19 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                         toRemve.add(old)
                     }
                 }
-                context.allLinker.removeAll(toRemve)
-                list.forEach {
-                    context.addLinker(it)
+                toRemve.forEach { linck ->
+                    context.mQLinkMicServiceListeners.forEach {
+                        it.onLinkerLeft(linck)
+                    }
                 }
-                context.mQLinkMicServiceListeners.forEach {
-                    it.onInitLinkers(context.allLinker)
+                context.allLinker.removeAll(toRemve)
+
+                list.forEach { linck ->
+                    if (context.addLinker(linck)) {
+                        context.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerJoin(linck)
+                        }
+                    }
                 }
             }
         }
@@ -143,7 +165,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
     }
 
     override fun startLink(
-        extensions: HashMap<String, String>?, cameraParams: QCameraParam?,
+        extension: HashMap<String, String>?, cameraParams: QCameraParam?,
         microphoneParams: QMicrophoneParam?, callBack: QLiveCallBack<Void>?
     ) {
         mMicListJob.cancel()
@@ -153,7 +175,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
             return
         }
         val linker = QMicLinker()
-        linker.extension = extensions
+        linker.extension = extension
         linker.isOpenCamera = cameraParams != null
         linker.isOpenMicrophone = microphoneParams != null
         linker.userRoomID = currentRoomInfo?.liveID ?: ""

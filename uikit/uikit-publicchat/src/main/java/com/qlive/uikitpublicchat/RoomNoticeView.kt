@@ -45,7 +45,7 @@ class RoomNoticeView : QBaseRoomFrameLayout {
         goneJob?.cancel()
         tvNotice.text = noticeHtmlShowAdapter.invoke(roomInfo.notice).toHtml()
         if (tvNotice.text.isEmpty()) {
-            visibility = View.GONE
+            visibility = View.INVISIBLE
             return
         }
         visibility = View.VISIBLE
