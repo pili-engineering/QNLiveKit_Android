@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+
 }
 
 android {
@@ -28,7 +29,9 @@ android {
     }
 }
 
+
 dependencies {
+
     api project(':LibComponent:comp_avparam')
     api files('libs/qndroid-rtc-4.0.1.jar')
     implementation 'com.qiniu:happy-dns:0.2.17'
