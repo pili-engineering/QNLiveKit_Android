@@ -14,29 +14,37 @@ object LinkerUIHelper {
     val mixWidth = 720
     val mixHeight = 1280
 
+    /**
+     * 混流每个麦位宽大小
+     */
     var mixMicWidth = 184
+
+    /**
+     * 混流每个麦位高
+     */
     var mixMicHeight = 184
 
-    var uiMicWidth = 0
-    var uiMicHeight = 0
-
+    /**
+     * 混流第一个麦位上间距
+     */
     var mixTopMargin = 174
-    var uiTopMargin = 0
-
     /**
      * 混流参数 每个麦位间距
      */
     var micBottomMixMargin = 15
-
-    /**
-     * 混流换算成屏幕 每个麦位的间距
-     */
-    var micBottomUIMargin = 0
-
     /**
      * 混流参数 每个麦位右间距
      */
     var micRightMixMargin = 30*3
+
+
+    var uiMicWidth = 0
+    var uiMicHeight = 0
+    var uiTopMargin = 0
+    /**
+     * 混流换算成屏幕 每个麦位的间距
+     */
+    var micBottomUIMargin = 0
 
     var micRightUIMargin = 0;
     //页面宽高
@@ -77,8 +85,6 @@ object LinkerUIHelper {
         val ops = ArrayList<QMergeOption>()
         var lastX =
             mixWidth - mixMicWidth - micRightMixMargin
-
-
         var lastY = mixTopMargin
         micLinkers.forEach {
             if (it.userId == roomInfo.anchor?.userId) {

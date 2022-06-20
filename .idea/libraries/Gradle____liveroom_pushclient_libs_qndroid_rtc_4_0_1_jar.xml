@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: ./liveroom-pushclient/libs/qndroid-rtc-4.0.1.jar">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/liveroom-pushclient/libs/qndroid-rtc-4.0.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -39,7 +39,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
 
     private val linkService get() = client!!.getService(QLinkMicService::class.java)!!
 
-    //麦位列表适配器
+    //麦位列表适配器 如果需要修改UI 请替换适配器
     private var mLinkerAdapter: BaseQuickAdapter<QMicLinker, BaseViewHolder> =
         LinkerAdapter().apply {
             isOnMic = {
@@ -50,6 +50,50 @@ class MicLinkersView : QBaseRoomFrameLayout {
             }
         }
 
+    init {
+
+        //连麦混流参数  拉流端看到混流的位置 和上麦后麦位位置如果需要大致匹配 需要经过屏幕尺寸的换算
+        //demo实现的混流方式是 混流到右上角
+        /**
+         * 混流每个麦位宽大小
+         */
+        LinkerUIHelper. mixMicWidth = 184
+
+        /**
+         * 混流每个麦位高
+         */
+        LinkerUIHelper. mixMicHeight = 184
+
+        /**
+         * 混流第一个麦位上间距
+         */
+        LinkerUIHelper. mixTopMargin = 174
+        /**
+         * 混流参数 每个麦位间距
+         */
+        LinkerUIHelper. micBottomMixMargin = 15
+        /**
+         * 混流参数 每个麦位右间距
+         */
+        LinkerUIHelper. micRightMixMargin = 30*3
+    }
+
+    private fun init() {
+        //绑定屏幕尺寸开始换算
+        LinkerUIHelper.attachUIWidth(flLinkContent.width, flLinkContent.height)
+
+        val rcLp: FrameLayout.LayoutParams =
+            recyLinker.layoutParams as FrameLayout.LayoutParams
+        rcLp.topMargin = LinkerUIHelper.uiTopMargin
+
+        //麦位预览窗口列表
+        val rcSurfaceLp = mMicSeatView.layoutParams as FrameLayout.LayoutParams
+        rcSurfaceLp.topMargin = LinkerUIHelper.uiTopMargin
+
+        mLinkerAdapter.bindToRecyclerView(recyLinker)
+    }
+
+
     //麦位监听
     private val mQLinkMicServiceListener = object :
         QLinkMicServiceListener {
@@ -58,12 +102,14 @@ class MicLinkersView : QBaseRoomFrameLayout {
             Log.d("LinkerSlot", " onUserJoinLink 有人上麦 ${micLinker.user.nick}")
             mLinkerAdapter.addData(micLinker)
             if (isMyOnMic()) {
+                //我是麦上用户则 添加预览窗口
                 addLinkerPreview(micLinker)
             }
         }
 
         override fun onLinkerLeft(micLinker: QMicLinker) {
             Log.d("LinkerSlot", " onUserLeft 有人下麦 ${micLinker.user.nick}")
+            //移除麦位
             val index = mLinkerAdapter.indexOf(micLinker)
             removePreview(index, micLinker)
             mLinkerAdapter.remove(index)
@@ -107,11 +153,13 @@ class MicLinkersView : QBaseRoomFrameLayout {
         override fun onRoleChange(isLinker: Boolean) {
             Log.d("LinkerSlot", " lonLocalRoleChange 本地角色变化 ${isLinker}")
             if (isLinker) {
+                //我上麦了 切换连麦模式
                 client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
                     Log.d("LinkerSlot", " zb 添加窗口 ${it.user.nick}")
                     addLinkerPreview(it)
                 }
             } else {
+                //我下麦了 切换拉流模式
                 client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
                     Log.d("LinkerSlot", "  zb移除窗口 ${it.user.nick}")
                     removePreview(mLinkerAdapter.indexOf(it), it)
@@ -124,6 +172,8 @@ class MicLinkersView : QBaseRoomFrameLayout {
     //连麦混流适配器
     private val mQMixStreamAdapter =
         QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
+
+            //混流 返回每个麦位的混流位置
             LinkerUIHelper.getLinkers(micLinkers.map { it.user }, roomInfo!!)
         }
 
@@ -133,14 +183,17 @@ class MicLinkersView : QBaseRoomFrameLayout {
 
     override fun initView() {
         if (client!!.clientType == QClientType.PUSHER) {
+            //我是主播
             client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter(
                 mQMixStreamAdapter
             )
         } else {
+            //我是观众
             client!!.getService(QLinkMicService::class.java).audienceMicHandler.addLinkMicListener(
                 mQAudienceMicHandler
             )
         }
+        //添加连麦麦位监听
         client!!.getService(QLinkMicService::class.java)
             .addMicLinkerListener(mQLinkMicServiceListener)
 
@@ -202,15 +255,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
         return -1
     }
 
-    private fun init() {
-        LinkerUIHelper.attachUIWidth(flLinkContent.width, flLinkContent.height)
-        val rcLp: FrameLayout.LayoutParams =
-            recyLinker.layoutParams as FrameLayout.LayoutParams
-        rcLp.topMargin = LinkerUIHelper.uiTopMargin
-        val rcSurfaceLp = mMicSeatView.layoutParams as FrameLayout.LayoutParams
-        rcSurfaceLp.topMargin = LinkerUIHelper.uiTopMargin
-        mLinkerAdapter.bindToRecyclerView(recyLinker)
-    }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)

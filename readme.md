@@ -6,8 +6,13 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 ## sdk接入
 
 1 下载sdk
+[下载地址](https://github.com/pili-engineering/QNLiveKit_Android/tree/main/app-sdk)
 
-2 参考dome工程的build.gradle文件
+![alt 属性文本](https://demo-rtc-test.qnsdk.com/sdk.png)
+
+
+
+2 参考dome工程的build.gradle文件 配置aar
 
 
 ```
@@ -36,6 +41,10 @@ implementation 'com.github.bumptech.glide:glide:4.11.0' //图片加载
 implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44' //列表适配器
 
 ```
+
+3 混淆配置
+如果你的项目需要混淆 [qlivesdk混淆配置参考](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/app/proguard-rules.pro
+)
 
 
 
