@@ -24,6 +24,21 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(pkInvitation: QInvitation) {
+            if(client?.getService(QPKService::class.java)?.currentPKingSession()!=null){
+                client!!.getService(QPKService::class.java)
+                    .invitationHandler.reject(pkInvitation.invitationID, null,
+                        object :
+                            QLiveCallBack<Void> {
+                            override fun onError(code: Int, msg: String?) {
+                                // msg?.asToast()
+                            }
+
+                            override fun onSuccess(data: Void?) {
+                            }
+                        })
+                return
+            }
+
             CommonTipDialog.TipBuild()
                 .setTittle("PK邀请")
                 .setContent("${pkInvitation.receiver.nick} 邀请你PK，是否接受")

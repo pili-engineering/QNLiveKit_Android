@@ -2,9 +2,10 @@ package com.qlive.core.been;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class QCreateRoomParam {
+public class QCreateRoomParam implements Serializable {
 
     public String title;
     @JSONField(name = "notice")

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.bumptech.glide.Glide
 import com.qlive.pkservice.QPKService
 import com.qlive.pkservice.QPKServiceListener
-import com.qlive.pkservice.QPKSession
+import com.qlive.core.been.QPKSession
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.*

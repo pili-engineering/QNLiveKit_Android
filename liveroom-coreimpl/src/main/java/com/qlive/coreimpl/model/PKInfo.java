@@ -2,9 +2,10 @@ package com.qlive.coreimpl.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class PKInfo {
+public class PKInfo implements Serializable {
 
     @JSONField(name = "init_room_id")
     public String initRoomId;

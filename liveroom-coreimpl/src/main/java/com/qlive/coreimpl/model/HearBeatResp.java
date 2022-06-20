@@ -1,6 +1,8 @@
 package com.qlive.coreimpl.model;
 
-public class HearBeatResp {
+import java.io.Serializable;
+
+public class HearBeatResp implements Serializable {
 
     public String liveId;
     public int liveStatus;

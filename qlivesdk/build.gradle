@@ -71,6 +71,7 @@ dependencies {
         // include ':LibComponent:comp_rtclive'
         // include ':LibComponent:comp_player'
         api project(':liveroom-core')
+        implementation project(':liveroom-coreimpl')
     } else {
         compileOnly project(':liveroom-pullclient')
         compileOnly project(':liveroom-pushclient')
@@ -83,8 +84,6 @@ dependencies {
 
         api project(':liveroom-core')
         implementation project(':liveroom-coreimpl')
-
-
     }
 
     testImplementation 'junit:junit:4.13.2'

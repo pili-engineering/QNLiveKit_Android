@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.qlive.danmakuservice.QDanmaku
+import com.qlive.core.been.QDanmaku
 import com.qlive.danmakuservice.QDanmakuService
 import com.qlive.danmakuservice.QDanmakuServiceListener
 import com.qlive.core.QLiveClient

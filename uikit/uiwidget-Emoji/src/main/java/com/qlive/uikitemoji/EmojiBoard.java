@@ -16,7 +16,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
-import  com.qiniu.uikitemoji.R;
+
 
 import java.util.ArrayList;
 import java.util.List;

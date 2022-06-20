@@ -2,9 +2,10 @@ package com.qlive.core.been;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class QLiveUser {
+public class QLiveUser implements Serializable {
 
     @JSONField(name = "user_id")
     public String userId;

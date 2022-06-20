@@ -8,6 +8,7 @@ import com.qlive.core.been.QExtension
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.core.been.QPKSession
 import com.qlive.coreimpl.datesource.RoomDataSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import java.util.*

@@ -19,7 +19,8 @@ import kotlin.coroutines.suspendCoroutine
 object OKHttpService {
 
     var tokenGetter: QTokenGetter? = null
-    private val baseUrl = "http://10.200.20.28:8099"
+  //  var baseUrl = "http://10.200.20.28:8099"
+   var baseUrl =  "https://live-api.qiniu.com"
     var token = ""
     val bzCodeNoError = 0
     private val mExecutorService = ThreadPoolExecutor(

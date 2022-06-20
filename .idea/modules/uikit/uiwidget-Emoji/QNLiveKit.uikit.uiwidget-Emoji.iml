@@ -34,7 +34,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../../uikit/uiwidget-Emoji/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../../uikit/uiwidget-Emoji/build" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 30 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -5,6 +5,7 @@ import com.qlive.core.QInvitationHandler;
 import com.qlive.core.been.QExtension;
 import com.qlive.core.QLiveCallBack;
 import com.qlive.core.QLiveService;
+import com.qlive.core.been.QPKSession;
 
 import java.util.HashMap;
 
@@ -55,6 +56,11 @@ public interface QPKService extends QLiveService {
      * 获得pk邀请处理
      * @return
      */
+
     QInvitationHandler getInvitationHandler();
+    /**
+     * 当前正在pk信息 没有PK则空
+     */
+    QPKSession currentPKingSession();
 
 }

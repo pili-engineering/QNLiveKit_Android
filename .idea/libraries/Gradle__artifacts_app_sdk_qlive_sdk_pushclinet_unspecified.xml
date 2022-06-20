@@ -2,7 +2,6 @@
   <library name="Gradle: artifacts:app-sdk.qlive-sdk-pushclinet:unspecified">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/app-sdk/qlive-sdk-pushclinet/build/.transforms/e25a2908af9e009a0c3e713db9432fe7/transformed/jetified-qlive-pushclient-1.0.0/jars/classes.jar!/" />
-      <root url="jar://$PROJECT_DIR$/app-sdk/qlive-sdk-pushclinet/build/.transforms/e25a2908af9e009a0c3e713db9432fe7/transformed/jetified-qlive-pushclient-1.0.0/jars/libs/qndroid-rtc-4.0.1.jar!/" />
       <root url="file://$PROJECT_DIR$/app-sdk/qlive-sdk-pushclinet/build/.transforms/e25a2908af9e009a0c3e713db9432fe7/transformed/jetified-qlive-pushclient-1.0.0/res" />
       <root url="file://$PROJECT_DIR$/app-sdk/qlive-sdk-pushclinet/build/.transforms/e25a2908af9e009a0c3e713db9432fe7/transformed/jetified-qlive-pushclient-1.0.0/AndroidManifest.xml" />
     </CLASSES>

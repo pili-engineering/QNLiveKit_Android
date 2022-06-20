@@ -29,7 +29,6 @@ android {
     }
 }
 
-
 //编译sdk模式
 def buidSdk = false
 fataar {

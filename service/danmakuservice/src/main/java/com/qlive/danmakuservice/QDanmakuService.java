@@ -3,6 +3,7 @@ package com.qlive.danmakuservice;
 
 import com.qlive.core.QLiveCallBack;
 import com.qlive.core.QLiveService;
+import com.qlive.core.been.QDanmaku;
 
 import java.util.HashMap;
 

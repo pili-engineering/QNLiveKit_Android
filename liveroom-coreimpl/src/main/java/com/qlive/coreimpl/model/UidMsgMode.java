@@ -1,6 +1,8 @@
 package com.qlive.coreimpl.model;
 
-public class UidMsgMode {
+import java.io.Serializable;
+
+public class UidMsgMode implements Serializable {
     public String uid;
     public String msg;
 }

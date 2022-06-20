@@ -2,6 +2,8 @@ package com.qlive.pkservice;
 
 import com.qlive.avparam.QMergeOption;
 import com.qlive.avparam.QMixStreamParams;
+import com.qlive.core.been.QPKSession;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

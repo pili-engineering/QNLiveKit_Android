@@ -9,8 +9,10 @@ import com.qlive.sdk.QPage
 
 class QLiveUIKitImpl : QLiveUIKit {
 
-    private val mRoomListPage = RoomListPage()
-    private val mRoomPage = RoomPage()
+    companion object{
+        private val mRoomListPage = RoomListPage()
+        private val mRoomPage = RoomPage()
+    }
 
     override fun <T : QPage> getPage(pageClass: Class<T>): T? {
         when (pageClass.simpleName) {

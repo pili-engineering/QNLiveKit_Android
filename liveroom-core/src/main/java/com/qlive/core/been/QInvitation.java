@@ -2,10 +2,11 @@ package com.qlive.core.been;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 //连麦邀请
-public class QInvitation {
+public class QInvitation implements Serializable {
 
     public QLiveUser initiator;
     public QLiveUser receiver;

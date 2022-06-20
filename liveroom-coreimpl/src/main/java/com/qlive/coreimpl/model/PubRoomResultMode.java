@@ -1,6 +1,8 @@
 package com.qlive.coreimpl.model;
 
-public class PubRoomResultMode {
+import java.io.Serializable;
+
+public class PubRoomResultMode implements Serializable {
     public String live_url;
     public String push_url;
 }

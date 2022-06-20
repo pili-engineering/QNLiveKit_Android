@@ -47,7 +47,7 @@ class LivePreView : QBaseRoomFrameLayout {
                 QCreateRoomParam().apply {
                 title = titleStr
                 notice = noticeStr
-                coverURL = user?.avatar ?: ""
+                coverURL = QLive.getLoginUser()?.avatar ?: ""
             }, object : QLiveCallBack<Void> {
                 override fun onError(code: Int, msg: String?) {}
                 override fun onSuccess(data: Void?) {}

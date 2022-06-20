@@ -1,5 +1,7 @@
 package com.qlive.coreimpl.model;
 
-public class TokenData {
+import java.io.Serializable;
+
+public class TokenData implements Serializable {
     public String rtc_token;
 }

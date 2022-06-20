@@ -4,7 +4,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qlive.pubchatservice.QPublicChat
+import com.qlive.core.been.QPublicChat
 import com.qlive.uikitcore.ext.toHtml
 import kotlinx.android.synthetic.main.kit_item_pubcaht.view.*
 

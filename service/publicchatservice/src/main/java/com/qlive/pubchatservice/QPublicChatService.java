@@ -2,6 +2,7 @@ package com.qlive.pubchatservice;
 
 import com.qlive.core.QLiveCallBack;
 import com.qlive.core.QLiveService;
+import com.qlive.core.been.QPublicChat;
 
 public interface QPublicChatService extends QLiveService {
 

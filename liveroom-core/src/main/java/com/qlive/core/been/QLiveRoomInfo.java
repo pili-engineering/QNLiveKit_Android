@@ -1,10 +1,12 @@
 package com.qlive.core.been;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.qlive.core.QLiveStatus;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class QLiveRoomInfo {
+public class QLiveRoomInfo implements Serializable {
 
     @JSONField(name = "live_id")
     public String liveID;
@@ -70,6 +72,5 @@ public class QLiveRoomInfo {
 
     @JSONField(name = "anchor_status")
     public int anchorStatus;
-
 
 }

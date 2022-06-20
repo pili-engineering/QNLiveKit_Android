@@ -13,7 +13,8 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 
-import  com.qiniu.uikitemoji.R;
+
+
 
 import java.util.ArrayList;
 import java.util.List;

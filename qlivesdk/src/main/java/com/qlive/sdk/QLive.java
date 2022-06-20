@@ -2,6 +2,7 @@ package com.qlive.sdk;
 
 import android.content.Context;
 
+import com.qlive.core.QSdkConfig;
 import com.qlive.core.been.QLiveUser;
 import com.qlive.coreimpl.QLiveDelegate;
 import com.qlive.core.QTokenGetter;
@@ -24,8 +25,8 @@ public class QLive {
      * @param callBack
      * @return
      */
-    public static void init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack) {
-        QLiveDelegate.INSTANCE.init(context, tokenGetter, callBack);
+    public static void init(Context context, QSdkConfig config, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack) {
+        QLiveDelegate.INSTANCE.init(context,config, tokenGetter, callBack);
     }
 
     /**

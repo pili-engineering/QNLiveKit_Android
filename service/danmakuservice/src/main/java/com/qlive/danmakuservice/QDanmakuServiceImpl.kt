@@ -6,6 +6,7 @@ import com.qlive.jsonutil.JsonUtils
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
+import com.qlive.core.been.QDanmaku
 
 class QDanmakuServiceImpl : QDanmakuService, BaseService() {
     private val mDanmakuServiceListeners = ArrayList<QDanmakuServiceListener>()

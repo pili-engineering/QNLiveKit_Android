@@ -7,15 +7,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.qlive.rtclive.QPushTextureView
 import com.qlive.pkservice.QPKService
 import com.qlive.pkservice.QPKMixStreamAdapter
 import com.qlive.pkservice.QPKServiceListener
-import com.qlive.pkservice.QPKSession
+import com.qlive.core.been.QPKSession
 import com.qlive.avparam.CameraMergeOption
 import com.qlive.avparam.MicrophoneMergeOption
 import com.qlive.avparam.QMergeOption
@@ -27,7 +25,6 @@ import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.LinkerUIHelper
 import com.qlive.uikitcore.QBaseRoomFrameLayout
-import com.qlive.uikitcore.ext.ViewUtil
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
 
 /**

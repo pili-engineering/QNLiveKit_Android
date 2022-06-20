@@ -22,6 +22,7 @@ import com.qlive.coreimpl.*
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.core.been.QPKSession
 import com.qlive.coreimpl.datesource.PKDateSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.util.backGround
@@ -607,6 +608,13 @@ class QPKServiceImpl : QPKService, BaseService() {
      */
     override fun getInvitationHandler(): QInvitationHandler {
         return pkPKInvitationHandlerImpl
+    }
+
+    /**
+     * 当前正在pk信息 没有PK则空
+     */
+    override fun currentPKingSession(): QPKSession? {
+        return mPKSession
     }
 
     /**

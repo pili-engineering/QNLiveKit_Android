@@ -2,7 +2,9 @@ package com.qlive.coreimpl.model;
 
 import com.qlive.core.been.QExtension;
 
-public class LiveIdExtensionMode {
+import java.io.Serializable;
+
+public class LiveIdExtensionMode implements Serializable {
     public String liveId;
     public QExtension extension;
 }

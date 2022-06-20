@@ -2,7 +2,7 @@ package com.qlive.uikitdanmaku
 
 import android.content.Context
 import android.util.AttributeSet
-import com.qlive.danmakuservice.QDanmaku
+import com.qlive.core.been.QDanmaku
 import com.qlive.danmakuservice.QDanmakuService
 import com.qlive.core.QLiveCallBack
 import com.qlive.uikitcore.QBaseRoomFrameLayout

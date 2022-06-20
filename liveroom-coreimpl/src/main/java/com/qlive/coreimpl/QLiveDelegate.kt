@@ -10,8 +10,15 @@ object QLiveDelegate {
 
     var qRooms: QRooms = QRoomImpl.instance;
 
-    fun init(context: Context, tokenGetter: QTokenGetter, callBack: QLiveCallBack<Void>?) {
+    fun init(
+        context: Context,
+        config: QSdkConfig?,
+        tokenGetter: QTokenGetter,
+        callBack: QLiveCallBack<Void>?
+    ) {
         AppCache.appContext = context
+        val sdkConfig = config?:QSdkConfig()
+        OKHttpService.baseUrl = sdkConfig.serverURL
         OKHttpService.tokenGetter = tokenGetter
         UserDataSource().loginUser(context, object : QLiveCallBack<QLiveUser> {
             override fun onError(code: Int, msg: String?) {
@@ -24,9 +31,9 @@ object QLiveDelegate {
         })
     }
 
-    private var uikitObj:Any?=null
+    private var uikitObj: Any? = null
     fun <T> getUIKIT(): T {
-        if(uikitObj!=null){
+        if (uikitObj != null) {
             return uikitObj as T
         }
         val classStr = "com.qlive.uikit.QLiveUIKitImpl"

@@ -6,9 +6,7 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QLiveUser
-import com.qlive.pubchatservice.QPublicChat
+import com.qlive.core.been.QPublicChat
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.pubchatservice.QPublicChatServiceLister
 import com.qlive.uikitcore.*
@@ -25,9 +23,9 @@ class PublicChatView : QBaseRoomFrameLayout {
     //消息监听
     private val mPublicChatServiceLister =
         QPublicChatServiceLister {
-            if (it.senderRoomId != roomInfo?.liveID) {
-                return@QPublicChatServiceLister
-            }
+//            if (it.senderRoomId != roomInfo?.liveID) {
+//                return@QPublicChatServiceLister
+//            }
             mAdapter.addData(it)
             val position = mAdapter.data.size - 1
             recyChat.post {

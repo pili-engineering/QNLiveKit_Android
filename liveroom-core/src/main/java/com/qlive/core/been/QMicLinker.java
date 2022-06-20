@@ -1,12 +1,14 @@
 package com.qlive.core.been;
 
 import com.alibaba.fastjson.annotation.JSONField;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * 连麦用户
  */
-public class QMicLinker {
+public class QMicLinker implements Serializable {
 
     public QLiveUser user;
     @JSONField(name = "live_id")
