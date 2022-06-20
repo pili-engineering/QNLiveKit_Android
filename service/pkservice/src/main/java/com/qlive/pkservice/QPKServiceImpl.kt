@@ -35,7 +35,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-
 class QPKServiceImpl : QPKService, BaseService() {
 
     companion object {

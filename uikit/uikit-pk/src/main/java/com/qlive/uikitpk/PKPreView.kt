@@ -135,7 +135,8 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
                 ViewGroup.LayoutParams.MATCH_PARENT,
             )
         )
-        player.requestLayout()
+        (player as QPlayerRenderView)
+
     }
 
     private fun removeView() {
