@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.qlive.avparam.*
 import com.qlive.rtclive.QPushTextureView
 import com.qlive.pkservice.QPKService
 import com.qlive.pkservice.QPKMixStreamAdapter
 import com.qlive.pkservice.QPKServiceListener
 import com.qlive.core.been.QPKSession
-import com.qlive.avparam.CameraMergeOption
-import com.qlive.avparam.MicrophoneMergeOption
-import com.qlive.avparam.QMergeOption
-import com.qlive.avparam.QMixStreamParams
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
@@ -142,7 +139,8 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 
     private fun removeView() {
-        val player = kitContext?.getPlayerRenderViewCall?.invoke()?.getView() ?: return
+        val rendView =  kitContext?.getPlayerRenderViewCall?.invoke()
+        val player =rendView?.getView() ?: return
         llPKContainer.removeView(player)
         originParent?.addView(
             player,

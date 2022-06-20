@@ -15,11 +15,11 @@ object InvitationManager {
     private var mInvitationProcessor = ArrayList<InvitationProcessor>()
 
     private var mRtmMsgIntercept = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, from:String ,peerId: String): Boolean {
+        override fun onNewMsg(msg: String, from: String, peerId: String): Boolean {
 
             var isIntercept = false
 
-            val action =msg.optAction()
+            val action = msg.optAction()
             if (
                 (action == InvitationProcessor.ACTION_SEND
                         || action == InvitationProcessor.ACTION_CANCEL
@@ -31,46 +31,46 @@ object InvitationManager {
                 val invitationMsgModel =
                     JsonUtils.parseObject(msg.optData(), InvitationMsg::class.java)
 
-                val invitation = invitationMsgModel?.invitation
+                val invitation = invitationMsgModel?.invitation ?: return true
                 val invitationName = invitationMsgModel?.invitationName
 
-                if(invitation?.receiver == RtmManager.rtmClient.getLoginUserId()
-                    || invitation?.initiatorUid == RtmManager.rtmClient.getLoginUserId()
-
-                    ||invitation?.receiver == RtmManager.rtmClient.getLoginUserIMUId()
-                    || invitation?.initiatorUid == RtmManager.rtmClient.getLoginUserIMUId()
-                ){
-                    mInvitationProcessor.forEach {
-                        if (it.invitationName == invitationName) {
-                            when (action) {
-                                InvitationProcessor.ACTION_SEND -> {
-                                    invitation.initiatorUid = from
-                                    it.addTimeOutRun(invitation)
-                                    it.onReceiveInvitation(invitation)
-                                }
-                                InvitationProcessor.ACTION_CANCEL -> {
-                                    invitation.initiatorUid= from
-                                    it.onReceiveCanceled(invitation)
-                                }
-                                InvitationProcessor.ACTION_ACCEPT -> {
-                                    invitation.initiatorUid= from
-                                    it.reMoveTimeOutRun(invitation)
-                                    it.onInviteeAccepted(invitation)
-                                }
-                                InvitationProcessor.ACTION_REJECT -> {
-                                    invitation.initiatorUid= from
-                                    it.reMoveTimeOutRun(invitation)
-                                    it.onInviteeRejected(invitation)
-                                }
-                                ACTION_HANGUP -> {
-                                    invitation.initiatorUid= from
-                                    it.onInviteeHangUp(invitation)
-                                }
+//                if(invitation?.receiver == RtmManager.rtmClient.getLoginUserId()
+//                    || invitation?.initiatorUid == RtmManager.rtmClient.getLoginUserId()
+//
+//                    ||invitation?.receiver == RtmManager.rtmClient.getLoginUserIMUId()
+//                    || invitation?.initiatorUid == RtmManager.rtmClient.getLoginUserIMUId()
+//                ){
+                mInvitationProcessor.forEach {
+                    if (it.invitationName == invitationName) {
+                        when (action) {
+                            InvitationProcessor.ACTION_SEND -> {
+                                invitation.initiatorUid = from
+                                it.addTimeOutRun(invitation)
+                                it.onReceiveInvitation(invitation)
+                            }
+                            InvitationProcessor.ACTION_CANCEL -> {
+                                invitation.initiatorUid = from
+                                it.onReceiveCanceled(invitation)
+                            }
+                            InvitationProcessor.ACTION_ACCEPT -> {
+                                invitation.initiatorUid = from
+                                it.reMoveTimeOutRun(invitation)
+                                it.onInviteeAccepted(invitation)
+                            }
+                            InvitationProcessor.ACTION_REJECT -> {
+                                invitation.initiatorUid = from
+                                it.reMoveTimeOutRun(invitation)
+                                it.onInviteeRejected(invitation)
+                            }
+                            ACTION_HANGUP -> {
+                                invitation.initiatorUid = from
+                                it.onInviteeHangUp(invitation)
                             }
                         }
                     }
                 }
             }
+            //   }
             return isIntercept
         }
     }

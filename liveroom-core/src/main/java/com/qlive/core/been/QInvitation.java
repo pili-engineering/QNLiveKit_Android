@@ -10,7 +10,9 @@ public class QInvitation implements Serializable {
 
     public QLiveUser initiator;
     public QLiveUser receiver;
+    @JSONField(name = "initiatorRoomId")
     public String initiatorRoomID;
+    @JSONField(name = "receiverRoomId")
     public String receiverRoomID;
     public HashMap<String, String> extension;
     //连麦类型 用户向主播连麦  / 主播跨房连麦

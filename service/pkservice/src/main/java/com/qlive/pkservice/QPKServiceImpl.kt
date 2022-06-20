@@ -228,7 +228,7 @@ class QPKServiceImpl : QPKService, BaseService() {
 
                     }
                     catchError {
-                        Log.e("pkpkpkpkpk",it.message?:"")
+                        Log.e("pkpkpkpkpk", it.message ?: "")
                         it.printStackTrace()
                     }
                 }
@@ -562,6 +562,18 @@ class QPKServiceImpl : QPKService, BaseService() {
                 mPKDateSource.stopPk(mPKSession?.sessionID ?: "")
                 stopMediaRelay()
                 try {
+                    RtmManager.rtmClient.sendC2cMsg(
+                        RtmTextMsg<QPKSession>(
+                            liveroom_pk_stop,
+                            mPKSession
+                        ).toJsonString(), peer.imUid, false
+                    )
+                } catch (
+                    e: Exception
+                ) {
+                    e.printStackTrace()
+                }
+                try {
                     RtmManager.rtmClient.sendChannelMsg(
                         RtmTextMsg<QPKSession>(
                             liveroom_pk_stop,
@@ -621,7 +633,7 @@ class QPKServiceImpl : QPKService, BaseService() {
      * 获得rtc对象
      */
     private val rtcRoomGetter by lazy {
-        ( client as QRTCProvider).rtcRoomGetter.invoke()
+        (client as QRTCProvider).rtcRoomGetter.invoke()
     }
 
 }

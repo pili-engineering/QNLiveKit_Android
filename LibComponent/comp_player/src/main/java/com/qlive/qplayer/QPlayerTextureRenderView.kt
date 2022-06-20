@@ -50,7 +50,7 @@ open class QPlayerTextureRenderView : FrameLayout, QPlayerRenderView {
     internal fun setVideoSize(width: Int, height: Int) {
         mVideoWidth = width
         mVideoHeight = height
-        mRenderView.requestLayout()
+        requestLayout()
     }
 
     internal fun stopPlayback() {
