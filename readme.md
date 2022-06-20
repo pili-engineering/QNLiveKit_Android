@@ -6,9 +6,9 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 ## sdk接入
 
 1 下载sdk
-[下载地址](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/sdk.png)
+[下载地址](https://github.com/pili-engineering/QNLiveKit_Android/tree/main/app-sdk)
 
-![alt 属性文本](https://demo-rtc-test.qnsdk.com/sdk.png)
+![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/sdk.png)
 
 
 
