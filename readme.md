@@ -16,7 +16,6 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 
 
 ```
-
 //使用 sdk方式依赖
  //无UIsdk
 implementation project(':app-sdk:qlive-sdk') //必选项
@@ -41,6 +40,11 @@ implementation 'com.github.bumptech.glide:glide:4.11.0' //图片加载
 implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44' //列表适配器
 
 ```
+UIkit也可以直接使用源码模块-可直接修改代码
+```
+  implementation project(':liveroom-uikit')
+```
+
 
 3 混淆配置
 如果你的项目需要混淆 [qlivesdk混淆配置参考](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/app/proguard-rules.pro
