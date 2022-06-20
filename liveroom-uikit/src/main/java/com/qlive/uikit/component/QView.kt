@@ -41,5 +41,4 @@ public open class QView(val originViewClass: Class<out QComponent>) {
             )
         }
     }
-
 }

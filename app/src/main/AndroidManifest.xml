@@ -17,7 +17,7 @@
 
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".RoomListActivity"
+            android:name=".CustomRoomListActivity"
             android:exported="false" />
         <activity android:name=".WebActivity" />
         <activity android:name=".MainActivity">

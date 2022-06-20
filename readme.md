@@ -229,6 +229,44 @@ class CustomFunctionComponent : QLiveComponent {
 ```
 方法2 修改源码
 
+
+### 自定义房间列表页面
+如果需要将房间列表页面添加到你想要的页面比如app首页的viewpager切换
+
+方式1 使用RoomListView
+在想要添加的布局xml里面添加RoomListView
+
+```
+  <com.qlive.uikit.component.RoomListView
+        android:id="@+id/roomListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+```
+在activivity代码里配置样式
+```
+//可选 替换列表item适配
+roomListView .setRoomAdapter(new CustomAdapter)
+
+//可选 设置列表数据为空的占位icon
+roomListView.setEmptyPlaceholderIcon(R.id.emptyicon)
+
+//可选 设置列表数据为空的占位提示
+roomListView.setEmptyPlaceholderTips("房间列表为空")
+
+//必选 启动 
+roomListView.attachKitContext(QUIKitContext(this,supportFragmentManager,this,this))
+```
+
+方式2
+```
+//使用 qlive数据api 获取房间等数据自定义UI
+QLive.getRooms().listRoom(..）
+QLive.getRooms().createRoom(..）
+```
+方式3
+修改UIkit源码
+
 ### 无UI
 
 ```java

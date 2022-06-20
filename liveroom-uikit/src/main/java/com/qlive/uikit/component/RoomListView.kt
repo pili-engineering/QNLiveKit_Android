@@ -30,7 +30,13 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class RoomListView : FrameLayout, QComponent {
+
+    companion object{
+
+    }
+
     override var kitContext: QUIKitContext? = null
+    private val mEmptyView by lazy { CommonEmptyView(kitContext!!.androidContext) }
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -43,21 +49,40 @@ class RoomListView : FrameLayout, QComponent {
         mSmartRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
     }
 
-    private val mAdapter = RoomListAdapter()
+    /**
+     * 自定义列表适配器
+     */
+    var roomAdapter: BaseQuickAdapter<QLiveRoomInfo, BaseViewHolder> = RoomListAdapter()
+
+    /**
+     * 设置列表数据为空的占位icon
+     */
+    fun setEmptyPlaceholderIcon(icon: Int) {
+        mEmptyView.setEmptyIcon(icon)
+    }
+
+    /**
+     * 设置列表数据为空的占位提示
+     */
+    fun setEmptyPlaceholderTips(tip: String) {
+        mEmptyView.setEmptyTips(tip)
+    }
 
     override fun attachKitContext(context: QUIKitContext) {
         super.attachKitContext(context)
         mSmartRecyclerView.setUp(
-            mAdapter,
-            CommonEmptyView(context.androidContext),
+            roomAdapter,
+            mEmptyView,
             10,
             true,
             true
         ) {
             load(it)
         }
-        mAdapter.goJoinCall = {
-            RoomPage.joinRoom(context.currentActivity, it, object :
+
+        roomAdapter.setOnItemClickListener { _, view, position ->
+            val item: QLiveRoomInfo = roomAdapter.data[position]
+            RoomPage.joinRoom(context.currentActivity, item, object :
                 QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
                     Toast.makeText(kitContext?.androidContext, msg, Toast.LENGTH_SHORT).show()
@@ -67,7 +92,6 @@ class RoomListView : FrameLayout, QComponent {
                 }
             })
         }
-
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -106,11 +130,7 @@ class RoomListView : FrameLayout, QComponent {
         ArrayList()
     ) {
 
-        var goJoinCall: (item: QLiveRoomInfo) -> Unit = {}
         override fun convert(helper: BaseViewHolder, item: QLiveRoomInfo) {
-            helper.itemView.setOnClickListener {
-                goJoinCall.invoke(item)
-            }
             Glide.with(mContext).load(item.coverURL)
                 .apply(RequestOptions().transform(RoundedCorners(ViewUtil.dip2px(8f))))
                 .into(helper.itemView.ivCover)
