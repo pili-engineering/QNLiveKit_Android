@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'com.kezong.fat-aar'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -29,36 +30,11 @@ android {
     }
 }
 
-//编译sdk模式
-def buidSdk = false
-fataar {
-    transitive = true
-}
-
-//def version = 'qlive-pushclient-1.0.0'
-//task makeAAR(type: Copy) {
-//    from('build/outputs/aar/')
-//    into('../app-sdk/qlive-sdk-pushclinet/')
-//    include('liveroom-pushclient-release.aar')
-//    rename ('liveroom-pushclient-release', version)
-//}
-//makeAAR.dependsOn(build)
-
 dependencies {
 
-    if (buidSdk) {
-        embed project(':liveroom-libs:comp_rtclive')
-        compileOnly project(':liveroom-core')
-        compileOnly project(':service:roomservice')
-        compileOnly project(':liveroom-coreimpl')
-        api project(':liveroom-libs:comp_rtclive')
-    }else {
-        api project(':liveroom-core')
-        api project(':liveroom-libs:comp_rtclive')
-        api project(':service:roomservice')
-        implementation project(':liveroom-coreimpl')
-    }
-
+    api project(':liveroom-uikit-core')
+    api project(':service:publicchatservice')
+    api project(':uikit-uicomponnets:uiwidget-input')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

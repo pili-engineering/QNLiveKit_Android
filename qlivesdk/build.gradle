@@ -62,15 +62,15 @@ dependencies {
         embed project(':liveroom-core')
         embed project(':liveroom-coreimpl')
 
-        embed project(':LibComponent:comp_avparam')
-        embed project(':LibComponent:lib_json')
-        embed project(':LibComponent:comp_rtm')
-        embed project(':LibComponent:sdk_qnim')
-        embed project(':LibComponent:comp_imadapter')
+        embed project(':liveroom-libs:comp_avparam')
+        embed project(':liveroom-libs:lib_json')
+        embed project(':liveroom-libs:comp_rtm')
+        embed project(':liveroom-libs:sdk_qnim')
+        embed project(':liveroom-libs:comp_imadapter')
 
         embed 'com.alibaba:fastjson:1.2.61'
-        // include ':LibComponent:comp_rtclive'
-        // include ':LibComponent:comp_player'
+        // include ':liveroom-libs:comp_rtclive'
+        // include ':liveroom-libs:comp_player'
         api project(':liveroom-core')
         implementation project(':liveroom-coreimpl')
     } else {

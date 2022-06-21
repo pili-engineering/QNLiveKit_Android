@@ -31,8 +31,8 @@ android {
 dependencies {
 
     api project(':liveroom-core')
-    compileOnly project(':LibComponent:comp_rtclive')
-    compileOnly project(':LibComponent:comp_player')
+    compileOnly project(':liveroom-libs:comp_rtclive')
+    compileOnly project(':liveroom-libs:comp_player')
     implementation project(':liveroom-coreimpl')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

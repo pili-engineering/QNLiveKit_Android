@@ -31,12 +31,12 @@ android {
 dependencies {
 
     api project(':liveroom-core')
-    api project(':LibComponent:comp_rtm')
+    api project(':liveroom-libs:comp_rtm')
 
-    compileOnly project( ':LibComponent:comp_imadapter')
+    compileOnly project( ':liveroom-libs:comp_imadapter')
 
     api 'com.squareup.okhttp3:okhttp:4.2.2'
-    api project(':LibComponent:lib_json')
+    api project(':liveroom-libs:lib_json')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

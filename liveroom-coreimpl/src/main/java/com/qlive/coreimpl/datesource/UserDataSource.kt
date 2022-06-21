@@ -138,8 +138,10 @@ class UserDataSource {
                 user.avatar = avatar
                 user.nick = nickName
                 user.extensions = extensions
-
                 OKHttpService.put("/client/user/user", JsonUtils.toJson(user), Any::class.java)
+                loginUser.avatar =avatar
+                loginUser.nick  = nickName
+                loginUser.extensions - extensions
                 callBack.onSuccess(null)
             }
             catchError {

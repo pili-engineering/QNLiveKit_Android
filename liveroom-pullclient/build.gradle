@@ -48,12 +48,12 @@ fataar {
 dependencies {
 
     if (buidPullSdk) {
-        embed project(':LibComponent:comp_player')
+        embed project(':liveroom-libs:comp_player')
         compileOnly project(':liveroom-core')
         compileOnly project(':service:roomservice')
         compileOnly project(':liveroom-coreimpl')
     }else {
-        api project(':LibComponent:comp_player')
+        api project(':liveroom-libs:comp_player')
         implementation project(':liveroom-core')
         implementation project(':service:roomservice')
         implementation project(':liveroom-coreimpl')
