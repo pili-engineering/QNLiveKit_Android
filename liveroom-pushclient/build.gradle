@@ -35,14 +35,14 @@ fataar {
     transitive = true
 }
 
-def version = 'qlive-pushclient-1.0.0'
-task makeAAR(type: Copy) {
-    from('build/outputs/aar/')
-    into('../app-sdk/qlive-sdk-pushclinet/')
-    include('liveroom-pushclient-release.aar')
-    rename ('liveroom-pushclient-release', version)
-}
-makeAAR.dependsOn(build)
+//def version = 'qlive-pushclient-1.0.0'
+//task makeAAR(type: Copy) {
+//    from('build/outputs/aar/')
+//    into('../app-sdk/qlive-sdk-pushclinet/')
+//    include('liveroom-pushclient-release.aar')
+//    rename ('liveroom-pushclient-release', version)
+//}
+//makeAAR.dependsOn(build)
 
 dependencies {
 

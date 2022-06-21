@@ -31,23 +31,23 @@ android {
 }
 
 //编译sdk模式
-def buidSdk = false
+def buidPullSdk = false
 fataar {
     transitive = true
 }
-
-def version = 'qlive-pullclient-1.0.0'
-task makeAAR(type: Copy) {
-    from('build/outputs/aar/')
-    into('../app-sdk/qlive-sdk-pullclinet/')
-    include('liveroom-pullclient-release.aar')
-    rename ('liveroom-pullclient-release', version)
-}
-makeAAR.dependsOn(build)
+//
+//def version = 'qlive-pullclient-1.0.0'
+//task makeAAR(type: Copy) {
+//    from('build/outputs/aar/')
+//    into('../app-sdk/qlive-sdk-pullclinet/')
+//    include('liveroom-pullclient-release.aar')
+//    rename ('liveroom-pullclient-release', version)
+//}
+//makeAAR.dependsOn(build)
 
 dependencies {
 
-    if (buidSdk) {
+    if (buidPullSdk) {
         embed project(':LibComponent:comp_player')
         compileOnly project(':liveroom-core')
         compileOnly project(':service:roomservice')
