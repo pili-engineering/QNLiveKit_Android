@@ -38,15 +38,17 @@ class MainActivity : AppCompatActivity() {
 
     private var user: com.qlive.qnlivekit.BZUser? = null
 
-    val demo_url ="https://niucube-api.qiniu.com"
-  //  val demo_url="http://10.200.20.28:5080"
+    val demo_url = "https://niucube-api.qiniu.com"
+    //  val demo_url="http://10.200.20.28:5080"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         //登陆按钮
         bt_login_login.setOnClickListener {
+
             val phone = et_login_phone.text.toString() ?: ""
             val code = et_login_verification_code.text.toString() ?: ""
             if (phone.isEmpty()) {
@@ -83,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-       initOtherView()
+        initOtherView()
     }
 
 
@@ -189,7 +191,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun timeJob() {
         lifecycleScope.launch(Dispatchers.Main) {
             try {
@@ -205,7 +206,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun initOtherView(){
+
+    private fun initOtherView() {
         tvSmsTime.setOnClickListener {
             val phone = et_login_phone.text.toString() ?: ""
             if (phone.isEmpty()) {

@@ -167,6 +167,7 @@ class QLiveEmptyView : View, QLiveComponent {
         attrs,
         defStyleAttr
     ) {
+        visibility  = View.GONE
     }
 
     override fun attachKitContext(context: QLiveUIKitContext) {

@@ -15,11 +15,12 @@ class QLiveUIKitImpl : QLiveUIKit {
     }
 
     override fun <T : QPage> getPage(pageClass: Class<T>): T? {
-        when (pageClass.simpleName) {
-            RoomListPage::class.simpleName -> mRoomListPage
-            RoomPage::class.java.simpleName -> mRoomPage
+        val page : T?= when (pageClass.simpleName) {
+            RoomListPage::class.simpleName-> mRoomListPage as T?
+            RoomPage::class.simpleName -> mRoomPage as T?
+            else -> null
         }
-        return null
+        return page
     }
 
     override fun launch(context: Context) {

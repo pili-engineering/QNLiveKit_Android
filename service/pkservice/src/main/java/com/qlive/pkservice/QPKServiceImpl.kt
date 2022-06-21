@@ -112,8 +112,10 @@ class QPKServiceImpl : QPKService, BaseService() {
                 }
                 catchError {
                     QLiveLogUtil.LogE("pk 接收方确认回复pk 错误 ${it.getCode()} ${it.message}")
-                    mServiceListeners.forEach {
-                        it.onStartTimeOut(mPKSessionTemp!!)
+                    mPKSessionTemp?.let {
+                        mServiceListeners.forEach {
+                            it.onStartTimeOut(mPKSessionTemp!!)
+                        }
                     }
                 }
                 onFinally {
