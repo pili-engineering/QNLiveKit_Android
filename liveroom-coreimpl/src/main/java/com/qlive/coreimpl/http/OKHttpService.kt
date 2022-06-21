@@ -1,6 +1,7 @@
 package com.qlive.coreimpl.http
 
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
+import com.qlive.core.QLiveCallBack
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.core.QTokenGetter
 import com.qlive.coreimpl.http.log.HttpLoggingInterceptor
@@ -19,8 +20,9 @@ import kotlin.coroutines.suspendCoroutine
 object OKHttpService {
 
     var tokenGetter: QTokenGetter? = null
-  //  var baseUrl = "http://10.200.20.28:8099"
-   var baseUrl =  "https://live-api.qiniu.com"
+
+    //  var baseUrl = "http://10.200.20.28:8099"
+    var baseUrl = "https://live-api.qiniu.com"
     var token = ""
     val bzCodeNoError = 0
     private val mExecutorService = ThreadPoolExecutor(
@@ -88,6 +90,16 @@ object OKHttpService {
                 ))
             }
         } else {
+            if (499 == code) {
+                tokenGetter?.getTokenInfo(object : QLiveCallBack<String> {
+                    override fun onError(code: Int, msg: String?) {
+                    }
+
+                    override fun onSuccess(data: String?) {
+                        token = data ?: ""
+                    }
+                })
+            }
             throw (NetBzException(
                 code,
                 resp.message
