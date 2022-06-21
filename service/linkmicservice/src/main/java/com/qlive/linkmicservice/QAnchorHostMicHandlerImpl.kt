@@ -9,6 +9,7 @@ import com.qlive.coreimpl.BaseService
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QMicLinker
+import com.qlive.rtclive.MixType
 
 class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHostMicHandler,
     BaseService() {
@@ -18,8 +19,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
         QLinkMicServiceListener {
         private val mOps = HashMap<String, QMergeOption>()
         override fun onLinkerJoin(micLinker: QMicLinker) {
-            if (context.mQRtcLiveRoom.mMixStreamManager.mQNMergeJob == null) {
-                // context.mRtcLiveRoom.mMixStreamManager.clear()
+            if (context.mQRtcLiveRoom.mMixStreamManager.mMixType != MixType.mix) {
                 context.mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
             }
             val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, true)
@@ -48,16 +48,6 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
                 return
             }
             val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, false)
-//            context.mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
-//                micLinker.user?.userId ?: "",
-//                MicrophoneMergeOption(),
-//                false
-//            )
-//            context.mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
-//                micLinker.user?.userId ?: "",
-//                CameraMergeOption(),
-//                false
-//            )
             mOps.clear()
             ops?.forEach {
                 mOps.put(it.uid, it)

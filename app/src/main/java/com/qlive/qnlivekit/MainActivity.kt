@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         //登陆按钮
         bt_login_login.setOnClickListener {
 

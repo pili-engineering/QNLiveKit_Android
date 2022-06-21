@@ -9,11 +9,14 @@ import com.qlive.avparam.MicrophoneMergeOption
 import com.qlive.avparam.QMixStreamParams
 import com.qlive.avparam.TrackMergeOption
 
+enum class MixType(var isStart: Boolean) {
+    mix(false), forward(false), pk(false)
+}
+
 class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     private var localVideoTrack: QNLocalVideoTrack? = null
     private var localAudioTrack: QNLocalAudioTrack? = null
-
     var mQMixStreamParams: QMixStreamParams? = null
         private set
     private val tracksMap = HashMap<String, TrackMergeOption>()
@@ -27,7 +30,15 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     //混流任务
     var mQNMergeJob: QNTranscodingLiveStreamingConfig? = null
         private set
+
+    //单路转推任务
     var mQNForwardJob: QNDirectLiveStreamingConfig? = null
+        private set
+
+    var mPKMergeJob: QNTranscodingLiveStreamingConfig? = null
+        private set
+
+    var mMixType = MixType.forward
         private set
 
     //房间人数
@@ -47,16 +58,26 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         this.streamId = streamId
         mEngine.setLiveStreamingListener(object : QNLiveStreamingListener {
             override fun onStarted(streamID: String) {
-                Log.d("MixStreamHelperImp", "MixStreamHelperImp onStarted ${isMixStreamIng}")
+                Log.d("MixStreamHelperImp", "MixStreamHelperImp onStarted ${mMixType.name}")
                 // 转推任务创建成功时触发此回调
-                if (mQNMergeJob != null) {
-                    isMixStreamIng = true
-                    commitOpt()
-                } else {
-                    isMixStreamIng = false
-                }
-                isForwardJob = mQNForwardJob != null
 
+                mMixType.isStart = true
+                if (mMixType == MixType.forward) {
+                    stopPKMixStreamJob()
+                    stopMixStreamJob()
+                }
+
+                if (mMixType == MixType.mix) {
+                    stopForwardJob()
+                    stopPKMixStreamJob()
+                    commitOpt()
+                }
+
+                if (mMixType == MixType.pk) {
+                    stopForwardJob()
+                    stopMixStreamJob()
+                    commitOpt()
+                }
             }
 
             override fun onStopped(streamID: String) {
@@ -71,7 +92,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
                 // 转推任务出错时触发此回调
                 Log.d(
                     "MixStreamHelperImp",
-                    "MixStreamHelperImp onError" + errorInfo.message + "  " + errorInfo.code
+                    "MixStreamHelperImp onError  ${mMixType.name}" + errorInfo.message + "  " + errorInfo.code
                 )
             }
         })
@@ -135,14 +156,12 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
                 }
             }
         })
-
-
     }
 
     private fun createMergeJob() {
         Log.d("MixStreamHelperImp", "createMergeJob ")
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID =streamId // 设置 stream id，该 id 为合流任务的唯一标识符
+            streamID = streamId // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
@@ -159,7 +178,6 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     //创建前台转推
     private fun createForwardJob() {
-
         val mDirectLiveStreamingConfig = QNDirectLiveStreamingConfig()
         mDirectLiveStreamingConfig.streamID = streamId
         mDirectLiveStreamingConfig.url = pushUrl + "?serialnum=${serialnum++}"
@@ -175,20 +193,14 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         Log.d("MixStreamHelperImp", "createForwardJob ")
     }
 
-    private var isMixStreamIng = false
-    private var isForwardJob = false
-
 
     /**
      * 启动前台转推 默认实现推本地轨道
      */
     fun startForwardJob() {
-        if (mQNMergeJob != null) {
-            stopMixStreamJob()
-        }
-        if (mQNForwardJob == null) {
-            createForwardJob()
-        }
+        mMixType = MixType.forward
+        mMixType.isStart = false
+        createForwardJob()
         Log.d("MixStreamHelperImp", "startForwardJob ")
         mEngine.startLiveStreaming(mQNForwardJob);
     }
@@ -196,32 +208,28 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     /**
      * 停止前台推流
      */
-    fun stopForwardJob() {
+    private fun stopForwardJob() {
         Log.d("MixStreamHelperImp", "stopForwardJob ")
         mQNForwardJob?.let {
             mEngine.stopLiveStreaming(mQNForwardJob)
         }
         mQNForwardJob = null
-        isForwardJob = false
     }
 
     /**
      * 开始混流转推
      */
     fun startMixStreamJob() {
+        mMixType = MixType.mix
+        mMixType.isStart = false
         Log.d("MixStreamHelperImp", "startMixStreamJob ")
         clear()
-        isMixStreamIng = false
-        if (mQNForwardJob != null) {
-            stopForwardJob()
-        }
-        if (mQNMergeJob == null) {
-            createMergeJob()
-        }
+        createMergeJob()
         mEngine.startLiveStreaming(mQNMergeJob)
     }
 
     private fun clear() {
+        Log.d("MixStreamHelperImp", "clear ")
         tracksMap.clear()
         toDoAudioMergeOptionsMap.clear()
         toDoVideoMergeOptionsMap.clear()
@@ -230,17 +238,13 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     /**
      * 启动新的混流任务
      */
-    fun startNewMixStreamJob(QMixStreamParams: QMixStreamParams) {
-        Log.d("MixStreamHelperImp", "startNewMixStreamJob ")
+    fun startPkMixStreamJob(QMixStreamParams: QMixStreamParams) {
+        Log.d("MixStreamHelperImp", "startPkMixStreamJob ")
         clear()
-        if (mQNForwardJob != null) {
-            stopForwardJob()
-        }
-        if (mQNMergeJob != null) {
-            stopMixStreamJob()
-        }
-        mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID =streamId // 设置 stream id，该 id 为合流任务的唯一标识符
+        mMixType = MixType.pk
+        mMixType.isStart = false
+        mPKMergeJob = QNTranscodingLiveStreamingConfig().apply {
+            streamID = streamId // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "startNewMixStreamJob${url} ")
             width = QMixStreamParams.mixStreamWidth; // 设置合流画布的宽度
@@ -253,20 +257,26 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 //                watermarks = it;
 //            }
         }
-        mEngine.startLiveStreaming(mQNMergeJob);
+        mEngine.startLiveStreaming(mPKMergeJob);
     }
 
 
-    fun stopMixStreamJob() {
+    private fun stopMixStreamJob() {
         Log.d("MixStreamHelperImp", "stopMixStreamJob ")
-        clear()
 
-        if (!TextUtils.isEmpty(mQNMergeJob?.streamID)) {
-            mEngine.stopLiveStreaming(mQNMergeJob)
+        mQNMergeJob?.let {
+            mEngine.stopLiveStreaming(it)
         }
         mQNMergeJob = null
-        isMixStreamIng = false
+    }
 
+    private fun stopPKMixStreamJob() {
+        Log.d("MixStreamHelperImp", "stopPKMixStreamJob ")
+
+        mPKMergeJob?.let {
+            mEngine.stopLiveStreaming(it)
+        }
+        mPKMergeJob = null
     }
 
     fun updateUserVideoMergeOptions(
@@ -328,36 +338,59 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     }
 
     fun commitOpt() {
-
-        if (isMixStreamIng) {
+        Log.d(
+            "MixStreamHelperImp",
+            "commitOpt fab发布混流参数  mMixType${mMixType.name} ${mMixType.isStart}\n " +
+                    "${toDoAudioMergeOptionsMap.size}\n" +
+                    "${toDoAudioMergeOptionsMap.size}\n" +
+                    "${tracksMap.size}\n" +
+                    ""
+        )
+        if (mMixType != MixType.forward && mMixType.isStart) {
+            Log.d(
+                "MixStreamHelperImp",
+                "commitOpt fab发布混流参数  开始"
+            )
             val mMergeTrackOptions = ArrayList<QNTranscodingLiveStreamingTrack>()
+            val sb = StringBuffer("")
             tracksMap.entries.forEach {
                 val key = it.key
                 val op = it.value
                 if (op is CameraMergeOption) {
-                    mMergeTrackOptions.add(QNTranscodingLiveStreamingTrack().apply {
+                    val trackOp = QNTranscodingLiveStreamingTrack().apply {
                         trackID = key
                         x = op.x
                         y = op.y
                         zOrder = op.z
                         width = op.width
                         height = op.height
-                       // renderMode = op.stretchMode
-                    })
+                        // renderMode = op.stretchMode
+                    }
+                    mMergeTrackOptions.add(trackOp)
+                    sb.append(trackOp.toJsonObject().toString())
                 }
                 if (op is MicrophoneMergeOption) {
-                    mMergeTrackOptions.add(QNTranscodingLiveStreamingTrack().apply {
+                    val opTrack = QNTranscodingLiveStreamingTrack().apply {
                         trackID = key
-                    })
+                    }
+                    mMergeTrackOptions.add(opTrack)
+                    sb.append(opTrack.toJsonObject().toString())
                 }
-
-                Log.d(
-                    "MixStreamHelperImp",
-                    "commitOpt fab发布混流参数  " + mMergeTrackOptions.get(mMergeTrackOptions.size - 1)
-                        .toJsonObject().toString()
-                )
             }
-            mEngine.setTranscodingLiveStreamingTracks(mQNMergeJob!!.streamID, mMergeTrackOptions)
+
+            Log.d(
+                "MixStreamHelperImp",
+                "commitOpt fab发布混流参数  ")
+
+            val id = if (mMixType == MixType.mix) {
+                mQNMergeJob?.streamID ?: ""
+            } else {
+                mPKMergeJob?.streamID ?: ""
+            }
+            mEngine.setTranscodingLiveStreamingTracks(
+                id,
+                mMergeTrackOptions
+            )
         }
     }
 

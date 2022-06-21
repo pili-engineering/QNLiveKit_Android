@@ -302,7 +302,7 @@ class QPKServiceImpl : QPKService, BaseService() {
         }
         val mQRtcLiveRoom: QRtcLiveRoom = rtcRoomGetter
         if (mPKSession != null) {
-            mQRtcLiveRoom.mMixStreamManager.startNewMixStreamJob(
+            mQRtcLiveRoom.mMixStreamManager.startPkMixStreamJob(
                 mQPKMixStreamAdapter!!.onPKMixStreamStart(
                     mPKSession!!
                 )
@@ -323,29 +323,21 @@ class QPKServiceImpl : QPKService, BaseService() {
             mQRtcLiveRoom.mMixStreamManager.commitOpt()
         } else {
 
+
             if (mQRtcLiveRoom.mMixStreamManager
                     .roomUser == 1
             ) {
                 mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
-            } else {
-                mQRtcLiveRoom.mMixStreamManager.stopMixStreamJob()
-                mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
             }
-
-            mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
-                peerId,
-                MicrophoneMergeOption(),
-                false
-            )
-            mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
-                peerId,
-                CameraMergeOption(),
-                false
-            )
-
             val ops = mQPKMixStreamAdapter?.onPKLinkerLeft()
-            ops?.forEach {
+            if (ops?.isEmpty() != false) {
+                mQRtcLiveRoom.mMixStreamManager.startForwardJob()
+                return
+            }
+            mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
+
+            ops.forEach {
                 mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,

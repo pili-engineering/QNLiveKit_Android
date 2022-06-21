@@ -49,18 +49,15 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
         getService(QChatRoomService::class.java)?.addServiceListener(object :
             QChatRoomServiceListener {
             override fun onUserLeft(memberID: String) {
-                super.onUserLeft(memberID)
                 if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
                     mLiveContext.mRoomScheduler.setAnchorStatus(0)
                 }
             }
 
             override fun onUserJoin(memberID: String) {
-                super.onUserJoin(memberID)
                 if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
                     mLiveContext.mRoomScheduler.setAnchorStatus(1)
                 }
-
             }
         })
     }
