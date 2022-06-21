@@ -353,8 +353,7 @@ client.leaveRoom(new QLiveCallBack<Void> {
 client.destroy(); 
 ```
 
-
-
+#接口说明
 ## 初始化
 ```java
 class QLive {
