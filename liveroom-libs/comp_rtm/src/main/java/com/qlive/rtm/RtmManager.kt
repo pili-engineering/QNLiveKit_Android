@@ -13,7 +13,7 @@ object RtmManager {
      * 添加点对点消息监听
      */
     fun addRtmC2cListener(rtmC2cListener: RtmMsgListener) {
-        if(!mRtmC2cListeners.contains(rtmC2cListener)){
+        if (!mRtmC2cListeners.contains(rtmC2cListener)) {
             mRtmC2cListeners.add(rtmC2cListener)
         }
     }
@@ -29,7 +29,7 @@ object RtmManager {
      * 添加群消息监听
      */
     fun addRtmChannelListener(rtmChannelListener: RtmMsgListener) {
-        if(!mRtmChannelListeners.contains(rtmChannelListener)){
+        if (!mRtmChannelListeners.contains(rtmChannelListener)) {
             mRtmChannelListeners.add(rtmChannelListener)
         }
     }
@@ -44,9 +44,9 @@ object RtmManager {
     /**
      * 设置im实现
      */
-    fun setRtmAdapter(adapter: RtmAdapter){
+    fun setRtmAdapter(adapter: RtmAdapter) {
         isInit = true
-        rtmClient =adapter
+        rtmClient = adapter
         adapter.registerOriginImListener(RtmManager::handleC2cMessage, RtmManager::handleChannelMsg)
     }
 
@@ -60,7 +60,7 @@ object RtmManager {
 
     private fun handleChannelMsg(msg: String, fromID: String, toID: String) {
         mRtmChannelListeners.forEach {
-            if (it.onNewMsg(msg,  fromID, toID)) {
+            if (it.onNewMsg(msg, fromID, toID)) {
                 return@forEach
             }
         }
