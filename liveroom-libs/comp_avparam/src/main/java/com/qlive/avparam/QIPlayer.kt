@@ -17,4 +17,6 @@ interface QIPlayer {
     fun resume()
 
     fun release()
+
+    fun onLinkStatusChange(isLink:Boolean)
 }

@@ -11,6 +11,7 @@ import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.pkservice.QPKService
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
@@ -24,10 +25,24 @@ class ShowLinkMicApplyComponent : QLiveComponent {
     var client: QLiveClient? = null
     var roomInfo: QLiveRoomInfo? = null
     var user: QLiveUser? = null
-    var kitContext: QLiveUIKitContext ? = null
+    var kitContext: QLiveUIKitContext? = null
 
     private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
+            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
+                client!!.getService(QLinkMicService::class.java)
+                    .invitationHandler.reject(qInvitation.invitationID, null,
+                        object :
+                            QLiveCallBack<Void> {
+                            override fun onError(code: Int, msg: String?) {
+                                // msg?.asToast()
+                            }
+
+                            override fun onSuccess(data: Void?) {
+                            }
+                        })
+                return
+            }
             CommonTipDialog.TipBuild()
                 .setTittle("连麦申请")
                 .setContent(" ${qInvitation.initiator.nick} 申请连麦是否同意，是否接受")
@@ -41,7 +56,11 @@ class ShowLinkMicApplyComponent : QLiveComponent {
                                 object :
                                     QLiveCallBack<Void> {
                                     override fun onError(code: Int, msg: String?) {
-                                        Toast.makeText(kitContext!!.androidContext, msg, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            kitContext!!.androidContext,
+                                            msg,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
 
                                     override fun onSuccess(data: Void?) {

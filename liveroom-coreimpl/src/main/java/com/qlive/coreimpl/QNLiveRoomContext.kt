@@ -17,10 +17,6 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
     private set
     private var liveId = ""
 
-    init {
-        mLifeCycleListener.add(mRoomScheduler)
-    }
-
     private fun <T : QLiveService> registerService(serviceClass: Class<T>) {
         try {
             val classStr = serviceClass.name + "Impl"
@@ -48,6 +44,10 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
             return serviceMap[serviceClass] as T?
         }
         return serviceObj
+    }
+
+    init {
+        mLifeCycleListener.add(mRoomScheduler)
     }
 
     fun enter(liveId: String, user: QLiveUser) {

@@ -8,6 +8,8 @@ import com.qlive.rtm.leaveChannel
 import com.qlive.avparam.QIPlayer
 import com.qlive.avparam.QPlayerEventListener
 import com.qlive.avparam.QPlayerRenderView
+import com.qlive.chatservice.QChatRoomService
+import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.core.*
@@ -25,10 +27,13 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
             return QPlayerClientImpl()
         }
     }
+
     private val mQPlayerEventListenerWarp = QPlayerEventListenerWarp()
-    private val mMediaPlayer by lazy { QMediaPlayer(AppCache.appContext).apply {
-        setEventListener(mQPlayerEventListenerWarp)
-    } }
+    private val mMediaPlayer by lazy {
+        QMediaPlayer(AppCache.appContext).apply {
+            setEventListener(mQPlayerEventListenerWarp)
+        }
+    }
     private val mRoomSource = RoomDataSource()
     private var mPlayerRenderView: QPlayerRenderView? = null
     private var mLiveStatusListener: QLiveStatusListener? = null
@@ -38,6 +43,26 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
                 mLiveStatusListener?.onLiveStatusChanged(it)
             }
         }
+    }
+
+    init {
+        getService(QChatRoomService::class.java)?.addServiceListener(object :
+            QChatRoomServiceListener {
+            override fun onUserLeft(memberID: String) {
+                super.onUserLeft(memberID)
+                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
+                    mLiveContext.mRoomScheduler.setAnchorStatus(0)
+                }
+            }
+
+            override fun onUserJoin(memberID: String) {
+                super.onUserJoin(memberID)
+                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
+                    mLiveContext.mRoomScheduler.setAnchorStatus(1)
+                }
+
+            }
+        })
     }
 
     /**
@@ -105,7 +130,7 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
     }
 
     override fun destroy() {
-        mLiveStatusListener=null
+        mLiveStatusListener = null
         mQPlayerEventListenerWarp.clear()
         mMediaPlayer.release()
         mLiveContext.destroy()

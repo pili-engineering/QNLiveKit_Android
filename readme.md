@@ -8,23 +8,16 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 1 下载sdk
 [下载地址](https://github.com/pili-engineering/QNLiveKit_Android/tree/main/app-sdk)
 
-
-
-
-
 2 参考dome工程的build.gradle文件 配置aar
-
-
 ```
 //使用 sdk方式依赖
  //无UIsdk
-implementation project(':app-sdk:qlive-sdk') //必选项
-implementation 'com.qiniu:happy-dns:0.2.17' // 七牛dns 必选项目
-implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上
-implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' //kotlin协程
-
- //主播观众端都需要则依赖两个包
-implementation project(':app-sdk:qlive-sdk-pullclinet') //拉流端sdk 如果需要观众端
+implementation project(':app-sdk:qlive-sdk') //必选
+implementation 'com.qiniu:happy-dns:0.2.17' // 七牛dns 必选
+implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上 必选
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' //kotlin协程 必选
+ //主播观众端都需要则依赖以下两个包
+implementation project(':app-sdk:qlive-sdk-pullclinet') //拉流端sdk 如果需要观众端 
 implementation project(':app-sdk:qlive-sdk-pushclinet') //推流端sdk 如果需要主播端
 
 
@@ -45,16 +38,12 @@ UIkit也可以直接使用源码模块-可直接修改代码
   implementation project(':liveroom-uikit')
 ```
 
-
 3 混淆配置
 如果你的项目需要混淆 [qlivesdk混淆配置参考](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/app/proguard-rules.pro
 )
 
 
-
 ## 使用说明
-
-
 ### UIKIT
 
 ```java
@@ -99,15 +88,16 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
         LayoutInflater.from(context).inflate(R.layout.customnoticeview,this,true)
     }
 
-    //绑定UI组件上下文
+    //绑定UI组件上下文 context中包涵UI实现安卓平台功能的字段如activity fragmentManager
     override fun attachKitContext(context: QLiveUIKitContext) {}
     //绑定房间客户端 通过client可以获取业务实现
     override fun attachLiveClient(client: QLiveClient) {}
-    //进入回调
-    override fun onEntering(liveId: String, user: QLiveUser) { }
-    // 加入回调
+    //进入回调 在这个阶段可以提前根据liveId提前初始化一些UI
+    override fun onEntering(liveID: String, user: QLiveUser) { }
+    
+    //加入回调 房间加入成功阶段 已经拿到了QLiveRoomInfo
     override fun onJoined(roomInfo: QLiveRoomInfo) {
-        //设置房间公告文本
+        //设置房间公告文本 公告组件从roomInfo中字段取出
        tvNotice.setText("房间公告："+roomInfo.notice)
     }
     //离开回调
@@ -117,15 +107,16 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
     }
     // 销毁
     override fun onDestroyed() { }
-    //安卓activity生命周期
+    //安卓activity生命周期 安卓页面 onresume onpause等等
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {}
 }
-
+//自定义UI可以参考原来的实现修改成自定义实现
 ```
 
 替换原来内置的UI组件
 
 ```kotlin
+//获取房间页面
 val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
 //替换公告
 roomPage.roomNoticeView.replace(CustomNoticeView::class.java)
@@ -133,6 +124,7 @@ roomPage.roomNoticeView.replace(CustomNoticeView::class.java)
 roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
 //.....每个组件都可以替换
 
+//获取房间列表页面
 val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
 //替换房间列表页面的创建按钮
 roomListPage.createRoomButton.replace(CustomCreateRoomButton::class.java)
@@ -170,7 +162,6 @@ roomPage.innerCoverView.replace(CustomView::class.java)
 
 
 ### 修改布局
-
 
 方法1 无侵入式修改
 

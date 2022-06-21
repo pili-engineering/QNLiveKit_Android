@@ -52,11 +52,13 @@ dependencies {
         compileOnly project(':liveroom-core')
         compileOnly project(':service:roomservice')
         compileOnly project(':liveroom-coreimpl')
+        compileOnly project(':service:chatservice')
     }else {
         api project(':liveroom-libs:comp_player')
         implementation project(':liveroom-core')
         implementation project(':service:roomservice')
         implementation project(':liveroom-coreimpl')
+        compileOnly project(':service:chatservice')
     }
 
     testImplementation 'junit:junit:4.13.2'

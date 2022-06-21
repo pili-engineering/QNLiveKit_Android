@@ -39,7 +39,8 @@ class QNIMAdapter : RtmAdapter {
         val isC2c: Boolean
     )
 
-    private val mMsgCallMap: HashMap<Long, com.qlive.qnim.QNIMAdapter.MsgCallTemp> = HashMap<Long, com.qlive.qnim.QNIMAdapter.MsgCallTemp>()
+    private val mMsgCallMap: HashMap<Long, com.qlive.qnim.QNIMAdapter.MsgCallTemp> =
+        HashMap<Long, com.qlive.qnim.QNIMAdapter.MsgCallTemp>()
     private var c2cMessageReceiver: (msg: String, fromID: String, toID: String) -> Unit =
         { _, _, _ -> }
     private var channelMsgReceiver: (msg: String, fromID: String, toID: String) -> Unit =
@@ -70,13 +71,13 @@ class QNIMAdapter : RtmAdapter {
         }
 
         override fun onReceive(list: BMXMessageList) {
-           //收到消息
+            //收到消息
             if (list.isEmpty) {
                 return
             }
             for (i in 0 until list.size().toInt()) {
                 list[i]?.let { message ->
-                   //目标ID
+                    //目标ID
                     val targetId = message.toId().toString()
                     val from = message.fromId().toString()
                     val msgContent = if (message.contentType() == BMXMessage.ContentType.Text
@@ -149,22 +150,14 @@ class QNIMAdapter : RtmAdapter {
     }
 
     suspend fun loginSuspend(uid: String, loginImUid: String, name: String, pwd: String) =
-        suspendCoroutine<Boolean> { continuation ->
+        suspendCoroutine<BMXErrorCode> { continuation ->
             loginUid = uid
             this.loginImUid = loginImUid
-
             QNIMClient.getUserManager().signInByName(name, pwd) { p0 ->
                 if (p0 == BMXErrorCode.NoError) {
                     isLogin = true
-                    continuation.resume(true)
-                } else {
-                    continuation.resumeWithException(
-                        com.qlive.qnim.ImLoginException(
-                            p0!!.swigValue(),
-                            "im登录失败 ${p0?.name}"
-                        )
-                    )
                 }
+                continuation.resume(p0)
             }
         }
 

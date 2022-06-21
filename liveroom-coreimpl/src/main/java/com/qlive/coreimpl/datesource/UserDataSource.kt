@@ -14,6 +14,7 @@ import com.qlive.coreimpl.util.getCode
 import com.qlive.coreimpl.model.InnerUser
 import com.qlive.coreimpl.util.backGround
 import com.qlive.qnim.QNIMManager
+import im.floo.floolib.BMXErrorCode
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -111,14 +112,18 @@ class UserDataSource {
                 val user = OKHttpService.get("/client/user/profile", null, InnerUser::class.java)
                 val appConfig = OKHttpService.get("/client/app/config", null, AppConfig::class.java)
                 QNIMManager.init(appConfig.im_app_id, context)
-                QNIMManager.mRtmAdapter.loginSuspend(
+                val code =QNIMManager.mRtmAdapter.loginSuspend(
                     user.userId,
                     user.imUid,
                     user.im_username,
                     user.im_password
                 )
-                loginUser = user
-                callBack.onSuccess(loginUser)
+                if(code==BMXErrorCode.NoError){
+                    loginUser = user
+                    callBack.onSuccess(loginUser)
+                }else{
+                    callBack.onError(code.swigValue(), code.name)
+                }
             }
             catchError {
                 callBack.onError(it.getCode(), it.message)

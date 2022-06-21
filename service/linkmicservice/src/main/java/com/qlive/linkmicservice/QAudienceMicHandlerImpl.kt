@@ -211,7 +211,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                     user?.userId ?: "",
                     JsonUtils.toJson(linker)
                 )
-                mPlayer?.pause()
+                mPlayer?.onLinkStatusChange(true)
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -265,7 +265,8 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                 mQLinkMicListeners.forEach {
                     it.onRoleChange(false)
                 }
-                mPlayer?.resume()
+                mPlayer?.onLinkStatusChange(false)
+                mMicListJob.start(true)
                 callBack?.onSuccess(null)
             }
             catchError {

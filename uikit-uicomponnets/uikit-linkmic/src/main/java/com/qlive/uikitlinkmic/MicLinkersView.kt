@@ -256,23 +256,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
     }
 
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            if (client?.clientType == QClientType.PUSHER) {
-                client?.getService(QLinkMicService::class.java)?.anchorHostMicHandler?.setMixStreamAdapter(
-                    null
-                )
-            } else {
-                client?.getService(QLinkMicService::class.java)?.audienceMicHandler?.removeLinkMicListener(
-                    mQAudienceMicHandler
-                )
-            }
-            client?.getService(QLinkMicService::class.java)
-                ?.removeMicLinkerListener(mQLinkMicServiceListener)
-        }
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onLeft() {
         super.onLeft()

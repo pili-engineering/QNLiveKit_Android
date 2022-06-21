@@ -16,6 +16,12 @@ open class RoomScheduler : QClientLifeCycleListener {
     private var anchorStatus = 1
     var roomStatusChange: (status: QLiveStatus) -> Unit = {}
     private val roomDataSource = RoomDataSource()
+
+    fun setAnchorStatus(newStatus :Int){
+        anchorStatus = newStatus
+        roomStatusChange.invoke(anchorStatus.anchorStatusToLiveStatus())
+    }
+
     private val mHeartBeatJob = Scheduler(8000) {
         if (roomInfo == null) {
             return@Scheduler

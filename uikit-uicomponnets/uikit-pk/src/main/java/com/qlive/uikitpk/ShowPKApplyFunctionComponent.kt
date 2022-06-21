@@ -8,6 +8,7 @@ import com.qlive.core.*
 import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
@@ -24,6 +25,21 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(pkInvitation: QInvitation) {
+            //连麦中无法pk
+            if(((client?.getService(QLinkMicService::class.java)?.allLinker?.size?:0)>1)){
+                client!!.getService(QPKService::class.java)
+                    .invitationHandler.reject(pkInvitation.invitationID, null,
+                        object :
+                            QLiveCallBack<Void> {
+                            override fun onError(code: Int, msg: String?) {
+                                // msg?.asToast()
+                            }
+
+                            override fun onSuccess(data: Void?) {
+                            }
+                        })
+                return
+            }
             if(client?.getService(QPKService::class.java)?.currentPKingSession()!=null){
                 client!!.getService(QPKService::class.java)
                     .invitationHandler.reject(pkInvitation.invitationID, null,

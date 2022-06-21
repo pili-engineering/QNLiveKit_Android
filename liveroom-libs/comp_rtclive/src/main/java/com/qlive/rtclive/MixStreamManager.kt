@@ -142,7 +142,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     private fun createMergeJob() {
         Log.d("MixStreamHelperImp", "createMergeJob ")
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID = streamId+ "?serialnum=${serialnum++}"; // 设置 stream id，该 id 为合流任务的唯一标识符
+            streamID =streamId // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
@@ -240,7 +240,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             stopMixStreamJob()
         }
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID = streamId+ "?serialnum=${serialnum++}"; // 设置 stream id，该 id 为合流任务的唯一标识符
+            streamID =streamId // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "startNewMixStreamJob${url} ")
             width = QMixStreamParams.mixStreamWidth; // 设置合流画布的宽度

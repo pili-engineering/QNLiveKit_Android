@@ -17,7 +17,7 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     val mIMediaPlayer: PLMediaPlayer by lazy {
         val m = PLMediaPlayer(context,
             AVOptions().apply {
-                //setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
+                setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
                 setInteger(AVOptions.KEY_FAST_OPEN, 1);
                 setInteger(AVOptions.KEY_OPEN_RETRY_TIMES, 5);
                 setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
@@ -77,12 +77,23 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     }
 
     override fun release() {
-        mPlayerEventListener=null
+        mPlayerEventListener = null
         mIMediaPlayer.release()
         if (mRenderView is QPlayerTextureRenderView) {
             (mRenderView as QPlayerTextureRenderView).stopPlayback()
         }
         mSurface = null
+    }
+
+    //切换rtc模式为了下麦快速恢复保持链接
+    override fun onLinkStatusChange(isLink: Boolean) {
+        if (isLink) {
+          //  mIMediaPlayer.setSurface(null)
+            mIMediaPlayer.setVolume(0f, 0f)
+        } else {
+          //  mIMediaPlayer.setSurface(mSurface)
+            mIMediaPlayer.setVolume(1f, 1f)
+        }
     }
 
     override fun setUp(uir: String, headers: Map<String, String>?) {

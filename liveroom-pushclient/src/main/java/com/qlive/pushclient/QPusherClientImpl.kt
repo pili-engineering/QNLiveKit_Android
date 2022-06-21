@@ -6,6 +6,8 @@ import com.qlive.rtm.leaveChannel
 import com.qlive.rtclive.*
 import com.qiniu.droid.rtc.*
 import com.qlive.avparam.*
+import com.qlive.chatservice.QChatRoomService
+import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.coreimpl.util.backGround
@@ -48,7 +50,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
             )
         }
     }
-    private val mQNLiveRoomContext by lazy {
+    private val mLiveContext by lazy {
         QNLiveRoomContext(this).apply {
             mRoomScheduler.roomStatusChange = {
                 mLiveStatusListener?.onLiveStatusChanged(it)
@@ -64,12 +66,31 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
      * @return
     </T> */
     override fun <T : QLiveService> getService(serviceClass: Class<T>): T? {
-        return mQNLiveRoomContext.getService(serviceClass)
+        return mLiveContext.getService(serviceClass)
     }
 
     override fun setLiveStatusListener(liveStatusListener: QLiveStatusListener?) {
         mLiveStatusListener = liveStatusListener
     }
+    init {
+        getService(QChatRoomService::class.java)?.addServiceListener(object :
+            QChatRoomServiceListener {
+            override fun onUserLeft(memberID: String) {
+                super.onUserLeft(memberID)
+                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
+                    mLiveContext.mRoomScheduler.setAnchorStatus(0)
+                }
+            }
+
+            override fun onUserJoin(memberID: String) {
+                super.onUserJoin(memberID)
+                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
+                    mLiveContext.mRoomScheduler.setAnchorStatus(1)
+                }
+            }
+        })
+    }
+
 
     /**
      * 加入房间
@@ -79,7 +100,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     override fun joinRoom(roomId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
-                mQNLiveRoomContext.enter(roomId, UserDataSource.loginUser)
+                mLiveContext.enter(roomId, UserDataSource.loginUser)
                 //业务接口发布房间
                 val roomInfo = mRoomSource.pubRoom(roomId)
                 //加群
@@ -108,7 +129,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
                 mRtcRoom.publishLocal()
                 //开始单路转推
                 mRtcRoom.mMixStreamManager.startForwardJob()
-                mQNLiveRoomContext.joinedRoom(roomInfo)
+                mLiveContext.joinedRoom(roomInfo)
 
                 callBack?.onSuccess(roomInfo)
             }
@@ -122,12 +143,12 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     override fun closeRoom(callBack: QLiveCallBack<Void>?) {
         backGround {
             doWork {
-                mRoomSource.unPubRoom(mQNLiveRoomContext.roomInfo?.liveID ?: "")
+                mRoomSource.unPubRoom(mLiveContext.roomInfo?.liveID ?: "")
                 if (RtmManager.isInit) {
-                    RtmManager.rtmClient.leaveChannel(mQNLiveRoomContext.roomInfo?.chatID ?: "")
+                    RtmManager.rtmClient.leaveChannel(mLiveContext.roomInfo?.chatID ?: "")
                 }
                 mRtcRoom.leave()
-                mQNLiveRoomContext.leaveRoom()
+                mLiveContext.leaveRoom()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -139,7 +160,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     override fun destroy() {
         mLiveStatusListener=null
         mRtcRoom.close()
-        mQNLiveRoomContext.destroy()
+        mLiveContext.destroy()
     }
 
     override fun setConnectionStatusLister(connectionStatusLister: QConnectionStatusLister?) {

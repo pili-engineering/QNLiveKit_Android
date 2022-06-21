@@ -48,7 +48,7 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
         LayoutInflater.from(context).inflate(R.layout.kit_view_custom_empty, this);
         setVisibility(GONE);
 
-       // setBackgroundColor(-1);
+        // setBackgroundColor(-1);
         setOnClickListener(this);
         img = findViewById(R.id.img);
         emptyText = findViewById(R.id.empty_text);
@@ -93,7 +93,7 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
     public void setStatus(int i) {
 
         final boolean disconnected = !NetUtil.isNetworkAvailable(getContext());
-        if(refreshingView!=null){
+        if (refreshingView != null) {
             refreshingView.setVisibility(GONE);
         }
         switch (i) {
@@ -140,7 +140,7 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
 
     private void refreshEmptyView() {
         emptyText.setText(TextUtils.isEmpty(strNoDataContent) ?
-                "牛儿有泪不轻弹，这就哭一个给你看" : strNoDataContent);
+                "" : strNoDataContent);
 
     }
 
@@ -169,7 +169,7 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
     public void onClick(View v) {
         if (clickEnable) {
             if (mErrorState == NETWORK_ERROR) {
-             //   Toast.makeText(AppCache.getContext(), "TODO, Network Settings", Toast.LENGTH_LONG);
+                //   Toast.makeText(AppCache.getContext(), "TODO, Network Settings", Toast.LENGTH_LONG);
 //                SystemSettingsUtils.launchWirelessSettings(getContext(), true);
                 return;
             }
