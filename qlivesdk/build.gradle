@@ -39,7 +39,7 @@ fataar {
 def version = 'qlive-sdk-1.0.0'
 task makeAAR(type: Copy) {
     from('build/outputs/aar/')
-    into('build/aarFloder/')
+    into('../app-sdk/qlive-sdk/')
     include('qlivesdk-release.aar')
     rename ('qlivesdk-release', version)
 }
@@ -81,6 +81,7 @@ dependencies {
         api project(':service:chatservice')
         api project(':service:danmakuservice')
         api project(':service:publicchatservice')
+        api project(':service:roomservice')
 
         api project(':liveroom-core')
         implementation project(':liveroom-coreimpl')

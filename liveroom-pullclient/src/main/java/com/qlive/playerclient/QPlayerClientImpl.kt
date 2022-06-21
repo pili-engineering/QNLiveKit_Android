@@ -25,8 +25,10 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
             return QPlayerClientImpl()
         }
     }
-
-    private val mMediaPlayer by lazy { QMediaPlayer(AppCache.appContext) }
+    private val mQPlayerEventListenerWarp = QPlayerEventListenerWarp()
+    private val mMediaPlayer by lazy { QMediaPlayer(AppCache.appContext).apply {
+        setEventListener(mQPlayerEventListenerWarp)
+    } }
     private val mRoomSource = RoomDataSource()
     private var mPlayerRenderView: QPlayerRenderView? = null
     private var mLiveStatusListener: QLiveStatusListener? = null
@@ -104,7 +106,7 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
 
     override fun destroy() {
         mLiveStatusListener=null
-
+        mQPlayerEventListenerWarp.clear()
         mMediaPlayer.release()
         mLiveContext.destroy()
     }
@@ -118,8 +120,12 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
         }
     }
 
-    override fun setPlayerEventListener(playerEventListener: QPlayerEventListener) {
-        mMediaPlayer.setPlayerEventListener(playerEventListener)
+    override fun addPlayerEventListener(playerEventListener: QPlayerEventListener) {
+        mQPlayerEventListenerWarp.addEventListener(playerEventListener)
+    }
+
+    override fun removePlayerEventListener(playerEventListener: QPlayerEventListener) {
+        mQPlayerEventListenerWarp.removeEventListener(playerEventListener)
     }
 
     override fun getClientType(): QClientType {

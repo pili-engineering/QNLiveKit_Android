@@ -87,8 +87,6 @@ open class QPlayerTextureRenderView : FrameLayout, QPlayerRenderView {
         this.scaleX = if (mirror) -1.0f else 1.0f
     }
 
-
-
     private inner class PLTextureRenderView : TextureView {
 
         constructor(context: Context) : this(context, null)

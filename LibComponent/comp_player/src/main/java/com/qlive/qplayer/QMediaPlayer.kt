@@ -121,7 +121,7 @@ class QMediaPlayer(val context: Context) : QIPlayer {
         mIMediaPlayer.start()
     }
 
-    fun setPlayerEventListener(listener: QPlayerEventListener) {
+    fun setEventListener(listener: QPlayerEventListener) {
         this.mPlayerEventListener = listener
     }
 

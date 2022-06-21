@@ -41,7 +41,7 @@ fataar {
 def version = 'qlive-uikit-1.0.0'
 task makeAAR(type: Copy) {
     from('build/outputs/aar/')
-    into('build/aarFloder/')
+    into('../app-sdk/qlive-sdk-uikit/')
     include('liveroom-uikit-release.aar')
     rename('liveroom-uikit-release', version)
 }

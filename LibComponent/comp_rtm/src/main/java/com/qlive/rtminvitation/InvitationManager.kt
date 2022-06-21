@@ -32,7 +32,7 @@ object InvitationManager {
                     JsonUtils.parseObject(msg.optData(), InvitationMsg::class.java)
 
                 val invitation = invitationMsgModel?.invitation ?: return true
-                val invitationName = invitationMsgModel?.invitationName
+                val invitationName = invitationMsgModel.invitationName
 
 //                if(invitation?.receiver == RtmManager.rtmClient.getLoginUserId()
 //                    || invitation?.initiatorUid == RtmManager.rtmClient.getLoginUserId()
@@ -40,6 +40,10 @@ object InvitationManager {
 //                    ||invitation?.receiver == RtmManager.rtmClient.getLoginUserIMUId()
 //                    || invitation?.initiatorUid == RtmManager.rtmClient.getLoginUserIMUId()
 //                ){
+                //ios没传
+                if(invitation.flag<=0){
+                    invitation.flag = (Math.random()*100000).toInt()
+                }
                 mInvitationProcessor.forEach {
                     if (it.invitationName == invitationName) {
                         when (action) {

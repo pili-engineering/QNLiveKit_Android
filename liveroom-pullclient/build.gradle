@@ -39,7 +39,7 @@ fataar {
 def version = 'qlive-pullclient-1.0.0'
 task makeAAR(type: Copy) {
     from('build/outputs/aar/')
-    into('build/aarFloder/')
+    into('../app-sdk/qlive-sdk-pullclinet/')
     include('liveroom-pullclient-release.aar')
     rename ('liveroom-pullclient-release', version)
 }
@@ -54,8 +54,8 @@ dependencies {
         compileOnly project(':liveroom-coreimpl')
     }else {
         api project(':LibComponent:comp_player')
-        api project(':liveroom-core')
-        api project(':service:roomservice')
+        implementation project(':liveroom-core')
+        implementation project(':service:roomservice')
         implementation project(':liveroom-coreimpl')
     }
 

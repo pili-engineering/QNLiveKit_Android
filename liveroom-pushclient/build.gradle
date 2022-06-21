@@ -38,7 +38,7 @@ fataar {
 def version = 'qlive-pushclient-1.0.0'
 task makeAAR(type: Copy) {
     from('build/outputs/aar/')
-    into('build/aarFloder/')
+    into('../app-sdk/qlive-sdk-pushclinet/')
     include('liveroom-pushclient-release.aar')
     rename ('liveroom-pushclient-release', version)
 }
@@ -51,6 +51,7 @@ dependencies {
         compileOnly project(':liveroom-core')
         compileOnly project(':service:roomservice')
         compileOnly project(':liveroom-coreimpl')
+        api project(':LibComponent:comp_rtclive')
     }else {
         api project(':liveroom-core')
         api project(':LibComponent:comp_rtclive')

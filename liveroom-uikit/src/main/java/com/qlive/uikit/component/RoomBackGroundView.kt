@@ -37,14 +37,12 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
         }
 
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
-            Glide.with(context!!).load(roomInfo?.coverURL)
-                .into(ivBg)
+//            Glide.with(context!!).load(roomInfo?.coverURL)
+//                .into(ivBg)
         }
-
         override fun onStartTimeOut(pkSession: QPKSession) {}
         override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
     }
-
 
     override fun getLayoutId(): Int {
 

@@ -17,6 +17,7 @@ import com.qlive.pkservice.QPKServiceListener
 import com.qlive.core.been.QPKSession
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QClientType
+import com.qlive.core.QPlayerClient
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
@@ -41,7 +42,7 @@ class PKPreView : QBaseRoomFrameLayout {
         return -1
     }
 
-    private var childView: QBaseRoomFrameLayout?=null
+    private var childView: QBaseRoomFrameLayout? = null
     override fun initView() {
         val view = if (client?.clientType == QClientType.PLAYER) {
             PKAudiencePreview(context)
@@ -60,16 +61,16 @@ class PKPreView : QBaseRoomFrameLayout {
      * @param user 进入房间的用户
      * @param liveId 房间ID
      */
-    override fun onEntering(roomId: String, user: QLiveUser){
+    override fun onEntering(roomId: String, user: QLiveUser) {
         super.onEntering(roomId, user)
-        childView?.onEntering(roomId,user)
+        childView?.onEntering(roomId, user)
     }
 
     /**
      * 加入回调
      * @param roomInfo 房间信息
      */
-    override fun onJoined(roomInfo: QLiveRoomInfo){
+    override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
         childView?.onJoined(roomInfo)
     }
@@ -77,7 +78,7 @@ class PKPreView : QBaseRoomFrameLayout {
     /**
      * 用户离开回调
      */
-    override fun onLeft(){
+    override fun onLeft() {
         super.onLeft()
         childView?.onLeft()
     }
@@ -85,7 +86,7 @@ class PKPreView : QBaseRoomFrameLayout {
     /**
      * 销毁
      */
-    override fun onDestroyed(){
+    override fun onDestroyed() {
         super.onDestroyed()
         childView?.onDestroyed()
     }
@@ -102,24 +103,30 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
+    private var isPKingPreview = false
     private val mQPKServiceListener = object :
         QPKServiceListener {
 
         override fun onStart(pkSession: QPKSession) {
+            isPKingPreview=true
             addView()
         }
 
-        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
-            removeView()
-        }
-
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {}
         override fun onStartTimeOut(pkSession: QPKSession) {}
-
-
         override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
     }
 
+    private var mQPlayerEventListener = object : QPlayerEventListener {
+
+        override fun onVideoSizeChanged(width: Int, height: Int) {
+            if (width < height && isPKingPreview) {
+                removeView()
+                isPKingPreview=false
+            }
+        }
+    }
     private var originParent: ViewGroup? = null
     private var originIndex = 0
     private fun addView() {
@@ -135,13 +142,11 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
                 ViewGroup.LayoutParams.MATCH_PARENT,
             )
         )
-        (player as QPlayerRenderView)
-
     }
 
     private fun removeView() {
-        val rendView =  kitContext?.getPlayerRenderViewCall?.invoke()
-        val player =rendView?.getView() ?: return
+        val rendView = kitContext?.getPlayerRenderViewCall?.invoke()
+        val player = rendView?.getView() ?: return
         llPKContainer.removeView(player)
         originParent?.addView(
             player,
@@ -160,6 +165,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
 
     override fun initView() {
         client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
+        (client as QPlayerClient).addPlayerEventListener(mQPlayerEventListener)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -305,7 +311,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         pkScaleX = (flMeContainer.width / localRenderView!!.width.toFloat())
         pkScaleY = flMeContainer.height / (localRenderView!!.height.toFloat())
         localRenderView!!.pivotX = 0f
-        localRenderView!!.pivotY = localRenderView!!.height/2f
+        localRenderView!!.pivotY = localRenderView!!.height / 2f
 
         val scaleX = ObjectAnimator.ofFloat(
             localRenderView!!,
@@ -327,7 +333,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             localRenderView!!,
             "translationY",
             0f,
-           - (localRenderView!!.height / 2f - (flMeContainer.height / 2f + llPKContainer.y))
+            -(localRenderView!!.height / 2f - (flMeContainer.height / 2f + llPKContainer.y))
         )
 
         AnimatorSet().apply {
