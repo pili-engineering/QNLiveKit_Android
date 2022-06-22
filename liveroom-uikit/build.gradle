@@ -33,7 +33,7 @@ android {
 
 
 //编译sdk模式
-def buidSdk = false
+def buidSdk =false
 fataar {
     transitive = true
 }
@@ -50,10 +50,7 @@ fataar {
 dependencies {
 
     if (buidSdk) {
-        compileOnly project(':liveroom-pullclient')
-        compileOnly project(':liveroom-pushclient')
-        api project(':qlivesdk')
-
+        compileOnly project(':qlivesdk')
         embed project(':liveroom-uikit-core')
         embed project(':uikit-uicomponnets:uikit-user')
         embed project(':uikit-uicomponnets:uikit-danmaku')
@@ -64,6 +61,9 @@ dependencies {
         embed project(':uikit-uicomponnets:uiwidget-input')
         embed project(':uikit-uicomponnets:uiwidget-Emoji')
 
+        compileOnly project(':app-sdk:depends_sdk_qrtc')
+        compileOnly project(':app-sdk:depends_sdk_pilipalyer') //七牛播放器
+        implementation depend.appcompat()
     } else {
         api project(':liveroom-uikit-core')
         api project(':uikit-uicomponnets:uikit-user')
@@ -72,10 +72,8 @@ dependencies {
         api project(':uikit-uicomponnets:uikit-livepreview')
         api project(':uikit-uicomponnets:uikit-linkmic')
         api project(':uikit-uicomponnets:uikit-pk')
-
-        compileOnly project(':qlivesdk')
-        compileOnly project(':liveroom-pullclient')
-        compileOnly project(':liveroom-pushclient')
+        compileOnly project(':app-sdk:depends_sdk_qrtc')
+        compileOnly project(':app-sdk:depends_sdk_pilipalyer') //七牛播放器
     }
 
     testImplementation 'junit:junit:4.13.2'

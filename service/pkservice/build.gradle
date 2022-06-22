@@ -32,6 +32,7 @@ dependencies {
 
     api project(':liveroom-core')
     compileOnly project(':liveroom-libs:comp_rtclive')
+    compileOnly project(':app-sdk:depends_sdk_qrtc')
     implementation project(':liveroom-coreimpl')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

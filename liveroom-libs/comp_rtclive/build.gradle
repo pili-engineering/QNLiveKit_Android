@@ -33,7 +33,7 @@ android {
 dependencies {
 
     api project(':liveroom-libs:comp_avparam')
-    api files('libs/qndroid-rtc-4.0.1.jar')
+    compileOnly project(':app-sdk:depends_sdk_qrtc')
     implementation 'com.qiniu:happy-dns:0.2.17'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

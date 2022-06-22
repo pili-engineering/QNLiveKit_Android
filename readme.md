@@ -12,13 +12,16 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 ```
 //使用 sdk方式依赖
  //无UIsdk
+implementation project(':app-sdk:depends_sdk_qnim')  //七牛imsdk 必选 
+implementation project(':app-sdk:depends_sdk_qrtc')  //七牛rtc 主播推流必选  观众要连麦必选连麦
+implementation project(':app-sdk:depends_sdk_pilipalyer') //七牛播放器 观众拉流端必选
+
 implementation project(':app-sdk:qlive-sdk') //必选
+
 implementation 'com.qiniu:happy-dns:0.2.17' // 七牛dns 必选
 implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上 必选
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' //kotlin协程 必选
- //主播观众端都需要则依赖以下两个包
-implementation project(':app-sdk:qlive-sdk-pullclinet') //拉流端sdk 如果需要观众端 
-implementation project(':app-sdk:qlive-sdk-pushclinet') //推流端sdk 如果需要主播端
+
 
 
 //以下为 UIkit 的依赖包 不使用UIkit则不需要

@@ -31,8 +31,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    api project(':liveroom-libs:sdk_qnim')
+    compileOnly project(':app-sdk:depends_sdk_qnim')
     api project(':liveroom-libs:comp_rtm')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
