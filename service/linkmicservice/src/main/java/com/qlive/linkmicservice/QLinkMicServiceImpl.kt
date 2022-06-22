@@ -48,7 +48,6 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
     private val mRtmMsgListener = object : RtmMsgListener {
         override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
             when (msg.optAction()) {
-
                 liveroom_miclinker_join -> {
                     if (mMicLinkContext.getMicLinker(user?.userId ?: "xasdaasda!#!@#") != null) {
                         return true

@@ -13,6 +13,7 @@ class MicLinkContext {
     var hostLeftCall = {
 
     }
+
     val mQLinkMicServiceListeners = LinkedList<QLinkMicServiceListener>()
     fun removeLinker(uid: String): QMicLinker? {
         getMicLinker(uid)?.let {
@@ -49,7 +50,15 @@ class MicLinkContext {
     val mExtQNClientEventListener = object : DefaultExtQNClientEventListener {
         //
         override fun onUserJoined(p0: String, p1: String?) {
-            val micLinker = JsonUtils.parseObject(p1, QMicLinker::class.java) ?: return
+
+            val micLinker = JsonUtils.parseObject(p1, QMicLinker::class.java)
+            if (micLinker == null) {
+                //pk开始
+                if (p0 != allLinker[0].user?.userId) {
+                  //  downMicCall.invoke()
+                }
+                return
+            }
             val it = getMicLinker(p0)
             addLinker(micLinker)
             if (it == null) {

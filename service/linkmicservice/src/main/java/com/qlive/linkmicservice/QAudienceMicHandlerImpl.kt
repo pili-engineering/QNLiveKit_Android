@@ -37,6 +37,12 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                 stopLink(null)
             }
         }
+//        context.downMicCall = {
+//            if (isLinked()) {
+//                QLiveLogUtil.LogE("pk下麦")
+//                stopLink(null)
+//            }
+//        }
     }
 
     private val mLinkDateSource = LinkDateSource()
@@ -237,7 +243,11 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         backGround {
             doWork {
                 Log.d("QNAudience", "下麦 ")
-                mLinkDateSource.downMic(mMeLinker!!)
+                try {
+                    mLinkDateSource.downMic(mMeLinker!!)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
                 val mode = UidMode().apply {
                     uid = user?.userId
                 }

@@ -10,8 +10,6 @@ import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qiniu.droid.rtc.*
 import com.qlive.jsonutil.JsonUtils
-import com.qlive.avparam.CameraMergeOption
-import com.qlive.avparam.MicrophoneMergeOption
 import com.qlive.avparam.QPushRenderView
 import com.qlive.core.*
 import com.qlive.core.QLiveLogUtil
@@ -309,6 +307,7 @@ class QPKServiceImpl : QPKService, BaseService() {
             )
             val ops = mQPKMixStreamAdapter?.onPKLinkerJoin(mPKSession!!)
             ops?.forEach {
+                mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.put(it.uid, it)
                 mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
@@ -322,8 +321,6 @@ class QPKServiceImpl : QPKService, BaseService() {
             }
             mQRtcLiveRoom.mMixStreamManager.commitOpt()
         } else {
-
-
             if (mQRtcLiveRoom.mMixStreamManager
                     .roomUser == 1
             ) {
@@ -336,8 +333,8 @@ class QPKServiceImpl : QPKService, BaseService() {
                 return
             }
             mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
-
             ops.forEach {
+                mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.put(it.uid, it)
                 mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,

@@ -34,7 +34,7 @@ def buidSdk = false
 fataar {
     transitive = true
 }
-
+//
 //def version = 'qlive-pushclient-1.0.0'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')

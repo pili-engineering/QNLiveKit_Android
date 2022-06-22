@@ -56,6 +56,9 @@ fun View.setDoubleCheckClickListener(call: (view: View) -> Unit) {
 }
 
 fun String.asToast(context: Context?){
+    if(this.isEmpty()){
+        return
+    }
     if(context==null){
         return
     }

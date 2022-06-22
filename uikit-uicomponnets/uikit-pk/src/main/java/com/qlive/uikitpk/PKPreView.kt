@@ -90,7 +90,6 @@ class PKPreView : QBaseRoomFrameLayout {
         super.onDestroyed()
         childView?.onDestroyed()
     }
-
 }
 
 //观众端pk预览
@@ -108,8 +107,6 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         QPKServiceListener {
 
         override fun onStart(pkSession: QPKSession) {
-            isPKingPreview=true
-            addView()
         }
 
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {}
@@ -123,13 +120,16 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         override fun onVideoSizeChanged(width: Int, height: Int) {
             if (width < height && isPKingPreview) {
                 removeView()
-                isPKingPreview=false
+            } else if (!isPKingPreview && width > height) {
+                addView()
             }
         }
     }
+
     private var originParent: ViewGroup? = null
     private var originIndex = 0
     private fun addView() {
+        isPKingPreview = true
         val player = kitContext?.getPlayerRenderViewCall?.invoke()?.getView() ?: return
         val parent = player.parent as ViewGroup
         originParent = parent
@@ -145,6 +145,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 
     private fun removeView() {
+        isPKingPreview = false
         val rendView = kitContext?.getPlayerRenderViewCall?.invoke()
         val player = rendView?.getView() ?: return
         llPKContainer.removeView(player)
@@ -176,6 +177,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     }
 }
 
+
 //主播端预览
 class PKAnchorPreview : QBaseRoomFrameLayout {
     constructor(context: Context) : this(context, null)
@@ -191,60 +193,25 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         QPKMixStreamAdapter {
 
         override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
-            val ops = ArrayList<QMergeOption>()
-            val peer = if (pkSession.initiator.userId == user?.userId) {
-                pkSession.receiver
-            } else {
-                pkSession.initiator
-            }
-            ops.add(QMergeOption().apply {
-                uid = user!!.userId
-                cameraMergeOption = CameraMergeOption().apply {
-                    isNeed = true
-                    x = 0
-                    y = 0
-                    z = 0
-                    width = PKUIHelper.mixWidth / 2
-                    height = PKUIHelper.mixHeight
-                    // mStretchMode=QNRenderMode.
-                }
-                microphoneMergeOption = MicrophoneMergeOption().apply {
-                    isNeed = true
-                }
-            })
-            ops.add(QMergeOption().apply {
-                uid = peer.userId
-                cameraMergeOption = CameraMergeOption().apply {
-                    isNeed = true
-                    x = PKUIHelper.mixWidth / 2
-                    y = 0
-                    z = 0
-                    width = PKUIHelper.mixWidth / 2
-                    height = PKUIHelper.mixHeight
-                    // mStretchMode=QNRenderMode.
-                }
-                microphoneMergeOption = MicrophoneMergeOption().apply {
-                    isNeed = true
-                }
-            })
-            return ops
+            return LinkerUIHelper.getPKMixOp(pkSession, user!!)
         }
 
         override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
             return QMixStreamParams().apply {
-                mixStreamWidth = PKUIHelper.mixWidth
-                mixStringHeight = PKUIHelper.mixHeight
+                mixStreamWidth = LinkerUIHelper.pkMixWidth
+                mixStringHeight = LinkerUIHelper.pkMixHeight
                 mixBitrate = 1500 * 1000
                 FPS = 25
             }
         }
 
         override fun onPKLinkerLeft(): MutableList<QMergeOption> {
+            //pk结束
             val ops = ArrayList<QMergeOption>()
-            client?.getService(QLinkMicService::class.java)
-                ?.allLinker?.let {
-                    ops.addAll(LinkerUIHelper.getLinkers(it.map { it.user }, roomInfo!!))
-                }
+//            client?.getService(QLinkMicService::class.java)
+//                ?.allLinker?.let {
+//                    ops.addAll(LinkerUIHelper.getLinkersMixOp(it, roomInfo!!))
+//                }
             return ops
         }
     }

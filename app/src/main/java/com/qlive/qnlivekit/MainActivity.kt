@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     private var user: com.qlive.qnlivekit.BZUser? = null
 
-    val demo_url = "https://niucube-api.qiniu.com"
-    //  val demo_url="http://10.200.20.28:5080"
+    //val demo_url = "https://niucube-api.qiniu.com"
+      val demo_url="http://10.200.20.28:5080"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

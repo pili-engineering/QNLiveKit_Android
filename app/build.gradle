@@ -31,7 +31,7 @@ android {
     }
 }
 
-def userAARSDK = false
+def userAARSDK = true
 dependencies {
 
     if (userAARSDK) {

@@ -21,6 +21,7 @@ import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.QComponent
 import com.qlive.uikitcore.ext.ViewUtil
+import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.bg
 import com.qlive.uikitcore.refresh.CommonEmptyView
 import kotlinx.android.synthetic.main.kit_roomlist_item_room.view.*
@@ -85,7 +86,7 @@ class RoomListView : FrameLayout, QComponent {
             RoomPage.joinRoom(context.currentActivity, item, object :
                 QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
-                    Toast.makeText(kitContext?.androidContext, msg, Toast.LENGTH_SHORT).show()
+                    msg?.asToast(kitContext?.androidContext)
                 }
 
                 override fun onSuccess(data: QLiveRoomInfo?) {

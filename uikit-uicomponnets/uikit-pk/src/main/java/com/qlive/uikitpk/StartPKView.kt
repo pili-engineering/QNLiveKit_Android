@@ -10,6 +10,7 @@ import com.qlive.core.been.QExtension
 import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QPKSession
+import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
@@ -104,6 +105,10 @@ class StartPKView : QBaseRoomFrameLayout {
                     }
                 })
             } else {
+                if ((client?.getService(QLinkMicService::class.java)?.allLinker?.size ?: 0) > 1) {
+                    "当前正在连麦中".asToast(context)
+                    return@setDoubleCheckClickListener
+                }
                 showingPKListDialog = PKAbleListDialog()
                 showingPKListDialog?.setInviteCall {
                     showInvite(it)

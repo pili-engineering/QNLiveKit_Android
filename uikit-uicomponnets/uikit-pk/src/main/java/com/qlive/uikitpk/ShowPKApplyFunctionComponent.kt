@@ -18,15 +18,28 @@ import com.qlive.uikitcore.ext.asToast
 
 class ShowPKApplyFunctionComponent : QLiveComponent {
 
-     var client: QLiveClient? = null
-     var roomInfo: QLiveRoomInfo? = null
-     var user: QLiveUser? = null
-     var kitContext: QLiveUIKitContext ? = null
+    var client: QLiveClient? = null
+    var roomInfo: QLiveRoomInfo? = null
+    var user: QLiveUser? = null
+    var kitContext: QLiveUIKitContext? = null
+
+    private var isShowTip = false
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(pkInvitation: QInvitation) {
-            //连麦中无法pk
-            if(((client?.getService(QLinkMicService::class.java)?.allLinker?.size?:0)>1)){
+
+            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
+                if(!isShowTip){
+                    CommonTipDialog.TipBuild()
+                        .setTittle("提示")
+                        .setContent("${pkInvitation.initiator.nick} 邀请你PK，连麦中无法PK已为你自动拒绝～")
+                        .setPositiveText("我知道了")
+                        .isNeedCancelBtn(false)
+                        .build()
+                        .show(kitContext!!.fragmentManager, "")
+                    isShowTip = true
+                }
+
                 client!!.getService(QPKService::class.java)
                     .invitationHandler.reject(pkInvitation.invitationID, null,
                         object :
@@ -40,7 +53,8 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
                         })
                 return
             }
-            if(client?.getService(QPKService::class.java)?.currentPKingSession()!=null){
+
+            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
                 client!!.getService(QPKService::class.java)
                     .invitationHandler.reject(pkInvitation.invitationID, null,
                         object :
@@ -57,7 +71,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
 
             CommonTipDialog.TipBuild()
                 .setTittle("PK邀请")
-                .setContent("${pkInvitation.receiver.nick} 邀请你PK，是否接受")
+                .setContent("${pkInvitation.initiator.nick} 邀请你PK，是否接受")
                 .setNegativeText("拒绝")
                 .setPositiveText("接受")
                 .setListener(object : FinalDialogFragment.BaseDialogListener() {

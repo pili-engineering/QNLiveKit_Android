@@ -9,6 +9,7 @@ import com.qlive.core.been.QInvitation
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
+import com.qlive.pkservice.QPKService
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
@@ -94,7 +95,10 @@ class StartLinkView : QBaseRoomFrameLayout {
                 )
                 return@setOnClickListener
             }
-
+            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
+                "主播pk中".asToast(context)
+                return@setOnClickListener
+            }
             LinkApplyDialog().apply {
                 mDefaultListener = object : FinalDialogFragment.BaseDialogListener() {
                     override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {

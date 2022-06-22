@@ -10,6 +10,8 @@
     android:paddingEnd="8dp"
     android:paddingBottom="16dp"
     android:textColor="#ffffff"
-    android:textSize="13sp">
+    android:textSize="13sp"
+    android:layout_marginBottom="2dp"
+    >
 
 </TextView>

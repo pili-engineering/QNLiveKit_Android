@@ -5,6 +5,8 @@ import com.qlive.avparam.MicrophoneMergeOption
 import com.qlive.avparam.QMergeOption
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.core.been.QMicLinker
+import com.qlive.core.been.QPKSession
 
 /**
  * 混流参数
@@ -28,25 +30,29 @@ object LinkerUIHelper {
      * 混流第一个麦位上间距
      */
     var mixTopMargin = 174
+
     /**
      * 混流参数 每个麦位间距
      */
     var micBottomMixMargin = 15
+
     /**
      * 混流参数 每个麦位右间距
      */
-    var micRightMixMargin = 30*3
+    var micRightMixMargin = 30 * 3
 
 
     var uiMicWidth = 0
     var uiMicHeight = 0
     var uiTopMargin = 0
+
     /**
      * 混流换算成屏幕 每个麦位的间距
      */
     var micBottomUIMargin = 0
 
     var micRightUIMargin = 0;
+
     //页面宽高
     var containerWidth = 0
     var containerHeight = 0
@@ -81,15 +87,19 @@ object LinkerUIHelper {
         }
     }
 
-    fun getLinkers(micLinkers : List<QLiveUser>, roomInfo: QLiveRoomInfo): ArrayList<QMergeOption> {
+    fun getLinkersMixOp(
+        micLinkers: List<QMicLinker>,
+        roomInfo: QLiveRoomInfo
+    ): ArrayList<QMergeOption> {
+
         val ops = ArrayList<QMergeOption>()
-        var lastX =
+        val lastX =
             mixWidth - mixMicWidth - micRightMixMargin
         var lastY = mixTopMargin
-        micLinkers.forEach {
-            if (it.userId == roomInfo.anchor?.userId) {
+        micLinkers.forEach { linker ->
+            if (linker.user.userId == roomInfo.anchor?.userId) {
                 ops.add(QMergeOption().apply {
-                    uid = it.userId
+                    uid = linker.user.userId
                     cameraMergeOption = CameraMergeOption().apply {
                         isNeed = true
                         x = 0
@@ -105,9 +115,9 @@ object LinkerUIHelper {
                 })
             } else {
                 ops.add(QMergeOption().apply {
-                    uid = it.userId
+                    uid = linker.user.userId
                     cameraMergeOption = CameraMergeOption().apply {
-                        isNeed = true
+                        isNeed = linker.isOpenCamera
                         x = lastX
                         y = lastY
                         z = 1
@@ -122,8 +132,51 @@ object LinkerUIHelper {
                 })
             }
         }
-       return ops
+        return ops
+    }
 
+    var isPKing = false
+    val pkMixWidth = 720
+    val pkMixHeight = 419
+
+    fun getPKMixOp(pkSession: QPKSession, user: QLiveUser): ArrayList<QMergeOption> {
+        val ops = ArrayList<QMergeOption>()
+        val peer = if (pkSession.initiator.userId == user.userId) {
+            pkSession.receiver
+        } else {
+            pkSession.initiator
+        }
+        ops.add(QMergeOption().apply {
+            uid = user.userId
+            cameraMergeOption = CameraMergeOption().apply {
+                isNeed = true
+                x = 0
+                y = 0
+                z = 0
+                width = pkMixWidth / 2
+                height = pkMixHeight
+                // mStretchMode=QNRenderMode.
+            }
+            microphoneMergeOption = MicrophoneMergeOption().apply {
+                isNeed = true
+            }
+        })
+        ops.add(QMergeOption().apply {
+            uid = peer.userId
+            cameraMergeOption = CameraMergeOption().apply {
+                isNeed = true
+                x = pkMixWidth / 2
+                y = 0
+                z = 0
+                width = pkMixWidth / 2
+                height = pkMixHeight
+                // mStretchMode=QNRenderMode.
+            }
+            microphoneMergeOption = MicrophoneMergeOption().apply {
+                isNeed = true
+            }
+        })
+        return ops
     }
 
 }

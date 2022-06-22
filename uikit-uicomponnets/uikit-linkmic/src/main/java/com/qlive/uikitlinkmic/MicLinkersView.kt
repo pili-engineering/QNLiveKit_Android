@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -22,6 +20,7 @@ import com.qlive.core.been.QMicLinker
 import com.qlive.core.*
 import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
+import com.qlive.pkservice.QPKService
 import com.qlive.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 
@@ -51,37 +50,37 @@ class MicLinkersView : QBaseRoomFrameLayout {
         }
 
     init {
-
         //连麦混流参数  拉流端看到混流的位置 和上麦后麦位位置如果需要大致匹配 需要经过屏幕尺寸的换算
         //demo实现的混流方式是 混流到右上角
         /**
          * 混流每个麦位宽大小
          */
-        LinkerUIHelper. mixMicWidth = 184
+        LinkerUIHelper.mixMicWidth = 184
 
         /**
          * 混流每个麦位高
          */
-        LinkerUIHelper. mixMicHeight = 184
+        LinkerUIHelper.mixMicHeight = 184
 
         /**
          * 混流第一个麦位上间距
          */
-        LinkerUIHelper. mixTopMargin = 174
+        LinkerUIHelper.mixTopMargin = 174
         /**
          * 混流参数 每个麦位间距
          */
-        LinkerUIHelper. micBottomMixMargin = 15
+        LinkerUIHelper.micBottomMixMargin = 15
         /**
          * 混流参数 每个麦位右间距
          */
-        LinkerUIHelper. micRightMixMargin = 30*3
+        LinkerUIHelper.micRightMixMargin = 30 * 3
     }
 
     private fun init() {
         //绑定屏幕尺寸开始换算
         LinkerUIHelper.attachUIWidth(flLinkContent.width, flLinkContent.height)
 
+        //麦位覆盖
         val rcLp: FrameLayout.LayoutParams =
             recyLinker.layoutParams as FrameLayout.LayoutParams
         rcLp.topMargin = LinkerUIHelper.uiTopMargin
@@ -92,7 +91,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
 
         mLinkerAdapter.bindToRecyclerView(recyLinker)
     }
-
 
     //麦位监听
     private val mQLinkMicServiceListener = object :
@@ -172,9 +170,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
     //连麦混流适配器
     private val mQMixStreamAdapter =
         QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
-
-            //混流 返回每个麦位的混流位置
-            LinkerUIHelper.getLinkers(micLinkers.map { it.user }, roomInfo!!)
+            LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
         }
 
     override fun getLayoutId(): Int {
@@ -219,7 +215,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
         if (micLinker.user.userId != roomInfo?.anchor?.userId) {
             Log.d("LinkerSlot", "  添加窗口用户")
             mMicSeatView.addItemView(micLinker, linkService)
-
         } else {
             Log.d("LinkerSlot", "  添加窗口房主")
             flAnchorSurfaceCotiner.visibility = View.VISIBLE
@@ -254,7 +249,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
         }
         return -1
     }
-
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onLeft() {

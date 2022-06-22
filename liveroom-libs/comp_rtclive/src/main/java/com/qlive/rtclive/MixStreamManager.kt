@@ -1,20 +1,16 @@
 package com.qlive.rtclive
 
-import android.text.TextUtils
 import android.util.Log
 import com.qlive.rtclive.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
-import com.qlive.avparam.CameraMergeOption
-import com.qlive.avparam.MicrophoneMergeOption
-import com.qlive.avparam.QMixStreamParams
-import com.qlive.avparam.TrackMergeOption
+import com.qlive.avparam.*
 
 enum class MixType(var isStart: Boolean) {
     mix(false), forward(false), pk(false)
 }
 
 class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
-
+    val lastUserMergeOp = HashMap<String, QMergeOption>()
     private var localVideoTrack: QNLocalVideoTrack? = null
     private var localAudioTrack: QNLocalAudioTrack? = null
     var mQMixStreamParams: QMixStreamParams? = null
@@ -161,7 +157,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     private fun createMergeJob() {
         Log.d("MixStreamHelperImp", "createMergeJob ")
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID = streamId // 设置 stream id，该 id 为合流任务的唯一标识符
+            streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
@@ -198,6 +194,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
      * 启动前台转推 默认实现推本地轨道
      */
     fun startForwardJob() {
+        lastUserMergeOp.clear()
         mMixType = MixType.forward
         mMixType.isStart = false
         createForwardJob()
@@ -244,7 +241,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         mMixType = MixType.pk
         mMixType.isStart = false
         mPKMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID = streamId // 设置 stream id，该 id 为合流任务的唯一标识符
+            streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "startNewMixStreamJob${url} ")
             width = QMixStreamParams.mixStreamWidth; // 设置合流画布的宽度
@@ -338,19 +335,19 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     }
 
     fun commitOpt() {
-        Log.d(
-            "MixStreamHelperImp",
-            "commitOpt fab发布混流参数  mMixType${mMixType.name} ${mMixType.isStart}\n " +
-                    "${toDoAudioMergeOptionsMap.size}\n" +
-                    "${toDoAudioMergeOptionsMap.size}\n" +
-                    "${tracksMap.size}\n" +
-                    ""
-        )
+//        Log.d(
+//            "MixStreamHelperImp",
+//            "commitOpt fab发布混流参数  mMixType${mMixType.name} ${mMixType.isStart}\n " +
+//                    "${toDoAudioMergeOptionsMap.size}\n" +
+//                    "${toDoAudioMergeOptionsMap.size}\n" +
+//                    "${tracksMap.size}\n" +
+//                    ""
+//        )
         if (mMixType != MixType.forward && mMixType.isStart) {
-            Log.d(
-                "MixStreamHelperImp",
-                "commitOpt fab发布混流参数  开始"
-            )
+//            Log.d(
+//                "MixStreamHelperImp",
+//                "commitOpt fab发布混流参数  开始"
+//            )
             val mMergeTrackOptions = ArrayList<QNTranscodingLiveStreamingTrack>()
             val sb = StringBuffer("")
             tracksMap.entries.forEach {
@@ -377,11 +374,10 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
                     sb.append(opTrack.toJsonObject().toString())
                 }
             }
-
-            Log.d(
-                "MixStreamHelperImp",
-                "commitOpt fab发布混流参数  ")
-
+//            Log.d(
+//                "MixStreamHelperImp",
+//                "commitOpt fab发布混流参数  ${sb.toString()}"
+//            )
             val id = if (mMixType == MixType.mix) {
                 mQNMergeJob?.streamID ?: ""
             } else {

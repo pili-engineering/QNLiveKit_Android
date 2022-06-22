@@ -3,8 +3,6 @@ package com.qlive.linkmicservice
 import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qlive.avparam.CameraMergeOption
-import com.qlive.avparam.MicrophoneMergeOption
-import com.qlive.avparam.QMergeOption
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QExtension
@@ -17,15 +15,17 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
     private var mQMixStreamAdapter: QAnchorHostMicHandler.QMixStreamAdapter? = null
     private val mQLinkMicServiceListener = object :
         QLinkMicServiceListener {
-        private val mOps = HashMap<String, QMergeOption>()
+
         override fun onLinkerJoin(micLinker: QMicLinker) {
-            if (context.mQRtcLiveRoom.mMixStreamManager.mMixType != MixType.mix) {
+            if (context.mQRtcLiveRoom.mMixStreamManager.mMixType == MixType.forward) {
                 context.mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
             }
             val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, true)
-            mOps.clear()
+            if (ops?.isEmpty() == true) {
+                return
+            }
             ops?.forEach {
-                mOps.put(it.uid, it)
+                context.mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.put(it.uid, it)
                 context.mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
@@ -41,6 +41,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
         }
 
         override fun onLinkerLeft(micLinker: QMicLinker) {
+
             if (context.mQRtcLiveRoom.mMixStreamManager
                     .roomUser == 0
             ) {
@@ -48,9 +49,11 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
                 return
             }
             val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, false)
-            mOps.clear()
+            if (ops?.isEmpty() == true) {
+                return
+            }
             ops?.forEach {
-                mOps.put(it.uid, it)
+                context.mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.put(it.uid, it)
                 context.mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
@@ -67,12 +70,13 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
 
         override fun onLinkerMicrophoneStatusChange(micLinker: QMicLinker) {}
         override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
+
             if (micLinker.isOpenCamera) {
                 //打开了
-                mOps.get(micLinker.user.userId)?.cameraMergeOption?.let {
+                context.mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.get(micLinker.user.userId)?.cameraMergeOption?.let {
                     context.mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
                         micLinker.user.userId,
-                        it,
+                        it.apply { it.isNeed = true },
                         true
                     )
                 }
@@ -108,7 +112,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
     }
 
     override fun onDestroyed() {
-        mQMixStreamAdapter=null
+        mQMixStreamAdapter = null
         super.onDestroyed()
     }
 

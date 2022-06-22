@@ -29,20 +29,6 @@ class ShowLinkMicApplyComponent : QLiveComponent {
 
     private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
-            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
-                client!!.getService(QLinkMicService::class.java)
-                    .invitationHandler.reject(qInvitation.invitationID, null,
-                        object :
-                            QLiveCallBack<Void> {
-                            override fun onError(code: Int, msg: String?) {
-                                // msg?.asToast()
-                            }
-
-                            override fun onSuccess(data: Void?) {
-                            }
-                        })
-                return
-            }
             CommonTipDialog.TipBuild()
                 .setTittle("连麦申请")
                 .setContent(" ${qInvitation.initiator.nick} 申请连麦是否同意，是否接受")
@@ -132,7 +118,6 @@ class ShowLinkMicApplyComponent : QLiveComponent {
      * 当前房间已经离开回调 - 我是观众-离开 我是主播对应关闭房间
      */
     override fun onLeft() {
-
     }
 
     /**
