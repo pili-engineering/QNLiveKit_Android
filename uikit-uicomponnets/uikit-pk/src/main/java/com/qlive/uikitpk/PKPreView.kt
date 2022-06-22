@@ -15,9 +15,8 @@ import com.qlive.pkservice.QPKService
 import com.qlive.pkservice.QPKMixStreamAdapter
 import com.qlive.pkservice.QPKServiceListener
 import com.qlive.core.been.QPKSession
-import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QClientType
-import com.qlive.core.QPlayerClient
+import com.qlive.playerclient.QPlayerClient
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser

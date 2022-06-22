@@ -169,7 +169,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
         cameraParam?.let { mCameraParams = it }
         this.mLocalPreView = renderView
         mRtcRoom.enableCamera(cameraParam ?: QCameraParam())
-        mRtcRoom.setLocalPreView(mLocalPreView as QNRenderView)
+        mRtcRoom.setLocalPreView(mLocalPreView!!.getQNRender())
     }
 
     override fun enableMicrophone(microphoneParams: QMicrophoneParam?) {

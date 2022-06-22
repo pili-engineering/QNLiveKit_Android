@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.qiniu.droid.rtc.QNTextureView
 import com.qlive.linkmicservice.QAnchorHostMicHandler
 import com.qlive.linkmicservice.QAudienceMicHandler
 import com.qlive.linkmicservice.QLinkMicService
@@ -21,6 +20,7 @@ import com.qlive.core.*
 import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
 import com.qlive.pkservice.QPKService
+import com.qlive.rtclive.QPushTextureView
 import com.qlive.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 
@@ -219,7 +219,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
             Log.d("LinkerSlot", "  添加窗口房主")
             flAnchorSurfaceCotiner.visibility = View.VISIBLE
             flAnchorSurfaceCotiner.addView(
-                QNTextureView(context).apply {
+                QPushTextureView(context).apply {
                     linkService.setUserPreview(micLinker.user?.userId ?: "", this)
                 },
                 ViewGroup.LayoutParams(

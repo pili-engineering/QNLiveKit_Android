@@ -2,7 +2,7 @@ package com.qlive.linkmicservice
 
 import com.qlive.rtm.*
 import com.qlive.rtm.msg.RtmTextMsg
-import com.qiniu.droid.rtc.QNRenderView
+import com.qlive.rtclive.QPushRenderView
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.coreimpl.*
 import com.qlive.core.*
@@ -137,8 +137,8 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      * @param uid
      * @param preview
      */
-    override fun setUserPreview(uid: String, preview: QNRenderView) {
-        mMicLinkContext.mQRtcLiveRoom.setUserCameraWindowView(uid, preview)
+    override fun setUserPreview(uid: String, preview: QPushRenderView) {
+        mMicLinkContext.mQRtcLiveRoom.setUserCameraWindowView(uid, preview.getQNRender())
     }
 
     /**

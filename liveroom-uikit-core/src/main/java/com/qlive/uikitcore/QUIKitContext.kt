@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.qlive.avparam.QPlayerRenderView
-import com.qlive.avparam.QPushRenderView
+import com.qlive.rtclive.QPushRenderView
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.core.QLiveCallBack
 

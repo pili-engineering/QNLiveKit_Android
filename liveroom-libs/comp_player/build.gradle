@@ -33,7 +33,7 @@ android {
 
 dependencies {
 
-    compileOnly project(':app-sdk:depends_sdk_pilipalyer') //七牛播放器
+    compileOnly project(':app-sdk:depends_sdk_piliplayer') //七牛播放器
     api project(':liveroom-libs:comp_avparam')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

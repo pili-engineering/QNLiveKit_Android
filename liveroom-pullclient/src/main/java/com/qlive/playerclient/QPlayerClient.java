@@ -1,8 +1,10 @@
-package com.qlive.core;
+package com.qlive.playerclient;
 
 
 import com.qlive.avparam.QPlayerEventListener;
 import com.qlive.avparam.QPlayerRenderView;
+import com.qlive.core.QLiveCallBack;
+import com.qlive.core.QLiveClient;
 import com.qlive.core.been.QLiveRoomInfo;
 
 import org.jetbrains.annotations.NotNull;

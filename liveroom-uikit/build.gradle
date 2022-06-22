@@ -33,11 +33,11 @@ android {
 
 
 //编译sdk模式
-def buidSdk =false
+def buidSdk = false
 fataar {
     transitive = true
 }
-
+//
 //def version = 'qlive-uikit-1.0.0'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')
@@ -60,9 +60,6 @@ dependencies {
         embed project(':uikit-uicomponnets:uikit-pk')
         embed project(':uikit-uicomponnets:uiwidget-input')
         embed project(':uikit-uicomponnets:uiwidget-Emoji')
-
-        compileOnly project(':app-sdk:depends_sdk_qrtc')
-        compileOnly project(':app-sdk:depends_sdk_pilipalyer') //七牛播放器
         implementation depend.appcompat()
     } else {
         api project(':liveroom-uikit-core')
@@ -72,8 +69,7 @@ dependencies {
         api project(':uikit-uicomponnets:uikit-livepreview')
         api project(':uikit-uicomponnets:uikit-linkmic')
         api project(':uikit-uicomponnets:uikit-pk')
-        compileOnly project(':app-sdk:depends_sdk_qrtc')
-        compileOnly project(':app-sdk:depends_sdk_pilipalyer') //七牛播放器
+
     }
 
     testImplementation 'junit:junit:4.13.2'

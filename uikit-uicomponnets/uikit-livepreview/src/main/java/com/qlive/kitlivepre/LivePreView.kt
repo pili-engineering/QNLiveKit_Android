@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.qlive.core.*
-import com.qlive.core.QPusherClient
+import com.qlive.pushclient.QPusherClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.core.been.QCreateRoomParam

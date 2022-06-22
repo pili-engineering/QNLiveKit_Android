@@ -10,7 +10,7 @@ import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qiniu.droid.rtc.*
 import com.qlive.jsonutil.JsonUtils
-import com.qlive.avparam.QPushRenderView
+import com.qlive.rtclive.QPushRenderView
 import com.qlive.core.*
 import com.qlive.core.QLiveLogUtil
 import com.qlive.core.QClientType
@@ -601,7 +601,7 @@ class QPKServiceImpl : QPKService, BaseService() {
         } else {
             mPKSession!!.initiator.userId
         }
-        room.setUserCameraWindowView(peer, view as QNRenderView)
+        room.setUserCameraWindowView(peer, view.getQNRender())
     }
 
     /**
@@ -616,7 +616,11 @@ class QPKServiceImpl : QPKService, BaseService() {
      * 当前正在pk信息 没有PK则空
      */
     override fun currentPKingSession(): QPKSession? {
-        return mPKSession
+        if (client?.clientType == QClientType.PLAYER) {
+            return mAudiencePKSynchro.mPKSession
+        } else {
+            return mPKSession
+        }
     }
 
     /**

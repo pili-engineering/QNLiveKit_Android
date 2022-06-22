@@ -1,6 +1,6 @@
 package com.qlive.linkmicservice;
 
-import com.qiniu.droid.rtc.QNRenderView;
+import com.qlive.rtclive.QPushRenderView;
 import com.qlive.core.QInvitationHandler;
 import com.qlive.core.been.QExtension;
 import com.qlive.core.QLiveCallBack;
@@ -28,7 +28,7 @@ public interface QLinkMicService extends QLiveService {
      * @param uid
      * @param preview
      */
-    void setUserPreview(String uid, QNRenderView preview);
+    void setUserPreview(String uid, QPushRenderView preview);
 
     /**
      * 踢人

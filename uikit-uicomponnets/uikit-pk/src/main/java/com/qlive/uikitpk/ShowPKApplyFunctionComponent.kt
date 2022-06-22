@@ -28,7 +28,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
     private val mPKInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(pkInvitation: QInvitation) {
 
-            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
+            if ((client?.getService(QLinkMicService::class.java)?.allLinker ?.size?:0)>1) {
                 if(!isShowTip){
                     CommonTipDialog.TipBuild()
                         .setTittle("提示")

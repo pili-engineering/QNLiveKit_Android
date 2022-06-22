@@ -29,7 +29,7 @@ class AudiencePKSynchro() : BaseService() {
             doWork {
                 if (currentRoomInfo?.pkID?.isEmpty() == false) {
                     //当前房间在PK
-                    val info = mPKDateSource.getPkInfo(currentRoomInfo?.liveID ?: "")
+                    val info = mPKDateSource.getPkInfo(currentRoomInfo?.pkID ?: "")
                     if (info.status == PKStatus.RelaySessionStatusStopped.intValue && mPKSession != null) {
                         currentRoomInfo?.pkID = ""
                         mListenersCall?.invoke()?.forEach {
@@ -42,7 +42,7 @@ class AudiencePKSynchro() : BaseService() {
                         .refreshRoomInfo(currentRoomInfo!!.liveID)
                     if (!reFreshRoom.pkID.isEmpty() && mPKSession == null) {
 
-                        val info = mPKDateSource.getPkInfo(reFreshRoom.liveID ?: "")
+                        val info = mPKDateSource.getPkInfo(reFreshRoom.pkID ?: "")
                         if (info.status == PKStatus.RelaySessionStatusSuccess.intValue) {
 
                             val recever = mUserSource.searchUserByUserId(info.recvUserId)
