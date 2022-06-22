@@ -301,90 +301,90 @@ QLive.getRooms().createRoom(..）
 修改UIkit源码
 
 ### 无UI
-
 ```java
 无UI
 //初始化
-        QLive.init(context ,new QTokenGetter(){
-        //业务请求token
-        void getTokenInfo( QLiveCallBack<String> callback){
+QLive.init(context ,new QTokenGetter(){
+   //业务请求token
+    void getTokenInfo( QLiveCallBack<String> callback){
         GetTokenApi.getToken(callback);
-        }
+     }
+   
+ },new QLiveCallBack<Void>{});
 
-        },new QLiveCallBack<Void>{});
-
-        Map extension = new HashMap()
-        extension.put("vip","1"); //自定义vip等级
-        extension.put("level","22");//扩展用户等级
+Map extension = new HashMap()
+extension.put("vip","1"); //自定义vip等级
+extension.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-        QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
+QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
 
 //创建房间
-        QRooms rooms = QLive.getRooms();
-        QCreateRoomParam param = new QCreateRoomParam();
-        param.setTitle("xxxtitle");
-        rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
-        void onSuccess(QLiveRoomInfo roomInfo){}
-        void onError(int code, String msg) {}
-        });
+QRooms rooms = QLive.getRooms();
+QCreateRoomParam param = new QCreateRoomParam();
+param.setTitle("xxxtitle");
+rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
+    void onSuccess(QLiveRoomInfo roomInfo){}
+    void onError(int code, String msg) {}
+});
 
 // 主播推流
 //创建推流client
-        QPusherClient client = QLive.createPusherClient();
-
-        QMicrophoneParam microphoneParams = new QMicrophoneParam();
-        microphoneParam.setSampleRate(48000);
+ QPusherClient client = QLive.createPusherClient();
+ 
+QMicrophoneParam microphoneParams = new QMicrophoneParam();
+microphoneParam.setSampleRate(48000);
 //启动麦克风模块
-        client.enableMicrophone(microphoneParam);
+client.enableMicrophone(microphoneParam);
 
-        QCameraParam cameraParam = new QCameraParam()
-        cameraParam.setFPS(15)
+QCameraParam cameraParam = new QCameraParam()
+cameraParam.setFPS(15)
 //启动摄像头模块
-        client.enableCamera(cameraParam,findViewById(R.id.renderView));
+client.enableCamera(cameraParam,findViewById(R.id.renderView));
 
 //注册房间端监听
-        client.setLiveStatusListener(new: QLiveStatusListener{})
+client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
-        client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
-        void onSuccess(QLiveRoomInfo roomInfo){}
-        void onError(int code, String msg) {}
-        });
+client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
+     void onSuccess(QLiveRoomInfo roomInfo){}
+     void onError(int code, String msg) {}
+});
 
 //关闭
-        client.closeRoom(new QLiveCallBack<Void> {
-        void onSuccess(Void) {}
-        void onError(int code, String msg) {}
-        });
+client.closeRoom(new QLiveCallBack<Void> {
+     void onSuccess(Void) {}
+     void onError(int code, String msg) {}
+ });
 //销毁
-        client.destroy();
+client.destroy();
 
 
 
 //用户拉流房间
-        QPlayerClient client = QLive.createPlayerClient();
+QPlayerClient client = QLive.createPlayerClient();
 
 //注册房间端监听
-        client.setLiveStatusListener(new: QLiveStatusListener{})
+client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
-        client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
-        override void onSuccess(QLiveRoomInfo roomInfo){}
-        override void onError(int code, String msg) {}
-        });
+client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
+     override void onSuccess(QLiveRoomInfo roomInfo){}
+     override void onError(int code, String msg) {}
+ });
 
 //播放
-        client.play(findViewById(R.id.renderView));
+client.play(findViewById(R.id.renderView));
 
 //离开房间
-        client.leaveRoom(new QLiveCallBack<Void> {
-        void onSuccess(Void) {}
-        void onError(int code, String msg) {}
-        });
+client.leaveRoom(new QLiveCallBack<Void> {
+    void onSuccess(Void) {}
+    void onError(int code, String msg) {}
+});
 //销毁
-        client.destroy(); 
+client.destroy(); 
 ```
+
 
 #接口说明
 ## 初始化
