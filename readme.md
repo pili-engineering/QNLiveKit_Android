@@ -2,6 +2,40 @@
 
 qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只需几行代码快速接入互动连麦pk直播。
 
+```                  
+                                                   
+                              +---------------+     +---> RoomListPage //房间列表UI实现页面
+                              |               |     |
+                          +---+   QLiveUIKIT  +--- -+
+                          |   |               |     |
+                          |   +---------------+     +---> RoomPage    //直播间页面UI实现
+                          |       uikit sdk   
+                          | 
+                          |                        
+                          |                         
+                          |                         +---> createRoom  //创建房间接口
+                          |   +---------------+     |
++----------------------+  |   |               |     +---> listRoom    //房间列表接口
+|                      |  +---+     QRooms    +-----+
+|      QLive           |  |   |   房间管理接口  |     +---> deleteRoom  //删除房间接口
+|                      |  |   +---------------+     |
++----------------------+  |                         +---> getRoomInfo //获取房间信息接口
+                          |
+                          | 
+                          | 
+                          |                         +--->  QChatRoomService //聊天室服务 
+                          |   +----------------+    |
+                          |   |                |    +--->  QLinkMicService  //连麦业务服务
+                          +---+   QLiveClient   +---+
+                              |                |    +--->  QPKService       //pk业务服务
+                              +----------------+    |
+                                 推拉流房间客户端      +--->  QPublicChatService //房间里公屏消息服务       
+                                   无UI版本sdk       |
+                                                    +--->  QRoomService     //房间频道业务 
+                                                    |    
+                                                    +--->  QDanmakuService  //弹幕服务 
+
+```    
 
 ## sdk接入
 
@@ -11,12 +45,16 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 2 参考dome工程的build.gradle文件 配置aar
 ```
 //使用 sdk方式依赖
- //无UIsdk
-implementation project(':app-sdk:depends_sdk_qnim')  //七牛imsdk 必选  
-implementation project(':app-sdk:depends_sdk_qrtc')  //七牛rtc 主播推流必选  观众要连麦必选连麦
-implementation project(':app-sdk:depends_sdk_piliplayer') //七牛播放器 观众拉流端必选
 
-implementation project(':app-sdk:qlive-sdk') //必选
+//七牛imsdk 必选
+implementation project(':app-sdk:depends_sdk_qnim')  //其他版本下载地址-(https://github.com/pili-engineering/QNDroidIMSDK/tree/main/app/libs)
+//七牛rtc 主播推流必选  观众要连麦必选
+implementation project(':app-sdk:depends_sdk_qrtc')  //其他版本下载地址-(https://github.com/pili-engineering/QNDroidIMSDK/tree/main/app/libs)
+//七牛播放器  观众拉流端必选 
+implementation project(':app-sdk:depends_sdk_piliplayer') //其他版本下载地址-(https://developer.qiniu.com/pili/1210/the-android-client-sdk)
+
+//低代码无ui sdk 必选
+implementation project(':app-sdk:qlive-sdk') 
 
 implementation 'com.qiniu:happy-dns:0.2.17' // 七牛dns 必选
 implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上 必选
@@ -54,20 +92,20 @@ UIkit也可以直接使用源码模块-可直接修改代码
 QLive.init(context ,new QTokenGetter(){
         //业务请求token
         void getTokenInfo( QLiveCallBack<String> callback){
-            GetTokenApi.getToken(callback);
+        GetTokenApi.getToken(callback);
         }
         },new QLiveCallBack<Void>{});
 
-Map ext = new HashMap()
-ext.put("vip","1"); //自定义vip等级
-ext.put("level","22");//扩展用户等级
+        Map ext = new HashMap()
+        ext.put("vip","1"); //自定义vip等级
+        ext.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+        QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
 
-QliveUIKit liveUIKit = QLive.getLiveUIKit()
+        QliveUIKit liveUIKit = QLive.getLiveUIKit()
 //跳转到直播列表页面
-liveUIKit.launch(context);
+        liveUIKit.launch(context);
 
 ```
 
@@ -79,7 +117,7 @@ liveUIKit.launch(context);
 ```kotlin
 
 class CustomNoticeView :FrameLayout, QLiveComponent {
-    
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -97,11 +135,11 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
     override fun attachLiveClient(client: QLiveClient) {}
     //进入回调 在这个阶段可以提前根据liveId提前初始化一些UI
     override fun onEntering(liveID: String, user: QLiveUser) { }
-    
+
     //加入回调 房间加入成功阶段 已经拿到了QLiveRoomInfo
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         //设置房间公告文本 公告组件从roomInfo中字段取出
-       tvNotice.setText("房间公告："+roomInfo.notice)
+        tvNotice.setText("房间公告："+roomInfo.notice)
     }
     //离开回调
     override fun onLeft() {
@@ -152,7 +190,7 @@ roomPage.bottomFucBar.isEnable = false
 
 ```kotlin
 class CustomView :FrameLayout, QLiveComponent {
-   //  实现自己额外的多个UI布局
+    //  实现自己额外的多个UI布局
 }
 
 //在房间内置UI上层添加自己的多个额外的UI组件
@@ -266,85 +304,85 @@ QLive.getRooms().createRoom(..）
 ```java
 无UI
 //初始化
-QLive.init(context ,new QTokenGetter(){
-   //业务请求token
-    void getTokenInfo( QLiveCallBack<String> callback){
+        QLive.init(context ,new QTokenGetter(){
+        //业务请求token
+        void getTokenInfo( QLiveCallBack<String> callback){
         GetTokenApi.getToken(callback);
-     }
-   
- },new QLiveCallBack<Void>{});
+        }
 
-Map extension = new HashMap()
-extension.put("vip","1"); //自定义vip等级
-extension.put("level","22");//扩展用户等级
+        },new QLiveCallBack<Void>{});
+
+        Map extension = new HashMap()
+        extension.put("vip","1"); //自定义vip等级
+        extension.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
+        QLive.setUser(new QUserInfo( "your avatar","your nickname", extension) ,new QLiveCallBack<Void>{});
 
 //创建房间
-QRooms rooms = QLive.getRooms();
-QCreateRoomParam param = new QCreateRoomParam();
-param.setTitle("xxxtitle");
-rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
-    void onSuccess(QLiveRoomInfo roomInfo){}
-    void onError(int code, String msg) {}
-});
+        QRooms rooms = QLive.getRooms();
+        QCreateRoomParam param = new QCreateRoomParam();
+        param.setTitle("xxxtitle");
+        rooms.createRoom( param, new QLiveCallBack<QLiveRoomInfo>{
+        void onSuccess(QLiveRoomInfo roomInfo){}
+        void onError(int code, String msg) {}
+        });
 
 // 主播推流
 //创建推流client
- QPusherClient client = QLive.createPusherClient();
- 
-QMicrophoneParam microphoneParams = new QMicrophoneParam();
-microphoneParam.setSampleRate(48000);
-//启动麦克风模块
-client.enableMicrophone(microphoneParam);
+        QPusherClient client = QLive.createPusherClient();
 
-QCameraParam cameraParam = new QCameraParam()
-cameraParam.setFPS(15)
+        QMicrophoneParam microphoneParams = new QMicrophoneParam();
+        microphoneParam.setSampleRate(48000);
+//启动麦克风模块
+        client.enableMicrophone(microphoneParam);
+
+        QCameraParam cameraParam = new QCameraParam()
+        cameraParam.setFPS(15)
 //启动摄像头模块
-client.enableCamera(cameraParam,findViewById(R.id.renderView));
+        client.enableCamera(cameraParam,findViewById(R.id.renderView));
 
 //注册房间端监听
-client.setLiveStatusListener(new: QLiveStatusListener{})
+        client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
-client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
-     void onSuccess(QLiveRoomInfo roomInfo){}
-     void onError(int code, String msg) {}
-});
+        client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
+        void onSuccess(QLiveRoomInfo roomInfo){}
+        void onError(int code, String msg) {}
+        });
 
 //关闭
-client.closeRoom(new QLiveCallBack<Void> {
-     void onSuccess(Void) {}
-     void onError(int code, String msg) {}
- });
+        client.closeRoom(new QLiveCallBack<Void> {
+        void onSuccess(Void) {}
+        void onError(int code, String msg) {}
+        });
 //销毁
-client.destroy();
+        client.destroy();
 
 
 
 //用户拉流房间
-QPlayerClient client = QLive.createPlayerClient();
+        QPlayerClient client = QLive.createPlayerClient();
 
 //注册房间端监听
-client.setLiveStatusListener(new: QLiveStatusListener{})
+        client.setLiveStatusListener(new: QLiveStatusListener{})
 
 //加入房间
-client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
-     override void onSuccess(QLiveRoomInfo roomInfo){}
-     override void onError(int code, String msg) {}
- });
+        client.joinRoom( roomID, new QLiveCallBack<QLiveRoomInfo> {
+        override void onSuccess(QLiveRoomInfo roomInfo){}
+        override void onError(int code, String msg) {}
+        });
 
 //播放
-client.play(findViewById(R.id.renderView));
+        client.play(findViewById(R.id.renderView));
 
 //离开房间
-client.leaveRoom(new QLiveCallBack<Void> {
-    void onSuccess(Void) {}
-    void onError(int code, String msg) {}
-});
+        client.leaveRoom(new QLiveCallBack<Void> {
+        void onSuccess(Void) {}
+        void onError(int code, String msg) {}
+        });
 //销毁
-client.destroy(); 
+        client.destroy(); 
 ```
 
 #接口说明
