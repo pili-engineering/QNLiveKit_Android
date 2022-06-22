@@ -2,6 +2,7 @@
 
 qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只需几行代码快速接入互动连麦pk直播。
 
+
 ```                  
                                                    
                               +---------------+     +---> RoomListPage //房间列表UI实现页面
@@ -17,9 +18,9 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
                           |   +---------------+     |
 +----------------------+  |   |               |     +---> listRoom    //房间列表接口
 |                      |  +---+     QRooms    +-----+
-|      QLive           |  |   |   房间管理接口  |     +---> deleteRoom  //删除房间接口
+|      QLive           |  |   |               |     +---> deleteRoom  //删除房间接口
 |                      |  |   +---------------+     |
-+----------------------+  |                         +---> getRoomInfo //获取房间信息接口
++----------------------+  |       房间管理接口        +---> getRoomInfo //获取房间信息接口
                           |
                           | 
                           | 
@@ -92,20 +93,20 @@ UIkit也可以直接使用源码模块-可直接修改代码
 QLive.init(context ,new QTokenGetter(){
         //业务请求token
         void getTokenInfo( QLiveCallBack<String> callback){
-        GetTokenApi.getToken(callback);
+            GetTokenApi.getToken(callback);
         }
         },new QLiveCallBack<Void>{});
 
-        Map ext = new HashMap()
-        ext.put("vip","1"); //自定义vip等级
-        ext.put("level","22");//扩展用户等级
+Map ext = new HashMap()
+ext.put("vip","1"); //自定义vip等级
+ext.put("level","22");//扩展用户等级
 
 //跟新/绑定 业务端的用户信息
-        QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
+QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallBack<Void>{});
 
-        QliveUIKit liveUIKit = QLive.getLiveUIKit()
+QliveUIKit liveUIKit = QLive.getLiveUIKit()
 //跳转到直播列表页面
-        liveUIKit.launch(context);
+liveUIKit.launch(context);
 
 ```
 
@@ -117,7 +118,7 @@ QLive.init(context ,new QTokenGetter(){
 ```kotlin
 
 class CustomNoticeView :FrameLayout, QLiveComponent {
-
+    
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -135,11 +136,11 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
     override fun attachLiveClient(client: QLiveClient) {}
     //进入回调 在这个阶段可以提前根据liveId提前初始化一些UI
     override fun onEntering(liveID: String, user: QLiveUser) { }
-
+    
     //加入回调 房间加入成功阶段 已经拿到了QLiveRoomInfo
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         //设置房间公告文本 公告组件从roomInfo中字段取出
-        tvNotice.setText("房间公告："+roomInfo.notice)
+       tvNotice.setText("房间公告："+roomInfo.notice)
     }
     //离开回调
     override fun onLeft() {
@@ -190,7 +191,7 @@ roomPage.bottomFucBar.isEnable = false
 
 ```kotlin
 class CustomView :FrameLayout, QLiveComponent {
-    //  实现自己额外的多个UI布局
+   //  实现自己额外的多个UI布局
 }
 
 //在房间内置UI上层添加自己的多个额外的UI组件
