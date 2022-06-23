@@ -563,7 +563,7 @@ private val mQPKServiceListener = object : QPKServiceListener {
         override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)
         }
-       //pk开始了 如果修改整个直播面板
+       //pk开始了 如果修改整个直播混流面板
         override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
             return QMixStreamParams()
         }
