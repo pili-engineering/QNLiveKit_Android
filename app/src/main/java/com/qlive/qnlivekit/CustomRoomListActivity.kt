@@ -2,6 +2,8 @@ package com.qlive.qnlivekit
 
 import android.content.Context
 import android.content.Intent
+import com.qlive.sdk.QLive
+import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import kotlinx.android.synthetic.main.activity_room_list.*

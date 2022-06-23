@@ -89,7 +89,6 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
         })
     }
 
-
     /**
      * 加入房间
      * @param roomId
@@ -135,7 +134,6 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
                 callBack?.onError(it.getCode(), it.message)
             }
         }
-
     }
 
     override fun closeRoom(callBack: QLiveCallBack<Void>?) {

@@ -221,6 +221,8 @@ roomListPage.customLayoutID = R.layout.customlayout
 
 ### 添加功能组件
 
+功能组件只关心事件 没有附件到UI上 比如关心自己被踢事件-显示弹窗
+
 方法1 自定义组件继承 QLiveComponent 处理自定义关心的事件
 ```
 class CustomFunctionComponent : QLiveComponent {
@@ -385,8 +387,17 @@ client.leaveRoom(new QLiveCallBack<Void> {
 client.destroy(); 
 ```
 
+### 使用插件服务
 
-#接口说明
+```
+client.getService(QxxxService::class.java) //获取某个业务插件服务
+
+//案列
+client.getService(QPublicChatService::class.java).sendPublicChat(it, object : QLiveCallBack<QPublicChat> { })
+client.getService(QPKService::class.java)?.start(20 * 1000, receiverRoomID, receiver.userId, null,object : QLiveCallBack<QPKSession> {})
+```
+
+# 接口说明
 ## 初始化
 ```java
 class QLive {
@@ -501,21 +512,25 @@ enum QLiveStatus {
     OFF            //直播间关闭
 };
 
+//摄像头状态枚举
 enum QCameraFace{
     FRONT,BACK
 };
+
 
 interface QConnectionStatusLister{
     void onConnectionStatusChanged(QRoomConnectionState state);  //rtc推流链接状态
 }
 
+//麦克风参数 参数都有默认值
 class QMicrophoneParam {
-    int sampleRate = 48000;
+    int sampleRate = 48000; 
     int bitsPerSample = 16;
     int channelCount = 1;
     int bitrate = 64000;
 }
 
+//摄像头参数 
 class QCameraParam {
     int width = 720;
     int height = 1280;
@@ -523,14 +538,16 @@ class QCameraParam {
     int bitrate = 1000;
 }
 
+//房间里的用户
 class QLiveUser {
     String userID;
-    String imUID;
+    String imUID;  //im账户ID 用于向他发c2c
     String avatar;
     String nick;
-    Map<String,String> extension; //用户扩展字段
+    Map<String,String> extension; //用户扩展字段 
 }
 
+//推流器连接状态
 enum QRoomConnectionState{
     DISCONNECTED,
     CONNECTING,
@@ -539,6 +556,7 @@ enum QRoomConnectionState{
     RECONNECTED;
 }
 
+//拉流播放器回调
 interface QPlayerEventListener {
     void onPrepared(int preparedTime); //拉流器准备中
     void onInfo(int what, int extra);  //拉流器信息回调
@@ -551,6 +569,7 @@ interface QPlayerEventListener {
 ## QLiveService
 
 ```java
+//连麦服务
 interface QLinkMicService extends QLiveService {
     void removeServiceListener(QLinkMicServiceListener listener);
     void addServiceListener(QLinkMicServiceListener listener);                        //添加连麦麦位监听
@@ -600,6 +619,7 @@ class QAudienceMicHandler{
 
 
 ```java
+//PK服务
 interface QPKService extends QLiveService{
     void removeServiceListener(QPKServiceListener pkServiceListener);
     void addServiceListener(QPKServiceListener pkServiceListener);
@@ -624,19 +644,22 @@ interface QPKMixStreamAdapter{
     List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
 }
 
+//pk会话
 class QPKSession {
     String sessionID;
-    QLiveUser initiator;
-    QLiveUser receiver;
-    String initiatorRoomID;
-    String receiverRoomID;
-    Map<String, String> extension;
-    int status;
-    long startTimeStamp;
+    QLiveUser initiator; //发起方
+    QLiveUser receiver;  //接收方
+    String initiatorRoomID; //发起方所在房间ID
+    String receiverRoomID;  //接收方所在房间ID
+    Map<String, String> extension;  //PK扩展字段
+    int status;                     //状态
+    long startTimeStamp;            //开始时间戳
 }
 ```
 
 ```java
+
+//呼叫邀请信令
 class QInvitationHandler{
     void apply(long expiration, String receiverRoomID,String receiverUID, HashMap<String,String>extension, QLiveCallBack<QInvitation> callBack);//发起邀请或者申请
     void cancelApply(int invitationID,QLiveCallBack<Void> callBack);                                  //取消申请
@@ -655,11 +678,11 @@ interface QInvitationHandlerListener{
 }
 
 class QInvitation{
-    QLiveUser initiator;
-    QLiveUser receiver;
-    String initiatorRoomID;
+    QLiveUser initiator;            //邀请方
+    QLiveUser receiver;             //接受方
+    String initiatorRoomID; 
     String receiverRoomID;
-    HashMap<String,String> extension;
+    HashMap<String,String> extension; //扩展字段
     int linkType;
 
     @JSONField(serialize = false)
@@ -667,10 +690,12 @@ class QInvitation{
 }
 ```
 ```java
+
+//用户的连麦混流参数
 class QMergeOption {
     String uID;
-    CameraMergeOption  cameraMergeOption;
-    MicrophoneMergeOption microphoneMergeOption;
+    CameraMergeOption  cameraMergeOption;       //摄像头参数       
+    MicrophoneMergeOption microphoneMergeOption;//麦克风参数
 
     class CameraMergeOption  {
         boolean isNeed = true;
@@ -706,6 +731,7 @@ interface QChatRoomService extends QLiveService {
     void removeAdmin(String msg, String memberID, QLiveCallBack<Void> callBack);        //移除管理员
 }
 
+//聊天室回调
 interface QChatRoomServiceListener{
     void onUserJoin(String memberID);
     void onUserLeft(String memberID);
@@ -719,6 +745,7 @@ interface QChatRoomServiceListener{
 ```
 
 ```java
+//房间服务
 interface QRoomService {
     void removeServiceListener(QRoomServiceListener listener);
     void addServiceListener(QRoomServiceListener listener);
@@ -730,11 +757,12 @@ interface QRoomService {
 }
 
 interface QRoomServiceListener{
-    void onRoomExtensionUpdate(QExtension extension);  //房间扩展字段跟
+    void onRoomExtensionUpdate(QExtension extension);  //房间扩展字段跟新
 }
 ```
 
 ```java
+//公屏消息服务
 interface QPublicChatService extends QLiveService{
     void addServiceLister(QPublicChatServiceLister lister);
     void removeServiceLister(QPublicChatServiceLister lister);
@@ -750,6 +778,7 @@ interface QPublicChatServiceLister {
     void onReceivePublicChat(QPublicChat pubChat); //收到公屏消息
 }
 
+//公屏消息实体
 class QPublicChat {
     String action;
     QLiveUser sendUser;
@@ -759,14 +788,17 @@ class QPublicChat {
 
 ```
 ```java
+//弹幕服务
 interface QDanmakuService extends QLiveService {
     void addServiceLister(QDanmakuServiceListener listener);
     void removeServiceLister(QDanmakuServiceListener listener);
-    void sendDanmaku(String msg, HashMap<String,String> extension, QLiveCallBack<QDanmaku> callBack);
+    void sendDanmaku(String msg, HashMap<String,String> extension, QLiveCallBack<QDanmaku> callBack);//发弹幕
 }
+//弹幕监听
 interface QNDanmakuServiceListener {
     void onReceiveDanmaku(QDanmaku danmaku);
 }
+//弹幕实体
 class QDanmaku {
     QLiveUser sendUser;
     String content;

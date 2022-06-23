@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-
+-keepparameternames
 #保留行号
 -keepattributes SourceFile,LineNumberTable
 #保持泛型
@@ -48,10 +48,13 @@
 -keep class com.qlive.rtm.**{*;}
 -keep class com.qlive.rtminvitation.**{*;}
 
+-keep class com.qlive.sdk.**{*;}
 #coreimpl层 been不混淆
 -keep class com.qlive.coreimpl.model.**{*;}
 #core层不混淆
 -keep class com.qlive.core.**{*;}
+-keep interface com.qlive.pushclient.QPusherClient{*;}
+-keep interface com.qlive.playerclient.QPlayerClient{*;}
 #QLiveService
 -keep class * implements com.qlive.core.QLiveService {
 #匹配所有构造器

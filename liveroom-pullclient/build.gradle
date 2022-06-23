@@ -4,11 +4,10 @@ plugins {
 }
 
 android {
-    compileSdk 32
-
+    compileSdkVersion depend.compileSdkVersion
     defaultConfig {
-        minSdk 21
-        targetSdk 32
+        minSdkVersion depend.minSdkVersion
+        targetSdkVersion depend.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -17,6 +16,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
