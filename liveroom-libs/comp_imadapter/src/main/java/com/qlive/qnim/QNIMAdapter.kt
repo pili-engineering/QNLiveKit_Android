@@ -5,6 +5,7 @@ import android.util.Log
 import com.qlive.rtm.RtmCallBack
 import com.qlive.rtm.RtmAdapter
 import com.qiniu.droid.imsdk.QNIMClient
+import im.floo.BMXCallBack
 import im.floo.floolib.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -119,48 +120,41 @@ class QNIMAdapter : RtmAdapter {
      * 初始化
      */
     fun init(config: BMXSDKConfig, context: Context) {
-        QNIMClient.init(config)
-        mContext = context
-        isInit = true
-        QNIMClient.getUserManager().addUserListener(mBMXUserServiceListener)
-    }
-
-    fun loginOut() {
-        QNIMClient.getUserManager().signOut {
+        if (QNIMClient.isInit()) {
+            if (!isInit) {
+                mContext = context
+                isInit = true
+                QNIMClient.getUserManager().addUserListener(mBMXUserServiceListener)
+            }
+            return
+        } else {
+            QNIMClient.init(config)
+            mContext = context
+            isInit = true
+            QNIMClient.getUserManager().addUserListener(mBMXUserServiceListener)
         }
     }
 
-    fun login(
-        uid: String,
-        loginImUid: String,
-        name: String,
-        pwd: String,
-        rtmCallBack: RtmCallBack
-    ) {
-        loginUid = uid
-        this.loginImUid = loginImUid
-        QNIMClient.getUserManager().signInByName(name, pwd) { p0 ->
-            if (p0 == BMXErrorCode.NoError) {
-                isLogin = true
-                rtmCallBack.onSuccess()
-            } else {
-                rtmCallBack.onFailure(p0.swigValue(), p0.name)
-            }
+    fun loginOut(callBack: BMXCallBack) {
+        QNIMClient.getUserManager().signOut {
+            isLogin = false
+            callBack.onResult(it)
         }
     }
 
     suspend fun loginSuspend(uid: String, loginImUid: String, name: String, pwd: String) =
         suspendCoroutine<BMXErrorCode> { continuation ->
-            loginUid = uid
-            this.loginImUid = loginImUid
-            QNIMClient.getUserManager().signInByName(name, pwd) { p0 ->
-                if (p0 == BMXErrorCode.NoError) {
-                    isLogin = true
+            loginOut {
+                loginUid = uid
+                this.loginImUid = loginImUid
+                QNIMClient.getUserManager().signInByName(name, pwd) { p0 ->
+                    if (p0 == BMXErrorCode.NoError) {
+                        isLogin = true
+                    }
+                    continuation.resume(p0)
                 }
-                continuation.resume(p0)
             }
         }
-
 
     override fun sendC2cMsg(
         msg: String,

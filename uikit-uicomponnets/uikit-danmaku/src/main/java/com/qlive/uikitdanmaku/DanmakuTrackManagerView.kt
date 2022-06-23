@@ -77,10 +77,7 @@ class DanmakuTrackManagerView : QBaseRoomFrameLayout {
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QDanmakuService::class.java)
-                ?.removeDanmakuServiceListener(mQDanmakuServiceListener)
-        }
+
     }
 
     override fun onLeft() {

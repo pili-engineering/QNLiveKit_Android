@@ -170,9 +170,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QPKService::class.java)?.removeServiceListener(mQPKServiceListener)
-        }
+
     }
 }
 
@@ -259,10 +257,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QPKService::class.java)?.removeServiceListener(mQPKServiceListener)
-            client?.getService(QPKService::class.java)?.setPKMixStreamAdapter(null)
-        }
+
     }
 
     private var pkScaleX = 0f

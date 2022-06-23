@@ -46,10 +46,6 @@ class PublicChatView : QBaseRoomFrameLayout {
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            client?.getService(QPublicChatService::class.java)
-                ?.removeServiceLister(mPublicChatServiceLister)
-        }
     }
 
     override fun getLayoutId(): Int {

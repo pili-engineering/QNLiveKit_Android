@@ -454,7 +454,26 @@ private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
     //混流适配 房主负责混流
 private val mQMixStreamAdapter =  QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
         //将变化后的麦位换算成连麦混流参数  
-        LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
+        //比如 案例
+        val ops = ArrayList<QMergeOption>()
+        val lastY = 200
+        micLinkers.forEachIndex {index, linker ->
+            ops.add(QMergeOption().apply {
+                uid = linker.user.userId
+                cameraMergeOption = CameraMergeOption().apply {
+                    isNeed = true
+                    x = 720 //麦位x
+                    y = lastY + 180 + 15 //每个麦位 依次往下排15个分辨率间距
+                    z = 0
+                    width = 180
+                    height = 180
+                }
+                microphoneMergeOption = MicrophoneMergeOption().apply {
+                    isNeed = true
+                }
+            })
+            lastY=lastY+180+15
+        }    
 }
 
 //观众端连麦器监听
