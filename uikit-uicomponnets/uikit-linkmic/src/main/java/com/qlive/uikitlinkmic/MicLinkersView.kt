@@ -93,8 +93,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
     }
 
     //麦位监听
-    private val mQLinkMicServiceListener = object :
-        QLinkMicServiceListener {
+    private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
 
         override fun onLinkerJoin(micLinker: QMicLinker) {
             Log.d("LinkerSlot", " onUserJoinLink 有人上麦 ${micLinker.user.nick}")

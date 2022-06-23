@@ -188,8 +188,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
     )
 
     //混流适配
-    private val mQPKMixStreamAdapter = object :
-        QPKMixStreamAdapter {
+    private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
 
         override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)

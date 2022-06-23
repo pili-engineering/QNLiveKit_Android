@@ -26,6 +26,7 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
     private var isShowTip = false
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {
+        //收到邀请
         override fun onReceivedApply(pkInvitation: QInvitation) {
 
             if ((client?.getService(QLinkMicService::class.java)?.allLinker ?.size?:0)>1) {
