@@ -398,6 +398,178 @@ client.getService(QxxxService::class.java) //获取某个业务插件服务
 client.getService(QPublicChatService::class.java).sendPublicChat(it, object : QLiveCallBack<QPublicChat> { })
 client.getService(QPKService::class.java)?.start(20 * 1000, receiverRoomID, receiver.userId, null,object : QLiveCallBack<QPKSession> {})
 ```
+### 无UI SDK实现连麦
+
+```kotlin
+//邀请监听
+private val mInvitationListener = object : QInvitationHandlerListener {
+    //收到邀请
+    override fun onReceivedApply(qInvitation: QInvitation) {
+       //拒绝操作
+       client!!.getService(QLinkMicService::class.java) .invitationHandler.reject(qInvitation.invitationID, null,callBack)
+       //接受 
+       client!!.getService(QLinkMicService::class.java) .invitationHandler.accept(qInvitation.invitationID, null,callBack)
+    //收到对方取消    
+    override fun onApplyCanceled(qInvitation: QInvitation) {}
+    //发起超时对方没响应
+    override fun onApplyTimeOut(qInvitation: QInvitation) {}
+    //对方接受
+    override fun onAccept(qInvitation: QInvitation) {
+        //对方接受后调用开始上麦
+        client?.getService(QLinkMicService::class.java)?.audienceMicHandler
+            ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
+    }    
+    //对方拒绝
+    override fun onReject(qInvitation: QInvitation) { }    
+}
+
+//麦位麦位监听
+private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
+
+        override fun onLinkerJoin(micLinker: QMicLinker) {
+            
+            //麦上用户和主播 设置这个用户预览 直播用户无需设置
+            val preview =QPushTextureView(context)
+            linkService.setUserPreview(micLinker.user?.userId ?: "", preview)
+            //跟新连麦UI 如果要显示头像
+        }
+        
+        override fun onLinkerLeft(micLinker: QMicLinker) {
+            //移除设置的预览UI
+            //跟新连麦UI 比如去掉麦上头像
+        }        
+
+        override fun onLinkerMicrophoneStatusChange(micLinker: QMicLinker) {
+            //跟新连麦UI 
+        }
+        
+        override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
+            //跟新连麦UI
+        }        
+
+        override fun onLinkerKicked(micLinker: QMicLinker, msg: String) { }        
+
+        override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
+    }
+    //混流适配 房主负责混流
+private val mQMixStreamAdapter =  QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
+        //将变化后的麦位换算成连麦混流参数  
+        LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
+}
+
+//观众端连麦器监听
+private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
+    override fun onRoleChange(isLinker: Boolean) {
+            if (isLinker) {
+                //我上麦了 切换连麦模式
+                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
+                   //对原来麦上的人设置预览
+                }
+            } else {
+                //我下麦了 切换拉流模式
+                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
+                   //移除对原来设置麦位移除设置预览view
+                    removePreview(mLinkerAdapter.indexOf(it), it)
+                }
+            }
+        }
+}
+
+//主播设置混流适配  
+client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter( mQMixStreamAdapter  )
+//观众设置观众连麦处理监听
+client!!.getService(QLinkMicService::class.java).audienceMicHandler.addLinkMicListener( mQAudienceMicHandler )
+//主播和观众都关心麦位监听 
+client!!.getService(QLinkMicService::class.java).addMicLinkerListener(mQLinkMicServiceListener)
+//注册邀请监听
+client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener( mInvitationListener )
+
+ //点击某个按钮 发起对某个主播申请 或者主播邀请用户
+client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
+
+```
+
+```kotlin
+如果不使用内置的邀请系统 比如外接匹配系统或者直接上麦不需要邀请
+//todo
+别的邀请或者匹配
+//直接调用上麦方法
+client?.getService(QLinkMicService::class.java)?.audienceMicHandler
+    ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
+
+```
+
+### 无UI SDK 实现PK
+
+```kotlin
+//邀请监听
+private val mPKInvitationListener = object : QInvitationHandlerListener {
+    //收到邀请
+    override fun onReceivedApply(pkInvitation: QInvitation) {
+       //拒绝操作
+       client!!.getService(QPKService::class.java) .invitationHandler.reject(pkInvitation.invitationID, null,callBack)
+       //接受 
+       client!!.getService(QPKService::class.java) .invitationHandler.accept(pkInvitation.invitationID, null,callBack)
+    //收到对方取消    
+    override fun onApplyCanceled(pkInvitation: QInvitation) {}
+    //发起超时对方没响应
+    override fun onApplyTimeOut(pkInvitation: QInvitation) {}
+    //对方接受
+    override fun onAccept(pkInvitation: QInvitation) {
+        //对方接受后调用开始pk
+        client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
+    }    
+    //对方拒绝
+    override fun onReject(pkInvitation: QInvitation) { }    
+}
+
+    //pk监听
+private val mQPKServiceListener = object : QPKServiceListener {
+
+      override fun onStart(pkSession: QPKSession) {
+            //主播设置对方主播预览
+            client.getService(QPKService::class.java).setPeerAnchorPreView(findviewbyid(...))
+            //主播和观众都显示pk覆盖UI
+        }
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
+            //主播和观众都隐藏pk覆盖UI
+        }        
+        override fun onStartTimeOut(pkSession: QPKSession) {}
+        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
+        }
+}
+    //混流适配
+ private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
+        //pk对方进入了 返回混流参数
+        override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
+            return LinkerUIHelper.getPKMixOp(pkSession, user!!)
+        }
+       //pk开始了 如果修改整个直播面板
+        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
+            return QMixStreamParams()
+        }
+}
+    
+//添加pk监听
+client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener) 
+//主播注册混流适配   
+client!!.getService(QPKService::class.java).setPKMixStreamAdapter(mQPKMixStreamAdapter)
+//注册邀请监听
+client.getService(QPKService::class.java).invitationHandler.addInvitationHandlerListener( mPKInvitationListener )
+
+    //点击某个按钮 发起对某个主播邀请
+client!!.getService(QPKService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
+
+```
+```kotlin
+如果不使用内置的邀请系统 比如外接匹配pk系统
+//todo
+别的邀请或者匹配
+//直接调用开始PK方法
+client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
+
+```
+
 
 # 接口说明
 ## 初始化
@@ -620,107 +792,6 @@ class QAudienceMicHandler{
 ```
 
 
-#### example
-```kotlin
-//邀请监听
-private val mInvitationListener = object : QInvitationHandlerListener {
-    //收到邀请
-    override fun onReceivedApply(qInvitation: QInvitation) {
-       //拒绝操作
-       client!!.getService(QLinkMicService::class.java) .invitationHandler.reject(qInvitation.invitationID, null,callBack)
-       //接受 
-       client!!.getService(QLinkMicService::class.java) .invitationHandler.accept(qInvitation.invitationID, null,callBack)
-    //收到对方取消    
-    override fun onApplyCanceled(qInvitation: QInvitation) {}
-    //发起超时对方没响应
-    override fun onApplyTimeOut(qInvitation: QInvitation) {}
-    //对方接受
-    override fun onAccept(qInvitation: QInvitation) {
-        //对方接受后调用开始上麦
-        client?.getService(QLinkMicService::class.java)?.audienceMicHandler
-            ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
-    }    
-    //对方拒绝
-    override fun onReject(qInvitation: QInvitation) { }    
-}
-
-//麦位麦位监听
-private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
-
-        override fun onLinkerJoin(micLinker: QMicLinker) {
-            
-            //麦上用户和主播 设置这个用户预览 直播用户无需设置
-            val preview =QPushTextureView(context)
-            linkService.setUserPreview(micLinker.user?.userId ?: "", preview)
-            //跟新连麦UI 如果要显示头像
-        }
-        
-        override fun onLinkerLeft(micLinker: QMicLinker) {
-            //移除设置的预览UI
-            //跟新连麦UI 比如去掉麦上头像
-        }        
-
-        override fun onLinkerMicrophoneStatusChange(micLinker: QMicLinker) {
-            //跟新连麦UI 
-        }
-        
-        override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
-            //跟新连麦UI
-        }        
-
-        override fun onLinkerKicked(micLinker: QMicLinker, msg: String) { }        
-
-        override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
-    }
-    //混流适配 房主负责混流
-private val mQMixStreamAdapter =  QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
-        //将变化后的麦位换算成连麦混流参数  
-        LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
-}
-
-//观众端连麦器监听
-private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
-    override fun onRoleChange(isLinker: Boolean) {
-            if (isLinker) {
-                //我上麦了 切换连麦模式
-                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
-                   //对原来麦上的人设置预览
-                }
-            } else {
-                //我下麦了 切换拉流模式
-                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
-                   //移除对原来设置麦位移除设置预览view
-                    removePreview(mLinkerAdapter.indexOf(it), it)
-                }
-            }
-        }
-}
-
-//主播设置混流适配  
-client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter( mQMixStreamAdapter  )
-//观众设置观众连麦处理监听
-client!!.getService(QLinkMicService::class.java).audienceMicHandler.addLinkMicListener( mQAudienceMicHandler )
-//主播和观众都关心麦位监听 
-client!!.getService(QLinkMicService::class.java).addMicLinkerListener(mQLinkMicServiceListener)
-//注册邀请监听
-client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener( mInvitationListener )
-
- //点击某个按钮 发起对某个主播申请 或者主播邀请用户
-client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
-
-```
-
-```kotlin
-如果不使用内置的邀请系统 比如外接匹配系统或者直接上麦不需要邀请
-//todo
-别的邀请或者匹配
-//直接调用上麦方法
-client?.getService(QLinkMicService::class.java)?.audienceMicHandler
-    ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
-
-```
-
-### QPKService
 
 ```java
 //PK服务
@@ -822,77 +893,6 @@ class QMixStreamParam{
     int FPS;             //帧率
 }
 ```
-
-#### example
-```kotlin
-//邀请监听
-private val mPKInvitationListener = object : QInvitationHandlerListener {
-    //收到邀请
-    override fun onReceivedApply(pkInvitation: QInvitation) {
-       //拒绝操作
-       client!!.getService(QPKService::class.java) .invitationHandler.reject(pkInvitation.invitationID, null,callBack)
-       //接受 
-       client!!.getService(QPKService::class.java) .invitationHandler.accept(pkInvitation.invitationID, null,callBack)
-    //收到对方取消    
-    override fun onApplyCanceled(pkInvitation: QInvitation) {}
-    //发起超时对方没响应
-    override fun onApplyTimeOut(pkInvitation: QInvitation) {}
-    //对方接受
-    override fun onAccept(pkInvitation: QInvitation) {
-        //对方接受后调用开始pk
-        client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
-    }    
-    //对方拒绝
-    override fun onReject(pkInvitation: QInvitation) { }    
-}
-
-    //pk监听
-private val mQPKServiceListener = object : QPKServiceListener {
-
-      override fun onStart(pkSession: QPKSession) {
-            //主播设置对方主播预览
-            client.getService(QPKService::class.java).setPeerAnchorPreView(findviewbyid(...))
-            //主播和观众都显示pk覆盖UI
-        }
-        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
-            //主播和观众都隐藏pk覆盖UI
-        }        
-        override fun onStartTimeOut(pkSession: QPKSession) {}
-        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
-        }
-}
-    //混流适配
- private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
-        //pk对方进入了 返回混流参数
-        override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
-            return LinkerUIHelper.getPKMixOp(pkSession, user!!)
-        }
-       //pk开始了 如果修改整个直播面板
-        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
-            return QMixStreamParams()
-        }
-}
-    
-//添加pk监听
-client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener) 
-//主播注册混流适配   
-client!!.getService(QPKService::class.java).setPKMixStreamAdapter(mQPKMixStreamAdapter)
-//注册邀请监听
-client.getService(QPKService::class.java).invitationHandler.addInvitationHandlerListener( mPKInvitationListener )
-
-    //点击某个按钮 发起对某个主播邀请
-client!!.getService(QPKService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
-
-```
-```kotlin
-如果不使用内置的邀请系统 比如外接匹配pk系统
-//todo
-别的邀请或者匹配
-//直接调用开始PK方法
-client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
-
-```
-
 
 ```java
 interface QChatRoomService extends QLiveService {
