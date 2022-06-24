@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.qiniu.android.dns.local.Resolver
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     //  val demo_url="http://10.200.20.28:5080"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

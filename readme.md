@@ -52,7 +52,7 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 //七牛imsdk 必选
 implementation project(':app-sdk:depends_sdk_qnim')  //其他版本下载地址-(https://github.com/pili-engineering/QNDroidIMSDK/tree/main/app/libs)
 //七牛rtc 主播推流必选  观众要连麦必选
-implementation project(':app-sdk:depends_sdk_qrtc')  //其他版本下载地址-(https://github.com/pili-engineering/QNDroidIMSDK/tree/main/app/libs)
+implementation project(':app-sdk:depends_sdk_qrtc')  //其他版本下载地址-(https://github.com/pili-engineering/QNRTC-Android/tree/master/releases)
 //七牛播放器  观众拉流端必选 
 implementation project(':app-sdk:depends_sdk_piliplayer') //其他版本下载地址-(https://developer.qiniu.com/pili/1210/the-android-client-sdk)
 
