@@ -154,21 +154,38 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         })
     }
 
-    private fun createMergeJob() {
-        Log.d("MixStreamHelperImp", "createMergeJob ")
-        mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
+
+    private fun createDefaultMeOp(): QNTranscodingLiveStreamingConfig {
+        return QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
             height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
             videoFrameRate = mQMixStreamParams!!.FPS; // 设置合流任务的视频帧率
-//           setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
             bitrate = mQMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
-//            mQMixStreamParams!!.qnBackGround?.let { background = it }
-//            mQMixStreamParams?.watermarks?.let {
-//                watermarks = it;
-//            }
+        }
+    }
+
+    private fun createMeop(mixStreamParams: QMixStreamParams): QNTranscodingLiveStreamingConfig {
+        return QNTranscodingLiveStreamingConfig().apply {
+            streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
+            url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
+            Log.d("MixStreamHelperImp", "createMergeJob${url} ")
+            width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
+            height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
+            videoFrameRate = mQMixStreamParams!!.FPS; // 设置合流任务的视频帧率
+//            setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
+            bitrate = mQMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
+            mixStreamParams.backGroundImg?.let { bg ->
+                background = QNTranscodingLiveStreamingImage().apply {
+                    this.url = bg.url
+                    this.height = bg.height
+                    this.width = bg.width
+                    this.x = x
+                    this.x = y
+                }
+            }
         }
     }
 
@@ -216,12 +233,16 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     /**
      * 开始混流转推
      */
-    fun startMixStreamJob() {
+    fun startMixStreamJob(mixStreamParams: QMixStreamParams?) {
         mMixType = MixType.mix
         mMixType.isStart = false
         Log.d("MixStreamHelperImp", "startMixStreamJob ")
         clear()
-        createMergeJob()
+        if (mixStreamParams != null) {
+            mQNMergeJob = createMeop(mixStreamParams)
+        } else {
+            mQNMergeJob = createDefaultMeOp()
+        }
         mEngine.startLiveStreaming(mQNMergeJob)
     }
 
@@ -235,24 +256,15 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     /**
      * 启动新的混流任务
      */
-    fun startPkMixStreamJob(QMixStreamParams: QMixStreamParams) {
+    fun startPkMixStreamJob(mixStreamParams: QMixStreamParams?) {
         Log.d("MixStreamHelperImp", "startPkMixStreamJob ")
         clear()
         mMixType = MixType.pk
         mMixType.isStart = false
-        mPKMergeJob = QNTranscodingLiveStreamingConfig().apply {
-            streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
-            url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
-            Log.d("MixStreamHelperImp", "startNewMixStreamJob${url} ")
-            width = QMixStreamParams.mixStreamWidth; // 设置合流画布的宽度
-            height = QMixStreamParams.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = QMixStreamParams.FPS; // 设置合流任务的视频帧率
-//           setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
-            bitrate = QMixStreamParams.mixBitrate; // 设置合流任务的码率，单位: kbps
-//            QMixStreamParams.qnBackGround?.let { background = it }
-//            QMixStreamParams.watermarks?.let {
-//                watermarks = it;
-//            }
+        if (mixStreamParams != null) {
+            mPKMergeJob = createMeop(mixStreamParams)
+        } else {
+            mPKMergeJob = createDefaultMeOp()
         }
         mEngine.startLiveStreaming(mPKMergeJob);
     }

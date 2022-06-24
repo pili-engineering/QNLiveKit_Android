@@ -141,7 +141,11 @@ class RoomPage : QPage {
     }
 
     companion object {
-        internal fun joinRoom(
+
+        /**
+         * 根据QLiveRoomInfo自动判断跳转主播页面还是观众页面
+         */
+        fun joinRoom(
             context: Context,
             roomInfo: QLiveRoomInfo,
             callBack: QLiveCallBack<QLiveRoomInfo>?
@@ -154,7 +158,10 @@ class RoomPage : QPage {
 
         }
 
-        internal fun joinRoom(
+        /**
+         * 跳转观众直播间
+         */
+        fun joinPlayerRoom(
             context: Context,
             liveRoomId: String,
             callBack: QLiveCallBack<QLiveRoomInfo>?
@@ -162,7 +169,21 @@ class RoomPage : QPage {
             RoomPullActivity.start(context, liveRoomId, callBack)
         }
 
-        internal fun createAndJoinRoom(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
+        /**
+         * 跳转已经存在的主播直播间
+         */
+        fun joinAnchorRoom(
+            context: Context,
+            liveRoomId: String,
+            callBack: QLiveCallBack<QLiveRoomInfo>?
+        ) {
+            RoomPushActivity.start(context, liveRoomId, callBack)
+        }
+
+        /**
+         * 跳转主播开播预览页面
+         */
+        fun createAndJoinRoom(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
             RoomPushActivity.start(context, callBack)
         }
     }

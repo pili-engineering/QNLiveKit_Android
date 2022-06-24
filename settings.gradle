@@ -46,4 +46,4 @@ include ':liveroom-libs:comp_rtclive'
 include ':qlivesdk'
 
 
-include ':buildrtc'
+

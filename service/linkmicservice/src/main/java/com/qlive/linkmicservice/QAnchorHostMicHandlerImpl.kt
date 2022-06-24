@@ -18,7 +18,8 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
 
         override fun onLinkerJoin(micLinker: QMicLinker) {
             if (context.mQRtcLiveRoom.mMixStreamManager.mMixType == MixType.forward) {
-                context.mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
+                val mix = mQMixStreamAdapter?.onMixStreamStart()
+                context.mQRtcLiveRoom.mMixStreamManager.startMixStreamJob(mix)
             }
             val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, true)
             if (ops?.isEmpty() == true) {

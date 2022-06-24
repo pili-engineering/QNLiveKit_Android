@@ -452,29 +452,50 @@ private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }
     //混流适配 房主负责混流
-private val mQMixStreamAdapter =  QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
-        //将变化后的麦位换算成连麦混流参数  
-        //比如 案例
-        val ops = ArrayList<QMergeOption>()
-        val lastY = 200
-        micLinkers.forEachIndex {index, linker ->
-            ops.add(QMergeOption().apply {
-                uid = linker.user.userId
-                cameraMergeOption = CameraMergeOption().apply {
-                    isNeed = true
-                    x = 720 //麦位x
-                    y = lastY + 180 + 15 //每个麦位 依次往下排15个分辨率间距
-                    z = 0
-                    width = 180
-                    height = 180
+    private val mQMixStreamAdapter =
+        object : QAnchorHostMicHandler.QMixStreamAdapter {
+            /**
+             * 连麦开始如果要自定义混流画布和背景
+             * 返回空则主播推流分辨率有多大就多大默认实现
+             * @return
+             */
+            override fun onMixStreamStart(): QMixStreamParams? {
+                return null
+            }
+
+            /**
+             * 混流布局适配
+             * @param micLinkers 所有连麦者
+             * @return 返回重设后的每个连麦者的混流布局
+             */
+            override fun onResetMixParam(
+                micLinkers: MutableList<QMicLinker>,
+                target: QMicLinker,
+                isJoin: Boolean
+            ): MutableList<QMergeOption> {
+                //将变化后的麦位换算成连麦混流参数  
+                //比如 案例
+                val ops = ArrayList<QMergeOption>()
+                val lastY = 200
+                micLinkers.forEachIndex {index, linker ->
+                    ops.add(QMergeOption().apply {
+                        uid = linker.user.userId
+                        cameraMergeOption = CameraMergeOption().apply {
+                            isNeed = true
+                            x = 720 //麦位x
+                            y = lastY + 180 + 15 //每个麦位 依次往下排15个分辨率间距
+                            z = 0
+                            width = 180
+                            height = 180
+                        }
+                        microphoneMergeOption = MicrophoneMergeOption().apply {
+                            isNeed = true
+                        }
+                    })
+                    lastY=lastY+180+15
                 }
-                microphoneMergeOption = MicrophoneMergeOption().apply {
-                    isNeed = true
-                }
-            })
-            lastY=lastY+180+15
-        }    
-}
+            }
+        }
 
 //观众端连麦器监听
 private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
@@ -567,6 +588,7 @@ private val mQPKServiceListener = object : QPKServiceListener {
         override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
             return QMixStreamParams()
         }
+        
 }
     
 //添加pk监听
@@ -789,6 +811,7 @@ class QAnchorHostMicHandler {
 }
 
 interface QMixStreamAdapter {
+    QMixStreamParams onMixStreamStart();//连麦开始如果要自定义混流画布和背景 返回空则主播推流分辨率有多大就多大默认实现
     List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
 }
 
@@ -836,6 +859,7 @@ interface QPKMixStreamAdapter{
     QMixStreamParam onPKMixStreamStart(QPKSession pkSession); //pk 开始返回 混流画布参数
     List<QMergeOption> onPKLinkerJoin(QPKSession pkSession);    //PK 开始如何混流
     List<QMergeOption> onPKLinkerLeft();                       //PK结束如果还有其他普通连麦者如何混流 如果没有则不回调自动恢复单路转推
+    QMixStreamParams onPKMixStreamStop()//当pk结束后如果还有其他普通连麦者 如何混流 如果pk结束后没有其他连麦者 则不会回调 返回空则默认之前的不变化
 }
 
 //pk会话

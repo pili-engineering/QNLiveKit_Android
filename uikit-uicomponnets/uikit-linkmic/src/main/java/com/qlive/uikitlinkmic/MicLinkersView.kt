@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.qlive.avparam.QMergeOption
+import com.qlive.avparam.QMixStreamParams
 import com.qlive.linkmicservice.QAnchorHostMicHandler
 import com.qlive.linkmicservice.QAudienceMicHandler
 import com.qlive.linkmicservice.QLinkMicService
@@ -93,7 +95,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
     }
 
     //麦位监听
-    private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
+    private val mQLinkMicServiceListener = object : QLinkMicServiceListener {
 
         override fun onLinkerJoin(micLinker: QMicLinker) {
             Log.d("LinkerSlot", " onUserJoinLink 有人上麦 ${micLinker.user.nick}")
@@ -168,8 +170,29 @@ class MicLinkersView : QBaseRoomFrameLayout {
 
     //连麦混流适配器
     private val mQMixStreamAdapter =
-        QAnchorHostMicHandler.QMixStreamAdapter { micLinkers, target, isJoin ->
-            LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
+        object : QAnchorHostMicHandler.QMixStreamAdapter {
+            /**
+             * 连麦开始如果要自定义混流画布和背景
+             * 返回空则主播推流分辨率有多大就多大默认实现
+             * @return
+             */
+            override fun onMixStreamStart(): QMixStreamParams? {
+                return null
+            }
+
+            /**
+             * 混流布局适配
+             * @param micLinkers 所有连麦者
+             * @return 返回重设后的每个连麦者的混流布局
+             */
+            override fun onResetMixParam(
+                micLinkers: MutableList<QMicLinker>,
+                target: QMicLinker,
+                isJoin: Boolean
+            ): MutableList<QMergeOption> {
+                return LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
+            }
+
         }
 
     override fun getLayoutId(): Int {

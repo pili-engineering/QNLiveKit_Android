@@ -332,7 +332,8 @@ class QPKServiceImpl : QPKService, BaseService() {
                 mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
             }
-            mQRtcLiveRoom.mMixStreamManager.startMixStreamJob()
+            val mix = mQPKMixStreamAdapter?.onPKMixStreamStop()
+            mQRtcLiveRoom.mMixStreamManager.startMixStreamJob(mix)
             ops.forEach {
                 mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.put(it.uid, it)
                 mQRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(

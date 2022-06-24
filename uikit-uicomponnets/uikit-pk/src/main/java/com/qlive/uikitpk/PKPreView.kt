@@ -192,7 +192,7 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)
         }
 
-        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
+        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams? {
             return QMixStreamParams().apply {
                 mixStreamWidth = LinkerUIHelper.pkMixWidth
                 mixStringHeight = LinkerUIHelper.pkMixHeight
@@ -204,11 +204,16 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         override fun onPKLinkerLeft(): MutableList<QMergeOption> {
             //pk结束
             val ops = ArrayList<QMergeOption>()
-//            client?.getService(QLinkMicService::class.java)
-//                ?.allLinker?.let {
-//                    ops.addAll(LinkerUIHelper.getLinkersMixOp(it, roomInfo!!))
-//                }
             return ops
+        }
+
+        /**
+         * 当pk结束后如果还有其他普通连麦者 如何混流
+         * 如果pk结束后没有其他连麦者 则不会回调
+         * @return
+         */
+        override fun onPKMixStreamStop(): QMixStreamParams? {
+            return null
         }
     }
 
