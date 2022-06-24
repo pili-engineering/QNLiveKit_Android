@@ -46,5 +46,4 @@ include ':liveroom-libs:comp_rtclive'
 include ':qlivesdk'
 
 
-include ':depends_sdk_qrtc'
-include ':app-sdk:depends_sdk_piliplayer'
+include ':buildrtc'

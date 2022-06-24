@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.qiniu.android.dns.local.Resolver
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
