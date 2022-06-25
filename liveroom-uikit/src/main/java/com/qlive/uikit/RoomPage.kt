@@ -159,7 +159,7 @@ class RoomPage : QPage {
     /**
      * 跳转观众直播间
      */
-    fun joinPlayerRoomActivity(
+    fun gotoPlayerRoomActivity(
         context: Context,
         liveRoomId: String,
         callBack: QLiveCallBack<QLiveRoomInfo>?
@@ -170,7 +170,7 @@ class RoomPage : QPage {
     /**
      * 跳转已经存在的主播直播间
      */
-    fun joinAnchorRoomActivity(
+    fun gotoAnchorRoomActivity(
         context: Context,
         liveRoomId: String,
         callBack: QLiveCallBack<QLiveRoomInfo>?
