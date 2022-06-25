@@ -36,10 +36,10 @@ public interface QPKService extends QLiveService {
      * 开始pk
      *
      * @param timeoutTimestamp 等待对方流超时时间时间戳 毫秒
-     * @param receiverRoomID
-     * @param receiverUID
-     * @param extension
-     * @param callBack
+     * @param receiverRoomID   接受方所在房间ID
+     * @param receiverUID      接收方用户ID
+     * @param extension        扩展字段
+     * @param callBack         操作回调函数
      */
     void start(long timeoutTimestamp, String receiverRoomID, String receiverUID, HashMap<String, String> extension, QLiveCallBack<QPKSession> callBack);
 

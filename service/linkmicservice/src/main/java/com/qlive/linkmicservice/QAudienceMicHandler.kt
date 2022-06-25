@@ -37,9 +37,9 @@ interface QAudienceMicHandler {
 
     /**
      * 开始上麦
-     *
-     * @param cameraParams
-     * @param microphoneParams
+     * @param extension        麦位扩展字段
+     * @param cameraParams     摄像头参数 空代表不开
+     * @param microphoneParams 麦克参数  空代表不开
      * @param callBack         上麦成功失败回调
      */
     fun startLink(

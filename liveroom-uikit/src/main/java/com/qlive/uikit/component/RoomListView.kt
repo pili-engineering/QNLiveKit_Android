@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
@@ -83,7 +82,7 @@ class RoomListView : FrameLayout, QComponent {
 
         roomAdapter.setOnItemClickListener { _, view, position ->
             val item: QLiveRoomInfo = roomAdapter.data[position]
-            QLive.getLiveUIKit().getPage(RoomPage::class.java).joinRoom(context.currentActivity, item, object :
+            QLive.getLiveUIKit().getPage(RoomPage::class.java).gotoRoomActivity(context.currentActivity, item, object :
                 QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast(kitContext?.androidContext)

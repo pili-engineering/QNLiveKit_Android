@@ -28,8 +28,9 @@ public interface QAnchorHostMicHandler {
 
         /**
          * 混流布局适配
-         *
-         * @param micLinkers 所有连麦者
+         * @param micLinkers 变化后所有连麦者
+         * @param target  当前变化的连麦者
+         * @param isJoin  当前变化的连麦者是新加还是离开
          * @return 返回重设后的每个连麦者的混流布局
          */
         List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin);
