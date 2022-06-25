@@ -9,6 +9,33 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
+   <FrameLayout
+       android:id="@+id/flVideoMic"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center_vertical|end"
+       android:layout_marginEnd="8dp"
+       >
+
+       <FrameLayout
+           android:id="@+id/flSurfaceContainer"
+           android:layout_width="96dp"
+           android:layout_height="96dp"
+           android:layout_gravity="end|center_vertical"
+           tools:background="#ffffff"
+           />
+
+       <ImageView
+           android:id="@+id/ivOutMicStatus"
+           android:layout_width="12dp"
+           android:layout_height="12dp"
+           android:layout_gravity="end|center_vertical"
+           android:layout_marginEnd="42dp"
+           android:layout_marginTop="45dp"
+           android:src="@drawable/kit_select_seat_mic"
+           />
+   </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/flAudioMic"
@@ -44,13 +71,6 @@
         tools:layout_height="100dp"
         tools:layout_width="100dp">
 
-        <ImageView
-            android:id="@+id/ivMicStatusMix"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="6dp"
-            android:src="@drawable/kit_select_seat_mic" />
     </FrameLayout>
 
 

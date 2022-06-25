@@ -13,19 +13,10 @@
 
 
     <com.qlive.uikitlinkmic.MicSeatPreView
-        android:id="@+id/mMicSeatView"
+        android:id="@+id/mLinkersView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
         android:layout_gravity="end" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyLinker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="end" />
-
 
 </FrameLayout>

@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.qlive.avparam.QMergeOption
 import com.qlive.avparam.QMixStreamParams
 import com.qlive.linkmicservice.QAnchorHostMicHandler
@@ -21,7 +18,6 @@ import com.qlive.core.been.QMicLinker
 import com.qlive.core.*
 import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
-import com.qlive.pkservice.QPKService
 import com.qlive.rtclive.QPushTextureView
 import com.qlive.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_linkers.view.*
@@ -39,17 +35,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
     )
 
     private val linkService get() = client!!.getService(QLinkMicService::class.java)!!
-
-    //麦位列表适配器 如果需要修改UI 请替换适配器
-    private var mLinkerAdapter: BaseQuickAdapter<QMicLinker, BaseViewHolder> =
-        LinkerAdapter().apply {
-            isOnMic = {
-                isMyOnMic()
-            }
-            setOnItemChildClickListener { _, view, position ->
-                //麦位点击事件
-            }
-        }
 
     init {
         //连麦混流参数  拉流端看到混流的位置 和上麦后麦位位置如果需要大致匹配 需要经过屏幕尺寸的换算
@@ -81,49 +66,28 @@ class MicLinkersView : QBaseRoomFrameLayout {
     private fun init() {
         //绑定屏幕尺寸开始换算
         LinkerUIHelper.attachUIWidth(flLinkContent.width, flLinkContent.height)
-
-        //麦位覆盖
-        val rcLp: FrameLayout.LayoutParams =
-            recyLinker.layoutParams as FrameLayout.LayoutParams
-        rcLp.topMargin = LinkerUIHelper.uiTopMargin
-
         //麦位预览窗口列表
-        val rcSurfaceLp = mMicSeatView.layoutParams as FrameLayout.LayoutParams
+        val rcSurfaceLp = mLinkersView.layoutParams as FrameLayout.LayoutParams
         rcSurfaceLp.topMargin = LinkerUIHelper.uiTopMargin
-
-        mLinkerAdapter.bindToRecyclerView(recyLinker)
     }
 
     //麦位监听
     private val mQLinkMicServiceListener = object : QLinkMicServiceListener {
-
         override fun onLinkerJoin(micLinker: QMicLinker) {
             Log.d("LinkerSlot", " onUserJoinLink 有人上麦 ${micLinker.user.nick}")
-            mLinkerAdapter.addData(micLinker)
-            if (isMyOnMic()) {
-                //我是麦上用户则 添加预览窗口
-                addLinkerPreview(micLinker)
-            }
+            mLinkersView.onLinkerJoin(micLinker)
         }
 
         override fun onLinkerLeft(micLinker: QMicLinker) {
-            Log.d("LinkerSlot", " onUserLeft 有人下麦 ${micLinker.user.nick}")
-            //移除麦位
-            val index = mLinkerAdapter.indexOf(micLinker)
-            removePreview(index, micLinker)
-            mLinkerAdapter.remove(index)
+            mLinkersView.onLinkerLeft(micLinker)
         }
 
         override fun onLinkerMicrophoneStatusChange(micLinker: QMicLinker) {
-            val index = mLinkerAdapter.indexOf(micLinker)
-            mLinkerAdapter.notifyItemChanged(index)
-            mMicSeatView.convertItem(index, micLinker)
+            mLinkersView.onLinkerMicrophoneStatusChange(micLinker)
         }
 
         override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
-            val index = mLinkerAdapter.indexOf(micLinker)
-            mLinkerAdapter.notifyItemChanged(index)
-            mMicSeatView.convertItem(index, micLinker)
+            mLinkersView.onLinkerCameraStatusChange(micLinker)
         }
 
         override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {
@@ -138,33 +102,23 @@ class MicLinkersView : QBaseRoomFrameLayout {
                 })
             }
         }
-
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }
 
     //观众端连麦监听
     private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
-
         /**
          * 本地角色变化
          */
         @SuppressLint("NotifyDataSetChanged")
         override fun onRoleChange(isLinker: Boolean) {
             Log.d("LinkerSlot", " lonLocalRoleChange 本地角色变化 ${isLinker}")
+            mLinkersView.setRole(isLinker)
             if (isLinker) {
-                //我上麦了 切换连麦模式
-                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
-                    Log.d("LinkerSlot", " zb 添加窗口 ${it.user.nick}")
-                    addLinkerPreview(it)
-                }
+                addAnchorPreview()
             } else {
-                //我下麦了 切换拉流模式
-                client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
-                    Log.d("LinkerSlot", "  zb移除窗口 ${it.user.nick}")
-                    removePreview(mLinkerAdapter.indexOf(it), it)
-                }
+                removeAnchorPreview()
             }
-            mLinkerAdapter.notifyDataSetChanged()
         }
     }
 
@@ -192,7 +146,6 @@ class MicLinkersView : QBaseRoomFrameLayout {
             ): MutableList<QMergeOption> {
                 return LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
             }
-
         }
 
     override fun getLayoutId(): Int {
@@ -200,7 +153,9 @@ class MicLinkersView : QBaseRoomFrameLayout {
     }
 
     override fun initView() {
+        mLinkersView.linkService = client?.getService(QLinkMicService::class.java)
         if (client!!.clientType == QClientType.PUSHER) {
+            mLinkersView.setRole(true)
             //我是主播
             client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter(
                 mQMixStreamAdapter
@@ -214,70 +169,35 @@ class MicLinkersView : QBaseRoomFrameLayout {
         //添加连麦麦位监听
         client!!.getService(QLinkMicService::class.java)
             .addMicLinkerListener(mQLinkMicServiceListener)
-
-        recyLinker.layoutManager = LinearLayoutManager(context)
         flLinkContent.post {
             init()
         }
     }
 
-    private fun isMyOnMic(): Boolean {
-        if (client?.clientType == QClientType.PUSHER) {
-            return true
-        }
-        linkService.allLinker.forEach {
-            if (it.user.userId == user?.userId) {
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun addLinkerPreview(micLinker: QMicLinker) {
-        if (micLinker.user.userId != roomInfo?.anchor?.userId) {
-            Log.d("LinkerSlot", "  添加窗口用户")
-            mMicSeatView.addItemView(micLinker, linkService)
-        } else {
-            Log.d("LinkerSlot", "  添加窗口房主")
-            flAnchorSurfaceCotiner.visibility = View.VISIBLE
-            flAnchorSurfaceCotiner.addView(
-                QPushTextureView(context).apply {
-                    linkService.setUserPreview(micLinker.user?.userId ?: "", this)
-                },
-                ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
+    private fun addAnchorPreview() {
+        Log.d("LinkerSlot", "  添加窗口房主")
+        flAnchorSurfaceCotiner.visibility = View.VISIBLE
+        flAnchorSurfaceCotiner.addView(
+            QPushTextureView(context).apply {
+                linkService.setUserPreview(roomInfo?.anchor?.userId ?: "", this)
+            },
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
             )
-        }
+        )
+
     }
 
-    private fun removePreview(index: Int, micLinker: QMicLinker) {
-        if (micLinker.user.userId != roomInfo?.anchor?.userId) {
-            Log.d("LinkerSlot", "  移除窗口${micLinker.user.nick}")
-            mMicSeatView.removeItem(index)
-        } else {
-            Log.d("LinkerSlot", "  移除窗口房主")
-            flAnchorSurfaceCotiner.removeAllViews()
-            flAnchorSurfaceCotiner.visibility = View.INVISIBLE
-        }
+    private fun removeAnchorPreview() {
+        Log.d("LinkerSlot", "  移除窗口房主")
+        flAnchorSurfaceCotiner.removeAllViews()
+        flAnchorSurfaceCotiner.visibility = View.INVISIBLE
     }
 
-    private fun BaseQuickAdapter<QMicLinker, BaseViewHolder>.indexOf(linker: QMicLinker): Int {
-        data.forEachIndexed { index, qnMicLinker ->
-            if (qnMicLinker.user?.userId == linker.user?.userId) {
-                return index
-            }
-        }
-        return -1
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     override fun onLeft() {
         super.onLeft()
-        mLinkerAdapter.data.clear()
-        mLinkerAdapter.notifyDataSetChanged()
-        mMicSeatView.clear();
+        mLinkersView.clear()
     }
 
 }

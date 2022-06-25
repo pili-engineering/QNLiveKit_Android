@@ -2699,6 +2699,7 @@ id flPeerContainer
 id flPkBtn
 id flRecyContent
 id flSurfaceContainer
+id flVideoMic
 id flip
 id floating
 id forever
@@ -2740,7 +2741,7 @@ id ivHost
 id ivInvite
 id ivMicStatus
 id ivMicStatusInner
-id ivMicStatusMix
+id ivOutMicStatus
 id ivSenderAvatar
 id jumpToEnd
 id jumpToStart
@@ -2772,8 +2773,8 @@ id load_more_load_fail_view
 id load_more_loading_view
 id loading_progress
 id loading_text
+id mLinkersView
 id mLivePreView
-id mMicSeatView
 id mSmartRecyclerView
 id masked
 id material_clock_display
@@ -2869,7 +2870,6 @@ id pubchatSlot
 id radio
 id rectangles
 id recyChat
-id recyLinker
 id recyOnline
 id recyclerView
 id refreshLayout
