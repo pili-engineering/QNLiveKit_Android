@@ -102,13 +102,17 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
     )
 
     private var isPKingPreview = false
+    private var isPKing = false
     private val mQPKServiceListener = object :
         QPKServiceListener {
 
         override fun onStart(pkSession: QPKSession) {
+            isPKing = true
         }
 
-        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {}
+        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
+            isPKing = false
+        }
         override fun onStartTimeOut(pkSession: QPKSession) {}
         override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
@@ -119,7 +123,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         override fun onVideoSizeChanged(width: Int, height: Int) {
             if (width < height && isPKingPreview) {
                 removeView()
-            } else if (!isPKingPreview && width > height) {
+            } else if (isPKing && !isPKingPreview && width > height) {
                 addView()
             }
         }

@@ -29,35 +29,12 @@ class RoomBackGroundView : QBaseRoomFrameLayout {
         defStyleAttr
     )
 
-    private val mQPKServiceListener = object :
-        QPKServiceListener {
-
-        override fun onStart(pkSession: QPKSession) {
-            ivBg.setImageResource(defaultBackGroundImg)
-        }
-
-        override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
-//            Glide.with(context!!).load(roomInfo?.coverURL)
-//                .into(ivBg)
-        }
-        override fun onStartTimeOut(pkSession: QPKSession) {}
-        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
-    }
-
     override fun getLayoutId(): Int {
-
         return com.qlive.uikit.R.layout.kit_img_bg
     }
 
     override fun initView() {
-        client?.getService(QPKService::class.java)?.addServiceListener(mQPKServiceListener)
         ivBg.setImageResource(defaultBackGroundImg)
-    }
-
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-        super.onJoined(roomInfo)
-        Glide.with(context!!).load(roomInfo.coverURL)
-            .into(ivBg)
     }
 
 }

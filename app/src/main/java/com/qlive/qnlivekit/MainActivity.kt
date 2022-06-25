@@ -19,8 +19,6 @@ import com.qlive.sdk.QUserInfo
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QSdkConfig
-import com.qlive.uikit.QLiveUIKitImpl
-import com.qlive.uikit.RoomListPage
 import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,6 +43,12 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //自定义连麦混流
+//        QLive.getLiveUIKit()
+//            .getPage(RoomPage::class.java)
+//            .linkersView
+//            .replace(MicLinkerSplitScreenPreview::class.java)
 
         //登陆按钮
         bt_login_login.setOnClickListener {

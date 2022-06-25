@@ -40,8 +40,8 @@ dependencies {
     implementation project(':app-sdk:depends_sdk_piliplayer') //七牛播放器 观众拉流端必选
 
     if (userAARSDK) {
-        使用 sdk方式依赖
-        无UIsdk
+      //  使用 sdk方式依赖
+       // 无UIsdk
         implementation project(':app-sdk:qlive-sdk') //必选项
         implementation 'com.qiniu:happy-dns:1.0.0' // 七牛dns 必选项目
         implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上

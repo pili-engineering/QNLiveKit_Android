@@ -69,7 +69,6 @@ dependencies {
         api project(':uikit-uicomponnets:uikit-livepreview')
         api project(':uikit-uicomponnets:uikit-linkmic')
         api project(':uikit-uicomponnets:uikit-pk')
-
     }
 
     testImplementation 'junit:junit:4.13.2'

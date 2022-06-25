@@ -19,18 +19,15 @@ class CustomRoomListActivity : BaseFrameActivity() {
 
     override fun init() {
         title = "直播列表"
-
-        roomListView.attachKitContext(QUIKitContext(this,supportFragmentManager,this,this))
-      //  roomListView.set
-//        tvCreateRoom.setOnClickListener {
-//            QNLiveRoomUIKit.createAndJoinRoom(this, object :
-//                QLiveCallBack<QLiveRoomInfo> {
-//                override fun onError(code: Int, msg: String?) {
-//                    msg?.asToast()
-//                }
-//                override fun onSuccess(data: QLiveRoomInfo?) {}
-//            })
-//        }
+        roomListView.attachKitContext(QUIKitContext(this, supportFragmentManager, this, this))
+        //主动跳转观众直播间
+       // QLive.getLiveUIKit().getPage(RoomPage::class.java).joinPlayerRoom()
+        //主动跳转主播直播间
+       // QLive.getLiveUIKit().getPage(RoomPage::class.java).joinAnchorRoom()
+        tvCreateRoom.setOnClickListener {
+            //自定义开播跳转预览创建
+            QLive.getLiveUIKit().getPage(RoomPage::class.java).createAndJoinRoom(this, null)
+        }
     }
 
 

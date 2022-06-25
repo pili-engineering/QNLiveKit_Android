@@ -172,11 +172,11 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
-            width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
-            height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mQMixStreamParams!!.FPS; // 设置合流任务的视频帧率
+            width = mixStreamParams.mixStreamWidth; // 设置合流画布的宽度
+            height = mixStreamParams.mixStringHeight; // 设置合流画布的高度
+            videoFrameRate = mixStreamParams!!.FPS; // 设置合流任务的视频帧率
 //            setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
-            bitrate = mQMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
+            bitrate = mixStreamParams.mixBitrate; // 设置合流任务的码率，单位: kbps
             mixStreamParams.backGroundImg?.let { bg ->
                 background = QNTranscodingLiveStreamingImage().apply {
                     this.url = bg.url
@@ -376,20 +376,20 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
                         // renderMode = op.stretchMode
                     }
                     mMergeTrackOptions.add(trackOp)
-                    sb.append(trackOp.toJsonObject().toString())
+                    sb.append("${key} CameraMergeOption"+trackOp.toJsonObject().toString())
                 }
                 if (op is MicrophoneMergeOption) {
                     val opTrack = QNTranscodingLiveStreamingTrack().apply {
                         trackID = key
                     }
                     mMergeTrackOptions.add(opTrack)
-                    sb.append(opTrack.toJsonObject().toString())
+                    sb.append("${key} MicrophoneMergeOption"+opTrack.toJsonObject().toString())
                 }
             }
-//            Log.d(
-//                "MixStreamHelperImp",
-//                "commitOpt fab发布混流参数  ${sb.toString()}"
-//            )
+            Log.d(
+                "MixStreamHelperImp",
+                "commitOpt fab发布混流参数  ${sb.toString()}"
+            )
             val id = if (mMixType == MixType.mix) {
                 mQNMergeJob?.streamID ?: ""
             } else {
