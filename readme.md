@@ -869,7 +869,7 @@ interface QPKService extends QLiveService{
     /**
      * 开始pk
      *
-     * @param timeoutTimestamp 等待对方流超时时间时间戳 毫秒
+     * @param timeoutTimestamp 等待对方流超时时间 单位毫秒 超时后不再响应对方发流
      * @param receiverRoomID   接受方所在房间ID
      * @param receiverUID      接收方用户ID
      * @param extension        扩展字段
