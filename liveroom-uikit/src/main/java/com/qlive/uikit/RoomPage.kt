@@ -144,7 +144,7 @@ class RoomPage : QPage {
     /**
      * 根据QLiveRoomInfo自动判断跳转主播页面还是观众页面
      */
-    fun gotoRoomActivity(
+    fun startRoomActivity(
         context: Context,
         roomInfo: QLiveRoomInfo,
         callBack: QLiveCallBack<QLiveRoomInfo>?
@@ -159,7 +159,7 @@ class RoomPage : QPage {
     /**
      * 跳转观众直播间
      */
-    fun gotoPlayerRoomActivity(
+    fun startPlayerRoomActivity(
         context: Context,
         liveRoomId: String,
         callBack: QLiveCallBack<QLiveRoomInfo>?
@@ -170,7 +170,7 @@ class RoomPage : QPage {
     /**
      * 跳转已经存在的主播直播间
      */
-    fun gotoAnchorRoomActivity(
+    fun startAnchorRoomActivity(
         context: Context,
         liveRoomId: String,
         callBack: QLiveCallBack<QLiveRoomInfo>?
@@ -181,7 +181,7 @@ class RoomPage : QPage {
     /**
      * 跳转主播开播预览页面
      */
-    fun gotoCreateRoomActivity(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
+    fun startAnchorRoomWithPreview(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         RoomPushActivity.start(context, callBack)
     }
 

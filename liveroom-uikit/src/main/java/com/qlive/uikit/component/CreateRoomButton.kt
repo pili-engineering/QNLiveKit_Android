@@ -26,7 +26,7 @@ class CreateRoomButton : FrameLayout, QComponent {
     ) {
         LayoutInflater.from(context).inflate(R.layout.kit_btn_create_room, this, true)
         tvCreateRoom.setOnClickListener {
-            QLive.getLiveUIKit().getPage(RoomPage::class.java).gotoCreateRoomActivity(context, object : QLiveCallBack<QLiveRoomInfo> {
+            QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomWithPreview(context, object : QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast(kitContext?.androidContext)
                 }

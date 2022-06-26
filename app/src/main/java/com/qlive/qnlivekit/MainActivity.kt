@@ -44,12 +44,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //自定义连麦混流
-//        QLive.getLiveUIKit()
-//            .getPage(RoomPage::class.java)
-//            .linkersView
-//            .replace(MicLinkerSplitScreenPreview::class.java)
-
         //登陆按钮
         bt_login_login.setOnClickListener {
 

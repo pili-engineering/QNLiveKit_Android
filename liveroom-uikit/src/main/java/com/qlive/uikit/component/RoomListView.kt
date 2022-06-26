@@ -82,7 +82,7 @@ class RoomListView : FrameLayout, QComponent {
 
         roomAdapter.setOnItemClickListener { _, view, position ->
             val item: QLiveRoomInfo = roomAdapter.data[position]
-            QLive.getLiveUIKit().getPage(RoomPage::class.java).gotoRoomActivity(context.currentActivity, item, object :
+            QLive.getLiveUIKit().getPage(RoomPage::class.java).startRoomActivity(context.currentActivity, item, object :
                 QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast(kitContext?.androidContext)

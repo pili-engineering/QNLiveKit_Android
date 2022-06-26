@@ -1114,13 +1114,13 @@ class RoomPage {
     addFunctionComponent(QRoomComponent component); //注册自定义功能组件
 
     //根据QLiveRoomInfo自动判断跳转主播页面还是观众页面
-    void gotoRoomActivity(@NotNull Context context, @NotNull QLiveRoomInfo roomInfo, @Nullable QLiveCallBack callBack) 
+    void startRoomActivity(@NotNull Context context, @NotNull QLiveRoomInfo roomInfo, @Nullable QLiveCallBack callBack);
     //跳转观众直播间
-    void joinPlayerRoomActivity(@NotNull Context context, @NotNull String liveRoomId, @Nullable QLiveCallBack callBack) 
+    void startPlayerRoomActivity(@NotNull Context context, @NotNull String liveRoomId, @Nullable QLiveCallBack callBack);
     //跳转已经存在的主播直播间
-    void joinAnchorRoomActivity(@NotNull Context context, @NotNull String liveRoomId, @Nullable QLiveCallBack callBack)
+    void startAnchorRoomActivity(@NotNull Context context, @NotNull String liveRoomId, @Nullable QLiveCallBack callBack);
     // 跳转主播开播预览页面
-    void gotoAnchorRoomWithPreview(@NotNull Context context, @Nullable QLiveCallBack callBack)
+    void startAnchorRoomWithPreview(@NotNull Context context, @Nullable QLiveCallBack callBack);
 }
 ```
 
