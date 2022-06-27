@@ -40,7 +40,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
     private val mAnchorFuncMenus by lazy {
         ArrayList<QLiveComponent>().apply {
             add(SendDanmakuView(context))
-            // add(AnchorInvitePlayerLinkView(context))
+           //  add(AnchorInvitePlayerLinkView(context))
             add(CloseRoomView(context))
         }
     }

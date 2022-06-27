@@ -74,24 +74,25 @@ class AnchorInvitePlayerLinkView : QBaseRoomFrameLayout {
                 "主播pk中".asToast(context)
                 return@setDoubleCheckClickListener
             }
-        }
-        OnlineLinkableUserDialog(client!!.getService(QRoomService::class.java)).apply {
-            setInviteCall { user ->
-                client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000,
-                    roomInfo!!.liveID,
-                    user.userId,
-                    null,
-                    object : QLiveCallBack<QInvitation> {
-                        override fun onError(code: Int, msg: String?) {
-                            "邀请失败${msg}".asToast(context)
-                        }
+            OnlineLinkableUserDialog(client!!.getService(QRoomService::class.java)).apply {
+                setInviteCall { user ->
+                    client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000,
+                        roomInfo!!.liveID,
+                        user.userId,
+                        null,
+                        object : QLiveCallBack<QInvitation> {
+                            override fun onError(code: Int, msg: String?) {
+                                "邀请失败${msg}".asToast(context)
+                            }
 
-                        override fun onSuccess(data: QInvitation) {
-                            "等待对方接受".asToast(context)
-                            LoadingDialog.showLoading(kitContext!!.fragmentManager)
-                        }
-                    })
-            }
-        }.show(kitContext!!.fragmentManager, "")
+                            override fun onSuccess(data: QInvitation) {
+                                "等待对方接受".asToast(context)
+                                LoadingDialog.showLoading(kitContext!!.fragmentManager)
+                            }
+                        })
+                }
+            }.show(kitContext!!.fragmentManager, "")
+
+        }
     }
 }
