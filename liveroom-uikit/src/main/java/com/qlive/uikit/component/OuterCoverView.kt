@@ -3,7 +3,10 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import com.qlive.uikitcore.QBaseRoomFrameLayout
-
+/**
+ * 覆盖层空UI
+ * 在内置UI上层
+ */
 class OuterCoverView : QBaseRoomFrameLayout {
 
     constructor(context: Context) : this(context, null)

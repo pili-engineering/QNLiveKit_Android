@@ -29,11 +29,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * 房间列表view
+ */
 class RoomListView : FrameLayout, QComponent {
-
-    companion object{
-
-    }
 
     override var kitContext: QUIKitContext? = null
     private val mEmptyView by lazy { CommonEmptyView(kitContext!!.androidContext) }

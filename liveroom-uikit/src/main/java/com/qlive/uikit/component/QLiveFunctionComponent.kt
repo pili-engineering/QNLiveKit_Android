@@ -3,6 +3,9 @@ package com.qlive.uikit.component
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
 import com.qlive.uikitcore.QLiveComponent
 
+/**
+ * 功能组件容器
+ */
 class QLiveFunctionComponent(val originComponent: QLiveComponent) {
 
     init {

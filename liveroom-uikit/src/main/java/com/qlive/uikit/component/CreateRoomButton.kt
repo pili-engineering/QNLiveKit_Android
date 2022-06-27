@@ -12,8 +12,12 @@ import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.QComponent
 import com.qlive.uikitcore.ext.asToast
+import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_btn_create_room.view.*
 
+/**
+ * 创建房间按钮
+ */
 class CreateRoomButton : FrameLayout, QComponent {
     override var kitContext: QUIKitContext? = null
 
@@ -25,7 +29,8 @@ class CreateRoomButton : FrameLayout, QComponent {
         defStyleAttr
     ) {
         LayoutInflater.from(context).inflate(R.layout.kit_btn_create_room, this, true)
-        tvCreateRoom.setOnClickListener {
+        tvCreateRoom.setDoubleCheckClickListener {
+            //调用开始创建房间方法
             QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomWithPreview(context, object : QLiveCallBack<QLiveRoomInfo> {
                 override fun onError(code: Int, msg: String?) {
                     msg?.asToast(kitContext?.androidContext)

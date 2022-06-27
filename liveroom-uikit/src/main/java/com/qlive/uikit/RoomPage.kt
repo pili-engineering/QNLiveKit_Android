@@ -22,7 +22,7 @@ import com.qlive.uikitpublicchat.RoomNoticeView
 import com.qlive.uikituser.*
 
 /**
- * 槽位表
+ * 房间页面
  */
 class RoomPage : QPage {
 
@@ -127,6 +127,11 @@ class RoomPage : QPage {
      * 主播收到连麦申请 展示弹窗 事件监听功能组件
      */
     val showLinkMicApplyComponent = QLiveFunctionComponent(ShowLinkMicApplyComponent())
+
+    /**
+     * 用户收到主播连麦邀请 展示弹窗
+     */
+    val playerShowBeInvitedComponent = QLiveFunctionComponent(PlayerShowBeInvitedComponent())
 
     /**
      * 房主离线事件处理

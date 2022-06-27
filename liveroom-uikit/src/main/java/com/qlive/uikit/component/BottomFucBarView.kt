@@ -17,10 +17,13 @@ import com.qlive.uikitcore.QBaseRoomLinearLayout
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitdanmaku.SendDanmakuView
+import com.qlive.uikitlinkmic.AnchorInvitePlayerLinkView
 import com.qlive.uikitlinkmic.StartLinkView
 import kotlinx.android.synthetic.main.kit_close_menu_view.view.*
 
-
+/**
+ * 右下角底部功能栏目
+ */
 class BottomFucBarView : QBaseRoomLinearLayout {
 
     constructor(context: Context) : this(context, null)
@@ -37,6 +40,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
     private val mAnchorFuncMenus by lazy {
         ArrayList<QLiveComponent>().apply {
             add(SendDanmakuView(context))
+            // add(AnchorInvitePlayerLinkView(context))
             add(CloseRoomView(context))
         }
     }
@@ -66,7 +70,7 @@ class BottomFucBarView : QBaseRoomLinearLayout {
         }
     }
 
-
+    //把生命周期分发到各个功能按钮
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
         menus.forEach {

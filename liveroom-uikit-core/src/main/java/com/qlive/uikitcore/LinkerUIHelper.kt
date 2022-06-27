@@ -45,12 +45,10 @@ object LinkerUIHelper {
     var uiMicWidth = 0
     var uiMicHeight = 0
     var uiTopMargin = 0
-
     /**
      * 混流换算成屏幕 每个麦位的间距
      */
     var micBottomUIMargin = 0
-
     var micRightUIMargin = 0;
 
     //页面宽高
@@ -68,13 +66,11 @@ object LinkerUIHelper {
         if (mixRatio > uiRatio) {
             //视频太高
             ratio = containerWidth.toDouble() / mixWidth
-
             uiMicWidth = (mixMicWidth * ratio).toInt()
             uiMicHeight = (mixMicHeight * ratio).toInt()
             uiTopMargin = (mixTopMargin * ratio - (mixHeight * ratio - containerHeight) / 2).toInt()
             micBottomUIMargin = (micBottomMixMargin * ratio).toInt()
             micRightUIMargin = (micRightMixMargin * ratio).toInt()
-
         } else {
             //视频太矮
             ratio = containerHeight.toDouble() / mixHeight
@@ -87,6 +83,9 @@ object LinkerUIHelper {
         }
     }
 
+    /**
+     * 获取每个麦位的混流位置参数
+     */
     fun getLinkersMixOp(
         micLinkers: List<QMicLinker>,
         roomInfo: QLiveRoomInfo
@@ -97,6 +96,8 @@ object LinkerUIHelper {
             mixWidth - mixMicWidth - micRightMixMargin
         var lastY = mixTopMargin
         micLinkers.forEach { linker ->
+
+            //主播 0，0 ， 720 ，1280
             if (linker.user.userId == roomInfo.anchor?.userId) {
                 ops.add(QMergeOption().apply {
                     uid = linker.user.userId
@@ -114,6 +115,7 @@ object LinkerUIHelper {
                     }
                 })
             } else {
+                //用户 每个 右上角依次往下排列
                 ops.add(QMergeOption().apply {
                     uid = linker.user.userId
                     cameraMergeOption = CameraMergeOption().apply {
@@ -139,6 +141,9 @@ object LinkerUIHelper {
     val pkMixWidth = 720
     val pkMixHeight = 419
 
+    /**
+     * PK混流 每个主播位置参数
+     */
     fun getPKMixOp(pkSession: QPKSession, user: QLiveUser): ArrayList<QMergeOption> {
         val ops = ArrayList<QMergeOption>()
         val peer = if (pkSession.initiator.userId == user.userId) {

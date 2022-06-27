@@ -4,7 +4,7 @@ import com.qlive.uikit.hook.KITLiveInflaterFactory
 import com.qlive.uikitcore.QLiveEmptyView
 import com.qlive.uikitcore.QLiveComponent
 
-//内置UI型号组件
+//内置UI型号组件容器
 open class QLiveView(private val originViewClass: Class<out QLiveComponent>) {
 
     init {

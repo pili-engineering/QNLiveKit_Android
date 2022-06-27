@@ -9,7 +9,7 @@ import com.qlive.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.kit_dialog_apply.*
 
 /**
- * 连麦申请弹窗
+ * 观众连麦申请弹窗
  */
 class LinkApplyDialog : FinalDialogFragment() {
 

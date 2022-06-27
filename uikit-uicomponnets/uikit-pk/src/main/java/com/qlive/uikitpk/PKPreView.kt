@@ -25,7 +25,7 @@ import com.qlive.uikitcore.QBaseRoomFrameLayout
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
 
 /**
- * pk主播
+ * pk主播预览窗口
  */
 class PKPreView : QBaseRoomFrameLayout {
 
@@ -120,6 +120,9 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
 
     private var mQPlayerEventListener = object : QPlayerEventListener {
 
+        /**
+         * 混流变化了 把播放器缩小
+         */
         override fun onVideoSizeChanged(width: Int, height: Int) {
             if (width < height && isPKingPreview) {
                 removeView()
@@ -171,11 +174,6 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
         client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
         (client as QPlayerClient).addPlayerEventListener(mQPlayerEventListener)
     }
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        super.onStateChanged(source, event)
-
-    }
 }
 
 
@@ -204,25 +202,9 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
                 FPS = 25
             }
         }
-
-        override fun onPKLinkerLeft(): MutableList<QMergeOption> {
-            //pk结束
-            val ops = ArrayList<QMergeOption>()
-            return ops
-        }
-
-        /**
-         * 当pk结束后如果还有其他普通连麦者 如何混流
-         * 如果pk结束后没有其他连麦者 则不会回调
-         * @return
-         */
-        override fun onPKMixStreamStop(): QMixStreamParams? {
-            return null
-        }
     }
 
     private var localRenderView: View? = null
-
     //PK监听
     private val mQPKServiceListener = object :
         QPKServiceListener {
@@ -233,7 +215,9 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
             } else {
                 pkSession.initiator
             }
+            //我自己预览缩小
             changeMeRenderViewToPk()
+            //添加对方预览
             flPeerContainer.addView(
                 QPushTextureView(context).apply {
                     client?.getService(QPKService::class.java)
@@ -247,7 +231,9 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         }
 
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
+            //我自己预览放大
             changeMeRenderViewToStopPk()
+            //移除对方主播预览
             flPeerContainer.removeAllViews()
         }
 
@@ -269,9 +255,12 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
 
     }
 
+    /**
+     * 缩小动画
+     */
+
     private var pkScaleX = 0f
     private var pkScaleY = 0f
-
     private var originPreViewParent: ViewGroup? = null
     private var originIndex = -1;
     private fun changeMeRenderViewToPk() {
@@ -339,6 +328,9 @@ class PKAnchorPreview : QBaseRoomFrameLayout {
         }.start()
     }
 
+    /**
+     * 放大我的预览
+     */
     private fun changeMeRenderViewToStopPk() {
         localRenderView = kitContext?.getPusherRenderViewCall?.invoke()?.getView() ?: return
         flMeContainer.removeView(localRenderView)

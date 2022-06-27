@@ -26,6 +26,9 @@ import kotlin.coroutines.suspendCoroutine
 import com.qlive.sdk.QLive
 import com.qlive.uikitcore.getCode
 
+/**
+ * 观众activity
+ */
 class RoomPullActivity : BaseFrameActivity() {
 
     companion object {
@@ -40,10 +43,13 @@ class RoomPullActivity : BaseFrameActivity() {
     }
 
     private var mRoomId = ""
+
+    //拉流客户端
     private val mRoomClient by lazy {
        QLive.createPlayerClient()
     }
 
+    //离开房间函数
     private val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
         mRoomClient.leaveRoom(object : QLiveCallBack<Void> {
             override fun onError(code: Int, msg: String?) {
@@ -57,11 +63,12 @@ class RoomPullActivity : BaseFrameActivity() {
             }
         })
     }
+    //创建并且加入房间函数
     private val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
         { p, c ->
             Toast.makeText(this,  "player activity can not create", Toast.LENGTH_SHORT).show()
         }
-
+    //UI组件上下文
     private val mQUIKitContext by lazy {
         QLiveUIKitContext(
             this@RoomPullActivity,
@@ -75,6 +82,7 @@ class RoomPullActivity : BaseFrameActivity() {
         )
     }
 
+    //加入房间
     private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QLiveRoomInfo> { cont ->
         mRoomClient.joinRoom(roomId, object :
             QLiveCallBack<QLiveRoomInfo> {
@@ -88,6 +96,11 @@ class RoomPullActivity : BaseFrameActivity() {
         })
     }
 
+    //UI组件装载器
+    /**
+     * UI组件以插件的形式加载进来
+     * 装载器完成替换删除 功能分发操作
+     */
     private val mInflaterFactory by lazy {
         KITLiveInflaterFactory(
             delegate,
@@ -118,9 +131,12 @@ class RoomPullActivity : BaseFrameActivity() {
             bg {
                 showLoading(true)
                 doWork {
+                    //加入房间
                     val room = suspendJoinRoom(mRoomId)
                     startCallBack?.onSuccess(room)
+                    //开始播放
                     mRoomClient.play(playerRenderView)
+                    //分发状态到各个UI组件
                     mInflaterFactory.onJoined(room)
                     KITFunctionInflaterFactory.onJoined(room)
                 }
@@ -152,7 +168,6 @@ class RoomPullActivity : BaseFrameActivity() {
         super.onDestroy()
         mInflaterFactory.onDestroyed()
         KITFunctionInflaterFactory.onDestroyed()
-
         mRoomClient.destroy()
         startCallBack?.onError(-1, "")
         startCallBack = null

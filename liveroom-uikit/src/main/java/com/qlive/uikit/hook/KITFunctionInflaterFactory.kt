@@ -8,6 +8,9 @@ import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.QLiveComponent
 import kotlin.collections.HashSet
 
+/**
+ * 功能组件装载器
+ */
 object KITFunctionInflaterFactory :
     QClientLifeCycleListener {
 

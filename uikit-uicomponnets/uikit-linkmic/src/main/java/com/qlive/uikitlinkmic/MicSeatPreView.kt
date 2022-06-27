@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.kit_item_linker_surface.view.flSurfaceCont
 import kotlinx.android.synthetic.main.kit_item_linker_surface.view.ivMicStatus
 import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 
-//麦位预览
+//麦位预览 多人连麦
 class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
 
     constructor(context: Context) : this(context, null)
@@ -35,6 +35,9 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
     private var isLinker = false
     var linkService: QLinkMicService? = null
 
+    /**
+     * 我的角色变跟
+     */
     fun setRole(isLinker: Boolean) {
         this.isLinker = isLinker
         for (i in 0 until childCount) {
@@ -46,6 +49,9 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
         removeAllViews()
     }
 
+    /**
+     * 添加一个新的麦位
+     */
     override fun onLinkerJoin(micLinker: QMicLinker) {
         val itemView = MicItemPreView(context)
         itemView.linkService = linkService
@@ -54,7 +60,9 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
         addView(itemView)
     }
 
-
+    /**
+     * 移除一个麦位
+     */
     override fun onLinkerLeft(micLinker: QMicLinker) {
         var target: MicItemPreView? = null
         for (i in 0 until childCount) {
@@ -98,16 +106,25 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
     }
 }
 
+/**
+ * 单个麦位item
+ */
 class MicItemPreView : FrameLayout, QLinkMicServiceListener {
 
     var mMicLinker: QMicLinker? = null
     private var isLinker = false
     var linkService: QLinkMicService? = null
+
+    /**
+     * 角色
+     */
     fun setRole(isLinker: Boolean) {
         this.isLinker = isLinker
         if (isLinker) {
+            //我上麦了添加预览别人
             addSurface()
         } else {
+            //我下麦了切换拉流模式则移除预览 统一拉流播放混流效果
             removeSurface()
         }
     }

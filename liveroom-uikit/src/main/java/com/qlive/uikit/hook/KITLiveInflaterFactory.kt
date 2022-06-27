@@ -15,7 +15,9 @@ import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.QComponent
 import com.qlive.uikitcore.QLiveComponent
 
-
+/**
+ * 直播间内 UI装载器
+ */
 class KITLiveInflaterFactory(
     private val appDelegate: AppCompatDelegate,
     private val roomClient: QLiveClient,
@@ -35,6 +37,7 @@ class KITLiveInflaterFactory(
     ): View? {
         val viewClass = replaceViews[name]?:innerComponentClass[name]
         val view = if (viewClass != null) {
+            //如果要替换哪个UI
             val constructor =
                 viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
             constructor.newInstance(context, attrs) as View
@@ -82,6 +85,9 @@ class KITLiveInflaterFactory(
     }
 }
 
+/**
+ * 直播间外UI组件装载器
+ */
 class KITInflaterFactory(
     private val appDelegate: AppCompatDelegate,
     private val QUIKitContext: QUIKitContext

@@ -9,6 +9,9 @@ import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.QComponent
 import kotlinx.android.synthetic.main.kit_room_list_toobar.view.*
 
+/**
+ * 房间列表toolbar
+ */
 class RoomListToolbar : FrameLayout, QComponent {
     override var kitContext: QUIKitContext? = null
 

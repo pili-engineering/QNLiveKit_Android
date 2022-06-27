@@ -39,7 +39,6 @@ class LivePreView : QBaseRoomFrameLayout {
             val titleStr = etTitle.text.toString()
             if (titleStr.isEmpty()) {
                 "请输入标题".asToast(context)
-
                 return@setOnClickListener
             }
             val noticeStr = etNotice.text.toString() ?: ""
@@ -63,10 +62,7 @@ class LivePreView : QBaseRoomFrameLayout {
         }
     }
 
-    override fun onEntering(roomId: String, user: QLiveUser) {
-        super.onEntering(roomId, user)
-    }
-
+    //加入成功了 隐藏开播预览
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
         visibility = View.GONE

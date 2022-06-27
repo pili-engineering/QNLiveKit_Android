@@ -10,6 +10,9 @@ import com.qlive.core.been.QExtension
 
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 
+/**
+ * PK覆盖层 暂无UI
+ */
 class PKCoverView : QBaseRoomFrameLayout {
 
     constructor(context: Context) : this(context, null)
@@ -23,11 +26,16 @@ class PKCoverView : QBaseRoomFrameLayout {
     private val mQPKServiceListener = object :
         QPKServiceListener {
 
-
+        /**
+         * pk开始 显示
+         */
         override fun onStart(pkSession: QPKSession) {
             visibility = View.VISIBLE
         }
 
+        /**
+         * pk结束 隐藏
+         */
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             visibility = View.GONE
         }

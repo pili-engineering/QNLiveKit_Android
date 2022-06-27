@@ -13,6 +13,10 @@ import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.view.CommonViewPagerAdapter
 
+/**
+ * 房间覆盖层ViewPage
+ * 左滑 隐藏 右滑显示
+ */
 class RoomCoverViewPage : ViewPager, QLiveComponent {
 
     private val views = ArrayList<View>()

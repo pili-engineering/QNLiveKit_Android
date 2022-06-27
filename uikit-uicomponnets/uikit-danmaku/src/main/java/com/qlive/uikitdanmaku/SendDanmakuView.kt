@@ -9,6 +9,9 @@ import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitinput.RoomInputDialog
 
+/**
+ * 发弹幕按钮
+ */
 class SendDanmakuView : QBaseRoomFrameLayout {
 
     constructor(context: Context) : this(context, null)

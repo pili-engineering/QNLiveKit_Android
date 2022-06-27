@@ -4,6 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 
+/**
+ * 覆盖层空UI
+ * 在内置UI下层
+ */
 class InnerCoverView : QBaseRoomFrameLayout {
 
     constructor(context: Context) : this(context, null)

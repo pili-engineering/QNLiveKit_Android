@@ -1113,7 +1113,8 @@ class RoomPage {
 
     ShowPKApplyFunctionComponent showPKApplyComponent ;//主播收到pk邀请 展示弹窗 事件监听功能组件 
     ShowLinkMicApplyFunctionComponent showLinkMicApplyComponent ;//主播收到连麦申请 展示弹窗 事件监听功能组件
-
+    PlayerShowBeInvitedComponent playerShowBeInvitedComponent; //用户收到主播连麦邀请 展示弹窗
+            
     addFunctionComponent(QRoomComponent component); //注册自定义功能组件
 
     //根据QLiveRoomInfo自动判断跳转主播页面还是观众页面

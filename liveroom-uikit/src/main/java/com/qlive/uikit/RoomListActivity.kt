@@ -9,6 +9,9 @@ import com.qlive.uikit.hook.KITInflaterFactory
 import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 
+/**
+ * 房间列表activity
+ */
 class RoomListActivity : BaseFrameActivity() {
 
     companion object {

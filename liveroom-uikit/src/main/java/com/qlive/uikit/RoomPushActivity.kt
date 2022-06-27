@@ -32,6 +32,9 @@ import com.qlive.uikitcore.getCode
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * 主播房间activity
+ */
 class RoomPushActivity : BaseFrameActivity() {
     private var roomId = ""
 
@@ -60,9 +63,16 @@ class RoomPushActivity : BaseFrameActivity() {
         }
     }
 
+    /**
+     * 主播客户端
+     */
     private val mRoomClient by lazy {
         QLive.createPusherClient()
     }
+
+    /**
+     * 主播UI上下文
+     */
     private val mQUIKitContext by lazy {
         QLiveUIKitContext(
             this@RoomPushActivity,
@@ -75,6 +85,7 @@ class RoomPushActivity : BaseFrameActivity() {
         )
     }
 
+    //离开房间函数
     private val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit = {
         mRoomClient.closeRoom(object : QLiveCallBack<Void> {
             override fun onError(code: Int, msg: String?) {
@@ -87,7 +98,7 @@ class RoomPushActivity : BaseFrameActivity() {
             }
         })
     }
-
+   //创建并且加入函数
     private val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
         { p, c ->
             bg {
@@ -110,6 +121,7 @@ class RoomPushActivity : BaseFrameActivity() {
 
         }
 
+    //创建房间
     private suspend fun createSuspend(p: QCreateRoomParam) = suspendCoroutine<QLiveRoomInfo> { ct ->
         QLive.getRooms().createRoom(p, object :
             QLiveCallBack<QLiveRoomInfo> {
@@ -123,6 +135,7 @@ class RoomPushActivity : BaseFrameActivity() {
         })
     }
 
+    //加入房间
     private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QLiveRoomInfo> { cont ->
         mInflaterFactory.onEntering(roomId, QLive.getLoginUser())
         KITFunctionInflaterFactory.onEntering(roomId, QLive.getLoginUser())
@@ -140,6 +153,9 @@ class RoomPushActivity : BaseFrameActivity() {
         })
     }
 
+    /**
+     * UI组件装载器
+     */
     private val mInflaterFactory by lazy {
         KITLiveInflaterFactory(
             delegate,
@@ -164,6 +180,7 @@ class RoomPushActivity : BaseFrameActivity() {
         mRoomClient.enableMicrophone(QMicrophoneParam())
         KITFunctionInflaterFactory.attachKitContext(mQUIKitContext)
         KITFunctionInflaterFactory.attachLiveClient(mRoomClient)
+        //房间ID不为空代表直接加入已经创建过的房间
         if (roomId.isNotEmpty()) {
             mLivePreView?.visibility = View.GONE
             bg {
