@@ -1062,7 +1062,7 @@ class QDanmaku {
 ## UIKIT
 
 ```java
-//主播列表
+//直播间列表
 class RoomListPage extends QPage {
     setCustomLayoutId(int layoutID); //替换整体布局
     AppBarView appbar;  //页面toolbar      
@@ -1070,7 +1070,7 @@ class RoomListPage extends QPage {
     CreateRoomButtonView createRoomButton; //创建房间按钮 
 }
 
-//房间列表页面
+//直播间页面
 class RoomPage {
 
     setPlayerCustomLayoutId(int layoutID); //替换整体布局 替换观众端
