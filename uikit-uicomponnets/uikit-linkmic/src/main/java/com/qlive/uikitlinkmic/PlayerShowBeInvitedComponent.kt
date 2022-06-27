@@ -90,11 +90,7 @@ class PlayerShowBeInvitedComponent : QLiveComponent {
             ?.audienceMicHandler
             ?.startLink(
                 null,
-                if (MyLinkerInfoDialog.StartLinkStore.isVideoLink) {
-                    QCameraParam()
-                } else {
-                    null
-                },
+                QCameraParam(),
                 QMicrophoneParam(),
                 object : QLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
