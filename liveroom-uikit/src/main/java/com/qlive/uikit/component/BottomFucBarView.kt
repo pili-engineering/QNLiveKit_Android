@@ -103,49 +103,4 @@ class BottomFucBarView : QBaseRoomLinearLayout {
     }
 }
 
-//关闭房间菜单
-class CloseRoomView : QBaseRoomFrameLayout {
-
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
-
-    override fun getLayoutId(): Int {
-        return R.layout.kit_close_menu_view
-    }
-
-    override fun initView() {
-        ivClose.setOnClickListener {
-            LoadingDialog.showLoading(kitContext!!.fragmentManager)
-            client?.getService(QPublicChatService::class.java)
-                ?.sendByeBye("离开了房间", null)
-
-            val call = object :
-                QLiveCallBack<Void> {
-                override fun onError(code: Int, msg: String?) {
-                    LoadingDialog.cancelLoadingDialog()
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onSuccess(data: Void?) {
-                    LoadingDialog.cancelLoadingDialog()
-                    client?.destroy()
-                    kitContext?.currentActivity?.finish()
-                }
-            }
-            kitContext?.leftRoomActionCall?.invoke(call)
-        }
-    }
-
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-        super.onJoined(roomInfo)
-        client?.getService(QPublicChatService::class.java)
-            ?.sendWelCome("进人了房间", null)
-    }
-}
-
 

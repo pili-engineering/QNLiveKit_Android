@@ -34,9 +34,9 @@ android {
 ////编译sdk模式
 def buidSdk = false
 
-//fataar {
-//    transitive = true
-//}
+fataar {
+    transitive = true
+}
 //
 //def version = 'qlive-sdk-1.0.0'
 //task makeAAR(type: Copy) {

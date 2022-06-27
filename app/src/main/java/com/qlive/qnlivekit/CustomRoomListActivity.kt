@@ -30,6 +30,7 @@ class CustomRoomListActivity : BaseFrameActivity() {
         // QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity()
         // 主动跳转主播直播间
         // QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity()
+
         tvCreateRoom.setOnClickListener {
             //自定义开播跳转预览创建
             QLive.getLiveUIKit().getPage(RoomPage::class.java)

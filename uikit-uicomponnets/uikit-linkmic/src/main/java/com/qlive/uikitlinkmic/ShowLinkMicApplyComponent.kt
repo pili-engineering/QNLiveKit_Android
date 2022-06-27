@@ -18,6 +18,7 @@ import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 
 /**
+ * 主播监听连麦申请
  * 展示连麦邀请弹窗
  */
 class ShowLinkMicApplyComponent : QLiveComponent {

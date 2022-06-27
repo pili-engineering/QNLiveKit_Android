@@ -70,7 +70,7 @@ public class QLiveRoomInfo implements Serializable {
     @JSONField(name = "live_status")
     public int liveStatus;
 
-    @JSONField(name = "anchor_status")
+    @JSONField(name = "AnchorStatus")
     public int anchorStatus;
 
 }

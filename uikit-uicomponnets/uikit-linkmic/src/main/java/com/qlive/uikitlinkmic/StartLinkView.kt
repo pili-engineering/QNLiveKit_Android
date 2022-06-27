@@ -83,28 +83,34 @@ class StartLinkView : QBaseRoomFrameLayout {
             if (roomInfo == null || client == null || user == null) {
                 return@setOnClickListener
             }
-
+            //申请中 主播还没有同意
             if (MyLinkerInfoDialog.StartLinkStore.isInviting) {
                 "正在申请中，请稍后".asToast(context)
                 return@setOnClickListener
             }
+            //我本来就在麦上
             if (client?.getService(QLinkMicService::class.java)?.audienceMicHandler?.isLinked() == true) {
+               //显示我的连麦信息
                 MyLinkerInfoDialog(client!!.getService(QLinkMicService::class.java), user!!).show(
                     kitContext!!.fragmentManager,
                     ""
                 )
                 return@setOnClickListener
             }
+            //主播PK中 不准申请
             if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
                 "主播pk中".asToast(context)
                 return@setOnClickListener
             }
+            //连麦申请弹窗
             LinkApplyDialog().apply {
                 mDefaultListener = object : FinalDialogFragment.BaseDialogListener() {
                     override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {
                         super.onDialogPositiveClick(dialog, any)
                         with(LoadingDialog) { showLoading(kitContext!!.fragmentManager) }
                         MyLinkerInfoDialog.StartLinkStore.isVideoLink = any as Boolean
+
+                        //申请上麦
                         client!!.getService(QLinkMicService::class.java).invitationHandler.apply(
                             15 * 1000,
                             roomInfo!!.liveID,

@@ -8,8 +8,6 @@ import com.qlive.rtm.leaveChannel
 import com.qlive.avparam.QIPlayer
 import com.qlive.avparam.QPlayerEventListener
 import com.qlive.avparam.QPlayerRenderView
-import com.qlive.chatservice.QChatRoomService
-import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.core.*
@@ -17,9 +15,11 @@ import com.qlive.core.QClientType
 import com.qlive.coreimpl.util.backGround
 import com.qlive.core.QLiveService
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.core.been.QPublicChat
 import com.qlive.coreimpl.datesource.RoomDataSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.util.getCode
+import com.qlive.pubchatservice.QPublicChatService
 
 class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
     companion object {
@@ -46,20 +46,18 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
     }
 
     init {
-        getService(QChatRoomService::class.java)?.addServiceListener(object :
-            QChatRoomServiceListener {
-            override fun onUserLeft(memberID: String) {
-                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
-                    mLiveContext.mRoomScheduler.setAnchorStatus(0)
-                }
+        getService(QPublicChatService::class.java)?.addServiceLister {
+            if(mLiveContext.roomInfo?.anchor?.userId?.isEmpty() != false){
+                return@addServiceLister
             }
-
-            override fun onUserJoin(memberID: String) {
-                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
-                    mLiveContext.mRoomScheduler.setAnchorStatus(1)
-                }
+            if (it.action == QPublicChat.action_bye && it.sendUser?.userId == mLiveContext.roomInfo?.anchor?.userId) {
+                mLiveContext.mRoomScheduler.setAnchorStatus(0)
+                return@addServiceLister
             }
-        })
+            if (it.action == QPublicChat.action_welcome && it.sendUser?.userId == mLiveContext.roomInfo?.anchor?.userId) {
+                mLiveContext.mRoomScheduler.setAnchorStatus(1)
+            }
+        }
     }
 
     /**

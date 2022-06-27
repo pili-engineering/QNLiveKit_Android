@@ -157,6 +157,7 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {}
 }
 //自定义UI可以参考原来的实现修改成自定义实现
+//提示：所有的UI组件不需要在activity绑定操作 只需要继承QLiveComponent就能完成所有工作
 ```
 
 替换原来内置的UI组件
@@ -635,7 +636,7 @@ class QLiveUIKit{
 
 //获取用户token的回调
 interface QTokenGetter{
-    void getTokenInfo( QLiveCallBack<String> callback);
+    void getTokenInfo( QLiveCallBack<String> callback);//实现获取token的方法
 }
 
 class QUserInfo{
@@ -657,22 +658,23 @@ class QLiveRoomInfo {
     String notice;                 //公告
     String coverURL;               //封面
     Map<String, String> extension; //房间扩展字段
-    QLiveUser anchor;
-    String roomToken;
-    String pkID;
-    long onlineCount;
-    long startTime;
-    long endTime;
-    String chatID;
-    String pushURL;
-    String hlsURL;
-    String rtmpURL;
-    String flvURL;
+    QLiveUser anchor;              //主播信息
+    String roomToken;         
+    String pkID;                   //当前房间正在进行的PK场次
+    long onlineCount;              //在线人数
+    long startTime;                //开始时间戳
+    long endTime;                  //结束时间戳
+    String chatID;                 //聊天室ID
+    String pushURL;                 //推流地址
+    String hlsURL;                 //拉流地址
+    String rtmpURL;                //拉流地址
+    String flvURL;                 //拉流地址
     double pv;
     double uv;
-    int totalCount;
-    int totalMics;
-    QLiveStatus liveStatus;
+    int totalCount;                //总人数
+    int totalMics;                 //当前连麦数量 
+    int liveStatus;                //房间状态 0已创建 1发布 2关闭
+    int anchorStatus;              //主播状态 0离线 1在线
 }
 
 //创建房间参数
@@ -932,13 +934,12 @@ interface QInvitationHandlerListener{
 class QInvitation{
     QLiveUser initiator;            //邀请方
     QLiveUser receiver;             //接受方
-    String initiatorRoomID; 
-    String receiverRoomID;
+    String initiatorRoomID;         //邀请方所在房间ID 
+    String receiverRoomID;          //接收方所在房间ID 
     HashMap<String,String> extension; //扩展字段
-    int linkType;
-
+    
     @JSONField(serialize = false)
-    int invitationID;
+    int invitationID;               //邀请ID   
 }
 ```
 ```java
@@ -986,14 +987,14 @@ interface QChatRoomService extends QLiveService {
 
 //聊天室回调
 interface QChatRoomServiceListener{
-    void onUserJoin(String memberID);
-    void onUserLeft(String memberID);
-    void onReceivedC2CMsg(String msg, String fromID, String toID);
-    void onReceivedGroupMsg(String msg, String fromID, String toID);
-    void onUserKicked(String memberID);
-    void onUserBeMuted(boolean isMute, String memberID, long duration);
-    void onAdminAdd(String memberID);
-    void onAdminRemoved(String memberID, String reason);
+    void onUserJoin(String memberID);                                    //有人加入聊天室
+    void onUserLeft(String memberID);                                    //有人离开聊天室
+    void onReceivedC2CMsg(String msg, String fromID, String toID);       //收到自定义c2c 
+    void onReceivedGroupMsg(String msg, String fromID, String toID);     //收到自定义聊天室消息
+    void onUserKicked(String memberID);                                  //有人被踢出聊天室
+    void onUserBeMuted(boolean isMute, String memberID, long duration);  //有人被禁言
+    void onAdminAdd(String memberID);                                    //有人被设置为管理员
+    void onAdminRemoved(String memberID, String reason);                 //有人被移除管理员    
 }
 ```
 
@@ -1003,9 +1004,9 @@ interface QRoomService {
     void removeServiceListener(QRoomServiceListener listener);
     void addServiceListener(QRoomServiceListener listener);
     QLiveRoomInfo getRoomInfo();
-    void getRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                             //刷新房间信息
+    void getRoomInfo(QLiveCallBack<QLiveRoomInfo> callBack);                     //刷新房间信息
     void updateExtension(QExtension extension, QLiveCallBack<void> callBack);    //跟新房间扩展字段
-    void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                         //当前房间现在用户
+    void getOnlineUser(QLiveCallBack<List<QLiveUser>> callBack);                 //当前房间现在用户
 
 }
 
@@ -1033,10 +1034,10 @@ interface QPublicChatServiceLister {
 
 //公屏消息实体
 class QPublicChat {
-    String action;
-    QLiveUser sendUser;
-    String content;
-    String senderRoomID;
+    String action;      //公聊消息类型
+    QLiveUser sendUser; //发送者
+    String content;     //内容
+    String senderRoomID;//房间ID
 }
 
 ```
@@ -1049,7 +1050,7 @@ interface QDanmakuService extends QLiveService {
 }
 //弹幕监听
 interface QNDanmakuServiceListener {
-    void onReceiveDanmaku(QDanmaku danmaku);
+    void onReceiveDanmaku(QDanmaku danmaku);  //收到弹幕消息
 }
 //弹幕实体
 class QDanmaku {
@@ -1173,10 +1174,10 @@ class QLiveFunctionComponent{
  * 1在UI组件中能获取平台特性的能力 如activiy 显示弹窗
  */
 class QUIKitContext(
-        val androidContext: Context,
-        val fm: FragmentManager,
-        val currentActivity: Activity,
-        val lifecycleOwner: LifecycleOwner,
+        val androidContext: Context,//安卓上下文
+        val fm: FragmentManager,   //显示弹窗上下文
+        val currentActivity: Activity,  //当前activity
+        val lifecycleOwner: LifecycleOwner, //页面生命周期
         )
 
 /**
