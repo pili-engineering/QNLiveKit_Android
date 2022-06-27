@@ -407,9 +407,10 @@ client.getService(QPKService::class.java)?.start(20 * 1000, receiverRoomID, rece
 private val mInvitationListener = object : QInvitationHandlerListener {
     //收到邀请
     override fun onReceivedApply(qInvitation: QInvitation) {
-       //拒绝操作
+        //todo 显示申请弹窗  qInvitation.getInitiator()获取到申请方资料 显示UI 
+       // 点击按钮  拒绝操作
        client!!.getService(QLinkMicService::class.java) .invitationHandler.reject(qInvitation.invitationID, null,callBack)
-       //接受 
+       //点击按钮 接受操作 
        client!!.getService(QLinkMicService::class.java) .invitationHandler.accept(qInvitation.invitationID, null,callBack)
     //收到对方取消    
     override fun onApplyCanceled(qInvitation: QInvitation) {}
@@ -417,7 +418,7 @@ private val mInvitationListener = object : QInvitationHandlerListener {
     override fun onApplyTimeOut(qInvitation: QInvitation) {}
     //对方接受
     override fun onAccept(qInvitation: QInvitation) {
-        //对方接受后调用开始上麦
+        //对方接受后调用开始上麦 传摄像头麦克参数 自动开启相应的媒体流
         client?.getService(QLinkMicService::class.java)?.audienceMicHandler
             ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
     }    
@@ -427,15 +428,15 @@ private val mInvitationListener = object : QInvitationHandlerListener {
 
 //麦位麦位监听
 private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
-
+       //有人上麦了
         override fun onLinkerJoin(micLinker: QMicLinker) {
             
             //麦上用户和主播 设置这个用户预览 直播用户无需设置
             val preview =QPushTextureView(context)
             linkService.setUserPreview(micLinker.user?.userId ?: "", preview)
-            //跟新连麦UI 如果要显示头像
+            //跟新连麦UI 如果要显示头像 micLinker里取到上麦者资料 
         }
-        
+        //有人下麦了
         override fun onLinkerLeft(micLinker: QMicLinker) {
             //移除设置的预览UI
             //跟新连麦UI 比如去掉麦上头像
@@ -448,7 +449,7 @@ private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
         override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
             //跟新连麦UI
         }        
-
+       //某个用户被踢麦
         override fun onLinkerKicked(micLinker: QMicLinker, msg: String) { }        
 
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
@@ -503,7 +504,7 @@ private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
 private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
     override fun onRoleChange(isLinker: Boolean) {
             if (isLinker) {
-                //我上麦了 切换连麦模式
+                //我上麦了 切换到了连麦模式
                 client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
                    //对原来麦上的人设置预览
                 }
@@ -582,11 +583,11 @@ private val mQPKServiceListener = object : QPKServiceListener {
 }
     //混流适配
  private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
-        //pk对方进入了 返回混流参数
+        //pk对方进入了 返回混流参数（同连麦）
         override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)
         }
-       //pk开始了 如果修改整个直播混流面板
+       //pk开始了 如果修改整个直播混流面板（同连麦）
         override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
             return QMixStreamParams()
         }
@@ -809,7 +810,7 @@ interface QLinkMicServiceListener{
     void onLinkerMicrophoneStatusChange(QMicLinker micLinker);                           //麦上麦克风变化回调
     void onLinkerCameraStatusChange(QMicLinker micLinker);                               //麦上摄像头变化回调
     void onLinkerKicked(QMicLinker micLinker, String msg);                               //踢人事件回调
-    void onLinkerExtensionUpdate(QMicLinker micLinker, QExtension extension);                  //麦上扩展字段变化回调 
+    void onLinkerExtensionUpdate(QMicLinker micLinker, QExtension extension);            //麦上扩展字段变化回调 
 }
 
 //主播连麦处理器 主播操作
@@ -881,6 +882,7 @@ interface QPKService extends QLiveService{
     QInvitationHandler getInvitationHandler();                                      //获取连麦邀请处理器
 }
 
+//pk监听
 interface QPKServiceListener{
     void onStart(QPKSession pkSession);                                             //pk开始
     void onStop(QPKSession pkSession,int code,String msg);                          //pk结束
