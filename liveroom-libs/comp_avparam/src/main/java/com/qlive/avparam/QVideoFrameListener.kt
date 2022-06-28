@@ -8,7 +8,7 @@ interface QVideoFrameListener {
         height: Int,
         rotation: Int,
         timestampNs: Long
-    )
+    ){}
 
     fun onTextureFrameAvailable(
         textureID: Int,
@@ -18,7 +18,9 @@ interface QVideoFrameListener {
         rotation: Int,
         timestampNs: Long,
         transformMatrix: FloatArray?
-    ): Int
+    ): Int{
+        return textureID
+    }
 }
 
 enum class QVideoFrameType {

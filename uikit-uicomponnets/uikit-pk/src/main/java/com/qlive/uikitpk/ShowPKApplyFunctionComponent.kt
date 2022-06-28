@@ -9,6 +9,7 @@ import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.linkmicservice.QLinkMicService
+import com.qlive.uikitcore.BaseQLiveComponent
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
@@ -16,12 +17,7 @@ import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.ext.asToast
 
 
-class ShowPKApplyFunctionComponent : QLiveComponent {
-
-    var client: QLiveClient? = null
-    var roomInfo: QLiveRoomInfo? = null
-    var user: QLiveUser? = null
-    var kitContext: QLiveUIKitContext? = null
+class ShowPKApplyFunctionComponent : BaseQLiveComponent() {
 
     private var isShowTip = false
 
@@ -29,8 +25,8 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
         //收到邀请
         override fun onReceivedApply(pkInvitation: QInvitation) {
 
-            if ((client?.getService(QLinkMicService::class.java)?.allLinker ?.size?:0)>1) {
-                if(!isShowTip){
+            if ((client?.getService(QLinkMicService::class.java)?.allLinker?.size ?: 0) > 1) {
+                if (!isShowTip) {
                     CommonTipDialog.TipBuild()
                         .setTittle("提示")
                         .setContent("${pkInvitation.initiator.nick} 邀请你PK，连麦中无法PK已为你自动拒绝～")
@@ -125,52 +121,11 @@ class ShowPKApplyFunctionComponent : QLiveComponent {
     }
 
     override fun attachLiveClient(client: QLiveClient) {
-        this.client = client
+        super.attachLiveClient(client)
         client.getService(QPKService::class.java).invitationHandler
             .addInvitationHandlerListener(
                 mPKInvitationListener
             )
     }
 
-    /**
-     * 绑定上下文回调
-     */
-    override fun attachKitContext(context: QLiveUIKitContext) {
-        this.kitContext = context
-    }
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            kitContext = null
-        }
-    }
-
-    /**
-     * 房间加入成功回调
-     * @param roomInfo 加入哪个房间
-     */
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-        this.roomInfo = roomInfo
-    }
-
-    /**
-     * 房间正在进入回调
-     */
-    override fun onEntering(roomId: String, user: QLiveUser) {
-        this.user = user
-    }
-
-    /**
-     * 当前房间已经离开回调 - 我是观众-离开 我是主播对应关闭房间
-     */
-    override fun onLeft() {
-
-    }
-
-    /**
-     * client销毁回调 == 房间页面将要退出
-     */
-    override fun onDestroyed() {
-        client = null
-    }
 }

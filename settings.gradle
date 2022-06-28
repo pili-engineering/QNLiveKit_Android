@@ -32,7 +32,7 @@ include ':uikit-uicomponnets:uikit-danmaku'
 include ':uikit-uicomponnets:uikit-publicchat'
 include ':uikit-uicomponnets:uiwidget-input'
 include ':uikit-uicomponnets:uiwidget-Emoji'
-include ':uikit-uicomponnets:uikit-livepreview'
+
 include ':uikit-uicomponnets:uikit-linkmic'
 include ':uikit-uicomponnets:uikit-pk'
 
@@ -46,4 +46,5 @@ include ':liveroom-libs:comp_rtclive'
 include ':qlivesdk'
 
 
-
+include ':uikit-uicomponnets:uiwidght-beauty'
+include ':uikit-uicomponnets:uikit-beauty'

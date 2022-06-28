@@ -12,6 +12,7 @@ import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.pkservice.QPKService
+import com.qlive.uikitcore.BaseQLiveComponent
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
@@ -21,12 +22,7 @@ import com.qlive.uikitcore.dialog.FinalDialogFragment
  * 主播监听连麦申请
  * 展示连麦邀请弹窗
  */
-class ShowLinkMicApplyComponent : QLiveComponent {
-
-    var client: QLiveClient? = null
-    var roomInfo: QLiveRoomInfo? = null
-    var user: QLiveUser? = null
-    var kitContext: QLiveUIKitContext? = null
+class ShowLinkMicApplyComponent : BaseQLiveComponent() {
 
     private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
@@ -83,50 +79,9 @@ class ShowLinkMicApplyComponent : QLiveComponent {
     }
 
     override fun attachLiveClient(client: QLiveClient) {
-        this.client = client
+        super.attachLiveClient(client)
         client.getService(QLinkMicService::class.java)?.invitationHandler?.addInvitationHandlerListener(
             mInvitationListener
         )
-    }
-
-    /**
-     * 绑定上下文回调
-     */
-    override fun attachKitContext(context: QLiveUIKitContext) {
-        this.kitContext = context
-    }
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            kitContext = null
-        }
-    }
-
-    /**
-     * 房间加入成功回调
-     * @param roomInfo 加入哪个房间
-     */
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-        this.roomInfo = roomInfo
-    }
-
-    /**
-     * 房间正在进入回调
-     */
-    override fun onEntering(roomId: String, user: QLiveUser) {
-        this.user = user
-    }
-
-    /**
-     * 当前房间已经离开回调 - 我是观众-离开 我是主播对应关闭房间
-     */
-    override fun onLeft() {
-    }
-
-    /**
-     * client销毁回调 == 房间页面将要退出
-     */
-    override fun onDestroyed() {
-        client = null
     }
 }

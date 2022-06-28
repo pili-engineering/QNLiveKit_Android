@@ -62,6 +62,7 @@ dependencies {
         implementation project(':qlivesdk')
         implementation project(':liveroom-uikit')
 
+        implementation project(":uikit-uicomponnets:uikit-beauty")
         //临时依赖 为demo提供http 实际接入不需要依赖这个
         implementation project(':liveroom-coreimpl')
     }

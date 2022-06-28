@@ -8,18 +8,14 @@ import com.qlive.core.QLiveStatus
 import com.qlive.core.QLiveStatusListener
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.uikitcore.BaseQLiveComponent
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 
 /**
  * 房主离线事件处理功能组件
  */
-class AnchorOfflineMonitorComponent : QLiveComponent {
-
-    var kitContext: QLiveUIKitContext? = null
-    override fun attachKitContext(context: QLiveUIKitContext) {
-        kitContext = context
-    }
+class AnchorOfflineMonitorComponent : BaseQLiveComponent() {
 
     override fun attachLiveClient(client: QLiveClient) {
         client.setLiveStatusListener(object : QLiveStatusListener {
@@ -33,18 +29,4 @@ class AnchorOfflineMonitorComponent : QLiveComponent {
         })
     }
 
-    override fun onEntering(liveId: String, user: QLiveUser) {
-    }
-
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-    }
-
-    override fun onLeft() {
-    }
-
-    override fun onDestroyed() {
-    }
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-    }
 }

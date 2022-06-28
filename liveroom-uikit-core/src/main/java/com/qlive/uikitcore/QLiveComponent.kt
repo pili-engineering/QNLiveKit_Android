@@ -23,4 +23,8 @@ interface QLiveComponent : QClientLifeCycleListener, LifecycleEventObserver {
      * 绑定房间客户端
      */
     fun attachLiveClient(client: QLiveClient)
+
+    fun getComponentName(): String {
+        return ""
+    }
 }

@@ -31,7 +31,7 @@
         tools:background="#99000000"
         tools:layout_width="100dp" />
 
-    <com.qlive.kitlivepre.LivePreView
+    <com.qlive.uikit.component.LivePreView
         android:id="@+id/mLivePreView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -42,7 +42,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -84,7 +85,6 @@
                         android:id="@+id/roomMemberSlot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         />
 
                 </LinearLayout>

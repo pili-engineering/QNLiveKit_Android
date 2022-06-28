@@ -1,7 +1,7 @@
 package com.qlive.uikit
 
 import android.content.Context
-import com.qlive.kitlivepre.LivePreView
+import com.qlive.uikit.component.LivePreView
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.sdk.QLive
@@ -9,7 +9,6 @@ import com.qlive.sdk.QPage
 import com.qlive.uikit.component.*
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
-import com.qlive.uikitcore.getCode
 import com.qlive.uikitdanmaku.DanmakuTrackManagerView
 import com.qlive.uikitlinkmic.*
 import com.qlive.uikitpk.PKCoverView

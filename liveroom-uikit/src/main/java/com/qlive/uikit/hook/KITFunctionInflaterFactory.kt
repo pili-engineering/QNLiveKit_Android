@@ -16,6 +16,15 @@ object KITFunctionInflaterFactory :
 
     val functionComponents = HashSet<QLiveComponent>()
 
+    fun findLiveComponentByName(name: String): QLiveComponent? {
+        functionComponents.forEach {
+            if (it.getComponentName() == name) {
+                return it
+            }
+        }
+        return null
+    }
+
     fun attachLiveClient(client: QLiveClient) {
         functionComponents.forEach {
             it.attachLiveClient(client)

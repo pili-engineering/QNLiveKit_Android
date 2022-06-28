@@ -4,12 +4,15 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.ViewPager
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.view.CommonViewPagerAdapter
@@ -18,7 +21,7 @@ import com.qlive.uikitcore.view.CommonViewPagerAdapter
  * 房间覆盖层ViewPage
  * 左滑 隐藏 右滑显示
  */
-class RoomCoverViewPage : ViewPager, QLiveComponent {
+class RoomCoverViewPage : QBaseRoomFrameLayout, QLiveComponent {
 
     private val views = ArrayList<View>()
 
@@ -35,52 +38,57 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
                 views.add(getChildAt(i))
             }
             removeAllViews()
-            adapter = CommonViewPagerAdapter(views)
-            currentItem = 1
+            val viewPage = MyViewPage(context)
+            addView(
+                viewPage,
+                FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            )
+            viewPage.adapter = CommonViewPagerAdapter(views)
+            viewPage.currentItem = 1
         }
     }
 
-    override fun attachKitContext(context: QLiveUIKitContext) {
+    override fun getLayoutId(): Int {
+        return -1
     }
 
-    override fun attachLiveClient(client: QLiveClient) {
+    override fun initView() {
     }
 
-    override fun onEntering(liveId: String, user: QLiveUser) {
-    }
 
-    override fun onLeft() {
-    }
+    class MyViewPage : ViewPager {
 
-    override fun onDestroyed() {
-    }
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-    }
-
-    private var lastX = 0f
-    var deal = false
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        super.onTouchEvent(ev)
-        if (deal) {
-            return true
+        constructor(context: Context) : this(context, null)
+        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         }
-        var cX = 0f;
-        when (ev.action) {
-            MotionEvent.ACTION_DOWN -> {
-                lastX = ev.x;
-                deal = false
+
+        private var lastX = 0f
+        var deal = false
+        override fun onTouchEvent(ev: MotionEvent): Boolean {
+            super.onTouchEvent(ev)
+            if (deal) {
+                return true
             }
-            MotionEvent.ACTION_MOVE -> {
-                cX = ev.x;
-                if (cX - lastX > 30) {
-                    deal = true
+            var cX = 0f;
+            when (ev.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    lastX = ev.x;
+                    deal = false
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    cX = ev.x;
+                    if (cX - lastX > 30) {
+                        deal = true
+                    }
                 }
             }
+            if (deal || MotionEvent.ACTION_DOWN == ev.action) {
+                return true
+            }
+            return false
         }
-        if (deal||  MotionEvent.ACTION_DOWN==ev.action) {
-            return true
-        }
-        return false
     }
 }
