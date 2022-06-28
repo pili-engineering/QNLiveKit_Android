@@ -24,6 +24,7 @@ import com.qlive.uikitcore.KitException
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import com.qlive.uikitcore.dialog.LoadingDialog
+import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.bg
 import com.qlive.uikitcore.ext.permission.PermissionAnywhere
 import kotlinx.android.synthetic.main.activity_room_push.*
@@ -91,6 +92,7 @@ class RoomPushActivity : BaseFrameActivity() {
             override fun onError(code: Int, msg: String?) {
                 it.onError(code, msg)
             }
+
             override fun onSuccess(data: Void?) {
                 mInflaterFactory.onLeft()
                 KITFunctionInflaterFactory.onLeft()
@@ -98,7 +100,8 @@ class RoomPushActivity : BaseFrameActivity() {
             }
         })
     }
-   //创建并且加入函数
+
+    //创建并且加入函数
     private val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit =
         { p, c ->
             bg {
@@ -111,7 +114,7 @@ class RoomPushActivity : BaseFrameActivity() {
                     c.onSuccess(null)
                 }
                 catchError {
-                    Toast.makeText(this@RoomPushActivity,  it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RoomPushActivity, it.message, Toast.LENGTH_SHORT).show()
                     c.onError(it.getCode(), it.message)
                 }
                 onFinally {
@@ -193,7 +196,7 @@ class RoomPushActivity : BaseFrameActivity() {
                 catchError {
                     startCallBack?.onError(it.getCode(), "")
                     startCallBack = null
-                    Toast.makeText(this@RoomPushActivity,  it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RoomPushActivity, it.message, Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 onFinally {
@@ -213,6 +216,7 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     override fun init() {
+
         PermissionAnywhere.requestPermission(
             this,
             arrayOf(

@@ -32,6 +32,7 @@ class CloseRoomView : QBaseRoomFrameLayout {
 
     override fun initView() {
         ivClose.setDoubleCheckClickListener {
+
             LoadingDialog.showLoading(kitContext!!.fragmentManager)
             //发离开房间消息
             client?.getService(QPublicChatService::class.java)
