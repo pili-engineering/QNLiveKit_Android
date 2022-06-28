@@ -399,6 +399,9 @@ public class MicLinkerSplitScreenPreview extends QBaseRoomFrameLayout {
 
             @Override
             public void onLinkerKicked(@NonNull QMicLinker qMicLinker, String s) {
+                if (qMicLinker.user.userId.equals(Objects.requireNonNull(getUser()).userId)) {
+                    Objects.requireNonNull(getClient()).getService(QLinkMicService.class).getAudienceMicHandler().stopLink(null);
+                }
             }
 
             @Override
