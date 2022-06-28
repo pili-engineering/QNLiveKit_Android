@@ -292,6 +292,7 @@ public class MicLinkerSplitScreenPreview extends QBaseRoomFrameLayout {
 
             @Override
             public void onLinkerKicked(@NonNull QMicLinker qMicLinker, String s) {
+                onLinkerLeft(qMicLinker);
             }
 
             @Override

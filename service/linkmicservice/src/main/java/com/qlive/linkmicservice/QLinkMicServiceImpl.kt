@@ -12,6 +12,8 @@ import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.core.been.QMicLinker
 import com.qlive.coreimpl.datesource.LinkDateSource
+import com.qlive.coreimpl.datesource.RoomDataSource
+import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.model.MuteMode
 import com.qlive.coreimpl.model.UidExtensionMode
 import com.qlive.coreimpl.model.UidMode
@@ -77,21 +79,9 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                 -> {
                     val uidMsg =
                         JsonUtils.parseObject(msg.optData(), UidMsgMode::class.java) ?: return true
-                    backGround {
-                        doWork {
-                            mMicLinkContext.getMicLinker(uidMsg.uid)?.let { lincker ->
-                                try {
-                                    mMicLinkContext.onKickCall.invoke(lincker)
-                                }catch (e:Exception){
-                                    e.printStackTrace()
-                                }
-                                mMicLinkContext.mQLinkMicServiceListeners.forEach {
-                                    it.onLinkerKicked(lincker, uidMsg.msg)
-                                }
-                            }
-                        }
-                        catchError {
-
+                    mMicLinkContext.removeLinker(uidMsg.uid)?.let { lincker ->
+                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                            it.onLinkerKicked(lincker, uidMsg.msg)
                         }
                     }
                 }
@@ -134,6 +124,22 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
             return false
         }
     }
+    private val mRtmMsgListenerC2c = object : RtmMsgListener {
+        /**
+         * 收到消息
+         * @return 是否继续分发
+         */
+        override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
+            if (liveroom_miclinker_kick == msg.optAction()) {
+                val uidMsg =
+                    JsonUtils.parseObject(msg.optData(), UidMsgMode::class.java) ?: return true
+                mMicLinkContext.getMicLinker(uidMsg.uid)?.let { lincker ->
+                    mMicLinkContext.onKickCall.invoke(lincker, uidMsg)
+                }
+            }
+            return false
+        }
+    }
 
     /**
      * 获取当前房间所有连麦用户
@@ -159,25 +165,33 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
      * @param uid
      */
     override fun kickOutUser(uid: String, msg: String, callBack: QLiveCallBack<Void>?) {
-        val uidMsgMode = UidMsgMode()
-        uidMsgMode.msg = msg
-        uidMsgMode.uid = uid
-        val rtmMsg = RtmTextMsg<UidMsgMode>(
-            liveroom_miclinker_kick,
-            uidMsgMode
-        )
-        RtmManager.rtmClient.sendChannelMsg(rtmMsg.toJsonString(),
-            currentRoomInfo?.liveID ?: "",
-            true,
-            object : RtmCallBack {
-                override fun onSuccess() {
-                    callBack?.onSuccess(null)
-                }
+        backGround {
+            doWork {
+                val u = UserDataSource().searchUserByUserId(uid)
+                val uidMsgMode = UidMsgMode()
+                uidMsgMode.msg = msg
+                uidMsgMode.uid = uid
+                val rtmMsg = RtmTextMsg<UidMsgMode>(
+                    liveroom_miclinker_kick,
+                    uidMsgMode
+                )
+                RtmManager.rtmClient.sendC2cMsg(rtmMsg.toJsonString(),
+                    u.imUid,
+                    false,
+                    object : RtmCallBack {
+                        override fun onSuccess() {
+                            callBack?.onSuccess(null)
+                        }
 
-                override fun onFailure(code: Int, msg: String) {
-                    callBack?.onError(code, msg)
-                }
-            })
+                        override fun onFailure(code: Int, msg: String) {
+                            callBack?.onError(code, msg)
+                        }
+                    })
+            }
+            catchError {
+
+            }
+        }
     }
 
     /**
@@ -204,7 +218,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                     )
                 RtmManager.rtmClient.sendChannelMsg(
                     rtmMsg.toJsonString(),
-                    currentRoomInfo?.liveID ?: "",
+                    currentRoomInfo?.chatID ?: "",
                     true
                 )
                 callBack?.onSuccess(null)
@@ -260,6 +274,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
         }
         mLinkMicInvitationHandler.attach()
         RtmManager.addRtmChannelListener(mRtmMsgListener)
+        RtmManager.addRtmC2cListener(mRtmMsgListenerC2c)
     }
 
     override fun onEntering(roomId: String, user: QLiveUser) {
@@ -315,6 +330,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
 
         mLinkMicInvitationHandler.onDestroyed()
         RtmManager.removeRtmChannelListener(mRtmMsgListener)
+        RtmManager.removeRtmC2cListener(mRtmMsgListenerC2c)
     }
 
 

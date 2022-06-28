@@ -34,11 +34,9 @@ class AnchorInvitePlayerLinkView : QBaseRoomFrameLayout {
         override fun onReceivedApply(qInvitation: QInvitation) {}
 
         override fun onApplyCanceled(qInvitation: QInvitation) {
-            MyLinkerInfoDialog.StartLinkStore.isInviting = false
         }
 
         override fun onApplyTimeOut(qInvitation: QInvitation) {
-            MyLinkerInfoDialog.StartLinkStore.isInviting = false
             LoadingDialog.cancelLoadingDialog()
         }
 

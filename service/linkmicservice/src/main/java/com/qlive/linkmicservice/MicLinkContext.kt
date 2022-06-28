@@ -4,6 +4,7 @@ import com.qlive.rtclive.DefaultExtQNClientEventListener
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.core.been.QMicLinker
+import com.qlive.coreimpl.model.UidMsgMode
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -13,7 +14,7 @@ class MicLinkContext {
     var hostLeftCall = {
 
     }
-    var onKickCall: suspend (linker: QMicLinker) -> Unit = {
+    var onKickCall:  (linker: QMicLinker, model:UidMsgMode) -> Unit = {l,m->
 
     }
 

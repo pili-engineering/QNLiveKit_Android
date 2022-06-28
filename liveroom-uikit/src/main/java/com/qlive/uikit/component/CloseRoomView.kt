@@ -2,9 +2,11 @@ package com.qlive.uikit.component
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.Toast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikit.R
 import com.qlive.uikitcore.QBaseRoomFrameLayout

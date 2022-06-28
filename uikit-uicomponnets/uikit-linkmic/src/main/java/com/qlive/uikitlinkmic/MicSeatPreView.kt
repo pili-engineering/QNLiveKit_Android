@@ -2,6 +2,7 @@ package com.qlive.uikitlinkmic
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
+import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QExtension
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.been.QMicLinker
@@ -58,6 +60,7 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
         itemView.onLinkerJoin(micLinker)
         itemView.setRole(isLinker)
         addView(itemView)
+
     }
 
     /**
@@ -166,6 +169,7 @@ class MicItemPreView : FrameLayout, QLinkMicServiceListener {
             .into(ivAvatarInner)
         ivMicStatusInner.isSelected = micLinker.isOpenMicrophone
         ivOutMicStatus.isSelected = micLinker.isOpenMicrophone
+
     }
 
     override fun onLinkerLeft(micLinker: QMicLinker) {

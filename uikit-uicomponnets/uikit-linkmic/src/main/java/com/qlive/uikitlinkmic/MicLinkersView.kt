@@ -20,6 +20,7 @@ import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
 import com.qlive.rtclive.QPushTextureView
 import com.qlive.uikitcore.*
+import com.qlive.uikitcore.ext.asToast
 import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 
 /**
@@ -91,8 +92,11 @@ class MicLinkersView : QBaseRoomFrameLayout {
         }
 
         override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {
-
+            onLinkerLeft(micLinker)
+            msg.asToast(kitContext?.androidContext)
+            QLiveLogUtil.d("onLinkerKicked","onLinkerKicked")
         }
+
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }
 
