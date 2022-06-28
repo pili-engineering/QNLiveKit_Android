@@ -33,6 +33,7 @@ android {
 
 //编译sdk模式
 def buidSdk = false
+
 fataar {
     transitive = true
 }
@@ -49,8 +50,8 @@ fataar {
 dependencies {
 
     if (buidSdk) {
-        compileOnly project(':qlivesdk')
         embed project(':liveroom-uikit-core')
+        compileOnly project(':qlivesdk')
         embed project(':uikit-uicomponnets:uikit-user')
         embed project(':uikit-uicomponnets:uikit-danmaku')
         embed project(':uikit-uicomponnets:uikit-publicchat')
