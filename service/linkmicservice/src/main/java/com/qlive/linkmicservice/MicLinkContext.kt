@@ -13,6 +13,9 @@ class MicLinkContext {
     var hostLeftCall = {
 
     }
+    var onKickCall: suspend (linker: QMicLinker) -> Unit = {
+
+    }
 
     val mQLinkMicServiceListeners = LinkedList<QLinkMicServiceListener>()
     fun removeLinker(uid: String): QMicLinker? {
@@ -55,7 +58,7 @@ class MicLinkContext {
             if (micLinker == null) {
                 //pk开始
                 if (p0 != allLinker[0].user?.userId) {
-                  //  downMicCall.invoke()
+                    //  downMicCall.invoke()
                 }
                 return
             }

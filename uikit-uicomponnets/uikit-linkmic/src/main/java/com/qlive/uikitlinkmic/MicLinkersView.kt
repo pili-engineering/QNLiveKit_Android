@@ -91,16 +91,7 @@ class MicLinkersView : QBaseRoomFrameLayout {
         }
 
         override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {
-            if (micLinker.user.userId == user?.userId) {
-                linkService.audienceMicHandler.stopLink(object :
-                    QLiveCallBack<Void> {
-                    override fun onError(code: Int, msg: String?) {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    }
 
-                    override fun onSuccess(data: Void?) {}
-                })
-            }
         }
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }

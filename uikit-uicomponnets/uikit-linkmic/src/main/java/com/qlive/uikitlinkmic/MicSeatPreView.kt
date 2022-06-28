@@ -45,7 +45,7 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
         }
     }
 
-    fun clear(){
+    fun clear() {
         removeAllViews()
     }
 
@@ -100,6 +100,7 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
     }
 
     override fun onLinkerKicked(micLinker: QMicLinker, msg: String?) {
+
     }
 
     override fun onLinkerExtensionUpdate(micLinker: QMicLinker, QExtension: QExtension?) {

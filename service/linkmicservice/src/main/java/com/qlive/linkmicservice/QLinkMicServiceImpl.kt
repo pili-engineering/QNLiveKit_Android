@@ -77,13 +77,25 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                 -> {
                     val uidMsg =
                         JsonUtils.parseObject(msg.optData(), UidMsgMode::class.java) ?: return true
+                    backGround {
+                        doWork {
+                            mMicLinkContext.removeLinker(uidMsg.uid)?.let { lincker ->
+                                try {
+                                    mMicLinkContext.onKickCall.invoke(lincker)
+                                }catch (e:Exception){
+                                    e.printStackTrace()
+                                }
+                                mMicLinkContext.mQLinkMicServiceListeners.forEach {
+                                    it.onLinkerKicked(lincker, uidMsg.msg)
+                                }
+                            }
+                        }
+                        catchError {
 
-                    mMicLinkContext.removeLinker(uidMsg.uid)?.let { lincker ->
-                        mMicLinkContext.mQLinkMicServiceListeners.forEach {
-                            it.onLinkerKicked(lincker, uidMsg.msg)
                         }
                     }
                 }
+
                 liveroom_miclinker_microphone_mute
                 -> {
                     val muteMode =

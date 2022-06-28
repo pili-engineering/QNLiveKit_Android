@@ -157,6 +157,11 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         context.mQRtcLiveRoom = QRtcLiveRoom(AppCache.appContext)
         context.mQRtcLiveRoom.addExtraQNRTCEngineEventListener(context.mExtQNClientEventListener)
         context.mQRtcLiveRoom.addExtraQNRTCEngineEventListener(mAudienceExtQNClientEventListener)
+        context.onKickCall = { linker ->
+            if (linker.user.userId == user?.userId) {
+                tryStopInner(true, true)
+            }
+        }
     }
 
     override fun onDestroyed() {
@@ -235,48 +240,55 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         stopInner(false, callBack)
     }
 
-    fun stopInner(force: Boolean, callBack: QLiveCallBack<Void>?, sendMsg: Boolean = true) {
+    private suspend fun tryStopInner(
+        force: Boolean,
+        sendMsg: Boolean = true
+    ) {
+        Log.d("QNAudience", "下麦 ")
+        try {
+            mLinkDateSource.downMic(mMeLinker!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        val mode = UidMode().apply {
+            uid = user?.userId
+        }
+        if (sendMsg) {
+            try {
+                RtmManager.rtmClient.sendChannelMsg(
+                    RtmTextMsg<UidMode>(
+                        liveroom_miclinker_left,
+                        mode
+                    ).toJsonString(),
+                    currentRoomInfo!!.chatID, false
+                )
+            } catch (e: RtmException) {
+                e.printStackTrace()
+            }
+        }
+        context.mQRtcLiveRoom.leave()
+        if (sendMsg) {
+            context.mExtQNClientEventListener.onUserLeft(
+                user?.userId ?: ""
+            )
+        }
+        Log.d("QNAudience", "下麦 1")
+        context.removeLinker(user!!.userId)
+        mQLinkMicListeners.forEach {
+            it.onRoleChange(false)
+        }
+        mPlayer?.onLinkStatusChange(false)
+        mMicListJob.start(true)
+    }
+
+    private fun stopInner(force: Boolean, callBack: QLiveCallBack<Void>?, sendMsg: Boolean = true) {
         if (mMeLinker == null) {
             callBack?.onError(-1, "user is not on mic")
             return
         }
         backGround {
             doWork {
-                Log.d("QNAudience", "下麦 ")
-                try {
-                    mLinkDateSource.downMic(mMeLinker!!)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                val mode = UidMode().apply {
-                    uid = user?.userId
-                }
-                if (sendMsg) {
-                    try {
-                        RtmManager.rtmClient.sendChannelMsg(
-                            RtmTextMsg<UidMode>(
-                                liveroom_miclinker_left,
-                                mode
-                            ).toJsonString(),
-                            currentRoomInfo!!.chatID, false
-                        )
-                    } catch (e: RtmException) {
-                        e.printStackTrace()
-                    }
-                }
-                context.mQRtcLiveRoom.leave()
-                if (sendMsg) {
-                    context.mExtQNClientEventListener.onUserLeft(
-                        user?.userId ?: ""
-                    )
-                }
-                Log.d("QNAudience", "下麦 1")
-                context.removeLinker(user!!.userId)
-                mQLinkMicListeners.forEach {
-                    it.onRoleChange(false)
-                }
-                mPlayer?.onLinkStatusChange(false)
-                mMicListJob.start(true)
+                tryStopInner(force, sendMsg)
                 callBack?.onSuccess(null)
             }
             catchError {
