@@ -65,10 +65,6 @@ class AnchorInvitePlayerLinkView : QBaseRoomFrameLayout {
             if (roomInfo == null || client == null || user == null) {
                 return@setDoubleCheckClickListener
             }
-            //已经有连麦者了
-            if ((client?.getService(QLinkMicService::class.java)?.allLinker?.size ?: 0) >= 2) {
-                return@setDoubleCheckClickListener
-            }
             //主播PK中 不准申请
             if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
                 "主播pk中".asToast(context)

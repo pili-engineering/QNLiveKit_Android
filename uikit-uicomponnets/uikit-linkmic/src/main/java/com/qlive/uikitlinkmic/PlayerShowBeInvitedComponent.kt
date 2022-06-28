@@ -1,6 +1,8 @@
 package com.qlive.uikitlinkmic
 
+import android.Manifest
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -18,6 +20,7 @@ import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.ext.asToast
+import com.qlive.uikitcore.ext.permission.PermissionAnywhere
 
 /**
  * 用户被邀请连麦申请弹窗
@@ -86,23 +89,36 @@ class PlayerShowBeInvitedComponent : QLiveComponent {
     }
 
     private fun startLink() {
-        client?.getService(QLinkMicService::class.java)
-            ?.audienceMicHandler
-            ?.startLink(
-                null,
-                QCameraParam(),
-                QMicrophoneParam(),
-                object : QLiveCallBack<Void> {
-                    override fun onError(code: Int, msg: String?) {
-                        msg?.asToast(kitContext!!.androidContext)
-                    }
-
-                    override fun onSuccess(data: Void?) {
-                        MyLinkerInfoDialog.StartLinkStore.startTime =
-                            System.currentTimeMillis()
-                    }
-                }
+        PermissionAnywhere.requestPermission(
+            kitContext!!.currentActivity as AppCompatActivity?,
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
             )
+        ) { grantedPermissions, _, _ ->
+            if (grantedPermissions.size == 2) {
+                client?.getService(QLinkMicService::class.java)
+                    ?.audienceMicHandler
+                    ?.startLink(
+                        null,
+                        QCameraParam(),
+                        QMicrophoneParam(),
+                        object : QLiveCallBack<Void> {
+                            override fun onError(code: Int, msg: String?) {
+                                msg?.asToast(kitContext!!.androidContext)
+                            }
+
+                            override fun onSuccess(data: Void?) {
+                                MyLinkerInfoDialog.StartLinkStore.isVideoLink = true
+                                MyLinkerInfoDialog.StartLinkStore.startTime =
+                                    System.currentTimeMillis()
+                            }
+                        }
+                    )
+            } else {
+                Toast.makeText(kitContext!!.androidContext, "请同意必要的权限", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun attachLiveClient(client: QLiveClient) {
