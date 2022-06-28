@@ -79,7 +79,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
                         JsonUtils.parseObject(msg.optData(), UidMsgMode::class.java) ?: return true
                     backGround {
                         doWork {
-                            mMicLinkContext.removeLinker(uidMsg.uid)?.let { lincker ->
+                            mMicLinkContext.getMicLinker(uidMsg.uid)?.let { lincker ->
                                 try {
                                     mMicLinkContext.onKickCall.invoke(lincker)
                                 }catch (e:Exception){
