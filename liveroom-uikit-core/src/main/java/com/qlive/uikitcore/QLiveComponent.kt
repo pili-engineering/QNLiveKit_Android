@@ -24,7 +24,4 @@ interface QLiveComponent : QClientLifeCycleListener, LifecycleEventObserver {
      */
     fun attachLiveClient(client: QLiveClient)
 
-    fun getComponentName(): String {
-        return ""
-    }
 }

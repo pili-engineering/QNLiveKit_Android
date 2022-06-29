@@ -3,13 +3,15 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import com.qlive.uikit.R
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.ShowDialogAble
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
+import kotlinx.android.synthetic.main.kit_bottom_menu_view.view.*
 
-class ShowBeautyPreview : QBaseRoomFrameLayout {
+class ShowBeautyView : QBaseRoomFrameLayout {
 
     private var component: ShowDialogAble? = null
 
@@ -30,11 +32,13 @@ class ShowBeautyPreview : QBaseRoomFrameLayout {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.kit_show_beauty_pre_view
+        return R.layout.kit_bottom_menu_view
     }
 
     override fun initView() {
-        setDoubleCheckClickListener {
+        ivMenu.setImageResource(R.mipmap.kit_effct_show)
+        ivMenu.setPadding(4, 4, 4, 4)
+        ivMenu.setDoubleCheckClickListener {
             component?.showDialog(0, Unit)
         }
     }

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="32dp"
     android:layout_height="32dp"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:orientation="vertical"
-    android:id="@+id/ivClose"
-    android:src="@mipmap/kit_close_room">
+    android:id="@+id/ivMenu"
+
+    tools:src="@mipmap/kit_effect_close"
+    tools:ignore="MissingDefaultResource">
 
 </ImageView>

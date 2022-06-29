@@ -55,31 +55,25 @@ public class QSenseBeautyView extends FrameLayout {
     private static final String TAG_STICKER = "sticker";
     private static final String TAG = "QSenseBeautyView";
 
-    private RecyclerView mStickersRecycleView;
-    private RecyclerView mStickerOptionsRecycleView;
+
     private RecyclerView mFilterOptionsRecycleView;
     private RecyclerView mMakeupOptionsRecycleView;
     private RecyclerView mBeautyBaseRecycleView;
-    private StickerOptionsAdapter mStickerOptionsAdapter;
+
     private BeautyOptionsAdapter mBeautyOptionsAdapter;
-    private ArrayList<StickerOptionsItem> mStickerOptionsList;
 
-    private HashMap<String, StickerAdapter> mStickerAdapters = new HashMap<>();
-    private HashMap<String, NativeStickerAdapter> mNativeStickerAdapters;
     private HashMap<String, BeautyItemAdapter> mBeautyItemAdapters;
-    private HashMap<String, ArrayList<StickerItem>> mStickerlists = new HashMap<>();
 
-    private ArrayList<StickerItem> mNewStickers;
     private HashMap<String, ArrayList<BeautyItem>> mBeautyListMap;
+    private HashMap<Integer, String> mBeautyOption;
+    private HashMap<Integer, Integer> mBeautyOptionSelectedIndex;
+
     private HashMap<String, String> mMakeupGroupIds;
     private HashMap<String, MakeupAdapter> mMakeupAdapters;
     private HashMap<String, ArrayList<MakeupItem>> mMakeupLists;
     private HashMap<String, Integer> mMakeupOptionIndex;
-
-    private HashMap<String, Integer> mMakeupOptionSelectedIndex;
-    private HashMap<String, Integer> mMakeupStrength;
-    private HashMap<String, String> mBeautyOption;
-    private HashMap<String, Integer> mBeautyOptionSelectedIndex;
+    private HashMap<Integer, Integer> mMakeupOptionSelectedIndex;
+    private HashMap<Integer, Integer> mMakeupStrength;
 
     private HashMap<String, FilterAdapter> mFilterAdapters;
     private HashMap<String, ArrayList<FilterItem>> mFilterListMap;
@@ -100,7 +94,7 @@ public class QSenseBeautyView extends FrameLayout {
     private IndicatorSeekBar mIndicatorSeekbar;
 
     //todo
-    private RelativeLayout mStickerOptions;
+
     private RelativeLayout mFilterAndBeautyOptionView;
 
     private LinearLayout mBaseBeautyOptions;
@@ -113,8 +107,7 @@ public class QSenseBeautyView extends FrameLayout {
     private int mCurrentFilterGroupIndex = -1;
     private int mCurrentFilterIndex = -1;
     private int mCurrentMakeupGroupIndex = -1;
-    private int mCurrentStickerOptionsIndex = -1;
-    private int mCurrentStickerPosition = -1;
+
     // 记录用户最后一次点击的素材id ,包括还未下载的，方便下载完成后，直接应用素材
     private String preMaterialId = "";
     private int mCurrentBeautyIndex = Constants.BEAUTY_BASE_WHITTEN;
@@ -143,8 +136,33 @@ public class QSenseBeautyView extends FrameLayout {
     private void init(Context context) {
         mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.kit_view_beauty, this, true);
+
         initEffectView();
+
+        mBaseBeautyOptions.setVisibility(View.VISIBLE);
+        mIndicatorSeekbar.setVisibility(View.VISIBLE);
+
+        if (mBeautyOptionsPosition == 3) {
+            mBaseBeautyOptions.setVisibility(View.INVISIBLE);
+            mMakeupGroupRelativeLayout.setVisibility(View.VISIBLE);
+            mMakeupIconsRelativeLayout.setVisibility(View.INVISIBLE);
+            mFilterStrengthLayout.setVisibility(View.INVISIBLE);
+            mIndicatorSeekbar.setVisibility(View.INVISIBLE);
+        } else if (mBeautyOptionsPosition == 4) {
+            mBaseBeautyOptions.setVisibility(View.INVISIBLE);
+            mFilterGroupsLinearLayout.setVisibility(View.VISIBLE);
+            mFilterIconsRelativeLayout.setVisibility(View.INVISIBLE);
+            mFilterStrengthLayout.setVisibility(View.INVISIBLE);
+            mIndicatorSeekbar.setVisibility(View.INVISIBLE);
+        }
+        mFilterAndBeautyOptionView.setVisibility(View.VISIBLE);
+        mShowOriginBtn1.setVisibility(View.INVISIBLE);
+        mShowOriginBtn2.setVisibility(View.INVISIBLE);
+        mShowOriginBtn3.setVisibility(View.VISIBLE);
+        mResetTextView.setVisibility(View.VISIBLE);
+        mBeautyOptionsAdapter.notifyDataSetChanged();
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private void initEffectView() {
@@ -205,32 +223,32 @@ public class QSenseBeautyView extends FrameLayout {
         mBeautyItemAdapters = new HashMap<>();
         mBeautyItemAdapters.put(BASE_BEAUTY, beautyBaseAdapter);
         mBeautyOption = new HashMap<>();
-        mBeautyOption.put(0 + "", BASE_BEAUTY);
+        mBeautyOption.put(0 , BASE_BEAUTY);
         mBeautyBaseRecycleView.setAdapter(beautyBaseAdapter);
 
         ArrayList<BeautyItem> professionalBeautyItemList = ResourcesUtil.getProfessionalBeautyItemList(mContext);
         mBeautyListMap.put(PROFESSIONAL_BEAUTY, professionalBeautyItemList);
         BeautyItemAdapter beautyProfessionalAdapter = new BeautyItemAdapter(mContext, professionalBeautyItemList);
         mBeautyItemAdapters.put(PROFESSIONAL_BEAUTY, beautyProfessionalAdapter);
-        mBeautyOption.put(1 + "", PROFESSIONAL_BEAUTY);
+        mBeautyOption.put(1 , PROFESSIONAL_BEAUTY);
 
         ArrayList<BeautyItem> microBeautyItem = ResourcesUtil.getMicroBeautyItemList(mContext);
         mBeautyListMap.put(MICRO_BEAUTY, microBeautyItem);
         BeautyItemAdapter microAdapter = new BeautyItemAdapter(mContext, microBeautyItem);
         mBeautyItemAdapters.put(MICRO_BEAUTY, microAdapter);
-        mBeautyOption.put(2 + "", MICRO_BEAUTY);
+        mBeautyOption.put(2 , MICRO_BEAUTY);
 
         ArrayList adjustBeautyItemList = ResourcesUtil.getAdjustBeautyItemList(mContext);
         mBeautyListMap.put(ADJUST_BEAUTY, adjustBeautyItemList);
         BeautyItemAdapter adjustAdapter = new BeautyItemAdapter(mContext, adjustBeautyItemList);
         mBeautyItemAdapters.put(ADJUST_BEAUTY, adjustAdapter);
-        mBeautyOption.put(5 + "", ADJUST_BEAUTY);
+        mBeautyOption.put(5 , ADJUST_BEAUTY);
 
         mBeautyOptionSelectedIndex = new HashMap<>();
-        mBeautyOptionSelectedIndex.put(0 + "", 0);
-        mBeautyOptionSelectedIndex.put(1 + "", 0);
-        mBeautyOptionSelectedIndex.put(2 + "", 0);
-        mBeautyOptionSelectedIndex.put(5 + "", 0);
+        mBeautyOptionSelectedIndex.put(0 , 0);
+        mBeautyOptionSelectedIndex.put(1 , 0);
+        mBeautyOptionSelectedIndex.put(2 , 0);
+        mBeautyOptionSelectedIndex.put(5 , 0);
 
         // 美妆相关视图，美妆包含口红、腮红、修容等8个部位的特效，都为二级列表，其下有各自的样式
         mMakeupOptionsRecycleView = findViewById(R.id.rv_makeup_icons);
@@ -252,8 +270,8 @@ public class QSenseBeautyView extends FrameLayout {
         mMakeupOptionSelectedIndex = new HashMap<>();
         mMakeupStrength = new HashMap<>();
         for (int i = 402; i < Constants.MAKEUP_TYPE_COUNT + 402; i++) {
-            mMakeupOptionSelectedIndex.put(i + "", 0);
-            mMakeupStrength.put(i + "", 80);
+            mMakeupOptionSelectedIndex.put(i , 0);
+            mMakeupStrength.put(i , 80);
         }
         mMakeupIconsRelativeLayout = findViewById(R.id.rl_makeup_icons);
         mMakeupGroupRelativeLayout = findViewById(R.id.rl_makeup_groups);
@@ -496,46 +514,6 @@ public class QSenseBeautyView extends FrameLayout {
         });
         mMakeupGroupName = findViewById(R.id.tv_makeup_group);
 
-        // 贴纸相关视图
-        mStickerOptionsRecycleView = findViewById(R.id.rv_sticker_options);
-        mStickerOptionsRecycleView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-        mStickerOptionsRecycleView.addItemDecoration(new SpaceItemDecoration(0));
-
-        mStickersRecycleView = findViewById(R.id.rv_sticker_icons);
-        mStickersRecycleView.setLayoutManager(new GridLayoutManager(mContext, 6));
-        mStickersRecycleView.addItemDecoration(new SpaceItemDecoration(0));
-
-        mNewStickers = FileUtils.getStickerFiles(mContext, NEW_ENGINE);
-        // 使用本地贴纸
-        mStickerOptionsList = new ArrayList<>();
-        mStickerOptionsList.add(0, new StickerOptionsItem(Constants.STICKER_NEW_ENGINE, BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_local_unselected), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_local_selected)));
-        // 2d
-        mStickerOptionsList.add(1, new StickerOptionsItem(GROUP_2D, BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_2d_unselected), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_2d_selected)));
-        // 3d
-        mStickerOptionsList.add(2, new StickerOptionsItem(GROUP_3D, BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_3d_unselected), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_3d_selected)));
-        // 手势贴纸
-        mStickerOptionsList.add(3, new StickerOptionsItem(GROUP_HAND, BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_hand_action_unselected), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_hand_action_selected)));
-        // 背景贴纸
-        mStickerOptionsList.add(4, new StickerOptionsItem(GROUP_BG, BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_bg_segment_unselected), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sticker_bg_segment_selected)));
-
-        mNativeStickerAdapters = new HashMap<>();
-        mNativeStickerAdapters.put(Constants.STICKER_NEW_ENGINE, new NativeStickerAdapter(mNewStickers, mContext));
-        mStickersRecycleView.setAdapter(mNativeStickerAdapters.get(Constants.STICKER_NEW_ENGINE));
-        mNativeStickerAdapters.get(Constants.STICKER_NEW_ENGINE).notifyDataSetChanged();
-        initNativeStickerAdapter(Constants.STICKER_NEW_ENGINE, 0);
-        mStickerOptionsAdapter = new StickerOptionsAdapter(mStickerOptionsList, mContext);
-        mStickerOptionsAdapter.setSelectedPosition(0);
-        mStickerOptionsAdapter.notifyDataSetChanged();
-        mStickerOptionsRecycleView.setAdapter(mStickerOptionsAdapter);
-
-        // 当点击关闭贴纸时移除贴纸，并将视图和记录状态复原
-        findViewById(R.id.rv_close_sticker).setOnClickListener(v -> {
-            // 重置所有状态为未选中状态
-            resetNewStickerAdapter();
-            mCurrentStickerPosition = -1;
-            QSenseTimeManager.sSenseTimePlugin.setSticker("");
-        });
-        initStickerTabListener();
 
         // 滤镜相关
         mFilterListMap = ResourcesUtil.getFilterListMap(mContext);
@@ -633,11 +611,11 @@ public class QSenseBeautyView extends FrameLayout {
                     if (mBeautyOptionsPosition == 4) {
                         // 设置滤镜强度
                         QSenseTimeManager.sSenseTimePlugin.setFilterStrength((float) progress / 100);
-                        mFilterStrengthText.setText(progress + "");
+                        mFilterStrengthText.setText(progress +"");
                     } else if (mBeautyOptionsPosition == 3) {
                         QSenseTimeManager.sSenseTimePlugin.setMakeupStrength(mCurrentMakeupGroupIndex, (float) progress / 100);
-                        mMakeupStrength.put(mCurrentMakeupGroupIndex + "", progress);
-                        mFilterStrengthText.setText(progress + "");
+                        mMakeupStrength.put(mCurrentMakeupGroupIndex , progress);
+                        mFilterStrengthText.setText(progress +"");
                     }
                 }
             }
@@ -821,7 +799,7 @@ public class QSenseBeautyView extends FrameLayout {
                 public void onClick(View v) {
                     int position = Integer.parseInt(v.getTag().toString());
                     adapter.setSelectedPosition(position);
-                    mBeautyOptionSelectedIndex.put(mBeautyOptionsPosition + "", position);
+                    mBeautyOptionSelectedIndex.put(mBeautyOptionsPosition , position);
                     if (checkMicroType()) {
                         mIndicatorSeekbar.getSeekBar().setProgress(Utils.convertToData(mBeautyListMap.get(mBeautyOption.get(mBeautyOptionsPosition)).get(position).getProgress()));
                     } else {
@@ -842,13 +820,13 @@ public class QSenseBeautyView extends FrameLayout {
                     final int position = Integer.parseInt(v.getTag().toString());
                     if (position == 0) {
                         entry.getValue().setSelectedPosition(position);
-                        mMakeupOptionSelectedIndex.put(mMakeupOptionIndex.get(entry.getKey()) + "", position);
+                        mMakeupOptionSelectedIndex.put(mMakeupOptionIndex.get(entry.getKey()) , position);
                         mFilterStrengthLayout.setVisibility(View.INVISIBLE);
                         QSenseTimeManager.sSenseTimePlugin.setMakeup(mCurrentMakeupGroupIndex, "");
                         updateMakeupOptions(mCurrentMakeupGroupIndex, false);
                     } else {
                         entry.getValue().setSelectedPosition(position);
-                        mMakeupOptionSelectedIndex.put(mMakeupOptionIndex.get(entry.getKey()) + "", position);
+                        mMakeupOptionSelectedIndex.put(mMakeupOptionIndex.get(entry.getKey()) , position);
                         QSenseTimeManager.sSenseTimePlugin.setMakeup(mCurrentMakeupGroupIndex, mMakeupLists.get(ResourcesUtil.getMakeupNameOfType(mCurrentMakeupGroupIndex)).get(position).path);
                         QSenseTimeManager.sSenseTimePlugin.setMakeupStrength(mCurrentMakeupGroupIndex, (float) mMakeupStrength.get(mCurrentMakeupGroupIndex) / 100.f);
                         mFilterStrengthLayout.setVisibility(View.VISIBLE);
@@ -862,8 +840,6 @@ public class QSenseBeautyView extends FrameLayout {
 
         // 美颜面板
         mBaseBeautyOptions = findViewById(R.id.ll_base_beauty_options);
-        // 贴纸面板
-        mStickerOptions = findViewById(R.id.rl_sticker_options);
 
         // 重置视图，点击会执行各种特效的重置逻辑
         mResetTextView = findViewById(R.id.reset);
@@ -917,11 +893,6 @@ public class QSenseBeautyView extends FrameLayout {
         mShowOriginBtn3.setOnTouchListener(onTouchShowOriginBtnListener);
 
 
-        if (mStickerOptionsRecycleView.getAdapter() == null) {
-            mStickerOptionsRecycleView.setAdapter(mStickerOptionsAdapter);
-        }
-//        mStickerOptionsAdapter.setSelectedPosition(0);
-//        mStickerOptionsAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -950,77 +921,6 @@ public class QSenseBeautyView extends FrameLayout {
         mFilterAdapters.get(FILTER_FOOD).notifyDataSetChanged();
 
         mFilterStrengthLayout.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * 初始化 tab 点击事件
-     */
-    private void initStickerTabListener() {
-        // tab 切换事件订阅
-        mStickerOptionsAdapter.setClickStickerListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mStickerOptionsList == null || mStickerOptionsList.size() <= 0) {
-                    Log.e(TAG, "group 列表不能为空");
-                    return;
-                }
-                int position = Integer.parseInt(v.getTag().toString());
-                mStickerOptionsAdapter.setSelectedPosition(position);
-                mStickersRecycleView.setLayoutManager(new GridLayoutManager(mContext, 6));
-
-                // 更新这一次的选择
-                StickerOptionsItem selectedItem = mStickerOptionsAdapter.getPositionItem(position);
-                if (selectedItem == null) {
-                    Log.e(TAG, "选择项目不能为空!");
-                    return;
-                }
-                RecyclerView.Adapter selectedAdapter = null;
-                if (selectedItem.name.equals(Constants.STICKER_NEW_ENGINE)) {
-                    selectedAdapter = mNativeStickerAdapters.get(selectedItem.name);
-                } else {
-                    selectedAdapter = mStickerAdapters.get(selectedItem.name);
-                }
-
-                if (selectedAdapter == null) {
-                    Log.e(TAG, "贴纸 adapter 不能为空");
-                    Toast.makeText(mContext, "列表正在拉取，或拉取出错!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                mStickersRecycleView.setAdapter(selectedAdapter);
-                mStickerOptionsAdapter.notifyDataSetChanged();
-                selectedAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    /**
-     * 初始化贴纸的 adapter
-     */
-    private void initNativeStickerAdapter(final String stickerClassName, final int index) {
-        mNativeStickerAdapters.get(stickerClassName).setSelectedPosition(-1);
-        mNativeStickerAdapters.get(stickerClassName).setClickStickerListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.parseInt(v.getTag().toString());
-
-                if (mCurrentStickerOptionsIndex == index && mCurrentStickerPosition == position) {
-                    mNativeStickerAdapters.get(stickerClassName).setSelectedPosition(-1);
-                    mCurrentStickerOptionsIndex = -1;
-                    mCurrentStickerPosition = -1;
-
-                    QSenseTimeManager.sSenseTimePlugin.setSticker("");
-                } else {
-                    mCurrentStickerOptionsIndex = index;
-                    mCurrentStickerPosition = position;
-
-                    mNativeStickerAdapters.get(stickerClassName).setSelectedPosition(position);
-                    QSenseTimeManager.sSenseTimePlugin.setSticker(mNewStickers.get(position).path);
-                }
-
-                mNativeStickerAdapters.get(stickerClassName).notifyDataSetChanged();
-            }
-        });
     }
 
     /**
@@ -1134,8 +1034,8 @@ public class QSenseBeautyView extends FrameLayout {
             final int finalI = i;
             QSenseTimeManager.sSenseTimePlugin.setMakeup(finalI, "");
             QSenseTimeManager.sSenseTimePlugin.setMakeupStrength(finalI, 0);
-            mMakeupOptionSelectedIndex.put(i + "", 0);
-            mMakeupStrength.put(i + "", 80);
+            mMakeupOptionSelectedIndex.put(i , 0);
+            mMakeupStrength.put(i , 80);
         }
 
         mFilterStrengthLayout.setVisibility(View.INVISIBLE);
@@ -1297,18 +1197,9 @@ public class QSenseBeautyView extends FrameLayout {
         }
     }
 
-    /**
-     * 重置贴纸的 adapter
-     */
-    private void resetNewStickerAdapter() {
-        if (mNativeStickerAdapters.get(Constants.STICKER_NEW_ENGINE) != null) {
-            mNativeStickerAdapters.get(Constants.STICKER_NEW_ENGINE).setSelectedPosition(-1);
-            mNativeStickerAdapters.get(Constants.STICKER_NEW_ENGINE).notifyDataSetChanged();
-        }
-    }
 
     // 分隔间距,继承于 RecyclerView.ItemDecoration
-    class BeautyItemDecoration extends RecyclerView.ItemDecoration {
+    static class BeautyItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public BeautyItemDecoration(int space) {
@@ -1324,7 +1215,7 @@ public class QSenseBeautyView extends FrameLayout {
     }
 
     // 分隔间距,继承于 RecyclerView.ItemDecoration
-    class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+    static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public SpaceItemDecoration(int space) {

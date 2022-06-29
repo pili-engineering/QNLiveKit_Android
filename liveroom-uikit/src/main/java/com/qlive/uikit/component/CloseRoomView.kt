@@ -2,17 +2,15 @@ package com.qlive.uikit.component
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.Toast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikit.R
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
-import kotlinx.android.synthetic.main.kit_close_menu_view.view.*
+import kotlinx.android.synthetic.main.kit_bottom_menu_view.view.*
 
 
 //关闭房间菜单
@@ -27,11 +25,12 @@ class CloseRoomView : QBaseRoomFrameLayout {
     )
 
     override fun getLayoutId(): Int {
-        return R.layout.kit_close_menu_view
+        return R.layout.kit_bottom_menu_view
     }
 
     override fun initView() {
-        ivClose.setDoubleCheckClickListener {
+        ivMenu.setImageResource(R.mipmap.kit_close_room)
+        ivMenu.setDoubleCheckClickListener {
 
             LoadingDialog.showLoading(kitContext!!.fragmentManager)
             //发离开房间消息

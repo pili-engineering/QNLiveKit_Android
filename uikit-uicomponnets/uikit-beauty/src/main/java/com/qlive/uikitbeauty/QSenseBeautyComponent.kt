@@ -1,6 +1,5 @@
 package com.qlive.uikitbeauty
 
-import android.util.Log
 import androidx.fragment.app.DialogFragment
 import com.qlive.avparam.QVideoFrameListener
 import com.qlive.avparam.QVideoFrameType
@@ -11,20 +10,18 @@ import com.qlive.uikitcore.BaseQLiveComponent
 import com.qlive.uikitcore.ShowDialogAble
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uiwidghtbeauty.BeautyDialogFragment
+import com.qlive.uiwidghtbeauty.EffectBeautyDialogFragment
 import com.qlive.uiwidghtbeauty.QSenseTimeManager
 import com.qlive.uiwidghtbeauty.QSenseTimeManager.sSenseTimePlugin
+import com.qlive.uiwidghtbeauty.StickerDialog
 
 /**
  * 美颜插件
  */
 class QSenseBeautyComponent : BaseQLiveComponent(), ShowDialogAble {
 
-    private var mBeautyDialogFragment: BeautyDialogFragment? = null
-
-    override fun getComponentName(): String {
-        return "senseBeautyComponent"
-    }
-
+    private var mEffectBeautyDialogFragment: BeautyDialogFragment? = null
+    private var mStickerDialog: StickerDialog? = null
     private val mVideoFrameListener = object : QVideoFrameListener {
         override fun onYUVFrameAvailable(
             data: ByteArray,
@@ -34,7 +31,8 @@ class QSenseBeautyComponent : BaseQLiveComponent(), ShowDialogAble {
             rotation: Int,
             timestampNs: Long
         ) {
-            Log.d("onYUVFrameAvailable","rotation ${rotation}")
+            // 前置摄像头返回的图像是横向镜像的
+            sSenseTimePlugin.updateDirection(rotation, (rotation == 270 || rotation == 90), false)
         }
 
         override fun onTextureFrameAvailable(
@@ -56,7 +54,8 @@ class QSenseBeautyComponent : BaseQLiveComponent(), ShowDialogAble {
             return
         }
         QSenseTimeManager.initSenseTime()
-        mBeautyDialogFragment = BeautyDialogFragment()
+        mEffectBeautyDialogFragment = EffectBeautyDialogFragment()
+        mStickerDialog = StickerDialog()
         (client as QPusherClient).setVideoFrameListener(mVideoFrameListener)
     }
 
@@ -70,11 +69,20 @@ class QSenseBeautyComponent : BaseQLiveComponent(), ShowDialogAble {
         arg: Any,
         listener: FinalDialogFragment.BaseDialogListener?
     ): DialogFragment {
-        mBeautyDialogFragment?.dismissCall = {
-            listener?.onDismiss(mBeautyDialogFragment!!)
-            mBeautyDialogFragment?.dismissCall = {}
+        if(code==0){
+            mEffectBeautyDialogFragment?.dismissCall = {
+                listener?.onDismiss(mEffectBeautyDialogFragment!!)
+                mEffectBeautyDialogFragment?.dismissCall = {}
+            }
+            mEffectBeautyDialogFragment!!.show(kitContext!!.fragmentManager, "")
+            return mEffectBeautyDialogFragment!!
+        }else{
+            mStickerDialog?.dismissCall = {
+                listener?.onDismiss(mStickerDialog!!)
+                mStickerDialog?.dismissCall = {}
+            }
+            mStickerDialog!!.show(kitContext!!.fragmentManager, "")
+            return mStickerDialog!!
         }
-        mBeautyDialogFragment!!.show(kitContext!!.fragmentManager, "")
-        return mBeautyDialogFragment!!
     }
 }

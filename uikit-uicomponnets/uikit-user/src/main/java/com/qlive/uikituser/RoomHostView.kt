@@ -2,6 +2,7 @@ package com.qlive.uikituser
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import com.bumptech.glide.Glide
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser

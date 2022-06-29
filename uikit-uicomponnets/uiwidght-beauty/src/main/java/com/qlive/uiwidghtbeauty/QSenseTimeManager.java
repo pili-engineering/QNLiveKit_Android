@@ -3,6 +3,7 @@ package com.qlive.uiwidghtbeauty;
 import static com.qlive.uiwidghtbeauty.utils.Constants.LICENSE_FILE;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin;
@@ -20,29 +21,24 @@ public class QSenseTimeManager {
     private static final String DST_FOLDER = "resource";
     protected static Context sAppContext;
 
-    public static void initEffect(Context appContext, String appId, String appKey) {
+    public static void initEffectFromLocalLicense(Context appContext) {
         sAppContext = appContext;
         sSenseTimePlugin = new QNSenseTimePlugin.Builder(appContext)
                 .setLicenseAssetPath(LICENSE_FILE)
                 .setModelActionAssetPath("M_SenseME_Face_Video_5.3.3.model")
                 .setCatFaceModelAssetPath("M_SenseME_CatFace_3.0.0.model")
                 .setDogFaceModelAssetPath("M_SenseME_DogFace_2.0.0.model")
+                // 关闭在线拉取授权文件，使用离线授权文件
+                .setOnlineLicense(false)
+                // 关闭在线激活授权，使用离线激活授权
+                .setOnlineActivate(false)
                 .build();
 
         boolean isAuthorized = sSenseTimePlugin.checkLicense();
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show();
         }
-        SenseArMaterialService.shareInstance().authorizeWithAppId(appContext, appId, appKey, new SenseArMaterialService.OnAuthorizedListener() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onFailure(SenseArMaterialService.AuthorizeErrorCode errorCode, String errorMsg) {
-                ToastUtils.showShortToast(appContext, String.format(Locale.getDefault(), "鉴权失败！%d, %s", errorCode, errorMsg));
-            }
-        });
+        Log.d("QSenseTimeManager", "authorizeWithAppId" + "鉴权onSuccess ");
     }
 
     public static void checkLoadResourcesTask(Context context, int resVersion, LoadResourcesTask.ILoadResourcesCallback callback) {
@@ -69,11 +65,6 @@ public class QSenseTimeManager {
 
     public static void addSubModelFromAssetsFile(String subModelFromAssetsFile) {
         sSubModelFromAssetsFile.add(subModelFromAssetsFile);
-//        sSenseTimePlugin.addSubModelFromAssetsFile("M_SenseME_Face_Extra_5.23.0.model");
-//        sSenseTimePlugin.addSubModelFromAssetsFile("M_SenseME_Iris_2.0.0.model");
-//        sSenseTimePlugin.addSubModelFromAssetsFile("M_SenseME_Hand_5.4.0.model");
-//        sSenseTimePlugin.addSubModelFromAssetsFile("M_SenseME_Segment_4.10.8.model");
-//        sSenseTimePlugin.addSubModelFromAssetsFile("M_SenseAR_Segment_MouthOcclusion_FastV1_1.1.1.model");
         sSenseTimePlugin.recoverEffects();
     }
 

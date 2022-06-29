@@ -280,6 +280,8 @@ open class QRtcLiveRoom(
     }
 
     fun close() {
+        mAudioFrameListener = null
+        mVideoFrameListener = null
         mQNRTCEngineEventWrap.clear()
         QNRTC.deinit()
     }

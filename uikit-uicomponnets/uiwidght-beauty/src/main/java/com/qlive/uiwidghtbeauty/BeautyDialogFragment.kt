@@ -3,25 +3,15 @@ package com.qlive.uiwidghtbeauty
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.kit_beauty_effect_dialog.view.*
 
-class BeautyDialogFragment : DialogFragment() {
+open class BeautyDialogFragment : DialogFragment() {
     var dismissCall: () -> Unit = {}
     private var mdimAmount = 0f
     private var mGravityEnum: Int = Gravity.BOTTOM
-    private var mSenseBeautyView: QSenseBeautyView? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        if (mSenseBeautyView == null) {
-            mSenseBeautyView =
-                QSenseBeautyView(requireContext())
-        }
-        return mSenseBeautyView
-    }
 
     private fun Window.applyGravityStyle(
         gravity: Int, resId: Int?, width: Int = ViewGroup.LayoutParams.MATCH_PARENT,

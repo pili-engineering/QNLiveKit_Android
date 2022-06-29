@@ -19,7 +19,6 @@ import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitdanmaku.SendDanmakuView
 import com.qlive.uikitlinkmic.AnchorInvitePlayerLinkView
 import com.qlive.uikitlinkmic.StartLinkView
-import kotlinx.android.synthetic.main.kit_close_menu_view.view.*
 
 /**
  * 右下角底部功能栏目
@@ -40,7 +39,9 @@ class BottomFucBarView : QBaseRoomLinearLayout {
     private val mAnchorFuncMenus by lazy {
         ArrayList<QLiveComponent>().apply {
             add(SendDanmakuView(context))
-           //  add(AnchorInvitePlayerLinkView(context))
+            add(ShowBeautyView(context))
+            add(ShowStickerBeautyView(context))
+            //  add(AnchorInvitePlayerLinkView(context))
             add(CloseRoomView(context))
         }
     }

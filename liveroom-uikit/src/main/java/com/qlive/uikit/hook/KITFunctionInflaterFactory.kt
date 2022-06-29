@@ -16,9 +16,9 @@ object KITFunctionInflaterFactory :
 
     val functionComponents = HashSet<QLiveComponent>()
 
-    fun findLiveComponentByName(name: String): QLiveComponent? {
+    fun findLiveComponentByName(simpleName: String): QLiveComponent? {
         functionComponents.forEach {
-            if (it.getComponentName() == name) {
+            if (it.javaClass.name == simpleName) {
                 return it
             }
         }

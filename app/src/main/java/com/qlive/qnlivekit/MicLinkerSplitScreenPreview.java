@@ -39,9 +39,13 @@ import java.util.Objects;
 
 /**
  * 两人分屏连麦demo
+ *        //自定义连麦混流
+ * //        QLive.getLiveUIKit()
+ * //            .getPage(RoomPage::class.java)
+ * //            .linkersView
+ * //            .replace(MicLinkerSplitScreenPreview::class.java)
  */
 public class MicLinkerSplitScreenPreview extends QBaseRoomFrameLayout {
-
 
     private BaseSplitScreenPreview linkerPreview = null;
 
@@ -149,7 +153,6 @@ public class MicLinkerSplitScreenPreview extends QBaseRoomFrameLayout {
             ivBackGround = findViewById(R.id.ivBackGround);
         }
     }
-
 
     /**
      * 主播端分屏连麦逻辑

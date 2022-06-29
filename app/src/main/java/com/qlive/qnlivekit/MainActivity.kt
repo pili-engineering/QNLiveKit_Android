@@ -86,7 +86,6 @@ class MainActivity : AppCompatActivity() {
         initOtherView()
     }
 
-
     /**
      * 初始化sdk
      */

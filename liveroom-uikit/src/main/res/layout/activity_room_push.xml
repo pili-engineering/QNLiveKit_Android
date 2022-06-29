@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
+
     tools:context=".RoomPushActivity">
 
     <com.qlive.uikit.component.RoomBackGroundView
@@ -34,7 +35,8 @@
     <com.qlive.uikit.component.LivePreView
         android:id="@+id/mLivePreView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
 
     <com.qlive.uikit.component.RoomCoverViewPage
         android:layout_width="match_parent"
@@ -42,8 +44,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -66,26 +67,27 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:orientation="horizontal"
-                    tools:background="#000000"
+
+
                     tools:layout_height="70dp">
                     <!--             左上-->
-
                     <com.qlive.uikituser.RoomHostView
                         android:id="@+id/roomHostSlot"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                       />
 
                     <com.qlive.uikituser.OnlineUserView
                         android:id="@+id/onLineUserSlot"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        tools:background="#2234ff" />
 
                     <com.qlive.uikituser.RoomMemberCountView
                         android:id="@+id/roomMemberSlot"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -181,6 +183,7 @@
                 android:layout_height="wrap_content" />
 
         </FrameLayout>
+
     </com.qlive.uikit.component.RoomCoverViewPage>
 
 </FrameLayout>

@@ -8,8 +8,9 @@ import com.qlive.uikit.hook.KITFunctionInflaterFactory
 import com.qlive.uikitcore.QBaseRoomFrameLayout
 import com.qlive.uikitcore.ShowDialogAble
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
+import kotlinx.android.synthetic.main.kit_bottom_menu_view.view.*
 
-class ShowBeautyPreview : QBaseRoomFrameLayout {
+class ShowStickerBeautyView : QBaseRoomFrameLayout {
 
     private var component: ShowDialogAble? = null
 
@@ -30,12 +31,13 @@ class ShowBeautyPreview : QBaseRoomFrameLayout {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.kit_show_beauty_pre_view
+        return R.layout.kit_bottom_menu_view
     }
 
     override fun initView() {
-        setDoubleCheckClickListener {
-            component?.showDialog(0, Unit)
+        ivMenu.setImageResource(R.mipmap.kit_sticker_close)
+        ivMenu.setDoubleCheckClickListener {
+            component?.showDialog(1, Unit)
         }
     }
 }
