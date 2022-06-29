@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.ViewPager
@@ -29,18 +30,23 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         visibility = View.VISIBLE
-        if (views.isEmpty()) {
-            views.clear()
-            for (i in 0 until childCount) {
-                views.add(getChildAt(i))
-            }
-            removeAllViews()
-            adapter = CommonViewPagerAdapter(views)
-            currentItem = 1
-        }
+
     }
 
     override fun attachKitContext(context: QLiveUIKitContext) {
+        post {
+            if (views.isEmpty()) {
+                views.clear()
+                val prentView = (parent as ViewGroup)
+                for (i in 1 until prentView.childCount) {
+                    views.add(prentView.getChildAt(i))
+                }
+                prentView.removeViews(1, prentView.childCount-1)
+                removeAllViews()
+                adapter = CommonViewPagerAdapter(views)
+                currentItem = 1
+            }
+        }
     }
 
     override fun attachLiveClient(client: QLiveClient) {
@@ -78,7 +84,7 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
                 }
             }
         }
-        if (deal||  MotionEvent.ACTION_DOWN==ev.action) {
+        if (deal || MotionEvent.ACTION_DOWN == ev.action) {
             return true
         }
         return false
