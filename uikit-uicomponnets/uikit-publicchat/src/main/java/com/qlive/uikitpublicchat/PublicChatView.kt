@@ -12,7 +12,7 @@ import com.qlive.pubchatservice.QPublicChatServiceLister
 import com.qlive.uikitcore.*
 import kotlinx.android.synthetic.main.kit_view_publicchatslotview.view.*
 
-class PublicChatView : QBaseRoomFrameLayout {
+class PublicChatView : QKitFrameLayout {
 
     private val mAdapter = PubChatAdapter().apply {
         mAvatarClickCall = { item: QPublicChat, view: View ->

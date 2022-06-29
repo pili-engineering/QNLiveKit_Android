@@ -11,14 +11,14 @@ import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QPKSession
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_start_pk_view.view.*
 
-class StartPKView : QBaseRoomFrameLayout {
+class StartPKView : QKitFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

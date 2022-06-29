@@ -8,12 +8,12 @@ import com.qlive.pkservice.QPKServiceListener
 import com.qlive.core.been.QPKSession
 import com.qlive.core.been.QExtension
 
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 
 /**
  * PK覆盖层 暂无UI
  */
-class PKCoverView : QBaseRoomFrameLayout {
+class PKCoverView : QKitFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

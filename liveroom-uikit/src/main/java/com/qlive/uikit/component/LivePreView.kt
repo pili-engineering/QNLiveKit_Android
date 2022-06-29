@@ -9,7 +9,7 @@ import com.qlive.core.*
 import com.qlive.uikit.R
 import com.qlive.pushclient.QPusherClient
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.core.been.QLiveUser
 import com.qlive.sdk.QLive
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.kit_live_preview.view.*
 /**
  * 开播预览槽位
  */
-class LivePreView : QBaseRoomFrameLayout {
+class LivePreView : QKitFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

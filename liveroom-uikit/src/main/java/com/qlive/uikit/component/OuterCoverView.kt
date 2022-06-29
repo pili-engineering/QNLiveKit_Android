@@ -2,12 +2,12 @@ package com.qlive.uikit.component
 
 import android.content.Context
 import android.util.AttributeSet
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 /**
  * 覆盖层空UI
  * 在内置UI上层
  */
-class OuterCoverView : QBaseRoomFrameLayout {
+class OuterCoverView : QKitFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

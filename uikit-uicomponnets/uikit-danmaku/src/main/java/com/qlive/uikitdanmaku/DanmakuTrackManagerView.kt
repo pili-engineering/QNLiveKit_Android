@@ -10,14 +10,14 @@ import com.qlive.core.been.QDanmaku
 import com.qlive.danmakuservice.QDanmakuService
 import com.qlive.danmakuservice.QDanmakuServiceListener
 import com.qlive.core.QLiveClient
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.ext.ViewUtil
 
 /**
  * 弹幕轨道管理view
  */
-class DanmakuTrackManagerView : QBaseRoomFrameLayout {
+class DanmakuTrackManagerView : QKitFrameLayout {
     private val mTrackManager = TrackManager()
     private val mQDanmakuServiceListener = object : QDanmakuServiceListener {
         override fun onReceiveDanmaku(danmaku: QDanmaku) {

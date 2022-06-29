@@ -7,14 +7,13 @@ import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikit.R
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitImageView
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
-import kotlinx.android.synthetic.main.kit_bottom_menu_view.view.*
 
 
 //关闭房间菜单
-class CloseRoomView : QBaseRoomFrameLayout {
+class CloseRoomView : QKitImageView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -22,16 +21,8 @@ class CloseRoomView : QBaseRoomFrameLayout {
         context,
         attrs,
         defStyleAttr
-    )
-
-    override fun getLayoutId(): Int {
-        return R.layout.kit_bottom_menu_view
-    }
-
-    override fun initView() {
-        ivMenu.setImageResource(R.mipmap.kit_close_room)
-        ivMenu.setDoubleCheckClickListener {
-
+    ) {
+        setDoubleCheckClickListener {
             LoadingDialog.showLoading(kitContext!!.fragmentManager)
             //发离开房间消息
             client?.getService(QPublicChatService::class.java)

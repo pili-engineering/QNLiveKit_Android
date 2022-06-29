@@ -3,27 +3,20 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.qlive.core.QClientType
-import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
-import com.qlive.uikit.R
-import com.qlive.pubchatservice.QPublicChatService
-import com.qlive.uikitcore.QBaseRoomFrameLayout
-import com.qlive.uikitcore.QBaseRoomLinearLayout
+import com.qlive.uikitcore.QKitLinearLayout
 import com.qlive.uikitcore.QLiveComponent
-import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitdanmaku.SendDanmakuView
-import com.qlive.uikitlinkmic.AnchorInvitePlayerLinkView
 import com.qlive.uikitlinkmic.StartLinkView
 
 /**
  * 右下角底部功能栏目
  */
-class BottomFucBarView : QBaseRoomLinearLayout {
+class BottomFucBarView : QKitLinearLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

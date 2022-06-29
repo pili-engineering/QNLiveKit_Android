@@ -3,14 +3,13 @@ package com.qlive.uikituser
 import android.content.Context
 import android.util.AttributeSet
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitTextView
 import com.qlive.uikitcore.Scheduler
 import com.qlive.uikitcore.ext.toHtml
-import kotlinx.android.synthetic.main.kit_view_room_timer.view.*
 import java.text.DecimalFormat
 
 
-class RoomTimerView : QBaseRoomFrameLayout {
+class RoomTimerView : QKitTextView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -38,14 +37,7 @@ class RoomTimerView : QBaseRoomFrameLayout {
     private var total = 0;
     private val mScheduler = Scheduler(1000) {
         total++
-        tvTimer.text = showTimeCall(total).toHtml()
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.kit_view_room_timer
-    }
-
-    override fun initView() {
+        text = showTimeCall(total).toHtml()
     }
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {

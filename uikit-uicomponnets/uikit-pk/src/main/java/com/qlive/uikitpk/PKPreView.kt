@@ -21,13 +21,13 @@ import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.LinkerUIHelper
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
 
 /**
  * pk主播预览窗口
  */
-class PKPreView : QBaseRoomFrameLayout {
+class PKPreView : QKitFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -41,7 +41,7 @@ class PKPreView : QBaseRoomFrameLayout {
         return -1
     }
 
-    private var childView: QBaseRoomFrameLayout? = null
+    private var childView: QKitFrameLayout? = null
     override fun initView() {
         val view = if (client?.clientType == QClientType.PLAYER) {
             PKAudiencePreview(context)
@@ -92,7 +92,7 @@ class PKPreView : QBaseRoomFrameLayout {
 }
 
 //观众端pk预览
-class PKAudiencePreview : QBaseRoomFrameLayout {
+class PKAudiencePreview : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -178,7 +178,7 @@ class PKAudiencePreview : QBaseRoomFrameLayout {
 
 
 //主播端预览
-class PKAnchorPreview : QBaseRoomFrameLayout {
+class PKAnchorPreview : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(

@@ -8,9 +8,10 @@
 
     tools:context=".RoomPushActivity">
 
-    <com.qlive.uikit.component.RoomBackGroundView
+    <com.qlive.uikitcore.QKitImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:src="@drawable/kit_dafault_room_bg" />
 
     <com.qlive.rtclive.QPushTextureView
         android:id="@+id/preTextureView"
@@ -68,26 +69,29 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="40dp"
-
-                android:orientation="horizontal"
-                tools:layout_height="70dp">
+                android:orientation="horizontal">
                 <!--             左上-->
                 <com.qlive.uikituser.RoomHostView
-                    android:id="@+id/roomHostSlot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <com.qlive.uikituser.OnlineUserView
-                    android:id="@+id/onLineUserSlot"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     tools:background="#2234ff" />
 
+
                 <com.qlive.uikituser.RoomMemberCountView
-                    android:id="@+id/roomMemberSlot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/kit_shape_40000000_52"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:text="1"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -101,15 +105,26 @@
                 <!--             右上-->
 
                 <com.qlive.uikituser.RoomIdView
-                    android:id="@+id/roomIdSlot"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical"
+                    android:textColor="#ffffff"
+                    android:textSize="6sp"
+                    tools:text="aaaa" />
 
 
                 <com.qlive.uikituser.RoomTimerView
                     android:id="@+id/roomTimerSlot"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    tools:text="asdasd" />
 
             </LinearLayout>
 
@@ -133,10 +148,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <com.qlive.uikit.component.BottomFucBarView
-                    android:id="@+id/bottomBarSlot"
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.qlive.uikitdanmaku.SendDanmakuView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:orientation="vertical"
+                        android:src="@drawable/kit_danmukaiqi"
+                        tools:ignore="MissingDefaultResource" />
+
+                    <com.qlive.uikit.component.ShowBeautyView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:orientation="vertical"
+                        android:src="@mipmap/kit_effct_show"
+                        tools:ignore="MissingDefaultResource" />
+
+                    <com.qlive.uikit.component.ShowStickerBeautyView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:orientation="vertical"
+                        android:src="@mipmap/kit_sticker_close"
+                        tools:ignore="MissingDefaultResource" />
+
+                    <com.qlive.uikit.component.CloseRoomView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:orientation="vertical"
+                        android:src="@mipmap/kit_close_room"
+                        tools:ignore="MissingDefaultResource" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </LinearLayout>
 
@@ -149,9 +203,18 @@
                 android:orientation="vertical">
 
                 <com.qlive.uikitpublicchat.RoomNoticeView
-                    android:layout_width="wrap_content"
+                    android:layout_width="238dp"
                     android:layout_height="wrap_content"
-                    tools:background="#55aabb" />
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/kit_shape_40000000_6"
+                    android:orientation="vertical"
+                    android:paddingStart="8dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
 
                 <com.qlive.uikitpublicchat.PublicChatView
                     android:layout_width="wrap_content"
@@ -168,14 +231,9 @@
                 android:layout_height="match_parent" />
 
             <com.qlive.uikitdanmaku.DanmakuTrackManagerView
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <!--             外层-->
-            <com.qlive.uikit.component.OuterCoverView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 

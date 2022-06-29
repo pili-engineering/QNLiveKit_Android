@@ -9,14 +9,16 @@ import com.qlive.core.been.QInvitation
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
+import com.qlive.core.QLiveClient
 import com.qlive.pkservice.QPKService
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
+import com.qlive.uikitcore.QKitImageView
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.asToast
 
 //开始连麦按钮
-class StartLinkView : QBaseRoomFrameLayout {
+class StartLinkView : QKitImageView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -71,12 +73,8 @@ class StartLinkView : QBaseRoomFrameLayout {
         }
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.kit_view_start_link
-    }
-
-    override fun initView() {
-        client!!.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener(
+    override fun attachLiveClient(client: QLiveClient) {
+        client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener(
             mInvitationListener
         )
         this.setOnClickListener {

@@ -4,15 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
-import com.qlive.core.been.QExtension
 import com.qlive.core.been.QInvitation
-import com.qlive.core.been.QMicLinker
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.linkmicservice.QLinkMicServiceListener
 import com.qlive.pkservice.QPKService
 import com.qlive.roomservice.QRoomService
-import com.qlive.uikitcore.QBaseRoomFrameLayout
-import com.qlive.uikitcore.dialog.FinalDialogFragment
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
@@ -21,7 +17,7 @@ import com.qlive.uikitcore.ext.setDoubleCheckClickListener
  * 主播邀请用户连麦按钮
  * 暂时没用到
  */
-class AnchorInvitePlayerLinkView : QBaseRoomFrameLayout {
+class AnchorInvitePlayerLinkView : QKitFrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

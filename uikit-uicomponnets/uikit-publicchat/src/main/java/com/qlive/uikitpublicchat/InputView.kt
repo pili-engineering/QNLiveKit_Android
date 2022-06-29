@@ -6,11 +6,11 @@ import android.widget.Toast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QPublicChat
 import com.qlive.pubchatservice.QPublicChatService
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitinput.RoomInputDialog
 import kotlinx.android.synthetic.main.kit_input.view.*
 
-class InputView : QBaseRoomFrameLayout {
+class InputView : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(

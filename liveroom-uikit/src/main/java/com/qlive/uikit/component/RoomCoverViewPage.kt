@@ -41,10 +41,10 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
                 for (i in 1 until prentView.childCount) {
                     views.add(prentView.getChildAt(i))
                 }
-                prentView.removeViews(1, prentView.childCount-1)
+                prentView.removeViews(1, prentView.childCount - 1)
                 removeAllViews()
                 adapter = CommonViewPagerAdapter(views)
-                currentItem = 1
+                currentItem = views.size - 1
             }
         }
     }

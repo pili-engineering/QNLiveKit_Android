@@ -91,7 +91,9 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
             }
         }
 
-        override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {}
+        override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {
+            onLinkerLeft(micLinker)
+        }
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }
 

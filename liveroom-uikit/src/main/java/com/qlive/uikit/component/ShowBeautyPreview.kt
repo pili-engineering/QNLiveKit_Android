@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.view.View
 import com.qlive.uikit.R
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.ShowDialogAble
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 
-class ShowBeautyPreview : QBaseRoomFrameLayout {
+class ShowBeautyPreview : QKitFrameLayout {
 
     private var component: ShowDialogAble? = null
 

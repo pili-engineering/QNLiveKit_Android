@@ -24,10 +24,7 @@ class KITLiveInflaterFactory(
     private val kitContext: QLiveUIKitContext
 ) : LayoutInflater.Factory2, QClientLifeCycleListener {
 
-    companion object {
-        val replaceViews = HashMap<String, Class<out QLiveComponent>>()
-        val innerComponentClass = HashMap<String, Class<out QLiveComponent>>()
-    }
+
     private val mComponents = HashSet<QLiveComponent>()
     override fun onCreateView(
         parent: View?,
@@ -35,18 +32,22 @@ class KITLiveInflaterFactory(
         context: Context,
         attrs: AttributeSet
     ): View? {
-        val viewClass = replaceViews[name]?:innerComponentClass[name]
-        val view = if (viewClass != null) {
-            //如果要替换哪个UI
-            val constructor =
-                viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
-            constructor.newInstance(context, attrs) as View
-        } else {
-            appDelegate.createView(parent, name, context, attrs)
+        var viewClass: Class<*>? = null
+        try {
+            viewClass = Class.forName(name)
+        } catch (e: Exception) {
         }
-        QLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name)
-        if(view is QLiveComponent){
-            QLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name+" attachKitContext ")
+        val view =
+            if (viewClass != null && QLiveComponent::class.java.isAssignableFrom(viewClass)) {
+                val constructor =
+                    viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
+                constructor.newInstance(context, attrs) as View
+            } else {
+                appDelegate.createView(parent, name, context, attrs)
+            }
+        QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name)
+        if (view is QLiveComponent) {
+            QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name + " attachKitContext ")
             (view as QLiveComponent).attachKitContext(kitContext)
             (view as QLiveComponent).attachLiveClient(roomClient)
             mComponents.add(view)
@@ -92,10 +93,6 @@ class KITInflaterFactory(
     private val appDelegate: AppCompatDelegate,
     private val QUIKitContext: QUIKitContext
 ) : LayoutInflater.Factory2 {
-    companion object {
-        val replaceViews = HashMap<String, Class<out QComponent>>()
-        val innerComponentClass = HashMap<String, Class<out QComponent>>()
-    }
 
     override fun onCreateView(
         parent: View?,
@@ -103,17 +100,21 @@ class KITInflaterFactory(
         context: Context,
         attrs: AttributeSet
     ): View? {
-        val viewClass = replaceViews[name]?:innerComponentClass[name]
-        val view = if (viewClass != null) {
+
+        var viewClass: Class<*>? = null
+        try {
+            viewClass = Class.forName(name)
+        } catch (e: Exception) {
+        }
+        val view = if (viewClass != null && QComponent::class.java.isAssignableFrom(viewClass)) {
             val constructor =
                 viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
             constructor.newInstance(context, attrs) as View
-        }
-        else {
+        } else {
             appDelegate.createView(parent, name, context, attrs)
         }
-        QLiveLogUtil.d("KITInflaterFactory","onCreateView "+ name+" "+(view==null))
-        if (view is QComponent){
+        QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name + " " + (view == null))
+        if (view is QComponent) {
             (view as QComponent).attachKitContext(QUIKitContext)
         }
         return view

@@ -2,16 +2,15 @@ package com.qlive.uikituser
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import com.bumptech.glide.Glide
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.ext.toHtml
 import kotlinx.android.synthetic.main.kit_view_room_host_slot.view.*
 
 //房主信息左上角
-class RoomHostView : QBaseRoomFrameLayout {
+class RoomHostView : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(

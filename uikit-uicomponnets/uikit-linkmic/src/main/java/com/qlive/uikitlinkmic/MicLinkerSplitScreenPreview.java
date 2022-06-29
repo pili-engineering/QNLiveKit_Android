@@ -1,4 +1,4 @@
-package com.qlive.qnlivekit;
+package com.qlive.uikitlinkmic;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -31,7 +31,7 @@ import com.qlive.linkmicservice.QLinkMicService;
 import com.qlive.linkmicservice.QLinkMicServiceListener;
 import com.qlive.playerclient.QPlayerClient;
 import com.qlive.rtclive.QPushTextureView;
-import com.qlive.uikitcore.QBaseRoomFrameLayout;
+import com.qlive.uikitcore.QKitFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ import java.util.Objects;
  * //            .linkersView
  * //            .replace(MicLinkerSplitScreenPreview::class.java)
  */
-public class MicLinkerSplitScreenPreview extends QBaseRoomFrameLayout {
+public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
 
     private BaseSplitScreenPreview linkerPreview = null;
 
@@ -109,7 +109,7 @@ public class MicLinkerSplitScreenPreview extends QBaseRoomFrameLayout {
     }
 
 
-    static class BaseSplitScreenPreview extends QBaseRoomFrameLayout {
+    static class BaseSplitScreenPreview extends QKitFrameLayout {
 
         protected FrameLayout flAnchorContainer = null;
         protected FrameLayout flAudienceContainer = null;

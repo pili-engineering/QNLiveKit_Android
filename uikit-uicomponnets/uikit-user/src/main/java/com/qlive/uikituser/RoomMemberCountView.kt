@@ -5,13 +5,13 @@ import android.util.AttributeSet
 import com.qlive.chatservice.QChatRoomService
 import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.core.QLiveCallBack
+import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.roomservice.QRoomService
-import com.qlive.uikitcore.QBaseRoomFrameLayout
+import com.qlive.uikitcore.QKitTextView
 import com.qlive.uikitcore.Scheduler
-import kotlinx.android.synthetic.main.kit_view_room_member_count.view.*
 
-class RoomMemberCountView : QBaseRoomFrameLayout {
+class RoomMemberCountView : QKitTextView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -42,7 +42,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout {
 
         var count = -1
         try {
-            count = (tvCount.text.toString().toInt())
+            count = (text.toString().toInt())
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -58,7 +58,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout {
         if (count < 1) {
             count = 1
         }
-        tvCount.text = count.toString()
+        text = count.toString()
         checkTextSize()
     }
 
@@ -81,7 +81,7 @@ class RoomMemberCountView : QBaseRoomFrameLayout {
                 }
 
                 override fun onSuccess(data: QLiveRoomInfo) {
-                    tvCount.text = data.onlineCount.toString()
+                    text = data.onlineCount.toString()
                     checkTextSize()
                 }
             })
@@ -100,15 +100,11 @@ class RoomMemberCountView : QBaseRoomFrameLayout {
         mScheduler.cancel()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.kit_view_room_member_count
-    }
-
-    override fun initView() {
-        client!!.getService(QChatRoomService::class.java)
+    override fun attachLiveClient(client: QLiveClient) {
+        super.attachLiveClient(client)
+        client.getService(QChatRoomService::class.java)
             .addServiceListener(mChatRoomServiceListener)
     }
-
 }
 
 

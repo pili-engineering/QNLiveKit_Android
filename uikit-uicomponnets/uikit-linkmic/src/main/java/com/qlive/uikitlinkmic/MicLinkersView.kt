@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.qlive.avparam.QMergeOption
 import com.qlive.avparam.QMixStreamParams
 import com.qlive.linkmicservice.QAnchorHostMicHandler
@@ -26,7 +25,7 @@ import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 /**
  * 连麦麦位列表
  */
-class MicLinkersView : QBaseRoomFrameLayout {
+class MicLinkersView : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
