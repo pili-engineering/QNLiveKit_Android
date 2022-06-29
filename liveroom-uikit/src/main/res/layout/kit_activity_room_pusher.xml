@@ -40,13 +40,9 @@
         android:layout_height="match_parent"
         tools:visibility="gone" />
 
-    <FrameLayout
+    <com.qlive.uikit.component.RoomCoverViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.qlive.uikit.component.RoomCoverViewPage
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <View
             android:layout_width="match_parent"
@@ -246,6 +242,6 @@
 
         </RelativeLayout>
 
-    </FrameLayout>
+    </com.qlive.uikit.component.RoomCoverViewPager>
 
 </FrameLayout>

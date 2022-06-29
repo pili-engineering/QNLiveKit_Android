@@ -243,11 +243,20 @@ class RoomPushActivity : BaseFrameActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-
     override fun getLayoutId(): Int {
         if (replaceLayoutId > 0) {
             return replaceLayoutId
         }
         return R.layout.kit_activity_room_pusher
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mRoomClient.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mRoomClient.resume()
     }
 }

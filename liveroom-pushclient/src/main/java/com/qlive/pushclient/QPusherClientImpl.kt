@@ -72,6 +72,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     override fun setLiveStatusListener(liveStatusListener: QLiveStatusListener?) {
         mLiveStatusListener = liveStatusListener
     }
+
     init {
         getService(QChatRoomService::class.java)?.addServiceListener(object :
             QChatRoomServiceListener {
@@ -154,7 +155,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     }
 
     override fun destroy() {
-        mLiveStatusListener=null
+        mLiveStatusListener = null
         mRtcRoom.close()
         mLiveContext.destroy()
     }
@@ -201,6 +202,14 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
 
     override fun setAudioFrameListener(frameListener: QAudioFrameListener?) {
         mRtcRoom.setAudioFrameListener(QAudioFrameListenerWrap(frameListener))
+    }
+
+    override fun pause() {
+        mRtcRoom.localVideoTrack?.stopCapture()
+    }
+
+    override fun resume() {
+        mRtcRoom.localVideoTrack?.startCapture()
     }
 
     override fun getClientType(): QClientType {

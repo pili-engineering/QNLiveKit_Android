@@ -19,4 +19,7 @@ interface QPusherClient : QLiveClient {
     fun muteMicrophone(muted: Boolean, callBack: QLiveCallBack<Boolean>?) //禁/不禁用本地麦克风流
     fun setVideoFrameListener(frameListener: QVideoFrameListener?) //设置本地摄像头数据监听
     fun setAudioFrameListener(frameListener: QAudioFrameListener?) //设置本地音频数据监听
+
+    fun pause()
+    fun resume()
 }
