@@ -193,5 +193,4 @@ class MicLinkersView : QKitFrameLayout {
         super.onLeft()
         mLinkersView.clear()
     }
-
 }

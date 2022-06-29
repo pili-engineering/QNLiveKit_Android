@@ -24,75 +24,8 @@ import com.qlive.uikitcore.LinkerUIHelper
 import com.qlive.uikitcore.QKitFrameLayout
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
 
-/**
- * pk主播预览窗口
- */
-class PKPreView : QKitFrameLayout {
-
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
-
-    override fun getLayoutId(): Int {
-        return -1
-    }
-
-    private var childView: QKitFrameLayout? = null
-    override fun initView() {
-        val view = if (client?.clientType == QClientType.PLAYER) {
-            PKAudiencePreview(context)
-        } else {
-            PKAnchorPreview(context)
-        }
-        view.attachKitContext(kitContext!!)
-        view.attachLiveClient(client!!)
-        addView(view)
-        childView = view
-    }
-
-
-    /**
-     * 进入回调
-     * @param user 进入房间的用户
-     * @param liveId 房间ID
-     */
-    override fun onEntering(roomId: String, user: QLiveUser) {
-        super.onEntering(roomId, user)
-        childView?.onEntering(roomId, user)
-    }
-
-    /**
-     * 加入回调
-     * @param roomInfo 房间信息
-     */
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-        super.onJoined(roomInfo)
-        childView?.onJoined(roomInfo)
-    }
-
-    /**
-     * 用户离开回调
-     */
-    override fun onLeft() {
-        super.onLeft()
-        childView?.onLeft()
-    }
-
-    /**
-     * 销毁
-     */
-    override fun onDestroyed() {
-        super.onDestroyed()
-        childView?.onDestroyed()
-    }
-}
-
 //观众端pk预览
-class PKAudiencePreview : QKitFrameLayout {
+class PKPlayerPreview : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -113,13 +46,13 @@ class PKAudiencePreview : QKitFrameLayout {
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             isPKing = false
         }
+
         override fun onStartTimeOut(pkSession: QPKSession) {}
         override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
     }
 
     private var mQPlayerEventListener = object : QPlayerEventListener {
-
         /**
          * 混流变化了 把播放器缩小
          */
@@ -188,7 +121,7 @@ class PKAnchorPreview : QKitFrameLayout {
     )
 
     //混流适配
-    private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
+    private val mQPKMixStreamAdapter = object : QPKMixStreamAdapter {
 
         override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)
@@ -205,6 +138,7 @@ class PKAnchorPreview : QKitFrameLayout {
     }
 
     private var localRenderView: View? = null
+
     //PK监听
     private val mQPKServiceListener = object :
         QPKServiceListener {

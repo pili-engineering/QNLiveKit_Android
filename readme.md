@@ -114,11 +114,15 @@ liveUIKit.launch(context);
 
 ### 自定义UI
 
+![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/livek.png)
 
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/live.png)
-
+**直接修改开源代码**
+uikit使用源码依赖，直接修改源码
+优点：快捷
+缺点：官方跟新后不方便同步
 
 **无侵入式自定义UI**
+
 ```
 拷贝布局文件
 kit_activity_room_player.xml //观众布局 
@@ -134,11 +138,7 @@ roomPage.playerCustomLayoutID = R.layout.customXXXlayout
 roomPage.anchorCustomLayoutID = R.layout.customXXlayout
 //自定义房间列表页面布局
 roomListPage.customLayoutID = R.layout.customXlayout
-
 ```
-**直接修改开源代码**
-
-
 #### 修改现有的UI组件
 
 直接修改拷贝的布局文件
@@ -158,10 +158,7 @@ roomListPage.customLayoutID = R.layout.customXlayout
         android:layout_height="match_parent"
 
         android:src="@drawable/my_room_bg" />
-
-
 所有的安卓自带基础UI都可以修改属性 如边距,父容器排列，文本颜色等等
-
 ```
 如果要替换UI里面的逻辑代码
 创建自定义UI组件 继承QLiveComponent
@@ -205,9 +202,7 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 //自定义UI可以参考原来的实现修改成自定义实现
 //提示：所有的UI组件不需要在activity绑定操作 只需要继承QLiveComponent就能完成所有工作
 ```
-
-拷贝布局文件里替换原来内置的UI组件
-
+然后在拷贝布局文件里替换原来内置的UI组件
 ```
   //原来的UI组件
   <com.qlive.uikitpublicchat.RoomNoticeView
@@ -224,34 +219,25 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
                     android:textColor="#ffffff"
                     android:textSize="13sp"
                     tools:text="官方公告" />
-
-
   //改成你自己的
-
   <CustomNoticeView
        android:layout_width="238dp"
        android:layout_height="wrap_content"/>
-
 
 //提示不需要修改activity
 ```
 #### 删除内置UI组件
 直接在拷贝的布局文件里删除
 
-
-
 #### 添加UI组件
-
 
 ```kotlin
 class CustomView :FrameLayout, QLiveComponent {
    //  实现自己额外的多个UI布局
 }
 
-
 在拷贝的布局文件里你想要的位置添加即可
 ```
-
 
 #### 添加功能组件
 
@@ -297,7 +283,6 @@ class CustomFunctionComponent : QLiveComponent {
   roomPage.addFunctionComponent(CustomFunctionComponent())
 ```
 方法2 修改源码
-
 
 #### 自定义房间列表页面
 如果需要将房间列表页面添加到你想要的页面比如app首页的viewpager切换
@@ -559,13 +544,12 @@ private val mInvitationListener = object : QInvitationHandlerListener {
 
     //点击某个按钮 发起对某个主播申请 或者主播邀请用户
     client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
-
 ```
 
 ```kotlin
 如果不使用内置的邀请系统 比如外接匹配系统或者直接上麦不需要邀请
 //todo
-        别的邀请或者匹配
+// 别的邀请或者匹配
 //直接调用上麦方法
 client?.getService(QLinkMicService::class.java)?.audienceMicHandler
     ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
@@ -662,7 +646,6 @@ class QLiveUIKit{
     void launch(Context context);        //启动 跳转直播列表页面
 }
 
-
 //获取用户token的回调
 interface QTokenGetter{
     void getTokenInfo( QLiveCallBack<String> callback);//实现获取token的方法
@@ -713,7 +696,6 @@ class QCreateRoomParam {
     String coverURL;                   //封面 
     HashMap<String,String> extension; //扩展字段
 }
-
 ```
 
 ## 主播/观众 客户端
@@ -888,8 +870,6 @@ class QAudienceMicHandler{
     }
 }
 ```
-
-
 
 ```java
 //PK服务
@@ -1161,8 +1141,6 @@ class QLiveFunctionComponent{
     <T extends QLiveComponent> void replace(Class<T> replaceClass); //替换成你的处理器
     void setIsEnable(boolean isEnable);
 }
-
-
 
 /**
  * uikit UI组件上下文

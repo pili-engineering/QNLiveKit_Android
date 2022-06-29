@@ -45,34 +45,6 @@ abstract class QKitFrameLayout : FrameLayout, QBaseLiveComponent {
     abstract fun initView()
 }
 
-abstract class QKitLinearLayout : LinearLayout, QBaseLiveComponent {
-
-    override var client: QLiveClient? = null
-    override var roomInfo: QLiveRoomInfo? = null
-    override var user: QLiveUser? = null
-    override var kitContext: QLiveUIKitContext? = null
-
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-    }
-
-    /**
-     * 绑定房间客户端回调
-     * @param client 组件拿到client 就能拿到所有访问业务服务的能力 如发消息 设置监听
-     */
-    override fun attachLiveClient(client: QLiveClient) {
-        super.attachLiveClient(client)
-        initView()
-    }
-
-    abstract fun initView()
-}
-
 open class QKitImageView : androidx.appcompat.widget.AppCompatImageView, QBaseLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null

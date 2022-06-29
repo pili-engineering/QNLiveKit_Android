@@ -18,13 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qlive.uikitpk.PKPreView
+    <com.qlive.uikitpk.PKPlayerPreview
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.qlive.uikitpk.PKCoverView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <com.qlive.uikitlinkmic.MicLinkersView
         android:layout_width="wrap_content"
@@ -194,12 +190,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:orientation="vertical"
-                    app:edge_position="top|bottom"
-                    app:edge_width="30dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="2dp"
-                    >
+                    android:orientation="vertical"
+                    app:edge_position="top|bottom"
+                    app:edge_width="30dp">
+
                     <com.qlive.uikitpublicchat.PublicChatView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
