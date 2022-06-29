@@ -89,7 +89,6 @@ UIkit也可以直接使用源码模块-可直接修改代码
 
 ## 使用说明
 ### UIKIT
-
 ```java
 //初始化（登陆）
 QLive.init(context ,new QTokenGetter(){
@@ -111,14 +110,61 @@ QLive.setUser(new QUserInfo( "your avatar","your nickname", ext) ,new QLiveCallB
 QliveUIKit liveUIKit = QLive.getLiveUIKit()
 //跳转到直播列表页面
 liveUIKit.launch(context);
-
 ```
 
 ### 自定义UI
 
-### 修改现有的UI组件
 
-方法1 创建自定义UI组件 继承QLiveComponent，调用replace方法无侵入式替换
+![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/live.png)
+
+
+**无侵入式自定义UI**
+```
+拷贝布局文件
+kit_activity_room_player.xml //观众布局 
+kit_activity_room_pusher.xm  //主播布局
+kit_activity_room_list.xml   //主播布局
+到接入你的工程并且重新命名
+```
+修改后调用
+```
+//自定义房间页面观众房间的布局
+roomPage.playerCustomLayoutID = R.layout.customXXXlayout
+//自定义房间页面主播房间的布局
+roomPage.anchorCustomLayoutID = R.layout.customXXlayout
+//自定义房间列表页面布局
+roomListPage.customLayoutID = R.layout.customXlayout
+
+```
+**直接修改开源代码**
+
+
+#### 修改现有的UI组件
+
+直接修改拷贝的布局文件
+
+案列：
+```
+ <com.qlive.uikitcore.QKitImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:src="@drawable/kit_dafault_room_bg" />
+
+改变背景图片
+
+ <com.qlive.uikitcore.QKitImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:src="@drawable/my_room_bg" />
+
+
+所有的安卓自带基础UI都可以修改属性 如边距,父容器排列，文本颜色等等
+
+```
+如果要替换UI里面的逻辑代码
+创建自定义UI组件 继承QLiveComponent
 ```kotlin
 
 class CustomNoticeView :FrameLayout, QLiveComponent {
@@ -160,75 +206,58 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 //提示：所有的UI组件不需要在activity绑定操作 只需要继承QLiveComponent就能完成所有工作
 ```
 
-替换原来内置的UI组件
-
-```kotlin
-//获取房间页面
-val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
-//替换公告
-roomPage.roomNoticeView.replace(CustomNoticeView::class.java)
-//替换底部功能栏
-roomPage.bottomFucBar.replace(CustomBottomFucBar::class.java)
-//.....每个组件都可以替换
-
-//获取房间列表页面
-val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
-//替换房间列表页面的创建按钮
-roomListPage.createRoomButton.replace(CustomCreateRoomButton::class.java)
-//.....每个组件都可以替换
+拷贝布局文件里替换原来内置的UI组件
 
 ```
-删除内置UI组件
-```kotlin
-val roomPage =   QLive.getLiveUIKit().getPage(RoomPage::class.java)
-//删除公告
-roomPage.roomNoticeView.isEnable = false
-//删除底部功能栏
-roomPage.bottomFucBar.isEnable = false
-//.....每个组件都可以删除
+  //原来的UI组件
+  <com.qlive.uikitpublicchat.RoomNoticeView
+                    android:layout_width="238dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/kit_shape_40000000_6"
+                    android:orientation="vertical"
+                    android:paddingStart="8dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    tools:text="官方公告" />
+
+
+  //改成你自己的
+
+  <CustomNoticeView
+       android:layout_width="238dp"
+       android:layout_height="wrap_content"/>
+
+
+//提示不需要修改activity
 ```
+#### 删除内置UI组件
+直接在拷贝的布局文件里删除
 
-方法2 修改kit组件源码
 
-### 添加UI组件
 
-方法1 无侵入式添加
+#### 添加UI组件
+
 
 ```kotlin
 class CustomView :FrameLayout, QLiveComponent {
    //  实现自己额外的多个UI布局
 }
 
-//在房间内置UI上层添加自己的多个额外的UI组件
-roomPage.outerCoverView.replace(CustomView::class.java)
-//在房间内置UI下层添加自己的多个额外的UI组件
-roomPage.innerCoverView.replace(CustomView::class.java)
+
+在拷贝的布局文件里你想要的位置添加即可
 ```
 
-方法2 修改kit开源代码
 
-
-### 修改布局
-
-方法1 无侵入式修改
-
-拷贝kit布局xml文件 修改属性参数如边距排列方式
-```
-//自定义房间页面观众房间的布局
-roomPage.playerCustomLayoutID = R.layout.customlayout
-//自定义房间页面主播房间的布局
-roomPage.anchorCustomLayoutID = R.layout.customlayout
-//自定义房间列表页面布局
-roomListPage.customLayoutID = R.layout.customlayout
-
-```
-方法2 直接修改kit开源代码
-
-### 添加功能组件
+#### 添加功能组件
 
 功能组件只关心事件 没有附件到UI上 比如关心自己被踢事件-显示弹窗
 
-方法1 自定义组件继承 QLiveComponent 处理自定义关心的事件
+自定义组件继承 QLiveComponent 处理自定义关心的事件
 ```
 class CustomFunctionComponent : QLiveComponent {
     //
@@ -270,7 +299,7 @@ class CustomFunctionComponent : QLiveComponent {
 方法2 修改源码
 
 
-### 自定义房间列表页面
+#### 自定义房间列表页面
 如果需要将房间列表页面添加到你想要的页面比如app首页的viewpager切换
 
 方式1 使用RoomListView
@@ -409,29 +438,29 @@ private val mInvitationListener = object : QInvitationHandlerListener {
     //收到邀请
     override fun onReceivedApply(qInvitation: QInvitation) {
         //todo 显示申请弹窗  qInvitation.getInitiator()获取到申请方资料 显示UI 
-       // 点击按钮  拒绝操作
-       client!!.getService(QLinkMicService::class.java) .invitationHandler.reject(qInvitation.invitationID, null,callBack)
-       //点击按钮 接受操作 
-       client!!.getService(QLinkMicService::class.java) .invitationHandler.accept(qInvitation.invitationID, null,callBack)
-    //收到对方取消    
-    override fun onApplyCanceled(qInvitation: QInvitation) {}
-    //发起超时对方没响应
-    override fun onApplyTimeOut(qInvitation: QInvitation) {}
-    //对方接受
-    override fun onAccept(qInvitation: QInvitation) {
-        //对方接受后调用开始上麦 传摄像头麦克参数 自动开启相应的媒体流
-        client?.getService(QLinkMicService::class.java)?.audienceMicHandler
-            ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
-    }    
-    //对方拒绝
-    override fun onReject(qInvitation: QInvitation) { }    
-}
+        // 点击按钮  拒绝操作
+        client!!.getService(QLinkMicService::class.java) .invitationHandler.reject(qInvitation.invitationID, null,callBack)
+        //点击按钮 接受操作 
+        client!!.getService(QLinkMicService::class.java) .invitationHandler.accept(qInvitation.invitationID, null,callBack)
+        //收到对方取消    
+        override fun onApplyCanceled(qInvitation: QInvitation) {}
+        //发起超时对方没响应
+        override fun onApplyTimeOut(qInvitation: QInvitation) {}
+        //对方接受
+        override fun onAccept(qInvitation: QInvitation) {
+            //对方接受后调用开始上麦 传摄像头麦克参数 自动开启相应的媒体流
+            client?.getService(QLinkMicService::class.java)?.audienceMicHandler
+                ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
+        }
+        //对方拒绝
+        override fun onReject(qInvitation: QInvitation) { }
+    }
 
-//麦位麦位监听
-private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
-       //有人上麦了
+    //麦位麦位监听
+    private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
+        //有人上麦了
         override fun onLinkerJoin(micLinker: QMicLinker) {
-            
+
             //麦上用户和主播 设置这个用户预览 直播用户无需设置
             val preview =QPushTextureView(context)
             linkService.setUserPreview(micLinker.user?.userId ?: "", preview)
@@ -441,17 +470,17 @@ private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
         override fun onLinkerLeft(micLinker: QMicLinker) {
             //移除设置的预览UI
             //跟新连麦UI 比如去掉麦上头像
-        }        
+        }
 
         override fun onLinkerMicrophoneStatusChange(micLinker: QMicLinker) {
             //跟新连麦UI 
         }
-        
+
         override fun onLinkerCameraStatusChange(micLinker: QMicLinker) {
             //跟新连麦UI
-        }        
-       //某个用户被踢麦
-        override fun onLinkerKicked(micLinker: QMicLinker, msg: String) { }        
+        }
+        //某个用户被踢麦
+        override fun onLinkerKicked(micLinker: QMicLinker, msg: String) { }
 
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }
@@ -501,42 +530,42 @@ private val mQLinkMicServiceListener = object :  QLinkMicServiceListener {
             }
         }
 
-//观众端连麦器监听
-private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
-    override fun onRoleChange(isLinker: Boolean) {
+    //观众端连麦器监听
+    private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
+        override fun onRoleChange(isLinker: Boolean) {
             if (isLinker) {
                 //我上麦了 切换到了连麦模式
                 client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
-                   //对原来麦上的人设置预览
+                    //对原来麦上的人设置预览
                 }
             } else {
                 //我下麦了 切换拉流模式
                 client?.getService(QLinkMicService::class.java)?.allLinker?.forEach {
-                   //移除对原来设置麦位移除设置预览view
+                    //移除对原来设置麦位移除设置预览view
                     removePreview(mLinkerAdapter.indexOf(it), it)
                 }
             }
         }
-}
+    }
 
 //主播设置混流适配  
-client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter( mQMixStreamAdapter  )
+    client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter( mQMixStreamAdapter  )
 //观众设置观众连麦处理监听
-client!!.getService(QLinkMicService::class.java).audienceMicHandler.addLinkMicListener( mQAudienceMicHandler )
+    client!!.getService(QLinkMicService::class.java).audienceMicHandler.addLinkMicListener( mQAudienceMicHandler )
 //主播和观众都关心麦位监听 
-client!!.getService(QLinkMicService::class.java).addMicLinkerListener(mQLinkMicServiceListener)
+    client!!.getService(QLinkMicService::class.java).addMicLinkerListener(mQLinkMicServiceListener)
 //注册邀请监听
-client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener( mInvitationListener )
+    client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener( mInvitationListener )
 
- //点击某个按钮 发起对某个主播申请 或者主播邀请用户
-client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
+    //点击某个按钮 发起对某个主播申请 或者主播邀请用户
+    client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
 
 ```
 
 ```kotlin
 如果不使用内置的邀请系统 比如外接匹配系统或者直接上麦不需要邀请
 //todo
-别的邀请或者匹配
+        别的邀请或者匹配
 //直接调用上麦方法
 client?.getService(QLinkMicService::class.java)?.audienceMicHandler
     ?.startLink( null, QCameraParam() , QMicrophoneParam(),callback )
@@ -550,66 +579,66 @@ client?.getService(QLinkMicService::class.java)?.audienceMicHandler
 private val mPKInvitationListener = object : QInvitationHandlerListener {
     //收到邀请
     override fun onReceivedApply(pkInvitation: QInvitation) {
-       //拒绝操作
-       client!!.getService(QPKService::class.java) .invitationHandler.reject(pkInvitation.invitationID, null,callBack)
-       //接受 
-       client!!.getService(QPKService::class.java) .invitationHandler.accept(pkInvitation.invitationID, null,callBack)
-    //收到对方取消    
-    override fun onApplyCanceled(pkInvitation: QInvitation) {}
-    //发起超时对方没响应
-    override fun onApplyTimeOut(pkInvitation: QInvitation) {}
-    //对方接受
-    override fun onAccept(pkInvitation: QInvitation) {
-        //对方接受后调用开始pk
-        client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
-    }    
-    //对方拒绝
-    override fun onReject(pkInvitation: QInvitation) { }    
-}
+        //拒绝操作
+        client!!.getService(QPKService::class.java) .invitationHandler.reject(pkInvitation.invitationID, null,callBack)
+        //接受 
+        client!!.getService(QPKService::class.java) .invitationHandler.accept(pkInvitation.invitationID, null,callBack)
+        //收到对方取消    
+        override fun onApplyCanceled(pkInvitation: QInvitation) {}
+        //发起超时对方没响应
+        override fun onApplyTimeOut(pkInvitation: QInvitation) {}
+        //对方接受
+        override fun onAccept(pkInvitation: QInvitation) {
+            //对方接受后调用开始pk
+            client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
+        }
+        //对方拒绝
+        override fun onReject(pkInvitation: QInvitation) { }
+    }
 
     //pk监听
-private val mQPKServiceListener = object : QPKServiceListener {
+    private val mQPKServiceListener = object : QPKServiceListener {
 
-      override fun onStart(pkSession: QPKSession) {
+        override fun onStart(pkSession: QPKSession) {
             //主播设置对方主播预览
             client.getService(QPKService::class.java).setPeerAnchorPreView(findviewbyid(...))
             //主播和观众都显示pk覆盖UI
         }
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             //主播和观众都隐藏pk覆盖UI
-        }        
+        }
         override fun onStartTimeOut(pkSession: QPKSession) {}
         override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
         }
-}
+    }
     //混流适配
- private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
+    private val mQPKMixStreamAdapter = object :  QPKMixStreamAdapter {
         //pk对方进入了 返回混流参数（同连麦）
         override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)
         }
-       //pk开始了 如果修改整个直播混流面板（同连麦）
+        //pk开始了 如果修改整个直播混流面板（同连麦）
         override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams {
             return QMixStreamParams()
         }
-        
-}
-    
+
+    }
+
 //添加pk监听
-client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener) 
+    client!!.getService(QPKService::class.java).addServiceListener(mQPKServiceListener)
 //主播注册混流适配   
-client!!.getService(QPKService::class.java).setPKMixStreamAdapter(mQPKMixStreamAdapter)
+    client!!.getService(QPKService::class.java).setPKMixStreamAdapter(mQPKMixStreamAdapter)
 //注册邀请监听
-client.getService(QPKService::class.java).invitationHandler.addInvitationHandlerListener( mPKInvitationListener )
+    client.getService(QPKService::class.java).invitationHandler.addInvitationHandlerListener( mPKInvitationListener )
 
     //点击某个按钮 发起对某个主播邀请
-client!!.getService(QPKService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
+    client!!.getService(QPKService::class.java).invitationHandler.apply(10 * 1000, room.liveID, room.anchor.userId, null,callback )
 
 ```
 ```kotlin
 如果不使用内置的邀请系统 比如外接匹配pk系统
 //todo
-别的邀请或者匹配
+        别的邀请或者匹配
 //直接调用开始PK方法
 client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiverRoomID, invitation.receiver.userId, null,callBack)
 
@@ -659,7 +688,7 @@ class QLiveRoomInfo {
     String coverURL;               //封面
     Map<String, String> extension; //房间扩展字段
     QLiveUser anchor;              //主播信息
-    String roomToken;         
+    String roomToken;
     String pkID;                   //当前房间正在进行的PK场次
     long onlineCount;              //在线人数
     long startTime;                //开始时间戳
@@ -748,7 +777,7 @@ interface QConnectionStatusLister{
 
 //麦克风参数 参数都有默认值
 class QMicrophoneParam {
-    int sampleRate = 48000; 
+    int sampleRate = 48000;
     int bitsPerSample = 16;
     int channelCount = 1;
     int bitrate = 64000;
@@ -821,23 +850,23 @@ class QAnchorHostMicHandler {
 }
 
 //连麦混流适配器
-interface QMixStreamAdapter {  
+interface QMixStreamAdapter {
     QMixStreamParams onMixStreamStart();//连麦开始如果要自定义混流画布和背景 返回空则主播推流分辨率有多大就多大默认实现
-        /**
-         * 混流布局适配
-         * @param micLinkers 变化后所有连麦者
-         * @param target  当前变化的连麦者
-         * @param isJoin  当前变化的连麦者是新加还是离开
-         * @return 返回重设后的每个连麦者的混流布局 = 返回变化的所有麦位的 x y w h 参数
-         */
+    /**
+     * 混流布局适配
+     * @param micLinkers 变化后所有连麦者
+     * @param target  当前变化的连麦者
+     * @param isJoin  当前变化的连麦者是新加还是离开
+     * @return 返回重设后的每个连麦者的混流布局 = 返回变化的所有麦位的 x y w h 参数
+     */
     List<QMergeOption> onResetMixParam(List<QMicLinker> micLinkers, QMicLinker target, boolean isJoin); //混流适配 将变化后的麦位列表视频成混流参数
-    
+
 }
 //用户连麦处理器
 class QAudienceMicHandler{
     void removeListener(QLinkMicListener listener);
     void addListener(QLinkMicListener listener);
-    
+
     /**
      * 开始上麦
      * @param extension        麦位扩展字段
@@ -868,7 +897,7 @@ interface QPKService extends QLiveService{
     void removeServiceListener(QPKServiceListener pkServiceListener);
     void addServiceListener(QPKServiceListener pkServiceListener);
     void setMixStreamAdapter(QPKMixStreamAdapter mixAdapter);                       //设置pk混流适配器
-   
+
     /**
      * 开始pk
      *
@@ -937,7 +966,7 @@ class QInvitation{
     String initiatorRoomID;         //邀请方所在房间ID 
     String receiverRoomID;          //接收方所在房间ID 
     HashMap<String,String> extension; //扩展字段
-    
+
     @JSONField(serialize = false)
     int invitationID;               //邀请ID   
 }
@@ -950,7 +979,7 @@ class QMergeOption {
     CameraMergeOption  cameraMergeOption;       //摄像头参数       
     MicrophoneMergeOption microphoneMergeOption;//麦克风参数
 
-     //用户的摄像头连麦混流参数
+    //用户的摄像头连麦混流参数
     class CameraMergeOption  {
         boolean isNeed = true; //是否需要
         int x = 0;
@@ -1067,54 +1096,19 @@ class QDanmaku {
 ```java
 //直播间列表
 class RoomListPage extends QPage {
-    setCustomLayoutId(int layoutID); //替换整体布局
-    AppBarView appbar;  //页面toolbar      
-    RoomListViewView roomListView; //房间列表
-    CreateRoomButtonView createRoomButton; //创建房间按钮 
+    void setCustomLayoutId(int layoutID); //替换整体布局
 }
 
 //直播间页面
 class RoomPage {
 
-    setPlayerCustomLayoutId(int layoutID); //替换整体布局 替换观众端
-    setAnchorCustomLayoutId(int layoutID); //替换整体布局 替换主播端
-
-    LivePrepareView livePreView ;//开播准备
-    RoomBackGroundView roomBackGroundView;//房间背景
-
-    //顶部 
-    RoomHostView roomHostView; //左上角房主
-    OnlineUserView onlineUserView ;//右上角在线用户槽位
-    RoomMemberCountView RoomMemberCountView;//右上角房间
-    RoomIDView roomIDView ;//右上角房间
-    RoomTimerView roomTimerView;//右上角房间计时器
-    DanmakuTrackView danmakuTrackView;//弹幕
-
-
-    //中部
-    PublicChatView publicChatView ;//公屏聊天
-    RoomNoticeView roomNoticeView ;//公告
-
-    PKPreView pkPreview;//pk主播两个小窗口
-    PKCoverView pkCoverview;//pk覆盖层自定义UI
-
-    LinkersView linkersView;//连麦中的用户 
-
-
-    //底部
-
-    ShowInputView showInputView;//房间底部 输入框
-    StartPKView startPKView;//主播开始pk按钮
-    BottomFucBarView bottomFucBar ;//右下角功能栏目 --连麦弹幕关闭按钮等功能栏
-
-
-    OuterCoverView outerCoverView;// 全局上层覆盖自定义 空槽位
-    InnerCoverView innerCoverView ;//全局底层覆盖自定义 空槽位
-
+    void  setPlayerCustomLayoutId(int layoutID); //替换整体布局 替换观众端
+    void setAnchorCustomLayoutId(int layoutID); //替换整体布局 替换主播端
+    
     ShowPKApplyFunctionComponent showPKApplyComponent ;//主播收到pk邀请 展示弹窗 事件监听功能组件 
     ShowLinkMicApplyFunctionComponent showLinkMicApplyComponent ;//主播收到连麦申请 展示弹窗 事件监听功能组件
     PlayerShowBeInvitedComponent playerShowBeInvitedComponent; //用户收到主播连麦邀请 展示弹窗
-            
+
     addFunctionComponent(QRoomComponent component); //注册自定义功能组件
 
     //根据QLiveRoomInfo自动判断跳转主播页面还是观众页面
@@ -1179,7 +1173,7 @@ class QUIKitContext(
         val fm: FragmentManager,   //显示弹窗上下文
         val currentActivity: Activity,  //当前activity
         val lifecycleOwner: LifecycleOwner, //页面生命周期
-        )
+)
 
 /**
  * uikit 房间里的UI组件上下文

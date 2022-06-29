@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
+import com.qlive.core.QLiveClient
 import com.qlive.core.been.QInvitation
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.pkservice.QPKService
 import com.qlive.roomservice.QRoomService
 import com.qlive.uikitcore.QKitFrameLayout
+import com.qlive.uikitcore.QKitImageView
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
@@ -17,7 +19,7 @@ import com.qlive.uikitcore.ext.setDoubleCheckClickListener
  * 主播邀请用户连麦按钮
  * 暂时没用到
  */
-class AnchorInvitePlayerLinkView : QKitFrameLayout {
+class AnchorInvitePlayerLinkView : QKitImageView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -50,21 +52,26 @@ class AnchorInvitePlayerLinkView : QKitFrameLayout {
         }
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.kit_view_start_link
-    }
-
-    override fun initView() {
-        client!!.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener(
+    override fun attachLiveClient(client: QLiveClient) {
+        super.attachLiveClient(client)
+        client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener(
             mInvitationListener
         )
         this.setDoubleCheckClickListener {
-            if (roomInfo == null || client == null || user == null) {
+            if (roomInfo == null || user == null) {
                 return@setDoubleCheckClickListener
             }
             //主播PK中 不准申请
-            if (client?.getService(QPKService::class.java)?.currentPKingSession() != null) {
+            if (client.getService(QPKService::class.java)?.currentPKingSession() != null) {
                 "主播pk中".asToast(context)
+                return@setDoubleCheckClickListener
+            }
+            if (client.getService(QLinkMicService::class.java).allLinker.size > 1) {
+                client.getService(QLinkMicService::class.java).kickOutUser(
+                    client.getService(QLinkMicService::class.java).allLinker[1].user.userId,
+                    "",
+                    null
+                )
                 return@setDoubleCheckClickListener
             }
             OnlineLinkableUserDialog(client!!.getService(QRoomService::class.java)).apply {

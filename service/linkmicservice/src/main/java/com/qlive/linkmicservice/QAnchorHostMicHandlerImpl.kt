@@ -17,6 +17,8 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
         QLinkMicServiceListener {
 
         override fun onLinkerJoin(micLinker: QMicLinker) {
+            context.mQRtcLiveRoom.mMixStreamManager
+                .roomUser++
             if (context.mQRtcLiveRoom.mMixStreamManager.mMixType == MixType.forward) {
                 val mix = mQMixStreamAdapter?.onMixStreamStart()
                 context.mQRtcLiveRoom.mMixStreamManager.startMixStreamJob(mix)
@@ -42,9 +44,10 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
         }
 
         override fun onLinkerLeft(micLinker: QMicLinker) {
-
+            context.mQRtcLiveRoom.mMixStreamManager
+                .roomUser--
             if (context.mQRtcLiveRoom.mMixStreamManager
-                    .roomUser == 0
+                    .roomUser == 0 || context.allLinker.size == 1
             ) {
                 context.mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
@@ -94,6 +97,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
         override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {
             onLinkerLeft(micLinker)
         }
+
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
     }
 

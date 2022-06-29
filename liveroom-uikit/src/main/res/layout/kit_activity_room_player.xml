@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <com.qlive.uikit.component.RoomCoverViewPage
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -54,7 +53,6 @@
             tools:ignore="MissingDefaultResource">
 
             <!--             里层-->
-
             <LinearLayout
                 android:id="@+id/llTopBar"
                 android:layout_width="match_parent"
@@ -194,15 +192,16 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="16dp"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="官方公告" />
 
                 <com.qlive.uikitpublicchat.PublicChatView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    tools:background="#000000"
-                    tools:layout_height="100dp"
-                    tools:layout_width="100dp" />
+                    tools:background="#44000000"
+                    tools:layout_height="150dp"
+                    tools:layout_width="238dp" />
 
             </LinearLayout>
 

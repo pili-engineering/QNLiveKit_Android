@@ -19,12 +19,12 @@ import com.qlive.roomservice.QRoomService
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import com.qlive.uikitcore.ext.bg
-import kotlinx.android.synthetic.main.activity_room_pull.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import com.qlive.sdk.QLive
 import com.qlive.uikitcore.getCode
+import kotlinx.android.synthetic.main.kit_activity_room_player.*
 
 /**
  * 观众activity
@@ -177,7 +177,7 @@ class RoomPullActivity : BaseFrameActivity() {
         if (replaceLayoutId > 0) {
             return replaceLayoutId
         }
-        return R.layout.activity_room_pull
+        return R.layout.kit_activity_room_player
     }
 
 }

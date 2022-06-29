@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.core.view.LayoutInflaterCompat
 import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
-import com.qlive.avparam.RtcException
 import com.qlive.core.*
 import com.qlive.core.been.QCreateRoomParam
 import com.qlive.uikit.hook.KITLiveInflaterFactory
@@ -24,12 +23,11 @@ import com.qlive.uikitcore.KitException
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.activity.BaseFrameActivity
 import com.qlive.uikitcore.dialog.LoadingDialog
-import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.bg
 import com.qlive.uikitcore.ext.permission.PermissionAnywhere
-import kotlinx.android.synthetic.main.activity_room_push.*
 import kotlin.coroutines.resume
 import com.qlive.uikitcore.getCode
+import kotlinx.android.synthetic.main.kit_activity_room_pusher.*
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
@@ -250,6 +248,6 @@ class RoomPushActivity : BaseFrameActivity() {
         if (replaceLayoutId > 0) {
             return replaceLayoutId
         }
-        return R.layout.activity_room_push
+        return R.layout.kit_activity_room_pusher
     }
 }

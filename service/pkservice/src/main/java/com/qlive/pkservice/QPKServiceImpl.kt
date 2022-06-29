@@ -300,6 +300,8 @@ class QPKServiceImpl : QPKService, BaseService() {
         }
         val mQRtcLiveRoom: QRtcLiveRoom = rtcRoomGetter
         if (mPKSession != null) {
+            mQRtcLiveRoom.mMixStreamManager
+                .roomUser++
             mQRtcLiveRoom.mMixStreamManager.startPkMixStreamJob(
                 mQPKMixStreamAdapter!!.onPKMixStreamStart(
                     mPKSession!!
@@ -321,6 +323,8 @@ class QPKServiceImpl : QPKService, BaseService() {
             }
             mQRtcLiveRoom.mMixStreamManager.commitOpt()
         } else {
+            mQRtcLiveRoom.mMixStreamManager
+                .roomUser--
             if (mQRtcLiveRoom.mMixStreamManager
                     .roomUser == 1
             ) {

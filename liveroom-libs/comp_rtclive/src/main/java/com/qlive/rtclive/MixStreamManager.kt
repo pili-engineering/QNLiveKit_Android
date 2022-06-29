@@ -39,7 +39,6 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     //房间人数
     var roomUser = 0
-        private set
 
     var isInit = false
     fun setTrack(videoTrack: QNLocalVideoTrack?, audioTrack: QNLocalAudioTrack?) {
@@ -141,12 +140,9 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
             override fun onUserJoined(p0: String, p1: String?) {
                 super.onUserJoined(p0, p1)
-                roomUser++
             }
 
             override fun onUserLeft(p0: String) {
-
-                roomUser--
                 if (mQRtcLiveRoom.meId == p0) {
                     onRoomLeft()
                 }

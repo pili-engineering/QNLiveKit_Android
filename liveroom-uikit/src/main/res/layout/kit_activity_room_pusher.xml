@@ -33,6 +33,7 @@
         tools:background="#99000000"
         tools:layout_width="100dp" />
 
+
     <com.qlive.uikit.component.LivePreView
         android:id="@+id/mLivePreView"
         android:layout_width="match_parent"

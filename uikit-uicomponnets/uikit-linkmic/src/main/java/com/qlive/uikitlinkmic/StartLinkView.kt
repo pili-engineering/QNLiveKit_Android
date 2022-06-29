@@ -74,6 +74,7 @@ class StartLinkView : QKitImageView {
     }
 
     override fun attachLiveClient(client: QLiveClient) {
+        super.attachLiveClient(client)
         client.getService(QLinkMicService::class.java).invitationHandler.addInvitationHandlerListener(
             mInvitationListener
         )
@@ -88,7 +89,7 @@ class StartLinkView : QKitImageView {
             }
             //我本来就在麦上
             if (client?.getService(QLinkMicService::class.java)?.audienceMicHandler?.isLinked() == true) {
-               //显示我的连麦信息
+                //显示我的连麦信息
                 MyLinkerInfoDialog(client!!.getService(QLinkMicService::class.java), user!!).show(
                     kitContext!!.fragmentManager,
                     ""
