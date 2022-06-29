@@ -6,13 +6,13 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.qlive.core.QLiveClient
 import com.qlive.core.been.QPublicChat
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.pubchatservice.QPublicChatServiceLister
 import com.qlive.uikitcore.*
-import kotlinx.android.synthetic.main.kit_view_publicchatslotview.view.*
 
-class PublicChatView : QKitFrameLayout {
+class PublicChatView : QKitRecyclerView {
 
     private val mAdapter = PubChatAdapter().apply {
         mAvatarClickCall = { item: QPublicChat, view: View ->
@@ -23,13 +23,10 @@ class PublicChatView : QKitFrameLayout {
     //消息监听
     private val mPublicChatServiceLister =
         QPublicChatServiceLister {
-//            if (it.senderRoomId != roomInfo?.liveID) {
-//                return@QPublicChatServiceLister
-//            }
             mAdapter.addData(it)
             val position = mAdapter.data.size - 1
-            recyChat.post {
-                recyChat.smoothScrollToPosition(position)
+            this.post {
+                this.smoothScrollToPosition(position)
             }
         }
 
@@ -40,20 +37,17 @@ class PublicChatView : QKitFrameLayout {
         attrs,
         defStyleAttr
     ) {
-        recyChat.layoutManager = LinearLayoutManager(context)
-        recyChat.adapter = mAdapter
+        this.layoutManager = LinearLayoutManager(context)
+        this.adapter = mAdapter
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.kit_view_publicchatslotview
-    }
-
-    override fun initView() {
-        client!!.getService(QPublicChatService::class.java)
+    override fun attachLiveClient(client: QLiveClient) {
+        super.attachLiveClient(client)
+        client.getService(QPublicChatService::class.java)
             .addServiceLister(mPublicChatServiceLister)
     }
 
@@ -62,5 +56,4 @@ class PublicChatView : QKitFrameLayout {
         mAdapter.data.clear()
         mAdapter.notifyDataSetChanged()
     }
-
 }

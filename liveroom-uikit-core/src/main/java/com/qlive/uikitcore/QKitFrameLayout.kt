@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.RecyclerView
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
@@ -72,53 +73,6 @@ abstract class QKitLinearLayout : LinearLayout, QBaseLiveComponent {
     abstract fun initView()
 }
 
-class QLiveEmptyView : View, QLiveComponent {
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        visibility = View.GONE
-    }
-
-    override fun attachKitContext(context: QLiveUIKitContext) {
-    }
-
-    override fun attachLiveClient(client: QLiveClient) {
-    }
-
-    override fun onEntering(liveId: String, user: QLiveUser) {
-    }
-
-    override fun onJoined(roomInfo: QLiveRoomInfo) {
-    }
-
-    override fun onLeft() {
-    }
-
-    override fun onDestroyed() {
-    }
-
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-    }
-}
-
-class QEmptyView : View, QComponent {
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-    }
-
-    override var kitContext: QUIKitContext? = null
-
-}
-
 open class QKitImageView : androidx.appcompat.widget.AppCompatImageView, QBaseLiveComponent {
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
@@ -134,6 +88,19 @@ open class QKitImageView : androidx.appcompat.widget.AppCompatImageView, QBaseLi
 }
 
 class QKitCircleImageView : CircleImageView, QBaseLiveComponent {
+    override var client: QLiveClient? = null
+    override var roomInfo: QLiveRoomInfo? = null
+    override var user: QLiveUser? = null
+    override var kitContext: QLiveUIKitContext? = null
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
+}
+open class QKitRecyclerView: RecyclerView,QBaseLiveComponent{
     override var client: QLiveClient? = null
     override var roomInfo: QLiveRoomInfo? = null
     override var user: QLiveUser? = null

@@ -30,7 +30,11 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         visibility = View.VISIBLE
-
+        if (views.size > 1) {
+            setCurrentItem(1, true)
+        } else {
+            currentItem = views.size - 1
+        }
     }
 
     override fun attachKitContext(context: QLiveUIKitContext) {
@@ -44,7 +48,7 @@ class RoomCoverViewPage : ViewPager, QLiveComponent {
                 prentView.removeViews(1, prentView.childCount - 1)
                 removeAllViews()
                 adapter = CommonViewPagerAdapter(views)
-                currentItem = views.size - 1
+                currentItem = 0
             }
         }
     }

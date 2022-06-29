@@ -59,10 +59,6 @@
             tools:ignore="MissingDefaultResource">
 
             <!--             里层-->
-            <com.qlive.uikit.component.InnerCoverView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
 
             <LinearLayout
                 android:id="@+id/llTopBar"
@@ -129,7 +125,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/llBottom"
                 android:layout_width="match_parent"
@@ -139,10 +134,21 @@
                 android:orientation="horizontal">
 
                 <com.qlive.uikitpublicchat.InputView
-                    android:id="@+id/inPutSlot"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/kit_shape_40000000_16">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:src="@mipmap/kit_ic_show_input" />
+                </com.qlive.uikitpublicchat.InputView>
+
 
                 <com.qlive.uikitpk.StartPKView
                     android:id="@+id/startPKSlot"
@@ -150,51 +156,42 @@
                     android:layout_height="wrap_content" />
 
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <com.qlive.uikitdanmaku.SendDanmakuView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:orientation="vertical"
+                    android:src="@drawable/kit_danmukaiqi"
+                    tools:ignore="MissingDefaultResource" />
 
-                    <com.qlive.uikitdanmaku.SendDanmakuView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:orientation="vertical"
-                        android:src="@drawable/kit_danmukaiqi"
-                        tools:ignore="MissingDefaultResource" />
+                <com.qlive.uikit.component.ShowBeautyView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:orientation="vertical"
+                    android:src="@mipmap/kit_effct_show"
+                    tools:ignore="MissingDefaultResource" />
 
-                    <com.qlive.uikit.component.ShowBeautyView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:orientation="vertical"
-                        android:src="@mipmap/kit_effct_show"
-                        tools:ignore="MissingDefaultResource" />
+                <com.qlive.uikit.component.ShowStickerBeautyView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:orientation="vertical"
+                    android:src="@mipmap/kit_sticker_close"
+                    tools:ignore="MissingDefaultResource" />
 
-                    <com.qlive.uikit.component.ShowStickerBeautyView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:orientation="vertical"
-                        android:src="@mipmap/kit_sticker_close"
-                        tools:ignore="MissingDefaultResource" />
-
-                    <com.qlive.uikit.component.CloseRoomView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:orientation="vertical"
-                        android:src="@mipmap/kit_close_room"
-                        tools:ignore="MissingDefaultResource" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
+                <com.qlive.uikit.component.CloseRoomView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:orientation="vertical"
+                    android:src="@mipmap/kit_close_room"
+                    tools:ignore="MissingDefaultResource" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -217,13 +214,24 @@
                     android:textColor="#ffffff"
                     android:textSize="13sp" />
 
-                <com.qlive.uikitpublicchat.PublicChatView
-                    android:layout_width="wrap_content"
+                <com.qlive.uikitcore.view.EdgeTransparentView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="2dp"
                     android:orientation="vertical"
-                    tools:background="#000000"
-                    tools:layout_height="100dp"
-                    tools:layout_width="100dp" />
+                    app:edge_position="top|bottom"
+                    app:edge_width="30dp">
+
+                    <com.qlive.uikitpublicchat.PublicChatView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        tools:background="#44000000"
+                        tools:layout_height="150dp"
+                        tools:layout_width="238dp" />
+                </com.qlive.uikitcore.view.EdgeTransparentView>
 
             </LinearLayout>
 

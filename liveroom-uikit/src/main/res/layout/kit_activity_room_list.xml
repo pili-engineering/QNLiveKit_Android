@@ -7,9 +7,28 @@
     android:orientation="vertical"
     tools:context=".RoomListActivity">
 
-    <com.qlive.uikit.component.RoomListToolbar
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="48dp">
+
+        <com.qlive.uikit.component.QBackNavigationImg
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="6dp"
+            android:padding="6dp"
+            android:src="@mipmap/kit_ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="直播列表"
+            android:textColor="#333333"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,14 +42,14 @@
         <com.qlive.uikit.component.CreateRoomButton
             android:layout_width="210dp"
             android:layout_height="44dp"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="14dp"
             android:background="@drawable/kit_shape_007aff_50"
             android:gravity="center"
             android:text="创建直播间"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_gravity="bottom|center_horizontal" />
+            android:textStyle="bold" />
     </FrameLayout>
 
 

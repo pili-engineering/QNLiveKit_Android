@@ -8,7 +8,6 @@ import com.qlive.core.been.QPublicChat
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitinput.RoomInputDialog
-import kotlinx.android.synthetic.main.kit_input.view.*
 
 class InputView : QKitFrameLayout {
     constructor(context: Context) : this(context, null)
@@ -17,14 +16,8 @@ class InputView : QKitFrameLayout {
         context,
         attrs,
         defStyleAttr
-    )
-
-    override fun getLayoutId(): Int {
-        return R.layout.kit_input
-    }
-
-    override fun initView() {
-        flInput.setOnClickListener {
+    ) {
+        setOnClickListener {
             RoomInputDialog().apply {
                 sendPubCall = {
                     client?.getService(QPublicChatService::class.java)
@@ -40,5 +33,12 @@ class InputView : QKitFrameLayout {
                 }
             }.show(kitContext!!.fragmentManager, "")
         }
+    }
+
+    override fun getLayoutId(): Int {
+        return -1
+    }
+
+    override fun initView() {
     }
 }
