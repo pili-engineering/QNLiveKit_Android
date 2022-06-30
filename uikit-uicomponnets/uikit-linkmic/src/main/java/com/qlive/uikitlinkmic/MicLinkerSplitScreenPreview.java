@@ -108,7 +108,6 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
         linkerPreview.onStateChanged(source, event);
     }
 
-
     static class BaseSplitScreenPreview extends QKitFrameLayout {
 
         protected FrameLayout flAnchorContainer = null;
@@ -158,7 +157,6 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
      * 主播端分屏连麦逻辑
      */
     static class AnchorMicLinkerSplitScreenPreview extends BaseSplitScreenPreview {
-
 
         public AnchorMicLinkerSplitScreenPreview(@NonNull Context context) {
             super(context);
@@ -414,16 +412,13 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
         //播放器监听
         private final QPlayerEventListener playerEventListener = new QPlayerEventListener() {
             @Override
-            public void onPrepared(int i) {
-            }
+            public void onPrepared(int i) {}
 
             @Override
-            public void onInfo(int i, int i1) {
-            }
+            public void onInfo(int i, int i1) {}
 
             @Override
-            public void onBufferingUpdate(int i) {
-            }
+            public void onBufferingUpdate(int i) {}
 
             @Override
             public void onVideoSizeChanged(int width, int height) {

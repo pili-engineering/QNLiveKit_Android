@@ -132,11 +132,11 @@ uikit使用sdk依赖
 - kit_activity_room_pusher.xm  //[主播直播间布局](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/liveroom-uikit/src/main/res/layout/kit_activity_room_pusher.xml)
 - kit_activity_room_list.xml   //[房间列表页布局](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/liveroom-uikit/src/main/res/layout/kit_activity_room_list.xml)
 
+clear重新编译编译-->androidStudio预览看到如上效果图
 
-1修改拷贝文件的布局任意属性，比如边距，文本颜色，样式等等
-2调用替换布局文件
+- 1修改拷贝文件的布局任意属性，比如边距，文本颜色，样式等等
+- 2调用替换布局文件
 ```
-
 val roomPage = QLive.getLiveUIKit().getPage(RoomPage::class.java)
 //自定义房间页面观众房间的布局
 roomPage.playerCustomLayoutID = R.layout.customXXXlayout
@@ -201,7 +201,7 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
     
     //加入回调 房间加入成功阶段 已经拿到了QLiveRoomInfo
     override fun onJoined(roomInfo: QLiveRoomInfo) {
-        //设置房间公告文本 公告组件从roomInfo中字段取出
+        //设置房间公告文本 公告文本roomInfo中字段取出
        tvNotice.setText("房间公告："+roomInfo.notice)
     }
     //离开回调
@@ -255,8 +255,8 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 class CustomView :FrameLayout, QLiveComponent {
    //  实现自己额外的多个UI布局
 }
-
-在拷贝的布局文件里或者源码布局里你想要的位置添加即可
+//在拷贝的布局文件里或者源码布局里你想要的位置添加即可
+//提示不需要修改activity
 ```
 
 
