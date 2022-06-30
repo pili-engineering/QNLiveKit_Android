@@ -5,6 +5,7 @@ import com.qlive.rtm.joinChannel
 import com.qlive.rtm.leaveChannel
 import com.qlive.rtclive.*
 import com.qiniu.droid.rtc.*
+import com.qiniu.droid.rtc.model.QNVideoWaterMark
 import com.qlive.avparam.*
 import com.qlive.chatservice.QChatRoomService
 import com.qlive.chatservice.QChatRoomServiceListener
@@ -204,12 +205,30 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
         mRtcRoom.setAudioFrameListener(QAudioFrameListenerWrap(frameListener))
     }
 
+//    override fun getLocalVideoTrack(): QNCameraVideoTrack? {
+//       return mRtcRoom.localVideoTrack
+//    }
+//
+//    override fun getLocalAudioTrack(): QNMicrophoneAudioTrack? {
+//        return mRtcRoom.localAudioTrack
+//    }
+
     override fun pause() {
         mRtcRoom.localVideoTrack?.stopCapture()
+        mRtcRoom.localAudioTrack?.setVolume(0.0)
     }
 
     override fun resume() {
         mRtcRoom.localVideoTrack?.startCapture()
+        mRtcRoom.localAudioTrack?.setVolume(1.0)
+    }
+
+    override fun setDefaultBeauty(beautySetting: QNBeautySetting) {
+        mRtcRoom.localVideoTrack?.setBeauty(beautySetting)
+    }
+
+    override fun setVideoWaterMark(waterMark: QNVideoWaterMark) {
+        mRtcRoom.localVideoTrack?.setWaterMark(waterMark)
     }
 
     override fun getClientType(): QClientType {

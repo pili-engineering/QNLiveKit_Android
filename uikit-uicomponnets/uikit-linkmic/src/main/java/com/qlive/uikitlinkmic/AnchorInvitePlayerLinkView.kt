@@ -74,9 +74,10 @@ class AnchorInvitePlayerLinkView : QKitImageView {
                 )
                 return@setDoubleCheckClickListener
             }
-            OnlineLinkableUserDialog(client!!.getService(QRoomService::class.java)).apply {
+            OnlineLinkableUserDialog(client.getService(QRoomService::class.java)).apply {
                 setInviteCall { user ->
-                    client!!.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000,
+                    dismiss()
+                    client.getService(QLinkMicService::class.java).invitationHandler.apply(10 * 1000,
                         roomInfo!!.liveID,
                         user.userId,
                         null,
