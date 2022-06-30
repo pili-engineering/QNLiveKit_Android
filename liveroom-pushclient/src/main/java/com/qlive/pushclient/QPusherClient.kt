@@ -25,6 +25,6 @@ interface QPusherClient : QLiveClient {
     fun setAudioFrameListener(frameListener: QAudioFrameListener?) //设置本地音频数据监听
     fun pause()
     fun resume()
-    fun setDefaultBeauty(beautySetting: QNBeautySetting)
-    fun setVideoWaterMark(waterMark: QNVideoWaterMark)
+    fun setDefaultBeauty(beautySetting: QBeautySetting)
+
 }

@@ -223,13 +223,13 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
         mRtcRoom.localAudioTrack?.setVolume(1.0)
     }
 
-    override fun setDefaultBeauty(beautySetting: QNBeautySetting) {
-        mRtcRoom.localVideoTrack?.setBeauty(beautySetting)
+    override fun setDefaultBeauty(beautySetting: QBeautySetting) {
+        mRtcRoom.localVideoTrack?.setBeauty(beautySetting.toQNBeautySetting())
     }
 
-    override fun setVideoWaterMark(waterMark: QNVideoWaterMark) {
-        mRtcRoom.localVideoTrack?.setWaterMark(waterMark)
-    }
+//    override fun setVideoWaterMark(waterMark: QNVideoWaterMark) {
+//        mRtcRoom.localVideoTrack?.setWaterMark(waterMark)
+//    }
 
     override fun getClientType(): QClientType {
         return QClientType.PUSHER

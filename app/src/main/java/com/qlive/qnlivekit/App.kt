@@ -25,6 +25,7 @@ class App : Application() {
                 override fun onStartTask() {
                     Log.d("QSenseTimeManager", "onStartTask" + " ")
                 }
+
                 override fun onEndTask(result: Boolean) {
                     Log.d("QSenseTimeManager", "onEndTask  ")
                 }

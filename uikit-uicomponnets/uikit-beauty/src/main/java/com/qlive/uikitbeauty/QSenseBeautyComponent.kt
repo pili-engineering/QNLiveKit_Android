@@ -44,7 +44,11 @@ class QSenseBeautyComponent : BaseQLiveComponent(), ShowDialogAble {
             timestampNs: Long,
             transformMatrix: FloatArray?
         ): Int {
-            return sSenseTimePlugin.processTexture(textureID, width, height)
+            return if (QSenseTimeManager.isAuthorized) {
+                sSenseTimePlugin.processTexture(textureID, width, height)
+            } else {
+                textureID;
+            }
         }
     }
 
@@ -69,14 +73,14 @@ class QSenseBeautyComponent : BaseQLiveComponent(), ShowDialogAble {
         arg: Any,
         listener: FinalDialogFragment.BaseDialogListener?
     ): DialogFragment {
-        if(code==0){
+        if (code == 0) {
             mEffectBeautyDialogFragment?.dismissCall = {
                 listener?.onDismiss(mEffectBeautyDialogFragment!!)
                 mEffectBeautyDialogFragment?.dismissCall = {}
             }
             mEffectBeautyDialogFragment!!.show(kitContext!!.fragmentManager, "")
             return mEffectBeautyDialogFragment!!
-        }else{
+        } else {
             mStickerDialog?.dismissCall = {
                 listener?.onDismiss(mStickerDialog!!)
                 mStickerDialog?.dismissCall = {}

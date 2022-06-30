@@ -20,6 +20,7 @@ public class QSenseTimeManager {
     public static QNSenseTimePlugin sSenseTimePlugin = null;
     private static final String DST_FOLDER = "resource";
     protected static Context sAppContext;
+    public static boolean isAuthorized = false;
 
     public static void initEffectFromLocalLicense(Context appContext) {
         sAppContext = appContext;
@@ -34,7 +35,7 @@ public class QSenseTimeManager {
                 .setOnlineActivate(false)
                 .build();
 
-        boolean isAuthorized = sSenseTimePlugin.checkLicense();
+        isAuthorized = sSenseTimePlugin.checkLicense();
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show();
         }
