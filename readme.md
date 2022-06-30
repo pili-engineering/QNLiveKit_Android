@@ -121,17 +121,18 @@ liveUIKit.launch(context);
 **直接修改开源代码**
 uikit使用源码依赖，直接修改源码
 - 优点：快捷
-- 缺点：官方跟新后不方便同步
+- 缺点：官方更新UI逻辑代码后不方便同步
 
 **无侵入式自定义UI**
+uikit使用sdk依赖
 
-```
-拷贝布局文件
-kit_activity_room_player.xml //观众布局 
-kit_activity_room_pusher.xm  //主播布局
-kit_activity_room_list.xml   //主播布局
-到接入的工程并且重新命名
-```
+
+拷贝布局文件--只需拷贝需要修改的页面，拷贝至接入的工程并且重新命名
+- kit_activity_room_player.xml //[观众直播间布局 ](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/liveroom-uikit/src/main/res/layout/kit_activity_room_player.xml)
+- kit_activity_room_pusher.xm  //[主播直播间布局](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/liveroom-uikit/src/main/res/layout/kit_activity_room_pusher.xml)
+- kit_activity_room_list.xml   //[房间列表页布局](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/liveroom-uikit/src/main/res/layout/kit_activity_room_list.xml)
+
+
 1修改拷贝文件的布局任意属性，比如边距，文本颜色，样式等等
 2调用替换布局文件
 ```
@@ -153,11 +154,14 @@ roomListPage.customLayoutID = R.layout.customXlayout
 
 案列：
 ```
+ ....
+ // 找到房间背景图
  <com.qlive.uikitcore.QKitImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         android:src="@drawable/kit_dafault_room_bg" />
+ ....
 
 改变背景图片
 
@@ -171,9 +175,10 @@ tip: 所有的安卓自带基础UI都可以修改属性 如边距,父容器排�
 
 如果要替换UI里面的逻辑代码
 创建自定义UI组件 继承QLiveComponent
+
 案列：
 ```kotlin
-//自定义一个公告UI组件
+//自定义一个公告UI组件--参考原来的公告实现
 class CustomNoticeView :FrameLayout, QLiveComponent {
     
     constructor(context: Context) : this(context, null)
@@ -214,6 +219,8 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 ```
 然后在拷贝布局文件里或者源码布局里替换原来内置的UI组件
 ```
+ ....
+ ....
   //原来的UI组件
   <com.qlive.uikitpublicchat.RoomNoticeView
                     android:layout_width="238dp"
@@ -229,6 +236,9 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
                     android:textColor="#ffffff"
                     android:textSize="13sp"
                     tools:text="官方公告" />
+   .... 
+   ....
+
   //改成你自己的
   <CustomNoticeView
        android:layout_width="238dp"
@@ -248,6 +258,7 @@ class CustomView :FrameLayout, QLiveComponent {
 
 在拷贝的布局文件里或者源码布局里你想要的位置添加即可
 ```
+
 
 #### 添加功能组件
 

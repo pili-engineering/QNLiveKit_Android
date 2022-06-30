@@ -31,7 +31,7 @@ android {
     }
 }
 
-def userAARSDK = false
+def userAARSDK = true
 
 dependencies {
 
@@ -62,10 +62,10 @@ dependencies {
         implementation project(':qlivesdk')
         implementation project(':liveroom-uikit')
 
-        implementation project(":uikit-uicomponnets:uikit-beauty")
         //临时依赖 为demo提供http 实际接入不需要依赖这个
         implementation project(':liveroom-coreimpl')
     }
+    implementation project(":uikit-uicomponnets:uikit-beauty")
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

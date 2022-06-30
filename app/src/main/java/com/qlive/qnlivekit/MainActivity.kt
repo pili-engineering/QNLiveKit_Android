@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "请同意 七牛云服务用户协议 和 隐私权政策", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+//            QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID = R.layout.my_activity_room_pusher
             lifecycleScope.launch {
                 LoadingDialog.showLoading(supportFragmentManager)
                 try {
