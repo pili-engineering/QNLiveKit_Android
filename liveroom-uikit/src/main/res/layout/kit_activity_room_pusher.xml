@@ -5,35 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-
     tools:context=".RoomPushActivity">
-
+    <!--    房间背景图-->
     <com.qlive.uikitcore.QKitImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/kit_dafault_room_bg" />
-
+<!--    主播自己的预览-->
     <com.qlive.rtclive.QPushTextureView
         android:id="@+id/preTextureView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    <!--    pk预览-->
     <com.qlive.uikitpk.PKAnchorPreview
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    <!-- 连麦者预览-->
     <com.qlive.uikitlinkmic.MicLinkersView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         tools:layout_width="100dp" />
 
+    <!--    开播预览 替换的话保留ID-->
     <com.qlive.uikit.component.LivePreView
         android:id="@+id/mLivePreView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:visibility="gone" />
-
+    <!--    覆盖层左右滑动切换-->
     <com.qlive.uikit.component.RoomCoverViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -57,16 +57,17 @@
                 android:layout_marginTop="40dp"
                 android:orientation="horizontal">
                 <!--             左上-->
+                <!--    房主信息-->
                 <com.qlive.uikituser.RoomHostView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
+                <!--   在线用户-->
                 <com.qlive.uikituser.OnlineUserView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     tools:background="#2234ff" />
-
+                <!--    在线人数-->
                 <com.qlive.uikituser.RoomMemberCountView
                     android:layout_width="38dp"
                     android:layout_height="38dp"
@@ -99,7 +100,6 @@
 
 
                 <com.qlive.uikituser.RoomTimerView
-                    android:id="@+id/roomTimerSlot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
@@ -136,11 +136,11 @@
                         tools:ignore="ContentDescription" />
                 </com.qlive.uikitpublicchat.InputView>
 
+<!--                开始pk按钮-->
                 <com.qlive.uikitpk.StartPKView
-                    android:id="@+id/startPKSlot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
+<!--               发弹幕按钮-->
                 <com.qlive.uikitdanmaku.SendDanmakuView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -149,7 +149,7 @@
                     android:orientation="vertical"
                     android:src="@drawable/kit_danmukaiqi"
                     tools:ignore="MissingDefaultResource" />
-
+<!--               打开美颜特效按钮-->
                 <com.qlive.uikit.component.ShowBeautyView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -160,13 +160,12 @@
                     android:src="@mipmap/kit_effct_show"
                     tools:ignore="MissingDefaultResource"
                     tools:visibility="visible" />
-
+<!--                 打开美颜贴纸按钮-->
                 <com.qlive.uikit.component.ShowStickerBeautyView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-
                     android:orientation="vertical"
                     android:src="@mipmap/kit_sticker_close"
                     tools:ignore="MissingDefaultResource" />
@@ -188,6 +187,7 @@
                 android:gravity="bottom"
                 android:orientation="vertical">
 
+<!--                公告-->
                 <com.qlive.uikitpublicchat.RoomNoticeView
                     android:layout_width="238dp"
                     android:layout_height="wrap_content"
@@ -211,7 +211,7 @@
                     android:orientation="vertical"
                     app:edge_position="top|bottom"
                     app:edge_width="30dp">
-
+<!--                    公屏聊天-->
                     <com.qlive.uikitpublicchat.PublicChatView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                 </com.qlive.uikitcore.view.EdgeTransparentView>
 
             </LinearLayout>
-
+<!--            pk覆盖空UI 无UI实现-->
             <com.qlive.uikitpk.PKCoverView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

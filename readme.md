@@ -114,12 +114,14 @@ liveUIKit.launch(context);
 
 ### 自定义UI
 
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/livek.png)
+![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/qlive5.png)
+
+
 
 **直接修改开源代码**
 uikit使用源码依赖，直接修改源码
-优点：快捷
-缺点：官方跟新后不方便同步
+- 优点：快捷
+- 缺点：官方跟新后不方便同步
 
 **无侵入式自定义UI**
 
@@ -128,20 +130,26 @@ uikit使用源码依赖，直接修改源码
 kit_activity_room_player.xml //观众布局 
 kit_activity_room_pusher.xm  //主播布局
 kit_activity_room_list.xml   //主播布局
-到接入你的工程并且重新命名
+到接入的工程并且重新命名
 ```
-修改后调用
+1修改拷贝文件的布局任意属性，比如边距，文本颜色，样式等等
+2调用替换布局文件
 ```
+
+val roomPage = QLive.getLiveUIKit().getPage(RoomPage::class.java)
 //自定义房间页面观众房间的布局
 roomPage.playerCustomLayoutID = R.layout.customXXXlayout
 //自定义房间页面主播房间的布局
 roomPage.anchorCustomLayoutID = R.layout.customXXlayout
+
+val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
 //自定义房间列表页面布局
 roomListPage.customLayoutID = R.layout.customXlayout
 ```
+
 #### 修改现有的UI组件
 
-直接修改拷贝的布局文件
+修改拷贝的布局文件或者源布局文件
 
 案列：
 ```
@@ -158,12 +166,14 @@ roomListPage.customLayoutID = R.layout.customXlayout
         android:layout_height="match_parent"
 
         android:src="@drawable/my_room_bg" />
-所有的安卓自带基础UI都可以修改属性 如边距,父容器排列，文本颜色等等
+tip: 所有的安卓自带基础UI都可以修改属性 如边距,父容器排列，文本颜色等等
 ```
+
 如果要替换UI里面的逻辑代码
 创建自定义UI组件 继承QLiveComponent
+案列：
 ```kotlin
-
+//自定义一个公告UI组件
 class CustomNoticeView :FrameLayout, QLiveComponent {
     
     constructor(context: Context) : this(context, null)
@@ -202,7 +212,7 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 //自定义UI可以参考原来的实现修改成自定义实现
 //提示：所有的UI组件不需要在activity绑定操作 只需要继承QLiveComponent就能完成所有工作
 ```
-然后在拷贝布局文件里替换原来内置的UI组件
+然后在拷贝布局文件里或者源码布局里替换原来内置的UI组件
 ```
   //原来的UI组件
   <com.qlive.uikitpublicchat.RoomNoticeView
@@ -227,7 +237,7 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 //提示不需要修改activity
 ```
 #### 删除内置UI组件
-直接在拷贝的布局文件里删除
+直接在拷贝的布局文件或或者源码布局里里删除
 
 #### 添加UI组件
 
@@ -236,7 +246,7 @@ class CustomView :FrameLayout, QLiveComponent {
    //  实现自己额外的多个UI布局
 }
 
-在拷贝的布局文件里你想要的位置添加即可
+在拷贝的布局文件里或者源码布局里你想要的位置添加即可
 ```
 
 #### 添加功能组件
