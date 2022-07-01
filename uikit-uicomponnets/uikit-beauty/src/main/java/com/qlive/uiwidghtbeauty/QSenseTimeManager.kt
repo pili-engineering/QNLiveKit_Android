@@ -19,6 +19,7 @@ object QSenseTimeManager {
     private const val DST_FOLDER = "resource"
     var sAppContext: Context? = null
     var isAuthorized = false
+    //自动初始化 如果要修改请保留这个 SenseBeautyServiceManager.sSenseTimePlugin = sSenseTimePlugin
     fun initEffectFromLocalLicense(appContext: Context) {
         sAppContext = appContext
         sSenseTimePlugin = QNSenseTimePlugin.Builder(appContext)
@@ -29,17 +30,18 @@ object QSenseTimeManager {
             .setOnlineLicense(false) // 关闭在线激活授权，使用离线激活授权
             .setOnlineActivate(false)
             .build()
+        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Face_Extra_5.23.0.model")
+        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Iris_2.0.0.model")
+        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Hand_5.4.0.model")
+        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Segment_4.10.8.model")
+        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseAR_Segment_MouthOcclusion_FastV1_1.1.1.model")
+
         isAuthorized = sSenseTimePlugin?.checkLicense() ?: false
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show()
         } else {
             //绑定美颜插件
             SenseBeautyServiceManager.sSenseTimePlugin = sSenseTimePlugin
-            sSubModelFromAssetsFile.add("M_SenseME_Face_Extra_5.23.0.model")
-            sSubModelFromAssetsFile.add("M_SenseME_Iris_2.0.0.model")
-            sSubModelFromAssetsFile.add("M_SenseME_Hand_5.4.0.model")
-            sSubModelFromAssetsFile.add("M_SenseME_Segment_4.10.8.model")
-            sSubModelFromAssetsFile.add("M_SenseAR_Segment_MouthOcclusion_FastV1_1.1.1.model")
         }
         checkLoadResourcesTask(appContext,
             object : LoadResourcesTask.ILoadResourcesCallback {
@@ -51,7 +53,7 @@ object QSenseTimeManager {
                     Log.d("QSenseTimeManager", "onStartTask" + " ");
                 }
                 override fun onEndTask(result: Boolean) {
-                    Log.d("QSenseTimeManager", "onStartTask" + " ");
+                    Log.d("QSenseTimeManager", "onEndTask" + " ");
                 }
             });
         Log.d("QSenseTimeManager", "authorizeWithAppId" + "鉴权onSuccess ")
@@ -62,7 +64,7 @@ object QSenseTimeManager {
         callback: ILoadResourcesCallback
     ) {
         SharedPreferencesUtils.resVersion = resourceVersion
-        if (!SharedPreferencesUtils.resourceReady(context)) {
+        if (SharedPreferencesUtils.resourceReady(context)) {
             callback.onStartTask()
             callback.onEndTask(true)
         } else {

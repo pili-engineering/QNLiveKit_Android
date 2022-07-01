@@ -58,7 +58,7 @@ implementation project(':app-sdk:depends_sdk_piliplayer') //其他版本下载�
 
 //低代码无ui sdk 必选
 implementation project(':app-sdk:qlive-sdk') 
-
+implementation 'com.qiniu:happy-dns:1.0.0' // 七牛dns 必选项目
 implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上 必选
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' //kotlin协程 必选
 

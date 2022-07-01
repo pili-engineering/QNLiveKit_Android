@@ -143,6 +143,14 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
         }
     }
 
+    override fun pause() {
+        mMediaPlayer.pause()
+    }
+
+    override fun resume() {
+        mMediaPlayer.resume()
+    }
+
     override fun addPlayerEventListener(playerEventListener: QPlayerEventListener) {
         mQPlayerEventListenerWarp.addEventListener(playerEventListener)
     }

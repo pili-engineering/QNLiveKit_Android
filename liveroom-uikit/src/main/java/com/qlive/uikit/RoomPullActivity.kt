@@ -180,4 +180,14 @@ class RoomPullActivity : BaseFrameActivity() {
         return R.layout.kit_activity_room_player
     }
 
+    override fun onResume() {
+        super.onResume()
+        mRoomClient.resume()
+    }
+
+    override fun onPause() {
+        mRoomClient.pause()
+        super.onPause()
+    }
+
 }

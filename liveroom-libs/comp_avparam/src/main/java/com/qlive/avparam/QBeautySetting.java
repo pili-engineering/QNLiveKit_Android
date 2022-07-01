@@ -3,8 +3,17 @@ package com.qlive.avparam;
 public class QBeautySetting {
     public static final String TAG = "QNBeautySetting";
     private boolean mEnabled = true;
+    /**
+     * 磨皮
+     */
     private float mSmooth;
+    /**
+     * 美白
+     */
     private float mWhiten;
+    /**
+     * 红润
+     */
     private float mRedden;
 
     public QBeautySetting(float smooth, float whiten, float redden) {

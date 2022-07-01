@@ -159,9 +159,9 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         context.mQRtcLiveRoom = QRtcLiveRoom(AppCache.appContext)
         context.mQRtcLiveRoom.addExtraQNRTCEngineEventListener(context.mExtQNClientEventListener)
         context.mQRtcLiveRoom.addExtraQNRTCEngineEventListener(mAudienceExtQNClientEventListener)
-        context.onKickCall = { linker ,m->
+        context.onKickCall = { linker, m ->
             if (linker.user.userId == user?.userId) {
-                stopInner(true, null, false, true,m)
+                stopInner(true, null, false, true, m)
             }
         }
     }
@@ -246,7 +246,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
     private fun stopInner(
         force: Boolean,
         callBack: QLiveCallBack<Void>?,
-        isPositive: Boolean = true, isKick: Boolean = false,kick : UidMsgMode?=null
+        isPositive: Boolean = true, isKick: Boolean = false, kick: UidMsgMode? = null
     ) {
         if (mMeLinker == null) {
             callBack?.onError(-1, "user is not on mic")
@@ -400,6 +400,10 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
 
     override fun setAudioFrameListener(frameListener: QAudioFrameListener?) {
         context.mQRtcLiveRoom.setAudioFrameListener(QAudioFrameListenerWrap(frameListener))
+    }
+
+    override fun setDefaultBeauty(beautySetting: QBeautySetting) {
+        context.mQRtcLiveRoom.localVideoTrack?.setBeauty(beautySetting.toQNBeautySetting())
     }
 
     private val playerGetter by lazy {

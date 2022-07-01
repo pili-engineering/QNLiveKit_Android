@@ -22,8 +22,9 @@ public interface QPlayerClient extends QLiveClient {
 
     void play(@NotNull QPlayerRenderView renderView);                            //绑定播放器渲染视图
 
+    void pause();
+    void resume();
     void addPlayerEventListener(QPlayerEventListener playerEventListener);       //设置拉流端事件回调
-
     void removePlayerEventListener(QPlayerEventListener playerEventListener);       //设置拉流端事件回调
 
 }

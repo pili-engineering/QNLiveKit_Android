@@ -21,7 +21,7 @@ class ShowStickerBeautyView : QKitImageView {
     ) {
         if (SenseBeautyComponent.isInit) {
             setDoubleCheckClickListener {
-                SenseBeautyComponent.mInnerComponentProxy.showDialog(0)
+                SenseBeautyComponent.mInnerComponentProxy.showDialog(1)
             }
             visibility = View.VISIBLE
         } else {

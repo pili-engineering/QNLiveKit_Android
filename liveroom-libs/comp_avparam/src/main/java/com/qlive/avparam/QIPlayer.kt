@@ -9,14 +9,12 @@ interface QIPlayer {
      */
     fun pause()
 
-    fun stop()
-
     /**
      * 恢复
      */
     fun resume()
-
+    fun stop()
     fun release()
 
-    fun onLinkStatusChange(isLink:Boolean)
+    fun onLinkStatusChange(isLink: Boolean)
 }

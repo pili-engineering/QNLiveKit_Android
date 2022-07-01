@@ -13,7 +13,8 @@ class QMediaPlayer(val context: Context) : QIPlayer {
 
     private var mPlayerEventListener: QPlayerEventListener? = null
     private var isLossPause = false
-
+    private var currentUrl = ""
+    private var isRelease = false
     val mIMediaPlayer: PLMediaPlayer by lazy {
         val m = PLMediaPlayer(context,
             AVOptions().apply {
@@ -77,6 +78,8 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     }
 
     override fun release() {
+        isRelease = true
+        currentUrl = ""
         mPlayerEventListener = null
         mIMediaPlayer.release()
         if (mRenderView is QPlayerTextureRenderView) {
@@ -88,15 +91,16 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     //切换rtc模式为了下麦快速恢复保持链接
     override fun onLinkStatusChange(isLink: Boolean) {
         if (isLink) {
-          //  mIMediaPlayer.setSurface(null)
+            //  mIMediaPlayer.setSurface(null)
             mIMediaPlayer.setVolume(0f, 0f)
         } else {
-          //  mIMediaPlayer.setSurface(mSurface)
+            //  mIMediaPlayer.setSurface(mSurface)
             mIMediaPlayer.setVolume(1f, 1f)
         }
     }
 
     override fun setUp(uir: String, headers: Map<String, String>?) {
+        currentUrl = uir
         mIMediaPlayer.stop()
         mIMediaPlayer.setDataSource(uir, headers)
     }
@@ -117,6 +121,9 @@ class QMediaPlayer(val context: Context) : QIPlayer {
      * 暂停
      */
     override fun pause() {
+        if(currentUrl=="" || isRelease){
+            return
+        }
         mIMediaPlayer.pause()
     }
 
@@ -129,6 +136,9 @@ class QMediaPlayer(val context: Context) : QIPlayer {
      * 恢复
      */
     override fun resume() {
+        if(currentUrl=="" || isRelease){
+            return
+        }
         mIMediaPlayer.start()
     }
 

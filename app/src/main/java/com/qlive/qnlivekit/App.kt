@@ -1,15 +1,12 @@
 package com.qlive.qnlivekit
 
 import android.app.Application
-import android.util.Log
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QSdkConfig
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.sdk.QLive
-import com.qlive.uiwidghtbeauty.QSenseTimeManager
-//import com.qlive.uiwidghtbeauty.LoadResourcesTask
-//import com.qlive.uiwidghtbeauty.QSenseTimeManager
+
 import okhttp3.Request
 
 class App : Application() {

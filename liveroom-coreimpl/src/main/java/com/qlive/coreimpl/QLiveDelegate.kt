@@ -86,7 +86,7 @@ object QLiveDelegate {
         val classStr = "com.qlive.uikit.QLiveUIKitImpl"
         val classImpl = Class.forName(classStr)
         val constructor = classImpl.getConstructor(Context::class.java)
-        val uikitObj = constructor.newInstance(AppCache.appContext) as T
-        return uikitObj
+         uikitObj = constructor.newInstance(AppCache.appContext) as T
+        return uikitObj as T
     }
 }

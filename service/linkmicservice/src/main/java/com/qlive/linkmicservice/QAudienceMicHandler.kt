@@ -63,5 +63,6 @@ interface QAudienceMicHandler {
     fun setVideoFrameListener(frameListener: QVideoFrameListener?)
     fun setAudioFrameListener(frameListener: QAudioFrameListener?)
 
+    fun setDefaultBeauty(beautySetting: QBeautySetting)
 
 }

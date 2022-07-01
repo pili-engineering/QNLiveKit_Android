@@ -8,9 +8,9 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:orientation="vertical"
 
         >
@@ -18,10 +18,12 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_show_origin3"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
+                android:layout_gravity="end"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/bg_show_origin"
                 android:gravity="center"
@@ -29,11 +31,9 @@
                 android:textColor="#ffffff"
                 android:textSize="18dp"
                 android:visibility="invisible"
-                android:layout_gravity="end"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible" />
+
             <TextView
-                tools:visibility="visible"
                 android:id="@+id/tv_show_origin2"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
@@ -44,17 +44,17 @@
                 android:text="对比"
                 android:textColor="@color/white"
                 android:textSize="18dp"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
             <RelativeLayout
-                tools:visibility="visible"
                 android:id="@+id/rv_filter_strength"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
                 android:clickable="true"
                 android:visibility="invisible"
                 tools:background="#fff888"
-                >
+                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="35dp"
@@ -101,22 +101,21 @@
                 android:id="@+id/beauty_item_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:visibility="visible"
                 android:visibility="invisible"
-                />
+                tools:visibility="visible" />
 
 
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            >
+            android:layout_height="200dp">
+
             <LinearLayout
                 android:id="@+id/ll_base_beauty_options"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-               android:layout_gravity="bottom"
+                android:layout_gravity="bottom"
                 android:background="#80000000"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -131,12 +130,12 @@
             </LinearLayout>
 
             <RelativeLayout
-                tools:visibility="visible"
                 android:id="@+id/rv_beauty_and_filter_options"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="top"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_beauty_options"
@@ -156,14 +155,14 @@
 
 
             <RelativeLayout
-                tools:visibility="visible"
                 android:id="@+id/rl_filter_icons"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="bottom"
                 android:background="#80000000"
                 android:clickable="true"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <ImageView
                     android:layout_width="6dp"
@@ -205,16 +204,16 @@
 
 
             <LinearLayout
-                tools:visibility="visible"
-                android:layout_gravity="bottom"
                 android:id="@+id/ll_filter_groups"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
+                android:layout_gravity="bottom"
                 android:background="#80000000"
                 android:clickable="true"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/ll_filter_group_portrait"
@@ -316,14 +315,14 @@
             </LinearLayout>
 
             <RelativeLayout
-                tools:visibility="visible"
-                android:layout_gravity="bottom"
                 android:id="@+id/rl_makeup_icons"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
+                android:layout_gravity="bottom"
                 android:background="#80000000"
                 android:clickable="true"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <ImageView
                     android:layout_width="6dp"
@@ -364,17 +363,17 @@
             </RelativeLayout>
 
             <RelativeLayout
-                tools:visibility="visible"
-                android:layout_gravity="bottom"
                 android:id="@+id/rl_makeup_groups"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-
+                android:layout_gravity="bottom"
                 android:background="#80000000"
+
                 android:clickable="true"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -605,26 +604,24 @@
             </RelativeLayout>
 
 
-
             <androidx.recyclerview.widget.RecyclerView
-                tools:visibility="visible"
-                android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-
+                android:layout_gravity="bottom"
                 android:background="#80000000"
+
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"
                 android:scrollbars="none"
-                android:visibility="invisible" />
-
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
 
             <TextView
-                android:layout_gravity="bottom|end"
                 android:id="@+id/reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
 
                 android:layout_marginRight="27dp"
                 android:layout_marginBottom="34dp"
@@ -652,5 +649,5 @@
 
         </FrameLayout>
     </LinearLayout>
-    
+
 </FrameLayout>

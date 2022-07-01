@@ -75,5 +75,4 @@ object SenseBeautyComponent {
             mStickerDialog = null
         }
     }
-
 }
