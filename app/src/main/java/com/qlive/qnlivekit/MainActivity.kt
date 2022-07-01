@@ -19,6 +19,8 @@ import com.qlive.sdk.QUserInfo
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QSdkConfig
+import com.qlive.qnlivekit.App.Companion.demo_url
+import com.qlive.qnlivekit.App.Companion.user
 import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,11 +35,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : AppCompatActivity() {
-
-    private var user: com.qlive.qnlivekit.BZUser? = null
-
-     val demo_url = "https://niucube-api.qiniu.com"
-    //  val demo_url="http://10.200.20.28:5080"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -68,9 +65,8 @@ class MainActivity : AppCompatActivity() {
                 try {
                     //demo登陆
                     login(phone, code)
-
-                    //初始化sdk
-                    suspendInit()
+                    //登陆
+                    auth()
                     //绑定用户信息
                     suspendSetUser()
                     //启动跳转到直播列表
@@ -86,26 +82,19 @@ class MainActivity : AppCompatActivity() {
         initOtherView()
     }
 
-    /**
-     * 初始化sdk
-     */
-    suspend fun suspendInit() =
-        suspendCoroutine<Unit> { coroutine ->
-            QLive.init(application, QSdkConfig(),
-                { callback ->
-                    //业务方获取token
-                    getLoginToken(callback)
-                }, object : QLiveCallBack<Void> {
-                    override fun onError(code: Int, msg: String?) {
-                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
-                        coroutine.resumeWithException(Exception("getTokenError"))
-                    }
 
-                    override fun onSuccess(data: Void?) {
-                        coroutine.resume(Unit)
-                    }
-                })
-        }
+    private suspend fun auth() = suspendCoroutine<Unit> { coroutine ->
+        QLive.auth(object : QLiveCallBack<Void> {
+            override fun onError(code: Int, msg: String?) {
+                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                coroutine.resumeWithException(Exception("getTokenError"))
+            }
+
+            override fun onSuccess(data: Void?) {
+                coroutine.resume(Unit)
+            }
+        })
+    }
 
     /**
      *  //绑定用户信息 绑定后房间在线用户能返回绑定设置的字段
@@ -159,30 +148,6 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 ct.resumeWithException(Exception(e.message))
-            }
-        }.start()
-    }
-
-    //demo获取token
-    private fun getLoginToken(callBack: QLiveCallBack<String>) {
-        Thread {
-            try {
-                val requestToken = Request.Builder()
-                    .url("${demo_url}/v1/live/auth_token?userID=${user!!.data.accountId}&deviceID=adjajdasod")
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "Bearer " + user!!.data.loginToken)
-                    .get()
-                    .build();
-                val callToken = OKHttpService.okHttp.newCall(requestToken);
-                val repToken = callToken.execute()
-                val tkjson = repToken.body?.string()
-                val tkobj = JsonUtils.parseObject(tkjson, com.qlive.qnlivekit.BZkIToken::class.java)
-
-                callBack.onSuccess(tkobj?.data?.accessToken ?: "")
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                callBack.onError(-1, "")
             }
         }.start()
     }

@@ -9,6 +9,7 @@ import com.qlive.rtclive.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
 import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
+import com.qlive.avparam.QVideoFrameListener
 import org.json.JSONObject
 import java.lang.Exception
 import kotlin.coroutines.resume
@@ -54,6 +55,8 @@ open class QRtcLiveRoom(
 
     //混流
     val mMixStreamManager by lazy { MixStreamManager(this) }
+
+    var mInnerVideoFrameListener: QNVideoFrameListener? = null
 
     init {
         addExtraQNRTCEngineEventListener(object : ExtQNClientEventListener {
@@ -178,20 +181,31 @@ open class QRtcLiveRoom(
                 p4: Int,
                 p5: Long
             ) {
+                mInnerVideoFrameListener?.onYUVFrameAvailable(p0, p1, p2, p3, p4, p5)
                 mVideoFrameListener?.onYUVFrameAvailable(p0, p1, p2, p3, p4, p5)
             }
 
             override fun onTextureFrameAvailable(
                 p0: Int,
-                p1: QNVideoFrameType?,
+                p1: QNVideoFrameType,
                 p2: Int,
                 p3: Int,
                 p4: Int,
                 p5: Long,
                 p6: FloatArray?
             ): Int {
-                return mVideoFrameListener?.onTextureFrameAvailable(p0, p1, p2, p3, p4, p5, p6)
-                    ?: p0
+                val textureId =
+                    mInnerVideoFrameListener?.onTextureFrameAvailable(p0, p1, p2, p3, p4, p5, p6)
+                        ?: p0
+                return mVideoFrameListener?.onTextureFrameAvailable(
+                    textureId,
+                    p1,
+                    p2,
+                    p3,
+                    p4,
+                    p5,
+                    p6
+                ) ?: textureId
             }
         })
     }
@@ -280,6 +294,7 @@ open class QRtcLiveRoom(
     }
 
     fun close() {
+        mInnerVideoFrameListener = null
         mAudioFrameListener = null
         mVideoFrameListener = null
         mQNRTCEngineEventWrap.clear()

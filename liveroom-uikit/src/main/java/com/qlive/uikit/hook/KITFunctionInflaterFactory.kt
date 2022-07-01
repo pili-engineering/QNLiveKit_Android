@@ -13,16 +13,10 @@ import kotlin.collections.HashSet
  */
 object KITFunctionInflaterFactory :
     QClientLifeCycleListener {
-
     val functionComponents = HashSet<QLiveComponent>()
 
-    fun findLiveComponentByName(simpleName: String): QLiveComponent? {
-        functionComponents.forEach {
-            if (it.javaClass.name == simpleName) {
-                return it
-            }
-        }
-        return null
+    init {
+        functionComponents.add(SenseBeautyComponent.mInnerComponentProxy)
     }
 
     fun attachLiveClient(client: QLiveClient) {

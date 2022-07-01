@@ -34,6 +34,7 @@
         android:layout_height="match_parent"
         tools:alpha="0.3">
 
+<!--        预览页面的返回-->
         <com.qlive.uikit.component.QBackRoomNavigationImg
             android:layout_width="40dp"
             android:layout_height="20dp"

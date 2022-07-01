@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+
 android {
     compileSdkVersion depend.compileSdkVersion
     defaultConfig {
@@ -29,7 +30,6 @@ android {
 }
 
 dependencies {
-
     api project(':liveroom-core')
     implementation project(':liveroom-coreimpl')
     testImplementation 'junit:junit:4.13.2'

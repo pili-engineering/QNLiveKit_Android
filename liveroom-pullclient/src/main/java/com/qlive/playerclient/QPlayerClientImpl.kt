@@ -24,7 +24,9 @@ import com.qlive.pubchatservice.QPublicChatService
 class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
     companion object {
         fun create(): QPlayerClient {
-            return QPlayerClientImpl()
+            val client = QPlayerClientImpl()
+            client.init()
+           return client
         }
     }
 
@@ -45,9 +47,10 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
         }
     }
 
-    init {
+    private fun init() {
+        mLiveContext.checkInit()
         getService(QPublicChatService::class.java)?.addServiceLister {
-            if(mLiveContext.roomInfo?.anchor?.userId?.isEmpty() != false){
+            if (mLiveContext.roomInfo?.anchor?.userId?.isEmpty() != false) {
                 return@addServiceLister
             }
             if (it.action == QPublicChat.action_bye && it.sendUser?.userId == mLiveContext.roomInfo?.anchor?.userId) {

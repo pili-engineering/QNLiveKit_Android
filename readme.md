@@ -59,7 +59,6 @@ implementation project(':app-sdk:depends_sdk_piliplayer') //其他版本下载�
 //低代码无ui sdk 必选
 implementation project(':app-sdk:qlive-sdk') 
 
-implementation 'com.qiniu:happy-dns:1.0.0' // 七牛dns 必选
 implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上 必选
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' //kotlin协程 必选
 
@@ -90,16 +89,21 @@ UIkit也可以直接使用源码模块-可直接修改代码
 ## 使用说明
 ### UIKIT
 ```java
-//初始化（登陆）
+//初始化
 QLive.init(context ,new QTokenGetter(){
-        //业务请求token
+        //业务请求token的方法 
         void getTokenInfo( QLiveCallBack<String> callback){
+             //当token过期后如何获取token
             GetTokenApi.getToken(callback);
         }
-        },new QLiveCallBack<Void>{});
-//登陆成功后 才能其他步骤
+});
 
-//可选 绑定用户资料 第一次绑定后没有跟新个人资料可不用每次都绑定
+
+//登陆 登陆成功后才能使用qlive
+QLive.auth(new QLiveCallBack<Void>{})
+
+//可选 绑定用户资料 第一次绑定后没有跟新个人资料可不用每次都绑定 
+//也可以在服务端绑定用户 服务端也可以调用
 Map ext = new HashMap()
 ext.put("vip","1"); // 可选参数，接入用户希望在直播间的在线用户列表/资料卡等UI中显示自定义字段如vip等级等等接入方的业务字段
 ext.put("xxx","xxx");//扩展多个字段
@@ -342,18 +346,35 @@ QLive.getRooms().createRoom(..）
 方式3
 修改UIkit源码
 
+
+
+### 使用内置七牛美颜（可选）
+内置商汤美颜插件，依赖则有不依赖则没有
+```java
+拷贝源码模块uikit-beauty
+implementation project(":uikit-uicomponnets:uikit-beauty")
+```
+- 联系七牛商务获取美颜认证lic文件 重命名SenseME.lic放在assets文件下->运行sdk已经带了美颜滤镜贴纸功能
+- 修改美颜调节面板UI及拷贝购买的模型文件至uikit-beauty/assets
+
+
+
 ### 无UI
 ```java
 无UI
 
-//初始化（登陆）
+//初始化
 QLive.init(context ,new QTokenGetter(){
-        //业务请求token
+        //业务请求token的方法 
         void getTokenInfo( QLiveCallBack<String> callback){
+             //当token过期后如何获取token
             GetTokenApi.getToken(callback);
         }
-        },new QLiveCallBack<Void>{});
-//登陆成功后 才能其他步骤
+});
+
+
+//登陆 登陆成功后才能使用qlive
+QLive.auth(new QLiveCallBack<Void>{})
 
 //可选 绑定用户资料 第一绑定后没有跟新个人资料可以不用每次都绑定
 Map ext = new HashMap()
@@ -654,7 +675,8 @@ client?.getService(QPKService::class.java)?.start(20 * 1000, invitation.receiver
 ## 初始化
 ```java
 class QLive {
-    static void init(Context context, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack); // 初始化
+    static void init(Context context, QTokenGetter tokenGetter); // 初始化
+    static void auth(QLiveCallBack<Void> callBack)//认证/登陆
     static void setUser(QUserInfo userInfo ,QLiveCallBack<Void> callBack); //绑定用户信息
     static QPusherClient createPusherClient();  //创建主播端
     static QPlayerClient createPlayerClient();  //创建观众端
@@ -1105,7 +1127,7 @@ class RoomPage {
 
     void  setPlayerCustomLayoutId(int layoutID); //替换整体布局 替换观众端
     void setAnchorCustomLayoutId(int layoutID); //替换整体布局 替换主播端
-    
+
     ShowPKApplyFunctionComponent showPKApplyComponent ;//主播收到pk邀请 展示弹窗 事件监听功能组件 
     ShowLinkMicApplyFunctionComponent showLinkMicApplyComponent ;//主播收到连麦申请 展示弹窗 事件监听功能组件
     PlayerShowBeInvitedComponent playerShowBeInvitedComponent; //用户收到主播连麦邀请 展示弹窗

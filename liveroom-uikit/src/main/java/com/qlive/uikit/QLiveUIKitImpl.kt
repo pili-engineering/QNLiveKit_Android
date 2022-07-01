@@ -3,15 +3,18 @@ package com.qlive.uikit
 import android.content.Context
 import com.qlive.uikit.RoomListActivity.Companion.start
 import com.qlive.sdk.QLiveUIKit
-import com.qlive.uikit.RoomListPage
-import com.qlive.uikit.RoomPage
 import com.qlive.sdk.QPage
+import com.qlive.uikit.hook.SenseBeautyComponent
 
-class QLiveUIKitImpl : QLiveUIKit {
+class QLiveUIKitImpl(val appContext: Context) : QLiveUIKit {
 
     companion object{
         private val mRoomListPage = RoomListPage()
         private val mRoomPage = RoomPage()
+    }
+
+    init {
+        SenseBeautyComponent.init(appContext)
     }
 
     override fun <T : QPage> getPage(pageClass: Class<T>): T? {

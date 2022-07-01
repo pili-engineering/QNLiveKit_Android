@@ -37,7 +37,7 @@ def buidSdk = false
 fataar {
     transitive = true
 }
-//
+
 //def version = 'qlive-uikit-1.0.0'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')
@@ -69,7 +69,7 @@ dependencies {
         api project(':uikit-uicomponnets:uikit-linkmic')
         api project(':uikit-uicomponnets:uikit-pk')
     }
-
+    compileOnly project(':uikit-uicomponnets:uikit-beauty')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

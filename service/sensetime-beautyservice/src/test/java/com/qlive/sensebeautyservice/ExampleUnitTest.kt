@@ -1,4 +1,4 @@
-package com.qlive.uikitbeauty
+package com.qlive.sensebeautyservice
 
 import org.junit.Test
 

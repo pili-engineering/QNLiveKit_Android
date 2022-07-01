@@ -7,6 +7,7 @@ import com.qlive.avparam.QBeautySetting
 import com.qlive.pushclient.QPusherClient
 import com.qlive.uikit.R
 import com.qlive.uikit.hook.KITFunctionInflaterFactory
+import com.qlive.uikit.hook.SenseBeautyComponent
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.QKitTextView
 import com.qlive.uikitcore.ShowDialogAble
@@ -14,7 +15,6 @@ import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 
 class ShowBeautyPreview : QKitTextView {
 
-    private var component: ShowDialogAble? = null
     private var isOpen = false
 
     constructor(context: Context) : this(context, null)
@@ -24,11 +24,9 @@ class ShowBeautyPreview : QKitTextView {
         attrs,
         defStyleAttr
     ) {
-        component =
-            KITFunctionInflaterFactory.findLiveComponentByName("com.qlive.uikitbeauty.QSenseBeautyComponent") as ShowDialogAble?
-        if (component != null) {
+        if (SenseBeautyComponent.isInit) {
             setDoubleCheckClickListener {
-                component?.showDialog(0, Unit)
+                SenseBeautyComponent.mInnerComponentProxy.showDialog(0)
             }
         } else {
             setDoubleCheckClickListener {

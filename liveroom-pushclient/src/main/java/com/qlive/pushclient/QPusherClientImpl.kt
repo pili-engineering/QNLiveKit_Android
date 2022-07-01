@@ -5,7 +5,6 @@ import com.qlive.rtm.joinChannel
 import com.qlive.rtm.leaveChannel
 import com.qlive.rtclive.*
 import com.qiniu.droid.rtc.*
-import com.qiniu.droid.rtc.model.QNVideoWaterMark
 import com.qlive.avparam.*
 import com.qlive.chatservice.QChatRoomService
 import com.qlive.chatservice.QChatRoomServiceListener
@@ -24,7 +23,9 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
 
     companion object {
         fun create(): QPusherClient {
-            return QPusherClientImpl()
+            val client = QPusherClientImpl()
+            client.init()
+            return client
         }
     }
 
@@ -74,7 +75,8 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
         mLiveStatusListener = liveStatusListener
     }
 
-    init {
+    private fun init() {
+        mLiveContext.checkInit()
         getService(QChatRoomService::class.java)?.addServiceListener(object :
             QChatRoomServiceListener {
             override fun onUserLeft(memberID: String) {
@@ -93,15 +95,15 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
 
     /**
      * 加入房间
-     * @param roomId
+     * @param roomID
      * @param callBack
      */
-    override fun joinRoom(roomId: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
+    override fun joinRoom(roomID: String, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         backGround {
             doWork {
-                mLiveContext.enter(roomId, UserDataSource.loginUser)
+                mLiveContext.enter(roomID, UserDataSource.loginUser)
                 //业务接口发布房间
-                val roomInfo = mRoomSource.pubRoom(roomId)
+                val roomInfo = mRoomSource.pubRoom(roomID)
                 //加群
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.joinChannel(roomInfo.chatID)
@@ -109,7 +111,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
                 //初始化混流器
                 if (!mRtcRoom.mMixStreamManager.isInit) {
                     mRtcRoom.mMixStreamManager.init(
-                        roomId,
+                        roomID,
                         roomInfo.pushURL,
                         QMixStreamParams().apply {
                             this.mixStreamWidth = mCameraParams.width
@@ -204,14 +206,6 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     override fun setAudioFrameListener(frameListener: QAudioFrameListener?) {
         mRtcRoom.setAudioFrameListener(QAudioFrameListenerWrap(frameListener))
     }
-
-//    override fun getLocalVideoTrack(): QNCameraVideoTrack? {
-//       return mRtcRoom.localVideoTrack
-//    }
-//
-//    override fun getLocalAudioTrack(): QNMicrophoneAudioTrack? {
-//        return mRtcRoom.localAudioTrack
-//    }
 
     override fun pause() {
         mRtcRoom.localVideoTrack?.stopCapture()

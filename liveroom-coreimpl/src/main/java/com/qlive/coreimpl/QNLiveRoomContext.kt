@@ -1,6 +1,7 @@
 package com.qlive.coreimpl
 
 import com.qlive.core.QClientLifeCycleListener
+import com.qlive.core.QClientType
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
@@ -10,16 +11,16 @@ import com.qlive.coreimpl.datesource.UserDataSource
 
 class QNLiveRoomContext(private val mClient: QLiveClient) {
 
-    private val serviceMap = HashMap<Class<*>, Any>()
+    private val serviceMap = HashMap<String, Any>()
     private val mLifeCycleListener = ArrayList<QClientLifeCycleListener>()
     val mRoomScheduler = com.qlive.coreimpl.RoomScheduler()
     var roomInfo: QLiveRoomInfo? = null
-    private set
+        private set
     private var liveId = ""
 
-    private fun <T : QLiveService> registerService(serviceClass: Class<T>) {
+    private fun registerService(serviceClass: String) {
         try {
-            val classStr = serviceClass.name + "Impl"
+            val classStr = serviceClass + "Impl"
             val classImpl = Class.forName(classStr)
             val constructor = classImpl.getConstructor()
             val obj = constructor.newInstance() as BaseService
@@ -32,22 +33,30 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
             if (roomInfo != null) {
                 obj.onJoined(roomInfo!!)
             }
-        } catch (e: Exception) {
+        } catch (e: ClassNotFoundException) {
             e.printStackTrace()
         }
     }
 
     fun <T : QLiveService> getService(serviceClass: Class<T>): T? {
-        val serviceObj = serviceMap[serviceClass] as T?
+        val serviceObj = serviceMap[serviceClass.name] as T?
         if (serviceObj == null) {
-            registerService(serviceClass)
-            return serviceMap[serviceClass] as T?
+            registerService(serviceClass.name)
+            return serviceMap[serviceClass.name] as T?
         }
         return serviceObj
     }
 
-    init {
+    private var isInit = false
+    fun checkInit() {
+        if (isInit) {
+            return
+        }
         mLifeCycleListener.add(mRoomScheduler)
+        if (mClient.clientType == QClientType.PUSHER) {
+            registerService("com.qlive.sensebeautyservice.SenseBeautyService")
+        }
+        isInit = true
     }
 
     fun enter(liveId: String, user: QLiveUser) {

@@ -15,6 +15,9 @@ import com.qlive.core.QRooms;
 import com.qlive.playerclient.QPlayerClientImpl;
 import com.qlive.pushclient.QPusherClientImpl;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public class QLive {
 
     /**
@@ -22,21 +25,32 @@ public class QLive {
      *
      * @param context
      * @param tokenGetter
-     * @param callBack
      * @return
      */
-    public static void init(Context context, QSdkConfig config, QTokenGetter tokenGetter, QLiveCallBack<Void> callBack) {
-        QLiveDelegate.INSTANCE.init(context,config, tokenGetter, callBack);
+    public static void init(Context context, QSdkConfig config, QTokenGetter tokenGetter) {
+        QLiveDelegate.INSTANCE.init(context, config, tokenGetter);
     }
 
     /**
-     * 更新用户信息
+     * 登陆
+     * @param callBack
+     */
+    public static void auth(@NotNull QLiveCallBack<Void> callBack) {
+        QLiveDelegate.INSTANCE.login(callBack);
+    }
+
+    /**
+     * 跟新用户信息
      *
      * @param userInfo
      * @param callBack
      */
-    public static void setUser(QUserInfo userInfo, QLiveCallBack<Void> callBack) {
-        new UserDataSource().updateUser(userInfo.avatar, userInfo.nick, userInfo.extension, callBack);
+    public static void setUser(@NotNull QUserInfo userInfo, @NotNull QLiveCallBack<Void> callBack) {
+        QLiveUser user = new QLiveUser();
+        user.avatar = userInfo.avatar;
+        user.nick = userInfo.nick;
+        user.extensions = userInfo.extension;
+        QLiveDelegate.INSTANCE.setUser(user, callBack);
     }
 
     public static QLiveUser getLoginUser() {

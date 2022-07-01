@@ -108,7 +108,7 @@ public class QStickerView extends FrameLayout {
             // 重置所有状态为未选中状态
             resetNewStickerAdapter();
             mCurrentStickerPosition = -1;
-            QSenseTimeManager.sSenseTimePlugin.setSticker("");
+           QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setSticker("");
         });
         initStickerTabListener();
 
@@ -177,13 +177,13 @@ public class QStickerView extends FrameLayout {
                     mCurrentStickerOptionsIndex = -1;
                     mCurrentStickerPosition = -1;
 
-                    QSenseTimeManager.sSenseTimePlugin.setSticker("");
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setSticker("");
                 } else {
                     mCurrentStickerOptionsIndex = index;
                     mCurrentStickerPosition = position;
 
                     mNativeStickerAdapters.get(stickerClassName).setSelectedPosition(position);
-                    QSenseTimeManager.sSenseTimePlugin.setSticker(mNewStickers.get(position).path);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setSticker(mNewStickers.get(position).path);
                 }
 
                 mNativeStickerAdapters.get(stickerClassName).notifyDataSetChanged();

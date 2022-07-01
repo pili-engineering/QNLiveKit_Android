@@ -184,12 +184,12 @@ public class QSenseBeautyView extends FrameLayout {
                     if (checkMicroType()) {
                         mIndicatorSeekbar.updateTextView(Utils.convertToDisplay(progress));
                         // 设置美颜强度，强度范围是 [-1,1]
-                        QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[mCurrentBeautyIndex], (float) Utils.convertToDisplay(progress) / 100f);
+                        QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[mCurrentBeautyIndex], (float) Utils.convertToDisplay(progress) / 100f);
                         mBeautyListMap.get(mBeautyOption.get(mBeautyOptionsPosition)).get(mBeautyOptionSelectedIndex.get(mBeautyOptionsPosition)).setProgress(Utils.convertToDisplay(progress));
                     } else {
                         mIndicatorSeekbar.updateTextView(progress);
                         // 设置美颜强度，强范围度是 [0,1]
-                        QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[mCurrentBeautyIndex], (float) progress / 100f);
+                       QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[mCurrentBeautyIndex], (float) progress / 100f);
                         mBeautyListMap.get(mBeautyOption.get(mBeautyOptionsPosition)).get(mBeautyOptionSelectedIndex.get(mBeautyOptionsPosition)).setProgress(progress);
                     }
                     mBeautyItemAdapters.get(mBeautyOption.get(mBeautyOptionsPosition)).notifyItemChanged(mBeautyOptionSelectedIndex.get(mBeautyOptionsPosition));
@@ -610,10 +610,10 @@ public class QSenseBeautyView extends FrameLayout {
                 if (fromUser) {
                     if (mBeautyOptionsPosition == 4) {
                         // 设置滤镜强度
-                        QSenseTimeManager.sSenseTimePlugin.setFilterStrength((float) progress / 100);
+                       QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilterStrength((float) progress / 100);
                         mFilterStrengthText.setText(progress +"");
                     } else if (mBeautyOptionsPosition == 3) {
-                        QSenseTimeManager.sSenseTimePlugin.setMakeupStrength(mCurrentMakeupGroupIndex, (float) progress / 100);
+                       QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setMakeupStrength(mCurrentMakeupGroupIndex, (float) progress / 100);
                         mMakeupStrength.put(mCurrentMakeupGroupIndex , progress);
                         mFilterStrengthText.setText(progress +"");
                     }
@@ -639,9 +639,9 @@ public class QSenseBeautyView extends FrameLayout {
                 mCurrentFilterGroupIndex = 0;
                 mCurrentFilterIndex = -1;
                 if (position == 0) {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter("");
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter("");
                 } else {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter(mFilterListMap.get(FILTER_PORTRAIT).get(position).model);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter(mFilterListMap.get(FILTER_PORTRAIT).get(position).model);
                     mCurrentFilterIndex = position;
                     mFilterStrengthLayout.setVisibility(View.VISIBLE);
                     mShowOriginBtn1.setVisibility(View.INVISIBLE);
@@ -664,9 +664,9 @@ public class QSenseBeautyView extends FrameLayout {
                 mCurrentFilterGroupIndex = 1;
                 mCurrentFilterIndex = -1;
                 if (position == 0) {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter("");
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter("");
                 } else {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter(mFilterListMap.get(FILTER_SCENERY).get(position).model);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter(mFilterListMap.get(FILTER_SCENERY).get(position).model);
                     mCurrentFilterIndex = position;
                     mFilterStrengthLayout.setVisibility(View.VISIBLE);
                     mShowOriginBtn1.setVisibility(View.INVISIBLE);
@@ -689,9 +689,9 @@ public class QSenseBeautyView extends FrameLayout {
                 mCurrentFilterGroupIndex = 2;
                 mCurrentFilterIndex = -1;
                 if (position == 0) {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter("");
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter("");
                 } else {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter(mFilterListMap.get(FILTER_STILL_LIFE).get(position).model);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter(mFilterListMap.get(FILTER_STILL_LIFE).get(position).model);
                     mCurrentFilterIndex = position;
                     mFilterStrengthLayout.setVisibility(View.VISIBLE);
                     mShowOriginBtn1.setVisibility(View.INVISIBLE);
@@ -714,9 +714,9 @@ public class QSenseBeautyView extends FrameLayout {
                 mCurrentFilterGroupIndex = 3;
                 mCurrentFilterIndex = -1;
                 if (position == 0) {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter("");
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter("");
                 } else {
-                    QSenseTimeManager.sSenseTimePlugin.setFilter(mFilterListMap.get(FILTER_FOOD).get(position).model);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter(mFilterListMap.get(FILTER_FOOD).get(position).model);
                     mCurrentFilterIndex = position;
                     mFilterStrengthLayout.setVisibility(View.VISIBLE);
                     mShowOriginBtn1.setVisibility(View.INVISIBLE);
@@ -822,13 +822,13 @@ public class QSenseBeautyView extends FrameLayout {
                         entry.getValue().setSelectedPosition(position);
                         mMakeupOptionSelectedIndex.put(mMakeupOptionIndex.get(entry.getKey()) , position);
                         mFilterStrengthLayout.setVisibility(View.INVISIBLE);
-                        QSenseTimeManager.sSenseTimePlugin.setMakeup(mCurrentMakeupGroupIndex, "");
+                       QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setMakeup(mCurrentMakeupGroupIndex, "");
                         updateMakeupOptions(mCurrentMakeupGroupIndex, false);
                     } else {
                         entry.getValue().setSelectedPosition(position);
                         mMakeupOptionSelectedIndex.put(mMakeupOptionIndex.get(entry.getKey()) , position);
-                        QSenseTimeManager.sSenseTimePlugin.setMakeup(mCurrentMakeupGroupIndex, mMakeupLists.get(ResourcesUtil.getMakeupNameOfType(mCurrentMakeupGroupIndex)).get(position).path);
-                        QSenseTimeManager.sSenseTimePlugin.setMakeupStrength(mCurrentMakeupGroupIndex, (float) mMakeupStrength.get(mCurrentMakeupGroupIndex) / 100.f);
+                       QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setMakeup(mCurrentMakeupGroupIndex, mMakeupLists.get(ResourcesUtil.getMakeupNameOfType(mCurrentMakeupGroupIndex)).get(position).path);
+                       QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setMakeupStrength(mCurrentMakeupGroupIndex, (float) mMakeupStrength.get(mCurrentMakeupGroupIndex) / 100.f);
                         mFilterStrengthLayout.setVisibility(View.VISIBLE);
                         mFilterStrengthBar.setProgress(mMakeupStrength.get(mCurrentMakeupGroupIndex));
                         updateMakeupOptions(mCurrentMakeupGroupIndex, true);
@@ -880,9 +880,9 @@ public class QSenseBeautyView extends FrameLayout {
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
                 if (action == MotionEvent.ACTION_DOWN) {
-                    QSenseTimeManager.sSenseTimePlugin.setEffectEnabled(false);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setEffectEnabled(false);
                 } else if (action == MotionEvent.ACTION_UP) {
-                    QSenseTimeManager.sSenseTimePlugin.setEffectEnabled(true);
+                   QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setEffectEnabled(true);
                 }
                 return true;
             }
@@ -1032,8 +1032,8 @@ public class QSenseBeautyView extends FrameLayout {
     private void resetMakeup() {
         for (int i = 402; i < Constants.MAKEUP_TYPE_COUNT + 402; i++) {
             final int finalI = i;
-            QSenseTimeManager.sSenseTimePlugin.setMakeup(finalI, "");
-            QSenseTimeManager.sSenseTimePlugin.setMakeupStrength(finalI, 0);
+           QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setMakeup(finalI, "");
+           QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setMakeupStrength(finalI, 0);
             mMakeupOptionSelectedIndex.put(i , 0);
             mMakeupStrength.put(i , 80);
         }
@@ -1091,7 +1091,7 @@ public class QSenseBeautyView extends FrameLayout {
             if (mCurrentFilterIndex > 0) {
                 mCurrentFilterGroupIndex = 0;
                 mFilterAdapters.get(Constants.FILTER_PORTRAIT).setSelectedPosition(mCurrentFilterIndex);
-                QSenseTimeManager.sSenseTimePlugin.setFilter(mFilterListMap.get(Constants.FILTER_PORTRAIT).get(mCurrentFilterIndex).model);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setFilter(mFilterListMap.get(Constants.FILTER_PORTRAIT).get(mCurrentFilterIndex).model);
                 ((ImageView) findViewById(R.id.iv_filter_group_portrait)).setImageDrawable(getResources().getDrawable(R.drawable.icon_portrait_selected));
                 ((TextView) findViewById(R.id.tv_filter_group_portrait)).setTextColor(getResources().getColor(R.color.text_selected));
                 mFilterAdapters.get(Constants.FILTER_PORTRAIT).notifyDataSetChanged();
@@ -1108,42 +1108,42 @@ public class QSenseBeautyView extends FrameLayout {
         switch (beautyOptionsPosition) {
             case 0:
                 // 基础美颜
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_BASE_WHITTEN], sBeautifyParams[0]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_BASE_REDDEN], sBeautifyParams[1]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_BASE_FACE_SMOOTH], sBeautifyParams[2]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_BASE_WHITTEN], sBeautifyParams[0]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_BASE_REDDEN], sBeautifyParams[1]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_BASE_FACE_SMOOTH], sBeautifyParams[2]);
                 break;
             case 1:
                 // 美形
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_SHRINK_FACE], sBeautifyParams[3]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_ENLARGE_EYE], sBeautifyParams[4]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_SHRINK_JAW], sBeautifyParams[5]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_NARROW_FACE], sBeautifyParams[6]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_ROUND_EYE], sBeautifyParams[7]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_SHRINK_FACE], sBeautifyParams[3]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_ENLARGE_EYE], sBeautifyParams[4]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_SHRINK_JAW], sBeautifyParams[5]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_NARROW_FACE], sBeautifyParams[6]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_RESHAPE_ROUND_EYE], sBeautifyParams[7]);
                 break;
             case 2:
                 // 微整形
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_THIN_FACE], sBeautifyParams[8]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_CHIN_LENGTH], sBeautifyParams[9]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_HAIRLINE_HEIGHT], sBeautifyParams[10]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_APPLE_MUSLE], sBeautifyParams[11]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_NARROW_NOSE], sBeautifyParams[12]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_NOSE_LENGTH], sBeautifyParams[13]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_PROFILE_RHINOPLASTY], sBeautifyParams[14]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_MOUTH_SIZE], sBeautifyParams[15]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_PHILTRUM_LENGTH], sBeautifyParams[16]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_EYE_DISTANCE], sBeautifyParams[17]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_EYE_ANGLE], sBeautifyParams[18]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_OPEN_CANTHUS], sBeautifyParams[19]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_BRIGHT_EYE], sBeautifyParams[20]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_REMOVE_DARK_CIRCLES], sBeautifyParams[21]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_REMOVE_NASOLABIAL_FOLDS], sBeautifyParams[22]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_WHITE_TEETH], sBeautifyParams[23]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_SHRINK_CHEEKBONE], sBeautifyParams[24]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_THIN_FACE], sBeautifyParams[8]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_CHIN_LENGTH], sBeautifyParams[9]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_HAIRLINE_HEIGHT], sBeautifyParams[10]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_APPLE_MUSLE], sBeautifyParams[11]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_NARROW_NOSE], sBeautifyParams[12]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_NOSE_LENGTH], sBeautifyParams[13]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_PROFILE_RHINOPLASTY], sBeautifyParams[14]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_MOUTH_SIZE], sBeautifyParams[15]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_PHILTRUM_LENGTH], sBeautifyParams[16]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_EYE_DISTANCE], sBeautifyParams[17]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_EYE_ANGLE], sBeautifyParams[18]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_OPEN_CANTHUS], sBeautifyParams[19]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_BRIGHT_EYE], sBeautifyParams[20]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_REMOVE_DARK_CIRCLES], sBeautifyParams[21]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_REMOVE_NASOLABIAL_FOLDS], sBeautifyParams[22]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_WHITE_TEETH], sBeautifyParams[23]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_PLASTIC_SHRINK_CHEEKBONE], sBeautifyParams[24]);
                 break;
             case 5:
                 // 调整
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_TONE_CONTRAST], sBeautifyParams[25]);
-                QSenseTimeManager.sSenseTimePlugin.setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_TONE_SATURATION], sBeautifyParams[26]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_TONE_CONTRAST], sBeautifyParams[25]);
+               QSenseTimeManager.INSTANCE.getSSenseTimePlugin().setBeauty(Constants.BEAUTY_TYPES[Constants.BEAUTY_TONE_SATURATION], sBeautifyParams[26]);
                 break;
         }
     }

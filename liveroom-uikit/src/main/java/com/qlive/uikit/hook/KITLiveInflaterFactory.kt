@@ -24,7 +24,6 @@ class KITLiveInflaterFactory(
     private val kitContext: QLiveUIKitContext
 ) : LayoutInflater.Factory2, QClientLifeCycleListener {
 
-
     private val mComponents = HashSet<QLiveComponent>()
     override fun onCreateView(
         parent: View?,

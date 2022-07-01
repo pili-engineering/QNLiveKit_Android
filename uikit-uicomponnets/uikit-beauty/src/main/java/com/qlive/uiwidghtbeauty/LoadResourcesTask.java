@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
 public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
 
     public interface ILoadResourcesCallback {
-
+        Context getContext();
         void onStartTask();
 
         void onEndTask(boolean result);
@@ -28,7 +28,7 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... strings) {
-        Context context = QSenseTimeManager.sAppContext;
+        Context context = mCallback.get().getContext();
         FileUtils.copyStickerFiles(context, NEW_ENGINE);
         FileUtils.copyStickerFiles(context, MAKEUP_EYE);
         FileUtils.copyStickerFiles(context, MAKEUP_BROW);
@@ -55,8 +55,7 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
-        SharedPreferencesUtils.setResourceReady(QSenseTimeManager.sAppContext, result);
+        SharedPreferencesUtils.setResourceReady( mCallback.get().getContext(), result);
         mCallback.get().onEndTask(result);
-
     }
 }

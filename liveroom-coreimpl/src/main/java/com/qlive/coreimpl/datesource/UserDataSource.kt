@@ -92,7 +92,7 @@ class UserDataSource {
         )[0]
     }
 
-    private suspend fun getToken() = suspendCoroutine<String> { coroutine ->
+    suspend fun getToken() = suspendCoroutine<String> { coroutine ->
         OKHttpService.tokenGetter!!.getTokenInfo(object : QLiveCallBack<String> {
             override fun onError(code: Int, msg: String?) {
                 coroutine.resumeWithException(NetBzException(code, msg))
@@ -105,53 +105,18 @@ class UserDataSource {
         })
     }
 
-    fun loginUser(context: Context, callBack: QLiveCallBack<QLiveUser>) {
-        backGround {
-            doWork {
-                getToken()
-                val user = OKHttpService.get("/client/user/profile", null, InnerUser::class.java)
-                val appConfig = OKHttpService.get("/client/app/config", null, AppConfig::class.java)
-                QNIMManager.init(appConfig.im_app_id, context)
-                val code =QNIMManager.mRtmAdapter.loginSuspend(
-                    user.userId,
-                    user.imUid,
-                    user.im_username,
-                    user.im_password
-                )
-                if(code==BMXErrorCode.NoError){
-                    loginUser = user
-                    callBack.onSuccess(loginUser)
-                }else{
-                    callBack.onError(code.swigValue(), code.name)
-                }
-            }
-            catchError {
-                callBack.onError(it.getCode(), it.message)
-            }
-        }
-    }
-
-    fun updateUser(
+    suspend fun updateUser(
         avatar: String,
         nickName: String,
-        extensions: HashMap<String, String>?,
-        callBack: QLiveCallBack<Void>
+        extensions: Map<String, String>?
     ) {
-        backGround {
-            doWork {
-                val user = QLiveUser()
-                user.avatar = avatar
-                user.nick = nickName
-                user.extensions = extensions
-                OKHttpService.put("/client/user/user", JsonUtils.toJson(user), Any::class.java)
-                loginUser.avatar = avatar
-                loginUser.nick = nickName
-                loginUser.extensions - extensions
-                callBack.onSuccess(null)
-            }
-            catchError {
-                callBack.onError(it.getCode(), it.message)
-            }
-        }
+        val user = QLiveUser()
+        user.avatar = avatar
+        user.nick = nickName
+        user.extensions = extensions
+        OKHttpService.put("/client/user/user", JsonUtils.toJson(user), Any::class.java)
+        loginUser.avatar = avatar
+        loginUser.nick = nickName
+        loginUser.extensions - extensions
     }
 }

@@ -11,7 +11,6 @@ include ':app-sdk:depends_sdk_piliplayer' //七牛播放器
 include ':app-sdk:depends_sdk_qnim' //七牛im
 include ':app-sdk:depends_sdk_qrtc' //七牛rtc
 
-
 include ':liveroom-core'
 include ':liveroom-pushclient'
 include ':liveroom-pullclient'
@@ -45,6 +44,6 @@ include ':liveroom-libs:comp_rtclive'
 
 include ':qlivesdk'
 
-
-include ':uikit-uicomponnets:uiwidght-beauty'
 include ':uikit-uicomponnets:uikit-beauty'
+include ':service:sensetime-beautyservice'
+
