@@ -3,11 +3,8 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.qlive.uikit.R
-import com.qlive.uikit.hook.KITFunctionInflaterFactory
-import com.qlive.uikit.hook.SenseBeautyComponent
+import com.qlive.beautyhook.BeautyHookManager
 import com.qlive.uikitcore.QKitImageView
-import com.qlive.uikitcore.ShowDialogAble
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 
 class ShowStickerBeautyView : QKitImageView {
@@ -19,9 +16,9 @@ class ShowStickerBeautyView : QKitImageView {
         attrs,
         defStyleAttr
     ) {
-        if (SenseBeautyComponent.isInit) {
+        if (BeautyHookManager.isEnable) {
             setDoubleCheckClickListener {
-                SenseBeautyComponent.mInnerComponentProxy.showDialog(1)
+                BeautyHookManager.showBeautyStickDialog.invoke(kitContext!!.fragmentManager)
             }
             visibility = View.VISIBLE
         } else {

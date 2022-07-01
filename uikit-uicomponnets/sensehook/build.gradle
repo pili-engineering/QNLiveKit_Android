@@ -28,22 +28,12 @@ android {
     }
 }
 
-//def jarName = "sensetime-beauty-service-1.0.jar"
-//task makeJar(type: Copy) {
-//    delete 'build/'+jarName //删除之前的旧jar包
-//    from('build/intermediates/merged_java_res/release/') //从这个目录下取出默认jar包
-//    into('build/') //将jar包输出到指定目录下
-//    include('classes.jar')
-//    rename('classes.jar',jarName) //自定义jar包的名字
-//}
-//makeJar.dependsOn(build)
-
 dependencies {
-    compileOnly files('libs/qndroid-sensetime-effect-1.4.0.jar')
-    compileOnly project(':liveroom-libs:comp_rtclive')
-    compileOnly project(':app-sdk:depends_sdk_qrtc')
-    api project(':liveroom-core')
-    implementation project(':liveroom-coreimpl')
+    implementation project(':app-sdk:depends_sdk_qrtc')
+    implementation project(':liveroom-libs:beautyhook')
+    implementation project(path: ':liveroom-libs:comp_rtclive')
+    implementation project(':uikit-uicomponnets:uikit-beauty')
+    implementation depend.fragmentKtx()
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

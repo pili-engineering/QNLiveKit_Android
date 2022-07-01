@@ -4,13 +4,9 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
-import com.qlive.sensebeautyservice.SenseBeautyServiceManager
-import com.qlive.sensebeautyservice.SenseBeautyServiceManager.Companion.sSenseTimePlugin
-import com.qlive.sensebeautyservice.SenseBeautyServiceManager.Companion.sSubModelFromAssetsFile
-import com.qlive.uiwidghtbeauty.QSenseTimeManager
+import com.qlive.beautyhookimpl.BeautyHookerImpl
 import com.qlive.uiwidghtbeauty.LoadResourcesTask.ILoadResourcesCallback
 import com.qlive.uiwidghtbeauty.utils.SharedPreferencesUtils
-import com.qlive.uiwidghtbeauty.LoadResourcesTask
 import com.qlive.uiwidghtbeauty.utils.Constants
 
 object QSenseTimeManager {
@@ -19,8 +15,9 @@ object QSenseTimeManager {
     private const val DST_FOLDER = "resource"
     var sAppContext: Context? = null
     var isAuthorized = false
+
     //自动初始化 如果要修改请保留这个 SenseBeautyServiceManager.sSenseTimePlugin = sSenseTimePlugin
-    fun initEffectFromLocalLicense(appContext: Context) {
+    fun initEffectFromLocalLicense(appContext: Context, isFromHooker: Boolean) {
         sAppContext = appContext
         sSenseTimePlugin = QNSenseTimePlugin.Builder(appContext)
             .setLicenseAssetPath(Constants.LICENSE_FILE)
@@ -40,8 +37,9 @@ object QSenseTimeManager {
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show()
         } else {
-            //绑定美颜插件
-            SenseBeautyServiceManager.sSenseTimePlugin = sSenseTimePlugin
+            if(isFromHooker){
+                BeautyHookerImpl.senseTimePlugin = sSenseTimePlugin
+            }
         }
         checkLoadResourcesTask(appContext,
             object : LoadResourcesTask.ILoadResourcesCallback {
@@ -52,6 +50,7 @@ object QSenseTimeManager {
                 override fun onStartTask() {
                     Log.d("QSenseTimeManager", "onStartTask" + " ");
                 }
+
                 override fun onEndTask(result: Boolean) {
                     Log.d("QSenseTimeManager", "onEndTask" + " ");
                 }

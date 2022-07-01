@@ -41,9 +41,11 @@ include ':liveroom-libs:comp_rtm'
 include ':liveroom-libs:comp_player'
 include ':liveroom-libs:comp_imadapter'
 include ':liveroom-libs:comp_rtclive'
+include ':liveroom-libs:beautyhook'
 
 include ':qlivesdk'
 
 include ':uikit-uicomponnets:uikit-beauty'
-include ':service:sensetime-beautyservice'
 
+
+include ':uikit-uicomponnets:sensehook'

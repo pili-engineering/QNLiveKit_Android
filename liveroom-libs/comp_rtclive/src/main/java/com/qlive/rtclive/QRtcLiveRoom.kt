@@ -56,9 +56,11 @@ open class QRtcLiveRoom(
     //混流
     val mMixStreamManager by lazy { MixStreamManager(this) }
 
-    var mInnerVideoFrameListener: QNVideoFrameListener? = null
+    private var mInnerVideoFrameListener: QNVideoFrameListener? = null
 
     init {
+        QInnerVideoFrameHook.mBeautyHooker?.attach()
+        mInnerVideoFrameListener = QInnerVideoFrameHook.mBeautyHooker?.provideVideoFrameListener()
         addExtraQNRTCEngineEventListener(object : ExtQNClientEventListener {
             private fun afterPublished(p0: String, p1: List<QNTrack>, isRemote: Boolean) {
                 mAllTrack.addAll(p1)
@@ -295,6 +297,7 @@ open class QRtcLiveRoom(
 
     fun close() {
         mInnerVideoFrameListener = null
+        QInnerVideoFrameHook.mBeautyHooker?.detach()
         mAudioFrameListener = null
         mVideoFrameListener = null
         mQNRTCEngineEventWrap.clear()

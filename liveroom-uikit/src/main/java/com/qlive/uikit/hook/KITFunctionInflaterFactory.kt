@@ -15,10 +15,6 @@ object KITFunctionInflaterFactory :
     QClientLifeCycleListener {
     val functionComponents = HashSet<QLiveComponent>()
 
-    init {
-        functionComponents.add(SenseBeautyComponent.mInnerComponentProxy)
-    }
-
     fun attachLiveClient(client: QLiveClient) {
         functionComponents.forEach {
             it.attachLiveClient(client)
