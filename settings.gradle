@@ -41,7 +41,7 @@ include ':liveroom-libs:comp_rtm'
 include ':liveroom-libs:comp_player'
 include ':liveroom-libs:comp_imadapter'
 include ':liveroom-libs:comp_rtclive'
-include ':liveroom-libs:beautyhook'
+
 
 include ':qlivesdk'
 

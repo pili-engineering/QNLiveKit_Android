@@ -1,8 +1,7 @@
 package com.qlive.uikit
 
 import android.content.Context
-import com.qlive.beautyhook.BeautyHookManager
-import com.qlive.rtclive.BeautyHooker
+import com.qlive.uikitcore.BeautyComponent
 import com.qlive.rtclive.QInnerVideoFrameHook
 import com.qlive.uikit.RoomListActivity.Companion.start
 import com.qlive.sdk.QLiveUIKit
@@ -16,8 +15,8 @@ class QLiveUIKitImpl(val appContext: Context) : QLiveUIKit {
     }
 
     init {
-        BeautyHookManager.checkHasHooker()
-        if (BeautyHookManager.isEnable) {
+        QInnerVideoFrameHook.checkHasHooker()
+        if (BeautyComponent.isEnable) {
             QInnerVideoFrameHook.mBeautyHooker?.init(appContext)
         }
     }

@@ -30,7 +30,7 @@ android {
 
 dependencies {
     implementation project(':app-sdk:depends_sdk_qrtc')
-    implementation project(':liveroom-libs:beautyhook')
+    implementation project(':liveroom-uikit-core')
     implementation project(path: ':liveroom-libs:comp_rtclive')
     implementation project(':uikit-uicomponnets:uikit-beauty')
     implementation depend.fragmentKtx()

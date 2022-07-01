@@ -3,7 +3,7 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import com.qlive.avparam.QBeautySetting
-import com.qlive.beautyhook.BeautyHookManager
+import com.qlive.uikitcore.BeautyComponent
 import com.qlive.pushclient.QPusherClient
 import com.qlive.uikitcore.QKitTextView
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
@@ -19,9 +19,9 @@ class ShowBeautyPreview : QKitTextView {
         attrs,
         defStyleAttr
     ) {
-        if (BeautyHookManager.isEnable) {
+        if (BeautyComponent.isEnable) {
             setDoubleCheckClickListener {
-                BeautyHookManager.showBeautyEffectDialog.invoke(kitContext!!.fragmentManager)
+                BeautyComponent.showBeautyEffectDialog.invoke(kitContext!!.fragmentManager)
             }
         } else {
             setOnClickListener {

@@ -50,7 +50,7 @@ fataar {
 dependencies {
 
     if (buidSdk) {
-        embed project(':liveroom-libs:beautyhook')
+        
         embed project(':liveroom-uikit-core')
         compileOnly project(':qlivesdk')
         embed project(':uikit-uicomponnets:uikit-user')
@@ -63,7 +63,7 @@ dependencies {
         embed project(':uikit-uicomponnets:uiwidget-Emoji')
         implementation depend.appcompat()
     } else {
-        implementation project(':liveroom-libs:beautyhook')
+
         api project(':liveroom-uikit-core')
         api project(':uikit-uicomponnets:uikit-user')
         api project(':uikit-uicomponnets:uikit-danmaku')

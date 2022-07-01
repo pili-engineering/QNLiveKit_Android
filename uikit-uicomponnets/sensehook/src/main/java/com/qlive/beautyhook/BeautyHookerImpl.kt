@@ -1,9 +1,8 @@
-package com.qlive.beautyhookimpl
+package com.qlive.beautyhook
 
 import android.content.Context
 import com.qiniu.droid.rtc.QNVideoFrameListener
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
-import com.qlive.beautyhook.BeautyHookManager
 import com.qlive.rtclive.BeautyHooker
 import com.qlive.uiwidghtbeauty.EffectBeautyDialogFragment
 import com.qlive.uiwidghtbeauty.QSenseTimeManager
@@ -23,10 +22,10 @@ class BeautyHookerImpl : BeautyHooker {
 
     override fun init(context: Context) {
         QSenseTimeManager.initEffectFromLocalLicense(context, true)
-        BeautyHookManager.showBeautyStickDialog = {
+        com.qlive.uikitcore.BeautyComponent.showBeautyStickDialog = {
             mStickerDialog?.show(it,"")
         }
-        BeautyHookManager.showBeautyEffectDialog ={
+        com.qlive.uikitcore.BeautyComponent.showBeautyEffectDialog ={
             mEffectBeautyDialogFragment?.show(it,"")
         }
     }

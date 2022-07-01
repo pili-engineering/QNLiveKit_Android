@@ -1,4 +1,4 @@
-package com.qlive.beautyhookimpl
+package com.qlive.beautyhook
 
 import com.qiniu.droid.rtc.QNVideoFrameListener
 import com.qiniu.droid.rtc.QNVideoFrameType

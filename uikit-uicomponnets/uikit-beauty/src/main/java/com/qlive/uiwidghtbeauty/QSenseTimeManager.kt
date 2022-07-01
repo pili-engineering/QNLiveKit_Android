@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
-import com.qlive.beautyhookimpl.BeautyHookerImpl
+import com.qlive.beautyhook.BeautyHookerImpl
 import com.qlive.uiwidghtbeauty.LoadResourcesTask.ILoadResourcesCallback
 import com.qlive.uiwidghtbeauty.utils.SharedPreferencesUtils
 import com.qlive.uiwidghtbeauty.utils.Constants
@@ -37,7 +37,7 @@ object QSenseTimeManager {
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show()
         } else {
-            if(isFromHooker){
+            if (isFromHooker) {
                 BeautyHookerImpl.senseTimePlugin = sSenseTimePlugin
             }
         }
