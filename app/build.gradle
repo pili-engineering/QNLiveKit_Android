@@ -64,7 +64,6 @@ dependencies {
         //临时依赖 为demo提供http 实际接入不需要依赖这个
         implementation project(':liveroom-coreimpl')
     }
-
     //七牛商汤美颜模块 可选
  //   implementation project(":uikit-uicomponnets:uikit-beauty")
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

@@ -29,7 +29,7 @@ class ShowBeautyPreview : QKitTextView {
                 SenseBeautyComponent.mInnerComponentProxy.showDialog(0)
             }
         } else {
-            setDoubleCheckClickListener {
+            setOnClickListener {
                 if (!isOpen) {
                     isOpen = true
                     (client as QPusherClient).setDefaultBeauty(
