@@ -53,9 +53,6 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
             return
         }
         mLifeCycleListener.add(mRoomScheduler)
-        if (mClient.clientType == QClientType.PUSHER) {
-            registerService("com.qlive.sensebeautyservice.SenseBeautyService")
-        }
         isInit = true
     }
 
