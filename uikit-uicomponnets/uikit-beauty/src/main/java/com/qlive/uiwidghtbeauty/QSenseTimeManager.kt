@@ -16,8 +16,8 @@ object QSenseTimeManager {
     var sAppContext: Context? = null
     var isAuthorized = false
 
-    //自动初始化 如果要修改请保留这个 SenseBeautyServiceManager.sSenseTimePlugin = sSenseTimePlugin
-    fun initEffectFromLocalLicense(appContext: Context, isFromHooker: Boolean) {
+    //自动初始化 如果要修改请保留这个 BeautyHookerImpl.senseTimePlugin = sSenseTimePlugin
+    fun initEffectFromLocalLicense(appContext: Context, isFromQLive: Boolean) {
         sAppContext = appContext
         sSenseTimePlugin = QNSenseTimePlugin.Builder(appContext)
             .setLicenseAssetPath(Constants.LICENSE_FILE)
@@ -37,7 +37,7 @@ object QSenseTimeManager {
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show()
         } else {
-            if (isFromHooker) {
+            if (isFromQLive) {
                 BeautyHookerImpl.senseTimePlugin = sSenseTimePlugin
             }
         }

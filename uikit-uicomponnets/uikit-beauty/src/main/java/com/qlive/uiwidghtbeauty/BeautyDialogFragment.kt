@@ -3,9 +3,7 @@ package com.qlive.uiwidghtbeauty
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.kit_beauty_effect_dialog.view.*
 
 open class BeautyDialogFragment : DialogFragment() {
     var dismissCall: () -> Unit = {}
