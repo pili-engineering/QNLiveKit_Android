@@ -31,7 +31,7 @@ android {
     }
 }
 
-def userAARSDK = false
+def userAARSDK = true
 
 dependencies {
 
@@ -65,7 +65,7 @@ dependencies {
         implementation project(':liveroom-coreimpl')
     }
     //七牛商汤美颜模块 可选
-    implementation project(":uikit-uicomponnets:uikit-beauty")
+    //implementation project(":uikit-uicomponnets:uikit-beauty")
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'

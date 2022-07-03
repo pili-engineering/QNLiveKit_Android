@@ -17,8 +17,8 @@ import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.sdk.QLive
 import com.qlive.uikit.R
 import com.qlive.uikit.RoomPage
-import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.QComponent
+import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.ext.ViewUtil
 import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.bg
@@ -35,7 +35,7 @@ import kotlin.coroutines.suspendCoroutine
 class RoomListView : FrameLayout, QComponent {
 
     override var kitContext: QUIKitContext? = null
-    private val mEmptyView by lazy { CommonEmptyView(kitContext!!.androidContext) }
+    private val mEmptyView by lazy { CommonEmptyView(context) }
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -46,26 +46,27 @@ class RoomListView : FrameLayout, QComponent {
     ) {
         LayoutInflater.from(context).inflate(R.layout.kit_view_room_list, this, true)
         mSmartRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        val styled =
+            context.obtainStyledAttributes(attrs, R.styleable.SmartRecycler, defStyleAttr, 0)
+        val emptyIcon = styled.getResourceId(
+            R.styleable.SmartRecycler_empty_placeholder_icon,
+            com.qlive.uikitcore.R.drawable.kit_pic_empty
+        )
+        val emptyNoNetIcon = styled.getResourceId(
+            R.styleable.SmartRecycler_empty_placeholder_no_net_icon,
+            com.qlive.uikitcore.R.drawable.kit_pic_empty_network
+        )
+        val emptyTip = styled.getString(R.styleable.SmartRecycler_empty_placeholder_tips) ?: "空空如也"
+        mEmptyView.setEmptyIcon(emptyIcon)
+        mEmptyView.setEmptyNoNetIcon(emptyNoNetIcon)
+        mEmptyView.setEmptyTips(emptyTip)
+        styled.recycle()
     }
 
     /**
      * 自定义列表适配器
      */
     var roomAdapter: BaseQuickAdapter<QLiveRoomInfo, BaseViewHolder> = RoomListAdapter()
-
-    /**
-     * 设置列表数据为空的占位icon
-     */
-    fun setEmptyPlaceholderIcon(icon: Int) {
-        mEmptyView.setEmptyIcon(icon)
-    }
-
-    /**
-     * 设置列表数据为空的占位提示
-     */
-    fun setEmptyPlaceholderTips(tip: String) {
-        mEmptyView.setEmptyTips(tip)
-    }
 
     override fun attachKitContext(context: QUIKitContext) {
         super.attachKitContext(context)
@@ -81,15 +82,16 @@ class RoomListView : FrameLayout, QComponent {
 
         roomAdapter.setOnItemClickListener { _, view, position ->
             val item: QLiveRoomInfo = roomAdapter.data[position]
-            QLive.getLiveUIKit().getPage(RoomPage::class.java).startRoomActivity(context.currentActivity, item, object :
-                QLiveCallBack<QLiveRoomInfo> {
-                override fun onError(code: Int, msg: String?) {
-                    msg?.asToast(kitContext?.androidContext)
-                }
+            QLive.getLiveUIKit().getPage(RoomPage::class.java)
+                .startRoomActivity(context.currentActivity, item, object :
+                    QLiveCallBack<QLiveRoomInfo> {
+                    override fun onError(code: Int, msg: String?) {
+                        msg?.asToast(kitContext?.androidContext)
+                    }
 
-                override fun onSuccess(data: QLiveRoomInfo?) {
-                }
-            })
+                    override fun onSuccess(data: QLiveRoomInfo?) {
+                    }
+                })
         }
     }
 

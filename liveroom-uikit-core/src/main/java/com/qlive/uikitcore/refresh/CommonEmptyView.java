@@ -43,7 +43,8 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
         super(context, attrs, defStyleAttr);
         init(context);
     }
-
+    private int emptyIcon = R.drawable.kit_pic_empty;
+    private int emptyNoNetIcon = R.drawable.kit_pic_empty_network;
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.kit_view_custom_empty, this);
         setVisibility(GONE);
@@ -53,13 +54,20 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
         img = findViewById(R.id.img);
         emptyText = findViewById(R.id.empty_text);
         img.setOnClickListener(this);
+
+
     }
 
     /**
      * 設置背景
      */
     public void setEmptyIcon(int imgResource) {
+        emptyIcon = imgResource;
         img.setImageResource(imgResource);
+    }
+    public void setEmptyNoNetIcon(int imgResource) {
+        emptyNoNetIcon = imgResource;
+       // img.setImageResource(imgResource);
     }
 
     /**
@@ -72,12 +80,6 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
         }
     }
 
-    /**
-     * 設置内容
-     */
-    public void setEmptyTips(@StringRes int tipsRes) {
-        setEmptyTips(getContext().getString(tipsRes));
-    }
 
     @Override
     public View getContentView() {
@@ -101,14 +103,14 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
                 setVisibility(View.VISIBLE);
                 mErrorState = NETWORK_ERROR;
                 emptyText.setText("网络错误");
-                img.setImageResource(R.drawable.kit_pic_empty_network);
+                img.setImageResource(emptyNoNetIcon);
                 img.setVisibility(View.VISIBLE);
                 clickEnable = true;
                 break;
             case NODATA:
                 setVisibility(View.VISIBLE);
                 mErrorState = NODATA;
-                img.setImageResource(R.drawable.kit_pic_empty);
+                img.setImageResource(emptyIcon);
                 img.setVisibility(View.VISIBLE);
                 refreshEmptyView();
                 clickEnable = true;

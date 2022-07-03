@@ -316,22 +316,21 @@ class CustomFunctionComponent : QLiveComponent {
 在想要添加的布局xml里面添加RoomListView
 
 ```
-  <com.qlive.uikit.component.RoomListView
-        android:id="@+id/roomListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <!--  empty_placeholder_tips   没有数据的占位提示-->
+        <!--  empty_placeholder_no_net_icon     没有网络的占位图片-->
+        <!--  empty_placeholder_icon    没有数据的占位图片-->
+        <com.qlive.uikit.component.RoomListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:empty_placeholder_icon="@drawable/kit_pic_empty"
+            app:empty_placeholder_no_net_icon="@drawable/kit_pic_empty_network"
+            app:empty_placeholder_tips="空空如也" />
 
 ```
-在activivity代码里配置样式
+在你的activivity代码里配置样式
 ```
 //可选 替换列表item适配
 roomListView .setRoomAdapter(new CustomAdapter)
-
-//可选 设置列表数据为空的占位icon
-roomListView.setEmptyPlaceholderIcon(R.id.emptyicon)
-
-//可选 设置列表数据为空的占位提示
-roomListView.setEmptyPlaceholderTips("房间列表为空")
 
 //必选 启动 
 roomListView.attachKitContext(new QUIKitContext(this,supportFragmentManager,this,this))
