@@ -25,6 +25,7 @@ object QLiveDelegate {
         val sdkConfig = config ?: QSdkConfig()
         OKHttpService.baseUrl = sdkConfig.serverURL
         OKHttpService.tokenGetter = tokenGetter
+        QLiveLogUtil.isLogAble = config?.isLogAble?:true
     }
 
     fun setUser(userInfo: QLiveUser, callBack: QLiveCallBack<Void>) {

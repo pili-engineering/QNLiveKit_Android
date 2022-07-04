@@ -18,15 +18,17 @@ class BeautyHookerImpl : BeautyHooker {
 
     companion object {
         var senseTimePlugin: QNSenseTimePlugin? = null
+        val addSubModels = ArrayList<String>()
+        val addSubModelFromAssetsFiles = ArrayList<String>()
     }
 
     override fun init(context: Context) {
         QSenseTimeManager.initEffectFromLocalLicense(context, true)
         com.qlive.uikitcore.BeautyComponent.showBeautyStickDialog = {
-            mStickerDialog?.show(it,"")
+            mStickerDialog?.show(it, "")
         }
-        com.qlive.uikitcore.BeautyComponent.showBeautyEffectDialog ={
-            mEffectBeautyDialogFragment?.show(it,"")
+        com.qlive.uikitcore.BeautyComponent.showBeautyEffectDialog = {
+            mEffectBeautyDialogFragment?.show(it, "")
         }
     }
 

@@ -31,7 +31,7 @@ android {
 
 dependencies {
     api files('libs/qndroid-sensetime-effect-1.4.0.jar')
-    implementation files('libs/beautyhook1.0.jar')
+    implementation files('libs/beautyhook1.1.jar')
     implementation depend.coroutines()
     implementation depend.fragmentKtx()
     implementation depend.recyclerview()
