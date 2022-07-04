@@ -46,5 +46,4 @@ class CommonViewPagerAdapter(private val viewLists: List<View>) :PagerAdapter(){
         container.addView(viewLists[position]);
         return viewLists[position];
     }
-
 }

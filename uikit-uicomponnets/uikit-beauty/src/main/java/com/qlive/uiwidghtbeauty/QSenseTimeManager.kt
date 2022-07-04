@@ -32,17 +32,17 @@ object QSenseTimeManager {
             .setOnlineLicense(false) // 关闭在线激活授权，使用离线激活授权
             .setOnlineActivate(false)
             .build()
-        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Face_Extra_5.23.0.model")
-        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Iris_2.0.0.model")
-        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Hand_5.4.0.model")
-        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseME_Segment_4.10.8.model")
-        sSenseTimePlugin?.addSubModelFromAssetsFile("M_SenseAR_Segment_MouthOcclusion_FastV1_1.1.1.model")
-
         isAuthorized = sSenseTimePlugin?.checkLicense() ?: false
         if (!isAuthorized) {
             Toast.makeText(appContext, "鉴权失败，请检查授权文件", Toast.LENGTH_SHORT).show()
         } else {
             if (isFromQLive) {
+                //内置美颜插件初始化
+                BeautyHookerImpl.addSubModelFromAssetsFiles.add("M_SenseME_Face_Extra_5.23.0.model")
+                BeautyHookerImpl.addSubModelFromAssetsFiles.add("M_SenseME_Iris_2.0.0.model")
+                BeautyHookerImpl.addSubModelFromAssetsFiles.add("M_SenseME_Hand_5.4.0.model")
+                BeautyHookerImpl.addSubModelFromAssetsFiles.add("M_SenseME_Segment_4.10.8.model")
+                BeautyHookerImpl.addSubModelFromAssetsFiles.add("M_SenseAR_Segment_MouthOcclusion_FastV1_1.1.1.model")
                 BeautyHookerImpl.senseTimePlugin = sSenseTimePlugin
             }
         }

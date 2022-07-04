@@ -35,25 +35,15 @@ import com.qlive.uiwidghtbeauty.adapter.FilterAdapter;
 import com.qlive.uiwidghtbeauty.adapter.MakeupAdapter;
 import com.qlive.uiwidghtbeauty.model.BeautyItem;
 import com.qlive.uiwidghtbeauty.model.BeautyOptionsItem;
-import com.qlive.uiwidghtbeauty.model.EffectState;
 import com.qlive.uiwidghtbeauty.model.FilterItem;
 import com.qlive.uiwidghtbeauty.model.MakeupItem;
 import com.qlive.uiwidghtbeauty.utils.Constants;
 import com.qlive.uiwidghtbeauty.utils.ResourcesUtil;
-import com.qlive.uiwidghtbeauty.utils.ToastUtils;
 import com.qlive.uiwidghtbeauty.utils.Utils;
-import com.sensetime.sensearsourcemanager.SenseArMaterial;
-import com.sensetime.sensearsourcemanager.SenseArMaterialService;
-import com.sensetime.sensearsourcemanager.SenseArMaterialType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
 
 public class QSenseBeautyView extends FrameLayout {
 
@@ -1230,7 +1220,7 @@ public class QSenseBeautyView extends FrameLayout {
     }
 
     // 分隔间距,继承于 RecyclerView.ItemDecoration
-    static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+   public static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public SpaceItemDecoration(int space) {

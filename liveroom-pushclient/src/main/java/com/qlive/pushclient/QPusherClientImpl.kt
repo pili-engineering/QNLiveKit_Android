@@ -124,8 +124,13 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
                         mRtcRoom.localAudioTrack
                     )
                 }
+                val startTime = System.currentTimeMillis()
                 //加入rtc房间
                 mRtcRoom.joinRtc(roomInfo.roomToken, "")
+                QLiveLogUtil.d(
+                    "mRtcRoom.joinRtc",
+                    "join duration ${(System.currentTimeMillis() - startTime)}"
+                )
                 //开始发布本地轨道
                 mRtcRoom.publishLocal()
                 //开始单路转推

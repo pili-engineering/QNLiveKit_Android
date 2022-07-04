@@ -45,7 +45,8 @@
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:visibility="invisible"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                />
 
             <RelativeLayout
                 android:id="@+id/rv_filter_strength"
@@ -109,14 +110,16 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:background="#cc000000"
+            >
 
             <LinearLayout
                 android:id="@+id/ll_base_beauty_options"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+               
                 android:gravity="center"
                 android:orientation="vertical"
                 >
@@ -142,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
-                    android:background="#80000000"
+
                     android:padding="2dp"
                     android:scrollbars="none" />
 
@@ -159,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+               
                 android:clickable="true"
                 android:visibility="invisible"
                 tools:visibility="visible">
@@ -208,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+               
                 android:clickable="true"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
@@ -319,7 +322,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+               
                 android:clickable="true"
                 android:visibility="invisible"
                 tools:visibility="visible">
@@ -367,7 +370,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+               
 
                 android:clickable="true"
                 android:gravity="center_horizontal"
@@ -608,7 +611,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+               
 
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"

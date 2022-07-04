@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:orientation="vertical"
-        tools:visibility="visible"
         android:layout_gravity="bottom"
-        >
+        android:background="#cc000000"
+        android:orientation="vertical"
+        tools:visibility="visible">
+
         <RelativeLayout
             android:id="@+id/rl_sticker_options"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#80000000"
-            >
+            android:layout_height="40dp">
 
             <RelativeLayout
                 android:id="@+id/rv_close_sticker"
@@ -64,14 +63,11 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sticker_icons"
+        <com.qlive.uiwidghtbeauty.ui.BeautyViewPage
+            android:id="@+id/vp_sticker_page"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-
-            android:background="#80000000"
             android:padding="5dp"
-            android:scrollbars="none"
-            />
+            android:scrollbars="none" />
     </LinearLayout>
 </FrameLayout>
