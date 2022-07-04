@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/v_bg"
+        android:layout_width="154dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="#009900" />
+
+    <view
+        android:id="@+id/seekbar"
+        class="sensetime.senseme.com.effects.view.widget.GradientSeekbar$TextThumbSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:progressDrawable="@android:color/transparent"
+        android:thumb="@drawable/seekbar_thumb_white"
+        app:layout_constraintBottom_toBottomOf="@id/v_bg"
+        app:layout_constraintLeft_toLeftOf="@id/v_bg"
+        app:layout_constraintRight_toRightOf="@id/v_bg"
+        app:layout_constraintTop_toTopOf="@id/v_bg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

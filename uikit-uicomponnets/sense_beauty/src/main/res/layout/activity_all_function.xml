@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchMatch"
+    tools:context=".activity.AllFunctionActivity"
+    tools:ignore="HardcodedText,UsingOnClickInXml">
+
+    <include
+        android:id="@+id/mToolbar"
+        layout="@layout/view_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mToolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchMatch">
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_effect"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/camera_effect"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_effect"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:onClick="onClick"
+                android:text="@string/camera_effect"
+                app:drawableTop="@drawable/ic_all_basic"
+                app:layout_constraintEnd_toStartOf="@id/dt_mx"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@id/dt_title_effect"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_effect" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_mx"
+                style="@style/AllTextStyle"
+                android:onClick="onClick"
+                android:text="@string/menu_title_reshape"
+                app:drawableTop="@drawable/ic_all_mx"
+                app:layout_constraintBottom_toBottomOf="@id/dt_effect"
+                app:layout_constraintEnd_toStartOf="@id/dt_wzh"
+                app:layout_constraintStart_toEndOf="@id/dt_effect"
+                app:layout_constraintTop_toTopOf="@id/dt_effect" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_wzh"
+                style="@style/AllTextStyle"
+                android:onClick="onClick"
+                android:text="@string/all_plastic"
+                app:drawableTop="@drawable/ic_all_wzh"
+                app:layout_constraintEnd_toStartOf="@id/dt_tzh"
+                app:layout_constraintStart_toEndOf="@id/dt_mx"
+                app:layout_constraintTop_toTopOf="@id/dt_effect" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_tzh"
+                style="@style/AllTextStyle"
+                android:onClick="onClick"
+                android:text="@string/menu_title_tone"
+                app:drawableTop="@drawable/ic_all_tzh"
+                app:layout_constraintBottom_toBottomOf="@id/dt_effect"
+                app:layout_constraintEnd_toStartOf="@id/dt_mt"
+                app:layout_constraintStart_toEndOf="@id/dt_wzh"
+                app:layout_constraintTop_toTopOf="@id/dt_effect" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_mt"
+                style="@style/AllTextStyle"
+                android:layout_marginEnd="19dp"
+                android:onClick="onClick"
+                android:text="@string/menu_title_mt"
+                android:visibility="invisible"
+                app:drawableTop="@drawable/ic_all_mt"
+                app:layout_constraintBottom_toBottomOf="@id/dt_effect"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dt_tzh"
+                app:layout_constraintTop_toTopOf="@id/dt_effect" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_filter"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="18dp"
+                android:text="@string/menu_title_filter"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dt_effect" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_people"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/filter_portrait"
+                app:drawableTop="@drawable/ic_all_rw"
+                app:layout_constraintEnd_toStartOf="@id/dt_fj"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@id/dt_title_filter"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_filter" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_fj"
+                style="@style/AllTextStyle"
+                android:text="@string/filter_scenery"
+                app:drawableTop="@drawable/ic_all_fj"
+                app:layout_constraintBottom_toBottomOf="@id/dt_people"
+                app:layout_constraintEnd_toStartOf="@id/dt_jw"
+                app:layout_constraintStart_toEndOf="@id/dt_people"
+                app:layout_constraintTop_toTopOf="@id/dt_people" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_jw"
+                style="@style/AllTextStyle"
+                android:text="@string/filter_still_life"
+                app:drawableTop="@drawable/ic_all_jw"
+                app:layout_constraintBottom_toBottomOf="@id/dt_people"
+                app:layout_constraintEnd_toStartOf="@id/dt_food"
+                app:layout_constraintStart_toEndOf="@id/dt_fj"
+                app:layout_constraintTop_toTopOf="@id/dt_people" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_food"
+                style="@style/AllTextStyle"
+                android:text="@string/filter_food"
+                app:drawableTop="@drawable/ic_all_food"
+                app:layout_constraintBottom_toBottomOf="@id/dt_people"
+                app:layout_constraintEnd_toStartOf="@id/dt_food2"
+                app:layout_constraintStart_toEndOf="@id/dt_jw"
+                app:layout_constraintTop_toTopOf="@id/dt_people" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_food2"
+                style="@style/AllTextStyle"
+                android:layout_marginEnd="19dp"
+                android:text="美食站位"
+                android:visibility="invisible"
+                app:drawableTop="@drawable/ic_all_food"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dt_food"
+                app:layout_constraintTop_toTopOf="@id/dt_food" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_makeup"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="18dp"
+                android:text="@string/camera_makeup"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dt_people" />
+
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_hair"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/make_up_hair"
+                app:drawableTop="@drawable/ic_all_rf"
+                app:layout_constraintEnd_toStartOf="@id/dt_lip"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@id/dt_title_makeup"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_makeup" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_lip"
+                style="@style/AllTextStyle"
+                android:text="@string/make_up_lipstick"
+                app:drawableTop="@drawable/ic_all_lip"
+                app:layout_constraintBottom_toBottomOf="@id/dt_hair"
+                app:layout_constraintEnd_toStartOf="@id/dt_blush"
+                app:layout_constraintStart_toEndOf="@id/dt_hair"
+                app:layout_constraintTop_toTopOf="@id/dt_hair" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_blush"
+                style="@style/AllTextStyle"
+                android:text="@string/make_up_blusher"
+                app:drawableTop="@drawable/ic_all_blush"
+                app:layout_constraintBottom_toBottomOf="@id/dt_hair"
+                app:layout_constraintEnd_toStartOf="@id/dt_xr"
+                app:layout_constraintStart_toEndOf="@id/dt_lip"
+                app:layout_constraintTop_toTopOf="@id/dt_hair" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_xr"
+                style="@style/AllTextStyle"
+                android:text="@string/make_up_highlight"
+                app:drawableTop="@drawable/ic_all_xr"
+                app:layout_constraintBottom_toBottomOf="@id/dt_hair"
+                app:layout_constraintEnd_toStartOf="@id/dt_eyebrow"
+                app:layout_constraintStart_toEndOf="@id/dt_blush"
+                app:layout_constraintTop_toTopOf="@id/dt_hair" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_eyebrow"
+                style="@style/AllTextStyle"
+                android:layout_marginEnd="19dp"
+                android:text="@string/make_up_brow"
+                app:drawableTop="@drawable/ic_all_brow"
+                app:layout_constraintBottom_toBottomOf="@id/dt_hair"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dt_xr"
+                app:layout_constraintTop_toTopOf="@id/dt_hair" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_eye_yx"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_eye_shadow"
+                app:drawableTop="@drawable/ic_all_yy"
+                app:layout_constraintEnd_toStartOf="@id/dt_eye_line"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@id/dt_hair"
+                app:layout_constraintTop_toBottomOf="@id/dt_hair" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_eye_line"
+                style="@style/AllTextStyle"
+                android:text="@string/all_eye_liner"
+                app:drawableTop="@drawable/ic_all_eye_line"
+                app:layout_constraintEnd_toStartOf="@id/dt_eyelash"
+                app:layout_constraintStart_toEndOf="@id/dt_eye_yx"
+                app:layout_constraintTop_toBottomOf="@id/dt_hair"
+                app:layout_constraintTop_toTopOf="@id/dt_eye_yx" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_eyelash"
+                style="@style/AllTextStyle"
+                android:text="@string/make_up_eyelash"
+                app:drawableTop="@drawable/ic_all_eyelash"
+                app:layout_constraintEnd_toStartOf="@id/dt_eyeball"
+                app:layout_constraintStart_toEndOf="@id/dt_eye_line"
+                app:layout_constraintTop_toBottomOf="@id/dt_hair"
+                app:layout_constraintTop_toTopOf="@id/dt_eye_yx" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_eyeball"
+                style="@style/AllTextStyle"
+                android:text="@string/make_up_eyeball"
+                app:drawableTop="@drawable/ic_all_eyeball"
+                app:layout_constraintEnd_toEndOf="@id/dt_xr"
+                app:layout_constraintStart_toEndOf="@id/dt_eyelash"
+                app:layout_constraintTop_toBottomOf="@id/dt_hair"
+                app:layout_constraintTop_toTopOf="@id/dt_eye_yx" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_sticker"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/camera_sticker"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dt_eye_yx" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_2d"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_2d"
+                app:drawableTop="@drawable/ic_all_2d"
+                app:layout_constraintEnd_toStartOf="@id/dt_3d"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@id/dt_title_sticker"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_sticker" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_3d"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_3d"
+                app:drawableTop="@drawable/ic_all_3d"
+                app:layout_constraintEnd_toStartOf="@id/dt_hand"
+                app:layout_constraintStart_toEndOf="@id/dt_2d"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_sticker" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_hand"
+                style="@style/AllTextStyle"
+                android:text="@string/all_hand"
+                app:drawableTop="@drawable/ic_all_hand"
+                app:layout_constraintBottom_toBottomOf="@id/dt_2d"
+                app:layout_constraintEnd_toStartOf="@id/dt_bg"
+                app:layout_constraintStart_toEndOf="@id/dt_3d"
+                app:layout_constraintTop_toTopOf="@id/dt_2d" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_bg"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_bg"
+                app:drawableTop="@drawable/ic_all_bg"
+                app:layout_constraintEnd_toStartOf="@id/dt_face"
+                app:layout_constraintStart_toEndOf="@id/dt_hand"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_sticker" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_face"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="19dp"
+                android:text="@string/all_face"
+                app:drawableTop="@drawable/ic_all_face_change"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dt_bg"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_sticker" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_lizi"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="15dp"
+                android:text="@string/all_lizi"
+                app:drawableTop="@drawable/ic_all_lizi"
+                app:layout_constraintEnd_toStartOf="@id/dt_cat"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@id/dt_title_sticker"
+                app:layout_constraintTop_toBottomOf="@id/dt_2d" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_cat"
+                style="@style/AllTextStyle"
+                android:text="@string/all_cat"
+                app:drawableTop="@drawable/ic_all_cat"
+                app:layout_constraintBottom_toBottomOf="@id/dt_lizi"
+                app:layout_constraintEnd_toStartOf="@id/dt_common"
+                app:layout_constraintStart_toEndOf="@id/dt_lizi"
+                app:layout_constraintTop_toTopOf="@id/dt_lizi" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_common"
+                style="@style/AllTextStyle"
+                android:text="@string/all_track"
+                app:drawableTop="@drawable/ic_all_common"
+                app:layout_constraintEnd_toStartOf="@id/dt_shadow"
+                app:layout_constraintStart_toEndOf="@id/dt_cat"
+                app:layout_constraintTop_toTopOf="@id/dt_lizi" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_shadow"
+                style="@style/AllTextStyle"
+                android:text="@string/all_double_ganger"
+                app:drawableTop="@drawable/ic_all_fsh"
+                app:layout_constraintEnd_toStartOf="@id/dt_big_head"
+                app:layout_constraintStart_toEndOf="@id/dt_common"
+                app:layout_constraintTop_toTopOf="@id/dt_lizi" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_big_head"
+                style="@style/AllTextStyle"
+                android:layout_marginEnd="19dp"
+                android:text="@string/all_big"
+                app:drawableTop="@drawable/ic_all_face_change"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dt_shadow"
+                app:layout_constraintTop_toTopOf="@id/dt_lizi" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_k_face"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="17dp"
+                android:text="@string/all_kou"
+                app:drawableTop="@drawable/ic_all_kl"
+                app:layout_constraintLeft_toLeftOf="@id/dt_lizi"
+                app:layout_constraintTop_toBottomOf="@id/dt_lizi" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_play"
+                style="@style/AllTextStyle"
+                android:text="@string/sticker_play"
+                app:drawableTop="@drawable/ic_all_play"
+                app:layout_constraintLeft_toLeftOf="@id/dt_cat"
+                app:layout_constraintTop_toBottomOf="@id/dt_lizi"
+                app:layout_constraintTop_toTopOf="@id/dt_k_face" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_style"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/camera_style"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dt_k_face" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_nature"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/camera_nature"
+                app:drawableTop="@drawable/ic_all_nature"
+                app:layout_constraintLeft_toLeftOf="@id/dt_k_face"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_style" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_qzh"
+                style="@style/AllTextStyle"
+                android:text="@string/camera_light"
+                app:drawableTop="@drawable/ic_all_qzh"
+                app:layout_constraintLeft_toLeftOf="@id/dt_play"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_style"
+                app:layout_constraintTop_toTopOf="@id/dt_nature" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_fashion"
+                style="@style/AllTextStyle"
+                android:text="@string/camera_popular"
+                app:drawableTop="@drawable/ic_all_nature"
+                app:layout_constraintLeft_toLeftOf="@id/dt_common"
+                app:layout_constraintTop_toTopOf="@id/dt_nature" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_avatar"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="10dp"
+                android:text="Avatar"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dt_nature" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_animal"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_anim"
+                app:drawableTop="@drawable/ic_all_animal"
+                app:layout_constraintLeft_toLeftOf="@id/dt_k_face"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_avatar" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_2cy"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_2ci"
+                app:drawableTop="@drawable/ic_all_2cy"
+                app:layout_constraintLeft_toLeftOf="@id/dt_qzh"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_avatar" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_cartoon"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_katong"
+                app:drawableTop="@drawable/ic_all_cartoon"
+                app:layout_constraintLeft_toLeftOf="@id/dt_fashion"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_avatar" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_title_face"
+                style="@style/AllTitleStyle"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="100dp"
+                android:text="@string/tryon_cartoon_face"
+                android:visibility="visible"
+                app:drawableLeft="@drawable/shape_all_84a6ea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dt_animal" />
+
+            <sensetime.senseme.com.effects.view.widget.DrawableTextView
+                android:id="@+id/dt_gan"
+                style="@style/AllTextStyle"
+                android:layout_marginTop="10dp"
+                android:text="@string/all_cartoon"
+                app:drawableTop="@drawable/ic_all_gan"
+                app:layout_constraintLeft_toLeftOf="@id/dt_k_face"
+                app:layout_constraintTop_toBottomOf="@id/dt_title_face" />
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:constraint_referenced_ids="dt_title_face, dt_gan" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

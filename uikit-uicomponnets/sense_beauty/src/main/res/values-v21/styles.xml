@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextThumbSeekBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:max">100</item>
+        <item name="android:maxHeight">2dp</item>
+        <item name="android:minHeight">2dp</item>
+        <item name="android:progress">100</item>
+        <item name="android:progressDrawable">@drawable/bg_text_seekbar</item>
+        <item name="android:thumb">@drawable/seekbar_thumb_white</item>
+        <item name="android:splitTrack">false</item>
+    </style>
+
+</resources>
