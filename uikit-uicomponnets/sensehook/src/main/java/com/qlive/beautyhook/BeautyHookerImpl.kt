@@ -4,14 +4,14 @@ import android.content.Context
 import com.qiniu.droid.rtc.QNVideoFrameListener
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
 import com.qlive.rtclive.BeautyHooker
-import com.qlive.uiwidghtbeauty.EffectBeautyDialogFragment
+import com.qlive.uiwidghtbeauty.ui.EffectBeautyDialog
 import com.qlive.uiwidghtbeauty.QSenseTimeManager
-import com.qlive.uiwidghtbeauty.StickerDialog
+import com.qlive.uiwidghtbeauty.ui.StickerDialog
 
 class BeautyHookerImpl : BeautyHooker {
 
     private var mCurrentFrameListener: SenseVideoFrameListener? = null
-    var mEffectBeautyDialogFragment: EffectBeautyDialogFragment? = null
+    var mEffectBeautyDialog: EffectBeautyDialog? = null
         private set
     var mStickerDialog: StickerDialog? = null
         private set
@@ -28,7 +28,7 @@ class BeautyHookerImpl : BeautyHooker {
             mStickerDialog?.show(it, "")
         }
         com.qlive.uikitcore.BeautyComponent.showBeautyEffectDialog = {
-            mEffectBeautyDialogFragment?.show(it, "")
+            mEffectBeautyDialog?.show(it, "")
         }
     }
 
@@ -38,8 +38,8 @@ class BeautyHookerImpl : BeautyHooker {
     }
 
     override fun attach() {
-        if (mEffectBeautyDialogFragment == null) {
-            mEffectBeautyDialogFragment = EffectBeautyDialogFragment()
+        if (mEffectBeautyDialog == null) {
+            mEffectBeautyDialog = EffectBeautyDialog()
         }
         if (mStickerDialog == null) {
             mStickerDialog = StickerDialog()
@@ -48,7 +48,7 @@ class BeautyHookerImpl : BeautyHooker {
 
     override fun detach() {
         mStickerDialog = null
-        mEffectBeautyDialogFragment = null
+        mEffectBeautyDialog = null
         mCurrentFrameListener?.release()
     }
 

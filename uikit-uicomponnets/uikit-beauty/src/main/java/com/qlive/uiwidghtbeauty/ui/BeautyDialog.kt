@@ -1,11 +1,14 @@
-package com.qlive.uiwidghtbeauty
+package com.qlive.uiwidghtbeauty.ui
 
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
+import com.qlive.uiwidghtbeauty.QSenseBeautyView
+import com.qlive.uiwidghtbeauty.R
 
-open class BeautyDialogFragment : DialogFragment() {
+open class BeautyDialog : DialogFragment() {
     var dismissCall: () -> Unit = {}
     private var mdimAmount = 0f
     private var mGravityEnum: Int = Gravity.BOTTOM

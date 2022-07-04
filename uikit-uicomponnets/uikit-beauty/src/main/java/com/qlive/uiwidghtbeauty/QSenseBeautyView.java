@@ -5,23 +5,17 @@ import static com.qlive.uiwidghtbeauty.utils.ResourcesUtil.sBeautifyParams;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,9 +31,12 @@ import com.qlive.uiwidghtbeauty.model.BeautyItem;
 import com.qlive.uiwidghtbeauty.model.BeautyOptionsItem;
 import com.qlive.uiwidghtbeauty.model.FilterItem;
 import com.qlive.uiwidghtbeauty.model.MakeupItem;
+import com.qlive.uiwidghtbeauty.ui.IndicatorSeekBar;
+import com.qlive.uiwidghtbeauty.utils.BeautyItemBgLoader;
 import com.qlive.uiwidghtbeauty.utils.Constants;
 import com.qlive.uiwidghtbeauty.utils.ResourcesUtil;
 import com.qlive.uiwidghtbeauty.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +73,7 @@ public class QSenseBeautyView extends FrameLayout {
     private LinearLayout mFilterGroupsLinearLayout;
     private RelativeLayout mFilterIconsRelativeLayout;
     private RelativeLayout mFilterStrengthLayout;
+
     private RelativeLayout mMakeupIconsRelativeLayout;
     private RelativeLayout mMakeupGroupRelativeLayout;
     private ImageView mFilterGroupBack;
@@ -133,8 +131,9 @@ public class QSenseBeautyView extends FrameLayout {
 
     ArrayList<BeautyItem> beautyBaseItemList = null;
     ArrayList<BeautyItem> professionalBeautyItemList = null;
-    ArrayList<BeautyItem> microBeautyItem =null;
-    ArrayList<BeautyItem> adjustBeautyItemList =null;
+    ArrayList<BeautyItem> microBeautyItem = null;
+    ArrayList<BeautyItem> adjustBeautyItemList = null;
+
     @SuppressLint("ClickableViewAccessibility")
     private void initEffectView() {
         new BeautyItemBgLoader().start(() -> {
@@ -198,7 +197,6 @@ public class QSenseBeautyView extends FrameLayout {
             mBeautyBaseRecycleView.setLayoutManager(ms);
             mBeautyBaseRecycleView.addItemDecoration(new BeautyItemDecoration(Utils.dip2px(mContext, 15)));
 
-
             mBeautyListMap = new HashMap<>();
             mBeautyListMap.put(BASE_BEAUTY, beautyBaseItemList);
             BeautyItemAdapter beautyBaseAdapter = new BeautyItemAdapter(mContext, beautyBaseItemList);
@@ -208,18 +206,15 @@ public class QSenseBeautyView extends FrameLayout {
             mBeautyOption.put(0, BASE_BEAUTY);
             mBeautyBaseRecycleView.setAdapter(beautyBaseAdapter);
 
-
             mBeautyListMap.put(PROFESSIONAL_BEAUTY, professionalBeautyItemList);
             BeautyItemAdapter beautyProfessionalAdapter = new BeautyItemAdapter(mContext, professionalBeautyItemList);
             mBeautyItemAdapters.put(PROFESSIONAL_BEAUTY, beautyProfessionalAdapter);
             mBeautyOption.put(1, PROFESSIONAL_BEAUTY);
 
-
             mBeautyListMap.put(MICRO_BEAUTY, microBeautyItem);
             BeautyItemAdapter microAdapter = new BeautyItemAdapter(mContext, microBeautyItem);
             mBeautyItemAdapters.put(MICRO_BEAUTY, microAdapter);
             mBeautyOption.put(2, MICRO_BEAUTY);
-
 
             mBeautyListMap.put(ADJUST_BEAUTY, adjustBeautyItemList);
             BeautyItemAdapter adjustAdapter = new BeautyItemAdapter(mContext, adjustBeautyItemList);
@@ -237,7 +232,6 @@ public class QSenseBeautyView extends FrameLayout {
             mMakeupOptionsRecycleView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
             mMakeupOptionsRecycleView.addItemDecoration(new SpaceItemDecoration(0));
 
-
             mMakeupAdapters = new HashMap<>();
             mMakeupAdapters.put(MAKEUP_LIP, new MakeupAdapter(mMakeupLists.get(MAKEUP_LIP), mContext));
             mMakeupAdapters.put(MAKEUP_HIGHLIGHT, new MakeupAdapter(mMakeupLists.get(MAKEUP_HIGHLIGHT), mContext));
@@ -247,7 +241,6 @@ public class QSenseBeautyView extends FrameLayout {
             mMakeupAdapters.put(MAKEUP_EYELINER, new MakeupAdapter(mMakeupLists.get(MAKEUP_EYELINER), mContext));
             mMakeupAdapters.put(MAKEUP_EYELASH, new MakeupAdapter(mMakeupLists.get(MAKEUP_EYELASH), mContext));
             mMakeupAdapters.put(MAKEUP_EYEBALL, new MakeupAdapter(mMakeupLists.get(MAKEUP_EYEBALL), mContext));
-
 
             mMakeupOptionSelectedIndex = new HashMap<>();
             mMakeupStrength = new HashMap<>();
@@ -495,7 +488,6 @@ public class QSenseBeautyView extends FrameLayout {
                 }
             });
             mMakeupGroupName = findViewById(R.id.tv_makeup_group);
-
 
             // 滤镜相关
             mFilterAdapters = new HashMap<>();
@@ -1202,9 +1194,8 @@ public class QSenseBeautyView extends FrameLayout {
         }
     }
 
-
     // 分隔间距,继承于 RecyclerView.ItemDecoration
-    static class BeautyItemDecoration extends RecyclerView.ItemDecoration {
+    public static class BeautyItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public BeautyItemDecoration(int space) {
@@ -1220,7 +1211,7 @@ public class QSenseBeautyView extends FrameLayout {
     }
 
     // 分隔间距,继承于 RecyclerView.ItemDecoration
-   public static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+    public static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public SpaceItemDecoration(int space) {

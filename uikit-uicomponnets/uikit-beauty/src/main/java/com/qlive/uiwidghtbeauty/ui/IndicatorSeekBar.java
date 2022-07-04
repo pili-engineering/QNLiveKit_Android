@@ -1,4 +1,4 @@
-package com.qlive.uiwidghtbeauty;
+package com.qlive.uiwidghtbeauty.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -10,6 +10,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
+import com.qlive.uiwidghtbeauty.R;
 
 public class IndicatorSeekBar extends LinearLayout {
 

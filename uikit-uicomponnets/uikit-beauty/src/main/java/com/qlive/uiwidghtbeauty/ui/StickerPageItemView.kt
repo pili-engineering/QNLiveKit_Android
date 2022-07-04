@@ -1,13 +1,9 @@
-package com.qlive.uiwidghtbeauty.sticker
+package com.qlive.uiwidghtbeauty.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.viewpager.widget.PagerAdapter
 import com.qlive.uiwidghtbeauty.QSenseBeautyView
 import com.qlive.uiwidghtbeauty.adapter.NativeStickerAdapter
 import com.qlive.uiwidghtbeauty.model.StickerItem

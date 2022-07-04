@@ -1,4 +1,4 @@
-package com.qlive.uiwidghtbeauty
+package com.qlive.uiwidghtbeauty.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

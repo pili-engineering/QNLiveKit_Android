@@ -1,13 +1,14 @@
-package com.qlive.uiwidghtbeauty
+package com.qlive.uiwidghtbeauty.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.qlive.uiwidghtbeauty.R
 
-class StickerDialog: BeautyDialogFragment() {
-    private var mStickerView :QStickerView?=null
+class StickerDialog: BeautyDialog() {
+    private var mStickerView : StickerView?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -15,7 +16,7 @@ class StickerDialog: BeautyDialogFragment() {
     ): View? {
         if (mStickerView == null) {
             mStickerView =
-                QStickerView(requireContext())
+                StickerView(requireContext())
         }
         if (mStickerView?.parent != null) {
             (mStickerView?.parent as ViewGroup).removeView(mStickerView)
