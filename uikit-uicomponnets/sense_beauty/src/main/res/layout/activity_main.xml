@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchMatch"
+    tools:context=".activity.MainActivity"
+    android:background="@android:color/white"
+    tools:ignore="ContentDescription, HardcodedText, UsingOnClickInXml">
+
+    <cn.bingoogolapple.bgabanner.BGABanner
+        android:id="@+id/banner_guide_content"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:banner_pageChangeDuration="1000"
+        app:banner_pointAutoPlayAble="true"
+        app:banner_pointContainerBackground="@android:color/transparent"
+        app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+        app:banner_pointTopBottomMargin="15dp"
+        app:banner_transitionEffect="alpha"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/color_abd288" />
+
+    <LinearLayout
+        android:id="@+id/ll_part1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23.33dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="4"
+        app:layout_constraintTop_toBottomOf="@id/banner_guide_content">
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/db_effect"
+            style="@style/MainTextStyle"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/camera_effect"
+            app:drawableTop="@drawable/ic_main_effect" />
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/hb_filter"
+            style="@style/MainTextStyle"
+            android:layout_weight="1"
+            android:text="@string/camera_filter"
+            app:drawableTop="@drawable/ic_main_filter" />
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/hb_makeup"
+            style="@style/MainTextStyle"
+            android:layout_weight="1"
+            android:text="@string/camera_makeup"
+            app:drawableTop="@drawable/ic_main_makeup"
+            app:icon="@drawable/ic_main_makeup" />
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/hb_sticker"
+            style="@style/MainTextStyle"
+            android:layout_weight="1"
+            android:text="@string/camera_sticker"
+            app:drawableTop="@drawable/ic_main_sticker" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_part1">
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/hb_face"
+            style="@style/MainTextStyle"
+            android:text="@string/camera_cartoon"
+            android:visibility="gone"
+            app:drawableTop="@drawable/ic_main_face"
+            app:icon="@drawable/ic_main_face" />
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/dt_avatar"
+            style="@style/MainTextStyle"
+            android:text="Avatar"
+            app:bg="@color/color_eafcff"
+            app:drawableTop="@drawable/ic_main_avatra"
+            app:icon="@drawable/ic_main_avatar" />
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/dt_try_on"
+            style="@style/MainTextStyle"
+            android:text="Try on"
+            app:bg="@color/color_eafcff"
+            app:drawableTop="@drawable/ic_main_tryon" />
+
+        <sensetime.senseme.com.effects.view.widget.DrawableTextView
+            android:id="@+id/hb_all"
+            style="@style/MainTextStyle"
+            android:text="@string/camera_all"
+            app:drawableTop="@drawable/ic_main_all"
+            app:icon="@drawable/ic_main_all" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="33.3dp"
+        android:layout_height="33.3dp"
+        android:layout_marginStart="53dp"
+        android:src="@drawable/ic_main_pic"
+        app:layout_constraintBottom_toBottomOf="@id/iv_take_pic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_take_pic" />
+
+    <ImageView
+        android:id="@+id/iv_take_pic"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="60dp"
+        android:src="@drawable/ic_main_take_pic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_version"
+        style="@style/WrapWrap"
+        android:layout_marginTop="10dp"
+        android:textColor="#333"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/iv_take_pic"
+        app:layout_constraintRight_toRightOf="@id/iv_take_pic"
+        app:layout_constraintTop_toBottomOf="@id/iv_take_pic"
+        tools:text="V1.0.0" />
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="33.3dp"
+        android:layout_height="33.3dp"
+        android:layout_marginStart="53dp"
+        android:src="@drawable/ic_main_pic"
+        app:layout_constraintBottom_toBottomOf="@id/iv_take_pic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_take_pic" />
+
+    <ImageView
+        android:id="@+id/iv_video"
+        android:layout_width="33.3dp"
+        android:layout_height="33.3dp"
+        android:layout_marginEnd="53dp"
+        android:src="@drawable/ic_main_record"
+        app:layout_constraintBottom_toBottomOf="@id/iv_take_pic"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_take_pic" />
+
+    <Button
+        android:id="@+id/btn_go_ScanFaceShapeActivity"
+        android:layout_width="wrap_content"
+        android:text="Go_ScanFaceShapeActivity"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAllCaps="false"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

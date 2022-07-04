@@ -6,8 +6,13 @@ import android.widget.Toast
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
 import com.qlive.beautyhook.BeautyHookerImpl
 import com.qlive.uiwidghtbeauty.LoadResourcesTask.ILoadResourcesCallback
+import com.qlive.uiwidghtbeauty.utils.Constants.LICENSE_FILE
 import com.qlive.uiwidghtbeauty.utils.SharedPreferencesUtils
-import com.qlive.uiwidghtbeauty.utils.Constants
+import com.qlive.uiwidghtbeauty.utils.ToastUtils
+import com.sensetime.sensearsourcemanager.SenseArMaterialService
+import com.sensetime.sensearsourcemanager.SenseArMaterialService.AuthorizeErrorCode
+import com.sensetime.sensearsourcemanager.SenseArMaterialService.OnAuthorizedListener
+import java.util.*
 
 object QSenseTimeManager {
 
@@ -20,7 +25,7 @@ object QSenseTimeManager {
     fun initEffectFromLocalLicense(appContext: Context, isFromQLive: Boolean) {
         sAppContext = appContext
         sSenseTimePlugin = QNSenseTimePlugin.Builder(appContext)
-            .setLicenseAssetPath(Constants.LICENSE_FILE)
+            .setLicenseAssetPath(LICENSE_FILE)
             .setModelActionAssetPath("M_SenseME_Face_Video_5.3.3.model")
             .setCatFaceModelAssetPath("M_SenseME_CatFace_3.0.0.model")
             .setDogFaceModelAssetPath("M_SenseME_DogFace_2.0.0.model") // 关闭在线拉取授权文件，使用离线授权文件
@@ -71,4 +76,6 @@ object QSenseTimeManager {
             mTask.execute(DST_FOLDER)
         }
     }
+
+
 }

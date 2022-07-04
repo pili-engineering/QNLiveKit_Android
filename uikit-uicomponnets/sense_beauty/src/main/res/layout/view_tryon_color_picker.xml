@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText,SmallSp, LabelFor">
+
+    <!-- 每个区域对应的seekbar -->
+    <FrameLayout
+        android:id="@+id/fl_seekbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/color_picker_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="#000"
+        tools:ignore="HardcodedText">
+
+        <TextView
+            android:id="@+id/tv_strength"
+            android:layout_width="48dp"
+            android:layout_height="29dp"
+            android:gravity="center"
+            android:text="@string/tryon_strength"
+            android:textColor="#fff"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/shape_tryon_btn" />
+
+        <TextView
+            android:id="@+id/tv_gz"
+            android:layout_width="48dp"
+            android:layout_height="29dp"
+            android:gravity="center"
+            android:text="@string/tryon_highlight"
+            android:textColor="#fff"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_strength"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/shape_tryon_btn" />
+
+        <TextView
+            android:id="@+id/tv_mid_tone"
+            android:layout_width="48dp"
+            android:layout_height="29dp"
+            android:background="@drawable/shape_tryon_btn"
+            android:gravity="center"
+            android:text="@string/tryon_MidTone"
+            android:textColor="#fff"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_gz"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SmallSp" />
+
+        <sensetime.senseme.com.effects.view.widget.TextThumbSeekBar
+            android:id="@+id/sb_strength"
+            style="@style/TextThumbSeekBarStyle"
+            android:layout_width="0dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_mid_tone"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <sensetime.senseme.com.effects.view.widget.TextThumbSeekBar
+            android:id="@+id/sb_hight_light"
+            style="@style/TextThumbSeekBarStyle"
+            android:layout_width="0dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_mid_tone"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <sensetime.senseme.com.effects.view.widget.TextThumbSeekBar
+            android:id="@+id/sb_mid_tone"
+            style="@style/TextThumbSeekBarStyle"
+            android:layout_width="0dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_mid_tone"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:background="#fff"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/color_picker_seekbar"
+        tools:ignore="ContentDescription">
+
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="66dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_try_on_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.skydoves.colorpickerview.ColorPickerView
+            android:id="@+id/colorPickerView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="10dp"
+            app:initialColor="@color/color_fb550a"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:preferenceName="Test2"
+            app:selector="@drawable/color_thumb_white"
+            tools:background="#000" />
+
+        <sensetime.senseme.com.effects.view.widget.GradientSeekbar
+            android:id="@+id/gradient_seekbar_v"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <sensetime.senseme.com.effects.view.widget.GradientSeekbar
+            android:id="@+id/gradient_seekbar_s"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="90dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_quyu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="区域"
+            android:textColor="#525252"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/ib_back"
+            app:layout_constraintTop_toBottomOf="@id/colorPickerView" />
+
+        <LinearLayout
+            android:id="@+id/ll_part_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/tv_quyu"
+            app:layout_constraintLeft_toRightOf="@id/tv_quyu"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_quyu" />
+
+        <LinearLayout
+            android:id="@+id/ll_input"
+            style="@style/WrapWrap"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/colorPickerView"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                style="@style/RGBTextStyle"
+                android:text="R" />
+
+            <EditText
+                android:id="@+id/et_r"
+                style="@style/RGBInputStyle"
+                android:textColor="#000" />
+
+            <TextView
+                style="@style/RGBTextStyle"
+                android:text="G" />
+
+            <EditText
+                android:id="@+id/et_g"
+                style="@style/RGBInputStyle"
+                android:textColor="#000" />
+
+            <TextView
+                style="@style/RGBTextStyle"
+                android:text="B" />
+
+            <EditText
+                android:id="@+id/et_b"
+                style="@style/RGBInputStyle"
+                android:textColor="#000" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:maxLines="2"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="#000"
+            android:lineSpacingExtra="5dp"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="@id/ll_input"
+            app:layout_constraintTop_toBottomOf="@id/ll_input" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_container_color_picker"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/color_picker_seekbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

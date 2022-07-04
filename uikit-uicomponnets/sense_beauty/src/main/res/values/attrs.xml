@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StretchTextView">
+        <attr name="layoutalign">
+            <enum name="ALIGN_NORMAL" value="0" />
+            <enum name="ALIGN_OPPOSITE" value="1" />
+            <enum name="ALIGN_CENTER" value="2" />
+        </attr>
+
+        <attr name="mSpacingMult" format="integer" />
+        <attr name="mSpacingAdd" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="HomeBtnView">
+        <attr name="title" format="string" />
+        <attr name="bg" format="reference" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="DrawableTextView">
+        <attr name="drawableLeft" format="reference" />
+        <attr name="drawableBottom" format="reference" />
+        <attr name="drawableRight" format="reference" />
+        <attr name="drawableTop" format="reference" />
+        <attr name="drawableWidth" format="dimension" />
+        <attr name="drawableHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="LinkageView">
+        <attr name="adapterStyle">
+            <enum name="makeup" value="0" />
+            <enum name="filter" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="TryOnContentView">
+        <attr name="contentType" format="enum">
+            <enum name="hair" value="701" />
+            <enum name="lip" value="702" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="TryOnColorPickerView">
+        <attr name="pickViewType" format="enum">
+            <enum name="hair" value="701" />
+            <enum name="lip" value="702" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="TryOnSeekBarView">
+        <attr name="seekbarType" format="enum">
+            <enum name="tryon_hair" value="701" />
+            <enum name="tryon_lip" value="702" />
+        </attr>
+    </declare-styleable>
+
+</resources>

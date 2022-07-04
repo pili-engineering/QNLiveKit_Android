@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="SmallSp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:background="#fff"
+        tools:background="#998877"
+        android:clickable="true"
+        android:focusable="true"
+        tools:ignore="ContentDescription">
+
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="66dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_try_on_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.skydoves.colorpickerview.ColorPickerView
+            android:id="@+id/colorPickerView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="10dp"
+            app:initialColor="@color/color_fb550a"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:preferenceName="Test2"
+            app:selector="@drawable/color_thumb_white"
+            tools:background="#000" />
+
+        <sensetime.senseme.com.effects.view.widget.GradientSeekbar
+            android:id="@+id/gradient_seekbar_v"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <sensetime.senseme.com.effects.view.widget.GradientSeekbar
+            android:id="@+id/gradient_seekbar_s"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="85dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_input"
+        style="@style/WrapWrap"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            style="@style/RGBTextStyle"
+            android:text="R" />
+
+        <EditText
+            android:id="@+id/et_r"
+            style="@style/RGBInputStyle"
+            android:textColor="#000" />
+
+        <TextView
+            style="@style/RGBTextStyle"
+            android:text="G" />
+
+        <EditText
+            android:id="@+id/et_g"
+            style="@style/RGBInputStyle"
+            android:textColor="#000" />
+
+        <TextView
+            style="@style/RGBTextStyle"
+            android:text="B" />
+
+        <EditText
+            android:id="@+id/et_b"
+            style="@style/RGBInputStyle"
+            android:textColor="#000" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@id/ll_input"
+        app:layout_constraintTop_toBottomOf="@id/ll_input" />
+</androidx.constraintlayout.widget.ConstraintLayout>

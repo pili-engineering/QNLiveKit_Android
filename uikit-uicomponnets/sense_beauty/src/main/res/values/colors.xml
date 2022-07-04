@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorWelcomeStart">#ff645f</color>
+    <color name="colorWelcomeEnd">#fe3f35</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorFont">#959595</color>
+
+    <color name="white">#ffffff</color>
+    <color name="gray">#6f6f6f</color>
+    <color name="black">#000000</color>
+    <color name="red">#fe5553</color>
+    <color name="sticker_loading">#34959595</color>
+
+    <color name="color_fef9db">#FEF9DB</color>
+    <color name="color_fdeee7">#FDEEE7</color>
+    <color name="color_edf3ff">#EDF3FF</color>
+    <color name="color_C1956C">#C1956C</color>
+    <color name="color_eafcff">#EAFCFF</color>
+    <color name="color_c1956c">#C1956C</color>
+    <color name="color_fdb1a0">#FDB1A0</color>
+
+    <color name="color_c4d9ec">#C4D9EC</color>
+    <color name="color_abd288">#ABD288</color>
+    <color name="color_fbd5d3">#FBD5D3</color>
+    <color name="color_e4d5ef">#E4D5EF</color>
+
+    <color name="color_dd90fa">#DD90FA</color>
+    <color name="color_ffdbdbdb">#ffdbdbdb</color>
+    <color name="color_ffffff">#ffffff</color>
+    <color name="color_f383fd">#F383FD</color>
+    <color name="color_fb550a">#FB550A</color>
+    <color name="color_4d818181">#4D818181</color>
+
+</resources>

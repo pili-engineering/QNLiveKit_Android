@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="ContentDescription, HardcodedText,UseSwitchCompatOrMaterialXml">
+
+    <LinearLayout
+        android:id="@+id/ll_hand_action_info"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:background="#e0ffffff"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_ok" />
+
+        <ImageView
+            android:id="@+id/iv_scissor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_scissor" />
+
+        <ImageView
+            android:id="@+id/iv_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_thumb" />
+
+        <ImageView
+            android:id="@+id/iv_palm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_palm" />
+
+        <ImageView
+            android:id="@+id/iv_pistol"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_pistol" />
+
+        <ImageView
+            android:id="@+id/iv_heart_hand"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_heart_hand" />
+
+        <ImageView
+            android:id="@+id/iv_palm_up"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_palm_up" />
+
+        <ImageView
+            android:id="@+id/iv_congratulate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_congratulate" />
+
+        <ImageView
+            android:id="@+id/iv_finger_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_finger_heart" />
+
+        <ImageView
+            android:id="@+id/iv_one_finger"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_trigger_one_finger" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_test_layout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="15dp"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/rl_add_body_model_switch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="body model"
+                android:textColor="#333333"
+                android:textSize="16dp" />
+
+            <Switch
+                android:id="@+id/sw_add_body_model_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:switchMinWidth="56dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/thumb"
+                android:thumbTextPadding="14dp"
+                android:track="@drawable/track" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_add_face_extra_model"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rl_add_body_model_switch"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="extra model"
+                android:textColor="#333333"
+                android:textSize="16dp" />
+
+            <Switch
+                android:id="@+id/sw_add_face_extra_model"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:switchMinWidth="56dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/thumb"
+                android:thumbTextPadding="14dp"
+                android:track="@drawable/track" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_add_iris_model"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rl_add_face_extra_model"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="iris model"
+                android:textColor="#333333"
+                android:textSize="16dp" />
+
+            <Switch
+                android:id="@+id/sw_add_iris_model"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:switchMinWidth="56dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/thumb"
+                android:thumbTextPadding="14dp"
+                android:track="@drawable/track" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rl_add_iris_model"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="hand model"
+                android:textColor="#333333"
+                android:textSize="16dp"
+                tools:ignore="" />
+
+            <Switch
+                android:id="@+id/sw_add_hand_action_model"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:switchMinWidth="56dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/thumb"
+                android:thumbTextPadding="14dp"
+                android:track="@drawable/track" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_face_expression"
+        android:layout_width="40dp"
+        android:layout_height="425dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:background="#66333333"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_face_expression_head_normal"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_head_normal" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_side_face_left"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_side_face_left" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_side_face_right"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_side_face_right" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_tilted_face_left"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_tilted_face_left" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_tilted_face_right"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_tilted_face_right" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_head_rise"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_head_rise" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_head_lower"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_head_lower" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_two_eye_close"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_two_eye_close" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_two_eye_open"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_two_eye_open" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_lefteye_open_righteye_close"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_lefteye_open_righteye_close" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_lefteye_close_righteye_open"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_lefteye_close_righteye_open" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_mouth_close"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_mouth_close" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_mouth_open"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_mouth_open" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_face_lips_upward"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_face_lips_upward" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_face_lips_pouted"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_face_lips_pouted" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_lips_curl_left"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_lips_curl_left" />
+
+        <ImageView
+            android:id="@+id/iv_face_expression_lips_curl_right"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/face_expression_lips_curl_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@+id/ll_face_expression"
+        app:layout_constraintTop_toTopOf="@+id/ll_face_expression">
+
+        <Switch
+            android:id="@+id/testSwitch0"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:switchMinWidth="56dp"
+            android:textOff=""
+            android:textOn=""
+            android:thumb="@drawable/thumb"
+            android:thumbTextPadding="14dp"
+            android:track="@drawable/track"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <Switch
+            android:id="@+id/testSwitch1"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginTop="10dp"
+            android:switchMinWidth="56dp"
+            android:textOff=""
+            android:textOn=""
+            android:thumb="@drawable/thumb"
+            android:thumbTextPadding="14dp"
+            android:track="@drawable/track"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <Switch
+            android:id="@+id/testSwitch2"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginTop="10dp"
+            android:switchMinWidth="56dp"
+            android:textOff=""
+            android:textOn=""
+            android:thumb="@drawable/thumb"
+            android:thumbTextPadding="14dp"
+            android:track="@drawable/track"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

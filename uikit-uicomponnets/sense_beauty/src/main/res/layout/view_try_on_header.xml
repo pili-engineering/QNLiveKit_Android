@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText, ContentDescription">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/si_none"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="15dp"
+        android:padding="1dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_none"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleStyle"
+        app:strokeColor="@android:color/transparent"
+        app:strokeWidth="2dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/tryon_none"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="@id/si_none"
+        app:layout_constraintRight_toRightOf="@id/si_none"
+        app:layout_constraintTop_toBottomOf="@id/si_none" />
+
+    <ImageView
+        android:id="@+id/iv_colour"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="19dp"
+        android:src="@drawable/ic_tryon_colour"
+        app:layout_constraintBottom_toBottomOf="@id/si_none"
+        app:layout_constraintLeft_toRightOf="@id/si_none"
+        app:layout_constraintTop_toTopOf="@id/si_none" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/tryon_palette"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="@id/iv_colour"
+        app:layout_constraintRight_toRightOf="@id/iv_colour"
+        app:layout_constraintTop_toBottomOf="@id/iv_colour" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

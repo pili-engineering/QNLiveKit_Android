@@ -32,7 +32,7 @@ dependencies {
     implementation project(':app-sdk:depends_sdk_qrtc')
     implementation project(':liveroom-uikit-core')
     implementation project(path: ':liveroom-libs:comp_rtclive')
-    implementation project(':uikit-uicomponnets:uikit-beauty')
+  //  implementation project(':uikit-uicomponnets:uikit-beauty')
     implementation depend.fragmentKtx()
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

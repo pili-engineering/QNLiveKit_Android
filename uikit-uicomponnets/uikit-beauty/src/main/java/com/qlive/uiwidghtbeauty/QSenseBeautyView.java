@@ -5,19 +5,23 @@ import static com.qlive.uiwidghtbeauty.utils.ResourcesUtil.sBeautifyParams;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,14 +35,21 @@ import com.qlive.uiwidghtbeauty.adapter.FilterAdapter;
 import com.qlive.uiwidghtbeauty.adapter.MakeupAdapter;
 import com.qlive.uiwidghtbeauty.model.BeautyItem;
 import com.qlive.uiwidghtbeauty.model.BeautyOptionsItem;
+import com.qlive.uiwidghtbeauty.model.EffectState;
 import com.qlive.uiwidghtbeauty.model.FilterItem;
 import com.qlive.uiwidghtbeauty.model.MakeupItem;
 import com.qlive.uiwidghtbeauty.utils.Constants;
 import com.qlive.uiwidghtbeauty.utils.ResourcesUtil;
+import com.qlive.uiwidghtbeauty.utils.ToastUtils;
 import com.qlive.uiwidghtbeauty.utils.Utils;
+import com.sensetime.sensearsourcemanager.SenseArMaterial;
+import com.sensetime.sensearsourcemanager.SenseArMaterialService;
+import com.sensetime.sensearsourcemanager.SenseArMaterialType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import kotlin.Unit;
@@ -128,7 +139,6 @@ public class QSenseBeautyView extends FrameLayout {
         mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.kit_view_beauty, this, true);
         initEffectView();
-
     }
 
     ArrayList<BeautyItem> beautyBaseItemList = null;
@@ -148,7 +158,6 @@ public class QSenseBeautyView extends FrameLayout {
             mFilterListMap = ResourcesUtil.getFilterListMap(mContext);
             return null;
         }, () -> {
-
             mMakeupGroupIds = new HashMap<>();
             mMakeupGroupIds.put(MAKEUP_LIP, GROUP_LIP);
             mMakeupGroupIds.put(MAKEUP_EYEBALL, GROUP_EYEBALL);
@@ -899,8 +908,6 @@ public class QSenseBeautyView extends FrameLayout {
 
             return null;
         });
-
-
     }
 
     /**
@@ -1238,5 +1245,4 @@ public class QSenseBeautyView extends FrameLayout {
             }
         }
     }
-
 }

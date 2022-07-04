@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mTitleRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_centerVertical="true"
+        android:background="#B32A2A2A"
+        android:padding="2dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/ll_base_beauty_options"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_base_beauty_options"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:background="#802A2A2A"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mContentRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+
+    <sensetime.senseme.com.effects.view.widget.TextThumbSeekBar
+        android:id="@+id/sb_strength"
+        style="@style/TextThumbSeekBarStyle"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:progress="0"
+        app:layout_constraintBottom_toTopOf="@id/mTitleRecycleView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ib_show_original"
+        style="@style/BtnOriginalStyle"
+        android:layout_marginBottom="239dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <sensetime.senseme.com.effects.view.widget.DrawableTextView
+        android:id="@+id/dt_basic_clear"
+        style="@style/ZeroBtnStyle"
+        android:text="@string/camera_clear"
+        app:drawableLeft="@drawable/ic_camera_zero"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <sensetime.senseme.com.effects.view.widget.DrawableTextView
+        android:id="@+id/dt_basic_reset"
+        style="@style/ZeroBtnStyle"
+        android:text="@string/camera_reset"
+        app:drawableLeft="@drawable/reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:visibility="invisible"
+        android:layout_width="210dp"
+        android:background="@drawable/bg_3d"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="44dp"
+        tools:visibility="visible"
+        android:weightSum="4"
+        android:layout_height="18dp">
+        <TextView
+            android:id="@+id/tv_mouth"
+            android:text="@string/plastic_3d_btn3"
+            style="@style/WZh3DBtnStyle" />
+        <TextView
+            android:id="@+id/tv_nose"
+            android:text="@string/plastic_3d_btn2"
+            style="@style/WZh3DBtnStyle"/>
+        <TextView
+            android:id="@+id/tv_eye"
+            android:text="@string/plastic_3d_btn1"
+            android:background="@drawable/ic_wzh_3d_white"
+            style="@style/WZh3DBtnStyle" />
+        <TextView
+            android:id="@+id/tv_face"
+            android:text="@string/plastic_3d_btn5"
+            style="@style/WZh3DBtnStyle" />
+        <TextView
+            android:id="@+id/tv_head"
+            android:text="@string/plastic_3d_btn4"
+            android:visibility="gone"
+            style="@style/WZh3DBtnStyle" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

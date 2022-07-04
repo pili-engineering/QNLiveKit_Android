@@ -1,0 +1,256 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!--边框-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--半透明-->
+        <item name="android:windowNoTitle">true</item>
+        <!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--模糊-->
+
+    </style>
+
+    <style name="Switch.TextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="MatchMatch">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="WrapWrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MatchWrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MakeupStyle" parent="WrapWrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/selector_makeup_all_text</item>
+    </style>
+
+    <style name="MakeupImgStyle" parent="WrapWrap">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">25dp</item>
+    </style>
+
+    <style name="MakeUpFilterImageStyle">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_height">32dp</item>
+    </style>
+
+    <style name="MakeUpFilterTextStyle" parent="WrapWrap">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/selector_filter_text</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="roundedCornerStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
+    </style>
+
+    <style name="MainTextStyle" parent="WrapWrap">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#333</item>
+        <item name="android:gravity">center</item>
+        <item name="drawableWidth">53.3dp</item>
+        <item name="drawableHeight">53.3dp</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <style name="AllTextStyle">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#2A2A2A</item>
+        <item name="android:gravity">center</item>
+        <item name="drawableWidth">48dp</item>
+        <item name="drawableHeight">48dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="AllTitleStyle" parent="WrapWrap">
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="drawableWidth">3dp</item>
+        <item name="drawableHeight">21dp</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:layout_marginStart">19dp</item>
+    </style>
+
+    <style name="SlideTextStyle" parent="WrapWrap">
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#333</item>
+    </style>
+
+    <style name="SettingText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="drawableWidth">26sp</item>
+        <item name="drawableHeight">26sp</item>
+        <item name="android:textColor">@color/selector_setting_text</item>
+    </style>
+
+    <style name="BottomMenuTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="drawableWidth">28dp</item>
+        <item name="drawableHeight">28dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+    <style name="RecordViewTextStyle" parent="WrapWrap">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="drawableHeight">24dp</item>
+        <item name="drawableWidth">24dp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="ZeroBtnStyle" parent="WrapWrap">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">12sp</item>
+        <item name="drawableHeight">15dp</item>
+        <item name="drawableWidth">15dp</item>
+    </style>
+
+    <style name="BtnOriginalStyle">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:src">@drawable/ic_camera_showoriginal</item>
+    </style>
+
+    <style name="TextThumbSeekBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:max">100</item>
+        <item name="android:maxHeight">2dp</item>
+        <item name="android:minHeight">2dp</item>
+        <item name="android:progress">100</item>
+        <item name="android:progressDrawable">@drawable/bg_text_seekbar</item>
+        <item name="android:thumb">@drawable/seekbar_thumb_white</item>
+    </style>
+
+    <style name="MakeupBtnStyle" parent="WrapWrap">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="circleStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TryOnBtn" parent="WrapWrap">
+        <item name="android:drawablePadding">1dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">11sp</item>
+        <item name="drawableHeight">38.4dp</item>
+        <item name="drawableWidth">38.4dp</item>
+    </style>
+
+    <style name="WZh3DBtnStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@drawable/selector_wzh3d_text</item>
+    </style>
+
+    <style name="AllFunctionLinearStyle" parent="MatchWrap">
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">5</item>
+    </style>
+
+    <style name="corner8Style">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="RGBTextStyle" parent="WrapWrap">
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+    </style>
+
+    <style name="RGBInputStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLength">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">number</item>
+        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="dialogFullScreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>
