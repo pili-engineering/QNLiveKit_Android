@@ -1,4 +1,4 @@
-package com.qlive.uiwidghtbeauty;
+package com.qlive.uiwidghtbeauty.ui;
 
 import static com.qlive.uiwidghtbeauty.utils.Constants.GROUP_2D;
 import static com.qlive.uiwidghtbeauty.utils.Constants.GROUP_3D;
@@ -20,9 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.qlive.uiwidghtbeauty.QSenseBeautyView;
+import com.qlive.uiwidghtbeauty.QSenseTimeManager;
+import com.qlive.uiwidghtbeauty.R;
 import com.qlive.uiwidghtbeauty.adapter.StickerOptionsAdapter;
 import com.qlive.uiwidghtbeauty.model.StickerOptionsItem;
-import com.qlive.uiwidghtbeauty.sticker.StickerPageItemView;
+import com.qlive.uiwidghtbeauty.ui.StickerPageItemView;
 import com.qlive.uiwidghtbeauty.ui.CommonViewPagerAdapter;
 import com.qlive.uiwidghtbeauty.utils.Constants;
 
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class QStickerView extends FrameLayout {
+public class StickerView extends FrameLayout {
 
     private static final String TAG = "QSenseBeautyView";
     private ArrayList<StickerOptionsItem> mStickerOptionsList;
@@ -38,17 +41,17 @@ public class QStickerView extends FrameLayout {
     private ViewPager vpStickerPage;
     private List<StickerPageItemView> pageItemViewList;
 
-    public QStickerView(@NonNull Context context) {
+    public StickerView(@NonNull Context context) {
         super(context);
         init(context);
     }
 
-    public QStickerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public StickerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public QStickerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public StickerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }

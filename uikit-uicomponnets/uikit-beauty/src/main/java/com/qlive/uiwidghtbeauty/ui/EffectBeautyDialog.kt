@@ -1,14 +1,15 @@
-package com.qlive.uiwidghtbeauty
+package com.qlive.uiwidghtbeauty.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.qlive.uiwidghtbeauty.BeautyDialogFragment
+import com.qlive.uiwidghtbeauty.R
 
-class EffectBeautyDialogFragment : BeautyDialogFragment() {
-    private var mSenseBeautyView: QSenseBeautyView? = null
+
+class EffectBeautyDialog : BeautyDialog() {
+    private var mSenseBeautyView: EffectView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,7 +18,7 @@ class EffectBeautyDialogFragment : BeautyDialogFragment() {
     ): View? {
         if (mSenseBeautyView == null) {
             mSenseBeautyView =
-                QSenseBeautyView(requireContext())
+                EffectView(requireContext())
         }
         if (mSenseBeautyView?.parent != null) {
             (mSenseBeautyView?.parent as ViewGroup).removeView(mSenseBeautyView)

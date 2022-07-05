@@ -33,7 +33,5 @@ public class BeautyViewPage extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return isCanScroll && super.onTouchEvent(ev);
-
     }
-
 }

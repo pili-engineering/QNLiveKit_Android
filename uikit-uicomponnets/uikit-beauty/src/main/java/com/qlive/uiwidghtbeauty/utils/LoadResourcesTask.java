@@ -1,4 +1,4 @@
-package com.qlive.uiwidghtbeauty;
+package com.qlive.uiwidghtbeauty.utils;
 
 
 import static com.qlive.uiwidghtbeauty.utils.Constants.*;

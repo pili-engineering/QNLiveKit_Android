@@ -16,14 +16,14 @@ import com.qlive.uiwidghtbeauty.model.BeautyItem;
 
 import java.util.ArrayList;
 
-public class BeautyItemAdapter extends RecyclerView.Adapter{
+public class BeautyItemAdapter extends RecyclerView.Adapter {
 
     ArrayList<BeautyItem> mBeautyItem;
     private View.OnClickListener mOnClickBeautyItemListener;
     private int mSelectedPosition = 0;
     Context mContext;
 
-    public BeautyItemAdapter(Context context, ArrayList<BeautyItem> list){
+    public BeautyItemAdapter(Context context, ArrayList<BeautyItem> list) {
         mContext = context;
         mBeautyItem = list;
     }
@@ -43,7 +43,7 @@ public class BeautyItemAdapter extends RecyclerView.Adapter{
         viewHolder.mSubscription.setTextColor(Color.parseColor("#ffffff"));
         viewHolder.mImage.setImageBitmap(mBeautyItem.get(position).getUnselectedtIcon());
         holder.itemView.setSelected(mSelectedPosition == position);
-        if(mSelectedPosition == position){
+        if (mSelectedPosition == position) {
             viewHolder.mSubscription.setTextColor(Color.parseColor("#bc47ff"));
             viewHolder.mName.setTextColor(Color.parseColor("#bc47ff"));
             viewHolder.mImage.setImageBitmap(mBeautyItem.get(position).getSelectedIcon());
@@ -63,6 +63,10 @@ public class BeautyItemAdapter extends RecyclerView.Adapter{
 
     public void setSelectedPosition(int position) {
         mSelectedPosition = position;
+    }
+
+    public int getSelectedPosition() {
+        return mSelectedPosition;
     }
 
     public void setClickBeautyListener(View.OnClickListener listener) {

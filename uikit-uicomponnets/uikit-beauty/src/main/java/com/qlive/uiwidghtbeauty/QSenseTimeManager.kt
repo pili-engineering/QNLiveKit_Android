@@ -5,14 +5,10 @@ import android.util.Log
 import android.widget.Toast
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
 import com.qlive.beautyhook.BeautyHookerImpl
-import com.qlive.uiwidghtbeauty.LoadResourcesTask.ILoadResourcesCallback
+import com.qlive.uiwidghtbeauty.utils.LoadResourcesTask.ILoadResourcesCallback
 import com.qlive.uiwidghtbeauty.utils.Constants.LICENSE_FILE
+import com.qlive.uiwidghtbeauty.utils.LoadResourcesTask
 import com.qlive.uiwidghtbeauty.utils.SharedPreferencesUtils
-import com.qlive.uiwidghtbeauty.utils.ToastUtils
-import com.sensetime.sensearsourcemanager.SenseArMaterialService
-import com.sensetime.sensearsourcemanager.SenseArMaterialService.AuthorizeErrorCode
-import com.sensetime.sensearsourcemanager.SenseArMaterialService.OnAuthorizedListener
-import java.util.*
 
 object QSenseTimeManager {
 
@@ -72,7 +68,8 @@ object QSenseTimeManager {
             callback.onStartTask()
             callback.onEndTask(true)
         } else {
-            val mTask = LoadResourcesTask(callback)
+            val mTask =
+                LoadResourcesTask(callback)
             mTask.execute(DST_FOLDER)
         }
     }
