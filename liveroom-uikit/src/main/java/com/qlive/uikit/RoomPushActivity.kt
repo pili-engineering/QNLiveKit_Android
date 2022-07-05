@@ -236,7 +236,7 @@ class RoomPushActivity : BaseFrameActivity() {
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(QRoomService::class.java).roomInfo != null
+            && mRoomClient.getService(QRoomService::class.java)?.roomInfo != null
         ) {
             return true
         }

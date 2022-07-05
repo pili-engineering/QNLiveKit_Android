@@ -337,11 +337,11 @@ class FilterBeautyPage : FrameLayout, BaseEffectPage<FilterItem> {
         resetFilterView()
         if (mFilterListMap[Constants.FILTER_PORTRAIT]!!.size > 0) {
             for (i in mFilterListMap[Constants.FILTER_PORTRAIT]!!.indices) {
-                if (mFilterListMap[Constants.FILTER_PORTRAIT]!![i].name == "babypink") {
+                if (mFilterListMap[Constants.FILTER_PORTRAIT]!![i].name == "original") {
                     mCurrentFilterIndex = i
                 }
             }
-            if (mCurrentFilterIndex > 0) {
+          //  if (mCurrentFilterIndex > 0) {
                 mCurrentFilterGroupIndex = 0
                 mFilterAdapters[Constants.FILTER_PORTRAIT]!!.setSelectedPosition(mCurrentFilterIndex)
                 sSenseTimePlugin!!.setFilter(
@@ -354,7 +354,7 @@ class FilterBeautyPage : FrameLayout, BaseEffectPage<FilterItem> {
                     resources.getColor(R.color.text_selected)
                 )
                 mFilterAdapters[Constants.FILTER_PORTRAIT]!!.notifyDataSetChanged()
-            }
+           // }
         }
         mFilterStrengthBar.progress = 65
     }

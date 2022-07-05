@@ -16,11 +16,11 @@ public class ResourcesUtil {
 
     public static float[] sBeautifyParams = {
             // 美颜
-            0.36f, 0.74f, 0.5f,
+            0.1f, 0.1f, 0.1f,
             // 美型
-            0.5f, 0.5f, 0.5f, 0f, 0f,
+            0.1f, 0.1f, 0.1f, 0f, 0f,
             // 微整形
-            0.5f, 0.5f, 0.5f, 0.5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,
+            0.1f, 0.1f, 0.1f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,
             // 调整
             0f, 0f};
 
