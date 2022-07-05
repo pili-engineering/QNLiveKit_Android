@@ -27,7 +27,6 @@ class EffectView : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.kir_layout_effect_view, this, true)
         init()
     }
-
     private val beautyOptionsList = ArrayList<BeautyOptionsItem>().apply {
         add(0, BeautyOptionsItem("基础美颜"))
         add(1, BeautyOptionsItem("美形"))
