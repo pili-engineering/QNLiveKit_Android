@@ -25,7 +25,19 @@ import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 /**
  * 连麦麦位列表
  */
-class MicLinkersView : QKitFrameLayout {
+open class MicLinkersView : QKitFrameLayout {
+
+    companion object {
+        /**
+         * 点击事件回调 静态字段
+         * @param context kit上下文
+         * @param view
+         * @param linker 点击了麦上哪个人
+         */
+        var onItemLinkerClickListener: (context: QLiveUIKitContext, view: View, linker: QMicLinker) -> Unit =
+            { _, _, _ -> }
+    }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -93,7 +105,7 @@ class MicLinkersView : QKitFrameLayout {
         override fun onLinkerKicked(micLinker: QMicLinker, msg: String) {
             onLinkerLeft(micLinker)
             msg.asToast(kitContext?.androidContext)
-            QLiveLogUtil.d("onLinkerKicked","onLinkerKicked")
+            QLiveLogUtil.d("onLinkerKicked", "onLinkerKicked")
         }
 
         override fun onLinkerExtensionUpdate(micLinker: QMicLinker, extension: QExtension) {}
@@ -165,6 +177,9 @@ class MicLinkersView : QKitFrameLayout {
             .addMicLinkerListener(mQLinkMicServiceListener)
         flLinkContent.post {
             init()
+        }
+        mLinkersView.onItemLinkerClickListener = { v, i ->
+            onItemLinkerClickListener.invoke(kitContext!!, v, i)
         }
     }
 

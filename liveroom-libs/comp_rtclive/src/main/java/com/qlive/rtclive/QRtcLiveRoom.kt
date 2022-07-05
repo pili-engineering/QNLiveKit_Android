@@ -7,6 +7,7 @@ import com.qlive.rtclive.rtc.ExtQNClientEventListener
 import com.qlive.rtclive.rtc.RtcClientWrap
 import com.qlive.rtclive.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
+import com.qlive.avparam.QCameraFace
 import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
 import com.qlive.avparam.QVideoFrameListener
@@ -305,12 +306,15 @@ open class QRtcLiveRoom(
     }
 
     //切换摄像头
-    fun switchCamera() {
+    fun switchCamera(call: (Boolean?,String) -> Unit) {
         localVideoTrack?.switchCamera(object : QNCameraSwitchResultCallback {
             override fun onSwitched(p0: Boolean) {
+                call.invoke(p0,"")
             }
 
-            override fun onError(p0: String?) {}
+            override fun onError(p0: String) {
+                call.invoke(null,p0)
+            }
         })
     }
 

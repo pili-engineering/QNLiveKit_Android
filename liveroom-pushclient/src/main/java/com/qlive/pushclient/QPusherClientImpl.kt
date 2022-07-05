@@ -185,7 +185,13 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     }
 
     override fun switchCamera(callBack: QLiveCallBack<QCameraFace>?) {
-        mRtcRoom.switchCamera()
+        mRtcRoom.switchCamera(){it,msg->
+            if(it!==null){
+                callBack?.onSuccess(if(it){QCameraFace.FRONT}else{QCameraFace.BACK})
+            }else{
+                callBack?.onError(-1,msg)
+            }
+        }
     }
 
     override fun muteCamera(muted: Boolean, callBack: QLiveCallBack<Boolean>?) {

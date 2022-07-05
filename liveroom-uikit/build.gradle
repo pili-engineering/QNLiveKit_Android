@@ -37,15 +37,15 @@ def buidSdk = false
 fataar {
     transitive = true
 }
-
-def version = 'qlive-uikit-1.0.0'
-task makeAAR(type: Copy) {
-    from('build/outputs/aar/')
-    into('../app-sdk/qlive-sdk-uikit/')
-    include('liveroom-uikit-release.aar')
-    rename('liveroom-uikit-release', version)
-}
-makeAAR.dependsOn(build)
+//
+//def version = 'qlive-uikit-1.0.0'
+//task makeAAR(type: Copy) {
+//    from('build/outputs/aar/')
+//    into('../app-sdk/qlive-sdk-uikit/')
+//    include('liveroom-uikit-release.aar')
+//    rename('liveroom-uikit-release', version)
+//}
+//makeAAR.dependsOn(build)
 
 dependencies {
 

@@ -26,6 +26,11 @@ import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 //麦位预览 多人连麦
 class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
 
+    /**
+     * 点击事件
+     */
+    var onItemLinkerClickListener: (view: View, linker: QMicLinker) -> Unit = { _, _ -> }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -60,7 +65,9 @@ class MicSeatPreView : LinearLayout, QLinkMicServiceListener {
         itemView.onLinkerJoin(micLinker)
         itemView.setRole(isLinker)
         addView(itemView)
-
+        itemView.setOnClickListener {
+            onItemLinkerClickListener.invoke(it, micLinker)
+        }
     }
 
     /**
