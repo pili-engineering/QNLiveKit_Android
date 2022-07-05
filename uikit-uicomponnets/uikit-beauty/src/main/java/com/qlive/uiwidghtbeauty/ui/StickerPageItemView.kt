@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.qlive.uiwidghtbeauty.QSenseBeautyView
 import com.qlive.uiwidghtbeauty.adapter.NativeStickerAdapter
 import com.qlive.uiwidghtbeauty.model.StickerItem
 import com.qlive.uiwidghtbeauty.utils.FileUtils
@@ -52,7 +51,7 @@ class StickerPageItemView(
 
     init {
         layoutManager =  GridLayoutManager(context, 6)
-        addItemDecoration(QSenseBeautyView.SpaceItemDecoration(0));
+        addItemDecoration(SpaceItemDecoration(0));
     }
 
     fun attach(loadFromLocal:Boolean) {

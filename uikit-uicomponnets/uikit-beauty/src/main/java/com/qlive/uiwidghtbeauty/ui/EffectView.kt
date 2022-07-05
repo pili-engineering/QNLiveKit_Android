@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager.widget.ViewPager
-import com.qlive.uiwidghtbeauty.QSenseBeautyView.SpaceItemDecoration
+import com.qlive.uiwidghtbeauty.QSenseTimeManager
 import com.qlive.uiwidghtbeauty.R
 import com.qlive.uiwidghtbeauty.adapter.BeautyOptionsAdapter
 import com.qlive.uiwidghtbeauty.model.BeautyOptionsItem
@@ -50,7 +51,7 @@ class EffectView : FrameLayout {
         BeautyOptionsAdapter(beautyOptionsList, context);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "ClickableViewAccessibility")
     private fun init() {
         // 美颜面板上的滑动选项
         val beautyOptionsRecycleView = findViewById<RecyclerView>(R.id.rv_beauty_options)
@@ -72,6 +73,15 @@ class EffectView : FrameLayout {
             pages.forEach {
                 (it as BaseEffectPage<*>).reset()
             }
+        }
+        findViewById<View>(R.id.tv_show_origin).setOnTouchListener { view, event ->
+            val action = event.action
+            if (action == MotionEvent.ACTION_DOWN) {
+                QSenseTimeManager.sSenseTimePlugin?.setEffectEnabled(false)
+            } else if (action == MotionEvent.ACTION_UP) {
+                QSenseTimeManager.sSenseTimePlugin?.setEffectEnabled(true)
+            }
+            true
         }
     }
 }

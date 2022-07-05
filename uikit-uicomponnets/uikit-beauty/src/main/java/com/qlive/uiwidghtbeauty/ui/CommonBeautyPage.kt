@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.qlive.uiwidghtbeauty.QSenseBeautyView.BeautyItemDecoration
 import com.qlive.uiwidghtbeauty.QSenseTimeManager.sSenseTimePlugin
 import com.qlive.uiwidghtbeauty.R
 import com.qlive.uiwidghtbeauty.adapter.BeautyItemAdapter

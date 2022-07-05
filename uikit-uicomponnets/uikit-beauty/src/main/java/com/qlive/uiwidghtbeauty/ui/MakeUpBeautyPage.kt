@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.qlive.uiwidghtbeauty.QSenseBeautyView.SpaceItemDecoration
 import com.qlive.uiwidghtbeauty.QSenseTimeManager.sSenseTimePlugin
 import com.qlive.uiwidghtbeauty.R
 import com.qlive.uiwidghtbeauty.adapter.MakeupAdapter
