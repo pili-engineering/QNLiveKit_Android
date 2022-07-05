@@ -38,11 +38,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="27dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="8dp"
         android:drawableLeft="@drawable/reset"
         android:drawablePadding="5dp"
         android:text="重置"
         android:textColor="#ffffff"
         android:textSize="15sp"
+         />
+    <TextView
+        android:id="@+id/tv_show_origin"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_show_origin"
+        android:gravity="center"
+        android:text="对比"
+        android:textColor="@color/white"
+        android:textSize="18dp"
          />
 </FrameLayout>

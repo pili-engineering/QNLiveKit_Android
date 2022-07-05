@@ -3,9 +3,7 @@ package com.qlive.uiwidghtbeauty.ui
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
-import com.qlive.uiwidghtbeauty.QSenseBeautyView
 import com.qlive.uiwidghtbeauty.R
 
 open class BeautyDialog : DialogFragment() {
