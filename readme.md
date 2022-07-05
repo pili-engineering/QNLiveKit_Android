@@ -346,9 +346,8 @@ QLive.getRooms().createRoom(..）
 修改UIkit源码
 
 
-### 使用内置七牛美颜（可选）
-内置商汤美颜插件，依赖则有不依赖则没有
-```java
+### 使用美颜插件（可选）
+```
 拷贝源码模块uikit-beauty
 implementation project(":uikit-uicomponnets:uikit-beauty")
 ```
@@ -358,11 +357,11 @@ implementation project(":uikit-uicomponnets:uikit-beauty")
 - (可选 -自定义显示贴纸弹窗按钮)uikit中调用 BeautyComponent.showBeautyStickDialog()  即可显示美颜贴纸弹窗
 
 ### 外接其他美颜
-client.setVideoFrameListener(object::QVideoFrameListener{
+```kotlin
+client.setVideoFrameListener(object:QVideoFrameListener{
   //拿到帧回调即可以使用其他美颜sdk处理
 })
-
-
+```
 
 ### 无UI
 ```java
@@ -376,7 +375,6 @@ QLive.init(context ,new QTokenGetter(){
             GetTokenApi.getToken(callback);
         }
 });
-
 
 //登陆 登陆成功后才能使用qlive
 QLive.auth(new QLiveCallBack<Void>{})

@@ -323,7 +323,19 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
             callBack?.onError(-1, "not in seat")
             return
         }
-        context.mQRtcLiveRoom.switchCamera()
+        context.mQRtcLiveRoom.switchCamera() { it, msg ->
+            if (it !== null) {
+                callBack?.onSuccess(
+                    if (it) {
+                        QCameraFace.FRONT
+                    } else {
+                        QCameraFace.BACK
+                    }
+                )
+            } else {
+                callBack?.onError(-1, msg)
+            }
+        }
     }
 
     override fun muteCamera(muted: Boolean, callBack: QLiveCallBack<Boolean>?) {

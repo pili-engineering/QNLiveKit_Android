@@ -6,7 +6,10 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import com.qlive.core.QLiveClient
+import com.qlive.core.been.QLiveUser
 import com.qlive.core.been.QPublicChat
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.pubchatservice.QPublicChatServiceLister
@@ -14,11 +17,22 @@ import com.qlive.uikitcore.*
 
 class PublicChatView : QKitRecyclerView {
 
-    private val mAdapter = PubChatAdapter().apply {
-        mAvatarClickCall = { item: QPublicChat, view: View ->
-            //点击头像事件
+    companion object {
+        /**
+         * 点击事件
+         */
+        var onItemMsgClickListener: (context: QLiveUIKitContext, view: View, msgMode: QPublicChat) -> Unit =
+            { _, _, _ -> }
+
+        /**
+         * 列表适配器
+         */
+        var adapterProvider: () -> BaseQuickAdapter<QPublicChat, BaseViewHolder> = {
+            PubChatAdapter()
         }
     }
+
+    private val mAdapter = adapterProvider.invoke()
 
     //消息监听
     private val mPublicChatServiceLister =
@@ -39,6 +53,9 @@ class PublicChatView : QKitRecyclerView {
     ) {
         this.layoutManager = LinearLayoutManager(context)
         this.adapter = mAdapter
+        mAdapter.setOnItemChildClickListener { adapter, view, position ->
+            onItemMsgClickListener.invoke(kitContext!!, view, mAdapter.data[position])
+        }
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {

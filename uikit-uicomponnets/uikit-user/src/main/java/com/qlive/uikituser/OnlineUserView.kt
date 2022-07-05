@@ -2,6 +2,7 @@ package com.qlive.uikituser
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -10,6 +11,7 @@ import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
+import com.qlive.core.been.QMicLinker
 import com.qlive.roomservice.QRoomService
 import com.qlive.uikitcore.*
 import com.qlive.uikitcore.ext.bg
@@ -20,6 +22,21 @@ import kotlin.coroutines.suspendCoroutine
 
 class OnlineUserView : QKitFrameLayout {
 
+    companion object {
+        /**
+         * 点击事件
+         */
+        var onItemUserClickListener: (context: QLiveUIKitContext, view: View, user: QLiveUser) -> Unit =
+            { _, _, _ -> }
+
+        /**
+         * 列表适配器
+         */
+        var adapterProvider: () -> BaseQuickAdapter<QLiveUser, BaseViewHolder> = {
+            OnlineUserViewAdapter()
+        }
+    }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -28,7 +45,7 @@ class OnlineUserView : QKitFrameLayout {
         defStyleAttr
     )
 
-    private var adapter: BaseQuickAdapter<QLiveUser, BaseViewHolder> = OnlineUserViewAdapter()
+    private var adapter: BaseQuickAdapter<QLiveUser, BaseViewHolder> = adapterProvider.invoke()
 
     //聊天室监听
     private val mChatRoomServiceListener = object :
@@ -59,7 +76,7 @@ class OnlineUserView : QKitFrameLayout {
         recyOnline?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapter.setOnItemClickListener { _, view, position ->
-            //点击事件
+            onItemUserClickListener.invoke(kitContext!!, view, adapter.data[position])
         }
         recyOnline.adapter = adapter
     }
@@ -115,6 +132,5 @@ class OnlineUserView : QKitFrameLayout {
         adapter.setNewData(ArrayList<QLiveUser>())
         lazyFreshJob.cancel()
     }
-
 }
 
