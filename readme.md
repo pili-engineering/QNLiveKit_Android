@@ -58,7 +58,7 @@ implementation project(':app-sdk:depends_sdk_piliplayer') //其他版本下载�
 
 //低代码无ui sdk 必选
 implementation project(':app-sdk:qlive-sdk') 
-implementation 'com.qiniu:happy-dns:1.0.0' // 七牛dns 必选项目
+implementation 'com.qiniu:happy-dns:1.0.1' // 七牛dns 必选项目
 implementation 'com.squareup.okhttp3:okhttp:4.2.2' //okhttp 4版本以上 必选
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' //kotlin协程 必选
 
@@ -346,7 +346,6 @@ QLive.getRooms().createRoom(..）
 修改UIkit源码
 
 
-
 ### 使用内置七牛美颜（可选）
 内置商汤美颜插件，依赖则有不依赖则没有
 ```java
@@ -354,9 +353,14 @@ QLive.getRooms().createRoom(..）
 implementation project(":uikit-uicomponnets:uikit-beauty")
 ```
 - 联系七牛商务获取美颜认证lic文件 重命名SenseME.lic放在assets文件下->运行sdk已经带了美颜滤镜贴纸功能
-- 修改美颜调节面板UI及拷贝购买的额外的素材文件/或删除原有用不着的素材至uikit-beauty/assets
-- uikit中调用 BeautyComponent.showBeautyEffectDialog() 即可显示美颜特效弹窗
-- uikit中调用 BeautyComponent.showBeautyStickDialog()  即可显示美颜贴纸弹窗
+- (可选) 修改美颜调节面板UI及拷贝购买的额外的素材文件/或删除原有用不着的素材至uikit-beauty/assets
+
+### 外接其他美颜
+client.setVideoFrameListener(object::QVideoFrameListener{
+  //拿到帧回调即可以使用其他美颜sdk处理
+})
+
+
 
 ### 无UI
 ```java

@@ -13,7 +13,7 @@ import com.qlive.uiwidghtbeauty.R
 import com.qlive.uiwidghtbeauty.adapter.BeautyItemAdapter
 import com.qlive.uiwidghtbeauty.model.BeautyItem
 import com.qlive.uiwidghtbeauty.utils.Constants
-import com.qlive.uiwidghtbeauty.utils.Constants.PROFESSIONAL_BEAUTY
+import com.qlive.uiwidghtbeauty.utils.Constants.*
 import com.qlive.uiwidghtbeauty.utils.ResourcesUtil
 import com.qlive.uiwidghtbeauty.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,6 @@ abstract class CommonBeautyPage : FrameLayout, BaseEffectPage<BeautyItem> {
     override var onItemClick: (groupIndex: String, item: BeautyItem, itemIndex: Int) -> Unit =
         { _, _, _ ->
         }
-
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -71,8 +70,8 @@ abstract class CommonBeautyPage : FrameLayout, BaseEffectPage<BeautyItem> {
             beautyBaseAdapter.setClickBeautyListener { v ->
                 mIndicatorSeekbar.visibility = VISIBLE
                 val position = v.tag.toString().toInt()
-                beautyBaseAdapter.setSelectedPosition(position)
-                if (checkMicroType()) {
+                beautyBaseAdapter.selectedPosition = position
+                if (checkMicroType(position)) {
                     mIndicatorSeekbar.seekBar.progress =
                         Utils.convertToData(beautyBaseItemList[position].progress)
                 } else {
@@ -99,7 +98,8 @@ abstract class CommonBeautyPage : FrameLayout, BaseEffectPage<BeautyItem> {
                         getBeautyOptionsPosition(),
                         selectedPosition
                     )
-                    if (checkMicroType()) {
+
+                    if (checkMicroType(selectedPosition)) {
                         mIndicatorSeekbar.updateTextView(Utils.convertToDisplay(progress))
                         // 设置美颜强度，强度范围是 [-1,1]
                         sSenseTimePlugin!!.setBeauty(
@@ -130,8 +130,14 @@ abstract class CommonBeautyPage : FrameLayout, BaseEffectPage<BeautyItem> {
         }
     }
 
-    open fun checkMicroType(): Boolean {
-        return false
+    open fun checkMicroType(itemIndex: Int): Boolean {
+        val type = ResourcesUtil.calculateBeautyIndex(getBeautyOptionsPosition(), itemIndex)
+        val ans = (type != BEAUTY_BASE_REDDEN && type != BEAUTY_RESHAPE_SHRINK_FACE
+                && type != BEAUTY_PLASTIC_THIN_FACE && type != BEAUTY_PLASTIC_HAIRLINE_HEIGHT
+                && type != BEAUTY_PLASTIC_APPLE_MUSLE && type != BEAUTY_PLASTIC_NARROW_NOSE
+                && type != BEAUTY_PLASTIC_NOSE_LENGTH && type != BEAUTY_PLASTIC_PROFILE_RHINOPLASTY
+                && type != BEAUTY_BASE_FACE_SMOOTH && type != BEAUTY_PLASTIC_MOUTH_SIZE)
+        return ans && getBeautyOptionsPosition()==2
     }
 
     override fun reset() {
@@ -278,10 +284,6 @@ class MicroBeautyPage : CommonBeautyPage {
         return 2
     }
 
-    override fun checkMicroType(): Boolean {
-        return true
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun reset() {
         super.reset()
@@ -413,7 +415,6 @@ class AdjustBeautyPage : CommonBeautyPage {
             Constants.BEAUTY_TYPES[Constants.BEAUTY_TONE_SATURATION],
             ResourcesUtil.sBeautifyParams[26]
         )
-
         // 调整
         beautyBaseItemList[0].progress = (ResourcesUtil.sBeautifyParams[25] * 100).toInt()
         beautyBaseItemList[1].progress = (ResourcesUtil.sBeautifyParams[26] * 100).toInt()
