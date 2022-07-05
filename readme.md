@@ -348,7 +348,7 @@ QLive.getRooms().createRoom(..）
 
 ### 使用美颜插件（可选）
 ```
-拷贝源码模块uikit-beauty
+拷贝源码模块uikit-beauty并且添加依赖
 implementation project(":uikit-uicomponnets:uikit-beauty")
 ```
 - (必选) 联系七牛商务获取美颜认证lic文件 重命名SenseME.lic放在assets文件下->运行sdk已经带了美颜滤镜贴纸功能
