@@ -352,8 +352,10 @@ QLive.getRooms().createRoom(..）
 拷贝源码模块uikit-beauty
 implementation project(":uikit-uicomponnets:uikit-beauty")
 ```
-- 联系七牛商务获取美颜认证lic文件 重命名SenseME.lic放在assets文件下->运行sdk已经带了美颜滤镜贴纸功能
-- (可选) 修改美颜调节面板UI及拷贝购买的额外的素材文件/或删除原有用不着的素材至uikit-beauty/assets
+- (必选) 联系七牛商务获取美颜认证lic文件 重命名SenseME.lic放在assets文件下->运行sdk已经带了美颜滤镜贴纸功能
+- (可选 -自定义调节UI面板) 修改美颜调节面板UI及拷贝购买的额外的素材文件/或删除原有用不着的素材至uikit-beauty/assets
+- (可选 -自定义显示美颜弹窗按钮)uikit中调用 BeautyComponent.showBeautyEffectDialog() 即可显示美颜特效弹窗
+- (可选 -自定义显示贴纸弹窗按钮)uikit中调用 BeautyComponent.showBeautyStickDialog()  即可显示美颜贴纸弹窗
 
 ### 外接其他美颜
 client.setVideoFrameListener(object::QVideoFrameListener{
