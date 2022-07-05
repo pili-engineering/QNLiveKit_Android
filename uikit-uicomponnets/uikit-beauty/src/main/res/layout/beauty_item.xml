@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center"
+        android:paddingBottom="12dp"
         >
         <ImageView
             android:id="@+id/beauty_item_iv"

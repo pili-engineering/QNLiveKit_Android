@@ -28,7 +28,7 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
             mLifeCycleListener.add(obj)
             obj.attachRoomClient(mClient)
             if (liveId.isNotEmpty()) {
-                obj.onEntering(roomInfo!!.liveID, UserDataSource.loginUser)
+                obj.onEntering(liveId, UserDataSource.loginUser)
             }
             if (roomInfo != null) {
                 obj.onJoined(roomInfo!!)
