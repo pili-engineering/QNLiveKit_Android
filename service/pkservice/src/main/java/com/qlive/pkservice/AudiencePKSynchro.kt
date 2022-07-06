@@ -76,8 +76,6 @@ class AudiencePKSynchro() : BaseService() {
         }
         override fun onStartTimeOut(pkSession: QPKSession) {
         }
-        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
-        }
     }
 
     override fun attachRoomClient(client: QLiveClient) {

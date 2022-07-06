@@ -1,5 +1,8 @@
 package com.qlive.core
 
+/**
+ * 直播间状态枚举
+ */
 enum class QLiveStatus(var tipMsg: String) {
     PREPARE("房间已创建"),
     ON("房间已发布"),

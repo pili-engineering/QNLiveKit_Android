@@ -49,8 +49,6 @@ class StartPKView : QKitFrameLayout {
         override fun onStartTimeOut(pkSession: QPKSession) {
             "等待主播 ${pkSession.receiver.nick} 推流超时".asToast(context)
         }
-
-        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
     }
 
     private val mPKInvitationListener = object : QInvitationHandlerListener {

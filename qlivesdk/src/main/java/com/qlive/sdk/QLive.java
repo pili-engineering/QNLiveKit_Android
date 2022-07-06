@@ -18,14 +18,16 @@ import com.qlive.pushclient.QPusherClientImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 低代码直播客户端
+ */
 public class QLive {
 
     /**
      * 初始化
-     *
-     * @param context
-     * @param tokenGetter
-     * @return
+     * @param context 安卓上下午
+     * @param config  sdk配置
+     * @param tokenGetter token获取
      */
     public static void init(Context context, QSdkConfig config, QTokenGetter tokenGetter) {
         QLiveDelegate.INSTANCE.init(context, config, tokenGetter);
@@ -33,6 +35,7 @@ public class QLive {
 
     /**
      * 登陆
+     * 认证成功后才能使用qlive的功能
      * @param callBack
      */
     public static void auth(@NotNull QLiveCallBack<Void> callBack) {
@@ -41,9 +44,8 @@ public class QLive {
 
     /**
      * 跟新用户信息
-     *
-     * @param userInfo
-     * @param callBack
+     * @param userInfo 用户参数
+     * @param callBack 回调函数
      */
     public static void setUser(@NotNull QUserInfo userInfo, @NotNull QLiveCallBack<Void> callBack) {
         QLiveUser user = new QLiveUser();
@@ -53,22 +55,42 @@ public class QLive {
         QLiveDelegate.INSTANCE.setUser(user, callBack);
     }
 
+    /**
+     * 获取当前登陆用户资料
+     * @return
+     */
     public static QLiveUser getLoginUser() {
         return UserDataSource.loginUser;
     }
 
+    /**
+     * 创建推流客户端
+     * @return QPusherClient
+     */
     public static QPusherClient createPusherClient() {
         return QPusherClientImpl.Companion.create();
     }
 
+    /**
+     * 创建拉流客户端
+     * @return QPlayerClient
+     */
     public static QPlayerClient createPlayerClient() {
         return QPlayerClientImpl.Companion.create();
     }
 
+    /**
+     * 获取房间管理接口
+     * @return  QRooms
+     */
     public static QRooms getRooms() {
         return QLiveDelegate.INSTANCE.getQRooms();
     }
 
+    /**
+     * 获得UIkit
+     * @return QLiveUIKit
+     */
     public static QLiveUIKit getLiveUIKit() {
         return QLiveDelegate.INSTANCE.getUIKIT();
     }

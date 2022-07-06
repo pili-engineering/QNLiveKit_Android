@@ -103,10 +103,10 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
 
     /**
      * 设置混流适配器
-     * @param QMixStreamAdapter
+     * @param mixStreamAdapter
      */
-    override fun setMixStreamAdapter(QMixStreamAdapter: QAnchorHostMicHandler.QMixStreamAdapter?) {
-        mQMixStreamAdapter = QMixStreamAdapter
+    override fun setMixStreamAdapter(mixStreamAdapter: QAnchorHostMicHandler.QMixStreamAdapter) {
+        mQMixStreamAdapter = mixStreamAdapter
     }
 
     override fun attachRoomClient(client: QLiveClient) {

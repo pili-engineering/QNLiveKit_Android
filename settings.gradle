@@ -49,3 +49,4 @@ include ':uikit-uicomponnets:uikit-beauty'
 include ':uikit-uicomponnets:sensehook'
 //include ':uikit-uicomponnets:sense_beauty'
 
+include ':service:shoppingservice'

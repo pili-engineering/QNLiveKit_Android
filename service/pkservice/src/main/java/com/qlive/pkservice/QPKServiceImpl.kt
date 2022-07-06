@@ -426,15 +426,6 @@ class QPKServiceImpl : QPKService, BaseService() {
         mServiceListeners.remove(QPKServiceListener)
     }
 
-    /**
-     * 跟新扩展自定义字段
-     *
-     * @param extension
-     */
-    override fun updatePKExtension(extension: QExtension, callBack: QLiveCallBack<Void>?) {
-
-    }
-
     override fun start(
         timeoutTimestamp: Long,
         receiverRoomID: String,

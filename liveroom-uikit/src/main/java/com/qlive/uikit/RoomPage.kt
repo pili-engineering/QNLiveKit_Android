@@ -13,7 +13,7 @@ import com.qlive.uikitlinkmic.*
 import com.qlive.uikitpk.ShowPKApplyFunctionComponent
 
 /**
- * 房间页面
+ * Room page
  */
 class RoomPage : QPage {
 
@@ -38,7 +38,9 @@ class RoomPage : QPage {
     val anchorOfflineMonitorComponent = QLiveFunctionComponent(AnchorOfflineMonitorComponent())
 
     /**
-     * 注册自定义功能组件  事件处理组件无UI
+     * Add function component
+     *
+     * @param component
      */
     fun addFunctionComponent(component: QLiveComponent) {
         KITFunctionInflaterFactory.functionComponents.add(component)
@@ -46,7 +48,11 @@ class RoomPage : QPage {
 
 
     /**
-     * 根据QLiveRoomInfo自动判断跳转主播页面还是观众页面
+     * Start room activity
+     *
+     * @param context
+     * @param roomInfo
+     * @param callBack
      */
     fun startRoomActivity(
         context: Context,
@@ -61,7 +67,11 @@ class RoomPage : QPage {
     }
 
     /**
-     * 跳转观众直播间
+     * Start player room activity
+     *
+     * @param context
+     * @param liveRoomId
+     * @param callBack
      */
     fun startPlayerRoomActivity(
         context: Context,
@@ -72,7 +82,11 @@ class RoomPage : QPage {
     }
 
     /**
-     * 跳转已经存在的主播直播间
+     * Start anchor room activity
+     *
+     * @param context
+     * @param liveRoomId
+     * @param callBack
      */
     fun startAnchorRoomActivity(
         context: Context,
@@ -83,7 +97,10 @@ class RoomPage : QPage {
     }
 
     /**
-     * 跳转主播开播预览页面
+     * Start anchor room with preview
+     *
+     * @param context
+     * @param callBack
      */
     fun startAnchorRoomWithPreview(context: Context, callBack: QLiveCallBack<QLiveRoomInfo>?) {
         RoomPushActivity.start(context, callBack)
@@ -107,5 +124,4 @@ class RoomPage : QPage {
             field = value
             RoomPullActivity.replaceLayoutId = value
         }
-
 }

@@ -48,8 +48,7 @@ class PKPlayerPreview : QKitFrameLayout {
         }
 
         override fun onStartTimeOut(pkSession: QPKSession) {}
-        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {
-        }
+
     }
 
     private var mQPlayerEventListener = object : QPlayerEventListener {
@@ -172,7 +171,7 @@ class PKAnchorPreview : QKitFrameLayout {
         }
 
         override fun onStartTimeOut(pkSession: QPKSession) {}
-        override fun onPKExtensionUpdate(pkSession: QPKSession, extension: QExtension) {}
+
     }
 
     override fun getLayoutId(): Int {
