@@ -3,7 +3,7 @@ package com.qlive.chatservice;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * The interface Q chat room service listener.
+ *  聊天室监听
  */
 public interface QChatRoomServiceListener {
 
