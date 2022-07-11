@@ -53,7 +53,7 @@
                     android:id="@+id/tvAnchorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="#ffffff"
                     android:layout_marginStart="4dp"
                     tools:text="王老五" />
             </LinearLayout>
@@ -82,7 +82,7 @@
                     android:id="@+id/ivAudienceName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="#ffffff"
                     android:layout_marginStart="4dp"
                     tools:text="王老五" />
             </LinearLayout>

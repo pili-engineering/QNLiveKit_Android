@@ -25,6 +25,7 @@ include ':service:chatservice'
 include ':service:danmakuservice'
 include ':service:publicchatservice'
 include ':service:roomservice'
+include ':service:shoppingservice'
 
 include ':uikit-uicomponnets:uikit-user'
 include ':uikit-uicomponnets:uikit-danmaku'
@@ -49,4 +50,4 @@ include ':uikit-uicomponnets:uikit-beauty'
 include ':uikit-uicomponnets:sensehook'
 //include ':uikit-uicomponnets:sense_beauty'
 
-include ':service:shoppingservice'
+
