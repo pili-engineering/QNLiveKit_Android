@@ -4,12 +4,6 @@ import android.view.Surface
 import android.view.View
 
 
-interface QPlayerRenderView {
-    fun setRenderCallback(rendCallback: QRenderCallback)
-    fun setDisplayAspectRatio(previewMode: PreviewMode)
-    fun getView(): View;
-    fun getSurface():Surface?
-}
 
 interface QRenderCallback {
     fun onSurfaceCreated(var1: Surface, var2: Int, var3: Int)

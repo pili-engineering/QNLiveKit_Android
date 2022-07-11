@@ -2,7 +2,7 @@ package com.qlive.linkmicservice
 
 import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
-import com.qlive.avparam.CameraMergeOption
+import com.qlive.avparam.QMixStreaming
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QExtension
@@ -12,7 +12,7 @@ import com.qlive.rtclive.MixType
 class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHostMicHandler,
     BaseService() {
 
-    private var mQMixStreamAdapter: QAnchorHostMicHandler.QMixStreamAdapter? = null
+    private var mLinkMicMixStreamAdapter:QLinkMicMixStreamAdapter? = null
     private val mQLinkMicServiceListener = object :
         QLinkMicServiceListener {
 
@@ -20,10 +20,10 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
             context.mQRtcLiveRoom.mMixStreamManager
                 .roomUser++
             if (context.mQRtcLiveRoom.mMixStreamManager.mMixType == MixType.forward) {
-                val mix = mQMixStreamAdapter?.onMixStreamStart()
+                val mix = mLinkMicMixStreamAdapter?.onMixStreamStart()
                 context.mQRtcLiveRoom.mMixStreamManager.startMixStreamJob(mix)
             }
-            val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, true)
+            val ops = mLinkMicMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, true)
             if (ops?.isEmpty() == true) {
                 return
             }
@@ -52,7 +52,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
                 context.mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
             }
-            val ops = mQMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, false)
+            val ops = mLinkMicMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, false)
             if (ops?.isEmpty() == true) {
                 return
             }
@@ -88,7 +88,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
                 //关闭了摄像头
                 context.mQRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
                     micLinker.user.userId,
-                    CameraMergeOption(),
+                    QMixStreaming.CameraMergeOption(),
                     true
                 )
             }
@@ -103,10 +103,10 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
 
     /**
      * 设置混流适配器
-     * @param mixStreamAdapter
+     * @param linkMicMixStreamAdapter
      */
-    override fun setMixStreamAdapter(mixStreamAdapter: QAnchorHostMicHandler.QMixStreamAdapter) {
-        mQMixStreamAdapter = mixStreamAdapter
+    override fun setMixStreamAdapter(linkMicMixStreamAdapter:QLinkMicMixStreamAdapter) {
+        mLinkMicMixStreamAdapter = linkMicMixStreamAdapter
     }
 
     override fun attachRoomClient(client: QLiveClient) {
@@ -119,7 +119,7 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
     }
 
     override fun onDestroyed() {
-        mQMixStreamAdapter = null
+        mLinkMicMixStreamAdapter = null
         super.onDestroyed()
     }
 

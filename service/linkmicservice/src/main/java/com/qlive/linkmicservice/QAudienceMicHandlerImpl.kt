@@ -49,7 +49,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
 
     private val mLinkDateSource = LinkDateSource()
     private var mPlayer: QIPlayer? = null
-    private val mQLinkMicListeners = ArrayList<QAudienceMicHandler.QLinkMicListener>()
+    private val mLinkMicHandlerListeners = ArrayList<QAudienceMicHandler.LinkMicHandlerListener>()
     private val mMeLinker: QMicLinker?
         get() {
             return context.getMicLinker(user?.userId ?: "hjhb")
@@ -127,12 +127,12 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         }
     }
 
-    override fun addLinkMicListener(listener: QAudienceMicHandler.QLinkMicListener) {
-        mQLinkMicListeners.add(listener)
+    override fun addLinkMicListener(listener: QAudienceMicHandler.LinkMicHandlerListener) {
+        mLinkMicHandlerListeners.add(listener)
     }
 
-    override fun removeLinkMicListener(listener: QAudienceMicHandler.QLinkMicListener) {
-        mQLinkMicListeners.remove(listener)
+    override fun removeLinkMicListener(listener: QAudienceMicHandler.LinkMicHandlerListener) {
+        mLinkMicHandlerListeners.remove(listener)
     }
 
     private val mAudienceExtQNClientEventListener = object : DefaultExtQNClientEventListener {
@@ -140,7 +140,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
             p0: QNConnectionState,
             p1: QNConnectionDisconnectedInfo?
         ) {
-            mQLinkMicListeners.forEach {
+            mLinkMicHandlerListeners.forEach {
                 it.onConnectionStateChanged(p0.toQConnectionState())
             }
             if (p0 == QNConnectionState.DISCONNECTED) {
@@ -167,7 +167,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
     }
 
     override fun onDestroyed() {
-        mQLinkMicListeners.clear()
+        mLinkMicHandlerListeners.clear()
         super.onDestroyed()
         context.mQRtcLiveRoom.close()
     }
@@ -217,7 +217,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
 //                    }
 //                }
                 context.mQRtcLiveRoom.publishLocal()
-                mQLinkMicListeners.forEach {
+                mLinkMicHandlerListeners.forEach {
                     it.onRoleChange(true)
                 }
                 context.mExtQNClientEventListener.onUserJoined(
@@ -297,7 +297,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                 // }
                 Log.d("QNAudience", "下麦 1")
                 context.removeLinker(user!!.userId)
-                mQLinkMicListeners.forEach {
+                mLinkMicHandlerListeners.forEach {
                     it.onRoleChange(false)
                 }
                 mPlayer?.onLinkStatusChange(false)

@@ -1,6 +1,7 @@
 package com.qlive.sdk;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.qlive.core.QSdkConfig;
 import com.qlive.core.been.QLiveUser;
@@ -25,7 +26,7 @@ public class QLive {
 
     /**
      * 初始化
-     * @param context 安卓上下午
+     * @param context 安卓上下文
      * @param config  sdk配置
      * @param tokenGetter token获取
      */
@@ -34,9 +35,9 @@ public class QLive {
     }
 
     /**
-     * 登陆
-     * 认证成功后才能使用qlive的功能
-     * @param callBack
+     * 登陆 认证成功后才能使用qlive的功能
+     * @apiNote 认证成功后才能使用qlive的功能
+     * @param callBack 操作回调
      */
     public static void auth(@NotNull QLiveCallBack<Void> callBack) {
         QLiveDelegate.INSTANCE.login(callBack);
@@ -57,7 +58,7 @@ public class QLive {
 
     /**
      * 获取当前登陆用户资料
-     * @return
+     * @return QLiveUser
      */
     public static QLiveUser getLoginUser() {
         return UserDataSource.loginUser;

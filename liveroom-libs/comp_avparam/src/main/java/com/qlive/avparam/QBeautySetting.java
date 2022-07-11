@@ -1,7 +1,7 @@
 package com.qlive.avparam;
 
 public class QBeautySetting {
-    public static final String TAG = "QNBeautySetting";
+
     private boolean mEnabled = true;
     /**
      * 磨皮
@@ -26,6 +26,9 @@ public class QBeautySetting {
         return this.mEnabled;
     }
 
+    /**
+     * 设置是否可用
+     */
     public void setEnable(boolean enable) {
         this.mEnabled = enable;
     }
@@ -34,6 +37,10 @@ public class QBeautySetting {
         return this.mSmooth;
     }
 
+    /**
+     * 磨皮等级
+     * @param smoothLevel  0.0 -1.0
+     */
     public void setSmoothLevel(float smoothLevel) {
         this.mSmooth = smoothLevel;
     }
@@ -42,6 +49,10 @@ public class QBeautySetting {
         return this.mWhiten;
     }
 
+    /**
+     * 设置美白等级
+     * @param whiten  0.0 -1.0
+     */
     public void setWhiten(float whiten) {
         this.mWhiten = whiten;
     }
@@ -50,6 +61,10 @@ public class QBeautySetting {
         return this.mRedden;
     }
 
+    /**
+     * 设置红润等级  0.0 -1.0
+     * @param redden
+     */
     public void setRedden(float redden) {
         this.mRedden = redden;
     }

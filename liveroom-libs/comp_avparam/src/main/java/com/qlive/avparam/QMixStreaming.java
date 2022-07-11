@@ -1,15 +1,15 @@
 package com.qlive.avparam;
 
-public class MixStreaming {
+public class QMixStreaming {
     /**
      * 混流画布参数
      */
-    public static class QMixStreamParams {
+    public static class MixStreamParams {
         private int mixStreamWidth = 0;
         private int mixStringHeight = 0;
         private int mixBitrate = 3420 * 1000;
         private int FPS = 25;
-        private QTranscodingLiveStreamingImage backGroundImg = null;
+        private TranscodingLiveStreamingImage backGroundImg = null;
 
         public int getMixStreamWidth() {
             return mixStreamWidth;
@@ -43,11 +43,15 @@ public class MixStreaming {
             this.FPS = FPS;
         }
 
-        public QTranscodingLiveStreamingImage getBackGroundImg() {
+        public TranscodingLiveStreamingImage getBackGroundImg() {
             return backGroundImg;
         }
 
-        public void setBackGroundImg(QTranscodingLiveStreamingImage backGroundImg) {
+        /**
+         * 设置背景图片
+         * @param backGroundImg 背景图片
+         */
+        public void setBackGroundImg(TranscodingLiveStreamingImage backGroundImg) {
             this.backGroundImg = backGroundImg;
         }
     }
@@ -55,7 +59,7 @@ public class MixStreaming {
     /**
      * 背景图片
      */
-    public static class QTranscodingLiveStreamingImage {
+    public static class TranscodingLiveStreamingImage {
         private String url = "";
         private int x = 0;
          private int y = 0;
@@ -107,19 +111,13 @@ public class MixStreaming {
     public static interface TrackMergeOption {
     }
 
-    public static class MicrophoneMergeOption implements TrackMergeOption {
-         private boolean isNeed = false;
-
-        public boolean isNeed() {
-            return isNeed;
-        }
-
-        public void setNeed(boolean need) {
-            isNeed = need;
-        }
-    }
-
+    /**
+     * 摄像头混流参数
+     */
     public static class CameraMergeOption implements TrackMergeOption {
+        /**
+         * 是否参与混流
+         */
          private boolean isNeed = false;
          private int x = 0;
          private int y = 0;
@@ -128,11 +126,14 @@ public class MixStreaming {
          private int height = 0;
         // var stretchMode: QNRenderMode? = null
 
-
         public boolean isNeed() {
             return isNeed;
         }
 
+        /**
+         * 设置 是否参与混流
+         * @param need 是否参与混流
+         */
         public void setNeed(boolean need) {
             isNeed = need;
         }
@@ -178,7 +179,11 @@ public class MixStreaming {
         }
     }
 
-    public static class QMergeOption {
+    /**
+     * 某个用户的混流参数
+     * 只需要指定用户ID 和他的摄像头麦克风混流参数
+     */
+    public static class MergeOption {
          private String uid = "";
          private CameraMergeOption cameraMergeOption = new CameraMergeOption();
          private MicrophoneMergeOption microphoneMergeOption = new MicrophoneMergeOption();
@@ -187,6 +192,10 @@ public class MixStreaming {
             return uid;
         }
 
+        /**
+         * 当前混流参数作用于哪个用户
+         * @param uid 用户ID
+         */
         public void setUid(String uid) {
             this.uid = uid;
         }
@@ -195,6 +204,10 @@ public class MixStreaming {
             return cameraMergeOption;
         }
 
+        /**
+         * 设置麦克风混流参数
+         * @param cameraMergeOption 麦克风参数
+         */
         public void setCameraMergeOption(CameraMergeOption cameraMergeOption) {
             this.cameraMergeOption = cameraMergeOption;
         }
@@ -203,8 +216,30 @@ public class MixStreaming {
             return microphoneMergeOption;
         }
 
+        /**
+         * 设置摄像头混流参数
+         * @param microphoneMergeOption 摄像头参数
+         */
         public void setMicrophoneMergeOption(MicrophoneMergeOption microphoneMergeOption) {
             this.microphoneMergeOption = microphoneMergeOption;
+        }
+    }
+
+    /**
+     * 麦克风混流参数
+     */
+    public static class MicrophoneMergeOption implements TrackMergeOption {
+        private boolean isNeed = false;
+
+        public boolean isNeed() {
+            return isNeed;
+        }
+        /**
+         * 设置 是否参与混流
+         * @param need 是否参与混流
+         */
+        public void setNeed(boolean need) {
+            isNeed = need;
         }
     }
 }

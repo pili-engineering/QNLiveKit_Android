@@ -57,7 +57,7 @@ public interface QPKService extends QLiveService {
 
     /**
      * 获得pk邀请处理
-     * @return
+     * @return pk邀请处理
      */
     QInvitationHandler getInvitationHandler();
     /**

@@ -1,3 +1,5 @@
+package com.qlive.core;
+
 /**
  * 直播状态枚举
  */

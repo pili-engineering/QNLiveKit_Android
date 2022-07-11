@@ -15,11 +15,7 @@ import com.qlive.pkservice.QPKService
 import com.qlive.pkservice.QPKMixStreamAdapter
 import com.qlive.pkservice.QPKServiceListener
 import com.qlive.core.been.QPKSession
-import com.qlive.core.QClientType
 import com.qlive.playerclient.QPlayerClient
-import com.qlive.core.been.QExtension
-import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.LinkerUIHelper
 import com.qlive.uikitcore.QKitFrameLayout
 import kotlinx.android.synthetic.main.kit_anchor_pk_preview.view.*
@@ -122,16 +118,16 @@ class PKAnchorPreview : QKitFrameLayout {
     //混流适配
     private val mQPKMixStreamAdapter = object : QPKMixStreamAdapter {
 
-        override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMergeOption> {
+        override fun onPKLinkerJoin(pkSession: QPKSession): MutableList<QMixStreaming.MergeOption> {
             return LinkerUIHelper.getPKMixOp(pkSession, user!!)
         }
 
-        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreamParams? {
-            return QMixStreamParams().apply {
+        override fun onPKMixStreamStart(pkSession: QPKSession): QMixStreaming.MixStreamParams? {
+            return QMixStreaming.MixStreamParams().apply {
                 mixStreamWidth = LinkerUIHelper.pkMixWidth
                 mixStringHeight = LinkerUIHelper.pkMixHeight
                 mixBitrate = 1500 * 1000
-                FPS = 25
+                fps = 25
             }
         }
     }

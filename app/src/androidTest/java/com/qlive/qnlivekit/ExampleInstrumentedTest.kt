@@ -21,4 +21,8 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.qiniu.qnlivekit", appContext.packageName)
     }
+
+    fun buildDoc(){
+        System.out.println("文档生产")
+    }
 }

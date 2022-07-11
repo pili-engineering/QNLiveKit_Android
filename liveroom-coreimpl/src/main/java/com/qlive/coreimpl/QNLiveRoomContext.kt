@@ -1,7 +1,6 @@
 package com.qlive.coreimpl
 
 import com.qlive.core.QClientLifeCycleListener
-import com.qlive.core.QClientType
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser

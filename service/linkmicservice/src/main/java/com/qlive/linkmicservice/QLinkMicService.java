@@ -18,25 +18,25 @@ public interface QLinkMicService extends QLiveService {
 
     /**
      * 获取当前房间所有连麦用户
-     * @return
+     * @return 所有连麦者信息
      */
     List<QMicLinker> getAllLinker();
 
     /**
      * 设置某人的连麦视频预览
      * 麦上用户调用  上麦后才会使用切换成rtc连麦 下麦后使用拉流预览
-     * @param uid 用户ID
+     * @param uID 用户ID
      * @param preview 预览窗口
      */
-    void setUserPreview(String uid, QPushRenderView preview);
+    void setUserPreview(String uID, QPushRenderView preview);
 
     /**
      * 踢人
-     * @param uid 用户ID
+     * @param uID 用户ID
      * @param msg 附加消息
      * @param callBack  操作回调
      */
-    void kickOutUser(String uid, String msg, QLiveCallBack<Void> callBack);
+    void kickOutUser(String uID, String msg, QLiveCallBack<Void> callBack);
 
     /**
      * 跟新扩展字段

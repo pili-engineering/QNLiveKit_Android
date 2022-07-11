@@ -11,7 +11,6 @@ import com.qlive.avparam.QPlayerRenderView
 import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.core.*
-import com.qlive.core.QClientType
 import com.qlive.coreimpl.util.backGround
 import com.qlive.core.QLiveService
 import com.qlive.core.been.QLiveRoomInfo
