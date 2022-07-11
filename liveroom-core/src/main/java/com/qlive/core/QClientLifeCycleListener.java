@@ -6,7 +6,7 @@ import com.qlive.core.been.QLiveUser;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 房间生命周期
+ * ui组件实现的房间生命周期
  */
 public interface QClientLifeCycleListener {
 
@@ -32,6 +32,4 @@ public interface QClientLifeCycleListener {
      * 销毁
      */
     void onDestroyed();
-
-
 }

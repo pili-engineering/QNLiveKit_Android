@@ -7,16 +7,11 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.qlive.avparam.QMergeOption
-import com.qlive.avparam.QMixStreamParams
-import com.qlive.linkmicservice.QAnchorHostMicHandler
-import com.qlive.linkmicservice.QAudienceMicHandler
-import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.linkmicservice.QLinkMicServiceListener
+import com.qlive.avparam.QMixStreaming
 import com.qlive.core.been.QMicLinker
 import com.qlive.core.*
-import com.qlive.core.QClientType
 import com.qlive.core.been.QExtension
+import com.qlive.linkmicservice.*
 import com.qlive.rtclive.QPushTextureView
 import com.qlive.uikitcore.*
 import com.qlive.uikitcore.ext.asToast
@@ -112,7 +107,8 @@ open class MicLinkersView : QKitFrameLayout {
     }
 
     //观众端连麦监听
-    private val mQAudienceMicHandler = object : QAudienceMicHandler.QLinkMicListener {
+    private val mQAudienceMicHandler = object :
+        QAudienceMicHandler.LinkMicHandlerListener {
         /**
          * 本地角色变化
          */
@@ -129,14 +125,15 @@ open class MicLinkersView : QKitFrameLayout {
     }
 
     //连麦混流适配器
-    private val mQMixStreamAdapter =
-        object : QAnchorHostMicHandler.QMixStreamAdapter {
+    private val mLinkMicMixStreamAdapter =
+        object :
+            QLinkMicMixStreamAdapter {
             /**
              * 连麦开始如果要自定义混流画布和背景
              * 返回空则主播推流分辨率有多大就多大默认实现
              * @return
              */
-            override fun onMixStreamStart(): QMixStreamParams? {
+            override fun onMixStreamStart(): QMixStreaming.MixStreamParams? {
                 return null
             }
 
@@ -149,7 +146,7 @@ open class MicLinkersView : QKitFrameLayout {
                 micLinkers: MutableList<QMicLinker>,
                 target: QMicLinker,
                 isJoin: Boolean
-            ): MutableList<QMergeOption> {
+            ): MutableList<QMixStreaming.MergeOption> {
                 return LinkerUIHelper.getLinkersMixOp(micLinkers, roomInfo!!)
             }
         }
@@ -164,7 +161,7 @@ open class MicLinkersView : QKitFrameLayout {
             mLinkersView.setRole(true)
             //我是主播
             client!!.getService(QLinkMicService::class.java).anchorHostMicHandler.setMixStreamAdapter(
-                mQMixStreamAdapter
+                mLinkMicMixStreamAdapter
             )
         } else {
             //我是观众

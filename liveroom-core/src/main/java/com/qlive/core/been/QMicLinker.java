@@ -10,10 +10,18 @@ import java.util.HashMap;
  */
 public class QMicLinker implements Serializable {
 
+    /**
+     * 麦上用户资料
+     */
     public QLiveUser user;
     @JSONField(name = "live_id")
-    public String userRoomID; //连麦用户所在房间ID
-    //扩展字段
+    /**
+     * 连麦用户所在房间ID
+     */
+    public String userRoomID;
+    /**
+     * 扩展字段
+     */
     @JSONField(name = "extends")
     public HashMap<String, String> extension;
 

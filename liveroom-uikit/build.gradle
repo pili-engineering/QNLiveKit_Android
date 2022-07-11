@@ -34,10 +34,10 @@ android {
 //编译sdk模式
 def buidSdk = false
 
-fataar {
-    transitive = true
-}
-//
+//fataar {
+//    transitive = true
+//}
+////
 //def version = 'qlive-uikit-1.0.0'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')

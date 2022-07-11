@@ -3,7 +3,7 @@ package com.qlive.uikit
 import com.qlive.sdk.QPage
 
 /**
- * 房间列表页面
+ * Room list page
  */
 class RoomListPage : QPage {
     /**
@@ -14,5 +14,4 @@ class RoomListPage : QPage {
         field = value
         RoomListActivity.replaceLayoutID = value
     }
-
 }

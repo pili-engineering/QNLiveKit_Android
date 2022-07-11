@@ -14,10 +14,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.bumptech.glide.Glide;
-import com.qlive.avparam.CameraMergeOption;
-import com.qlive.avparam.MicrophoneMergeOption;
-import com.qlive.avparam.QMergeOption;
-import com.qlive.avparam.QMixStreamParams;
+
+import com.qlive.avparam.QMixStreaming;
 import com.qlive.avparam.QPlayerEventListener;
 import com.qlive.avparam.QRoomConnectionState;
 import com.qlive.core.QClientType;
@@ -25,8 +23,8 @@ import com.qlive.core.been.QExtension;
 import com.qlive.core.been.QLiveRoomInfo;
 import com.qlive.core.been.QLiveUser;
 import com.qlive.core.been.QMicLinker;
-import com.qlive.linkmicservice.QAnchorHostMicHandler;
 import com.qlive.linkmicservice.QAudienceMicHandler;
+import com.qlive.linkmicservice.QLinkMicMixStreamAdapter;
 import com.qlive.linkmicservice.QLinkMicService;
 import com.qlive.linkmicservice.QLinkMicServiceListener;
 import com.qlive.playerclient.QPlayerClient;
@@ -173,11 +171,11 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
         /**
          * 混流适配
          */
-        private final QAnchorHostMicHandler.QMixStreamAdapter mixStreamAdapter = new QAnchorHostMicHandler.QMixStreamAdapter() {
+        private final QLinkMicMixStreamAdapter linkMicMixStreamAdapter = new QLinkMicMixStreamAdapter() {
             @Override
-            public QMixStreamParams onMixStreamStart() {
+            public QMixStreaming.MixStreamParams onMixStreamStart() {
                 //连麦开始 双人连麦 混流分辨率 720 ，419 ->
-                QMixStreamParams params = new QMixStreamParams();
+                QMixStreaming.MixStreamParams params = new QMixStreaming.MixStreamParams();
                 params.setMixStreamWidth(720);
                 params.setMixStringHeight(419);
 
@@ -187,11 +185,11 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
             }
 
             @Override
-            public List<QMergeOption> onResetMixParam(List<QMicLinker> list, QMicLinker qMicLinker, boolean b) {
-                QMergeOption anchor = new QMergeOption();
+            public List<QMixStreaming.MergeOption> onResetMixParam(List<QMicLinker> list, QMicLinker qMicLinker, boolean b) {
+                QMixStreaming.MergeOption anchor = new QMixStreaming.MergeOption();
 
                 //主播摄像头
-                CameraMergeOption anchorCameraMergeOption = new CameraMergeOption();
+                QMixStreaming.CameraMergeOption anchorCameraMergeOption = new QMixStreaming.CameraMergeOption();
                 anchorCameraMergeOption.setWidth(720 / 2);
                 anchorCameraMergeOption.setHeight(419);
                 anchorCameraMergeOption.setNeed(true);
@@ -199,7 +197,7 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
                 anchorCameraMergeOption.setY(0);
                 anchorCameraMergeOption.setZ(0);
                 //主播麦克风
-                MicrophoneMergeOption anchorMicrophoneMergeOption = new MicrophoneMergeOption();
+                QMixStreaming.MicrophoneMergeOption anchorMicrophoneMergeOption = new QMixStreaming.MicrophoneMergeOption();
                 anchorMicrophoneMergeOption.setNeed(true);
                 //主播
                 anchor.setCameraMergeOption(anchorCameraMergeOption);
@@ -207,9 +205,9 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
                 anchor.setUid(list.get(0).user.userId);
 
 
-                QMergeOption player = new QMergeOption();
+                QMixStreaming.MergeOption player = new QMixStreaming.MergeOption();
                 //观众摄像头
-                CameraMergeOption playerCameraMergeOption = new CameraMergeOption();
+                QMixStreaming.CameraMergeOption playerCameraMergeOption = new QMixStreaming.CameraMergeOption();
                 playerCameraMergeOption.setWidth(720 / 2);
                 playerCameraMergeOption.setHeight(419);
                 playerCameraMergeOption.setNeed(true);
@@ -217,14 +215,14 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
                 playerCameraMergeOption.setY(0);
                 playerCameraMergeOption.setZ(0);
                 //观众麦克风
-                MicrophoneMergeOption playerMicrophoneMergeOption = new MicrophoneMergeOption();
+                QMixStreaming.MicrophoneMergeOption playerMicrophoneMergeOption = new QMixStreaming.MicrophoneMergeOption();
                 playerMicrophoneMergeOption.setNeed(true);
                 //观众
                 player.setCameraMergeOption(playerCameraMergeOption);
                 player.setMicrophoneMergeOption(playerMicrophoneMergeOption);
                 player.setUid(list.get(1).user.userId);
 
-                List<QMergeOption> mergeOptions = new ArrayList<>();
+                List<QMixStreaming.MergeOption> mergeOptions = new ArrayList<>();
                 mergeOptions.add(anchor);
                 mergeOptions.add(player);
                 return mergeOptions;
@@ -308,7 +306,7 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
             //添加麦位监听
             Objects.requireNonNull(getClient()).getService(QLinkMicService.class).addMicLinkerListener(micServiceListener);
             //主播监听混流适配
-            getClient().getService(QLinkMicService.class).getAnchorHostMicHandler().setMixStreamAdapter(mixStreamAdapter);
+            getClient().getService(QLinkMicService.class).getAnchorHostMicHandler().setMixStreamAdapter(linkMicMixStreamAdapter);
         }
     }
 
@@ -334,7 +332,7 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
         /**
          * 用户端连麦处理监听
          */
-        private final QAudienceMicHandler.QLinkMicListener micListener = new QAudienceMicHandler.QLinkMicListener() {
+        private final QAudienceMicHandler.LinkMicHandlerListener micListener = new QAudienceMicHandler.LinkMicHandlerListener() {
             @Override
             public void onConnectionStateChanged(@NonNull QRoomConnectionState qRoomConnectionState) {
                 //我的连麦链接状态

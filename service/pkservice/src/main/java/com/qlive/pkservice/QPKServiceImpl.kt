@@ -10,14 +10,11 @@ import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qiniu.droid.rtc.*
 import com.qlive.jsonutil.JsonUtils
-import com.qlive.rtclive.QPushRenderView
 import com.qlive.core.*
 import com.qlive.core.QLiveLogUtil
-import com.qlive.core.QClientType
 import com.qlive.coreimpl.BaseService
 import com.qlive.avparam.RtcException
 import com.qlive.coreimpl.*
-import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.core.been.QPKSession
@@ -25,6 +22,7 @@ import com.qlive.coreimpl.datesource.PKDateSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.util.backGround
 import com.qlive.coreimpl.util.getCode
+import com.qlive.rtclive.QPushRenderView
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.util.*
@@ -424,15 +422,6 @@ class QPKServiceImpl : QPKService, BaseService() {
 
     override fun removeServiceListener(QPKServiceListener: QPKServiceListener) {
         mServiceListeners.remove(QPKServiceListener)
-    }
-
-    /**
-     * 跟新扩展自定义字段
-     *
-     * @param extension
-     */
-    override fun updatePKExtension(extension: QExtension, callBack: QLiveCallBack<Void>?) {
-
     }
 
     override fun start(

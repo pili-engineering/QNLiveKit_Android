@@ -320,6 +320,7 @@ public class FileUtils {
         List<String> filterModels = copyFilterModelFiles(context, index);
         Map<String, Bitmap> filterIcons = copyFilterIconFiles(context, index);
         List<String> filterNames = getFilterNames(context, index);
+
         if (filterModels.size() == 0) {
             return filterFiles;
         }

@@ -15,22 +15,22 @@ import java.util.HashMap;
 public interface QPKService extends QLiveService {
 
     /**
-     * 设置混流适配器
-     * @param adapter
+     * 主播设置混流适配器
+     * @param adapter  混流适配
      */
     void setPKMixStreamAdapter(QPKMixStreamAdapter adapter);
 
-    //添加监听
+    /**
+     * 添加pk监听
+     * @param QPKServiceListener
+     */
     void addServiceListener(QPKServiceListener QPKServiceListener);
 
-    void removeServiceListener(QPKServiceListener QPKServiceListener);
-
     /**
-     * 跟新扩展自定义字段
-     *
-     * @param QExtension
+     * 移除pk监听
+     * @param QPKServiceListener
      */
-    void updatePKExtension(QExtension QExtension, QLiveCallBack<Void> callBack);
+    void removeServiceListener(QPKServiceListener QPKServiceListener);
 
     /**
      * 开始pk
@@ -43,20 +43,22 @@ public interface QPKService extends QLiveService {
      */
     void start(long timeoutTimestamp, String receiverRoomID, String receiverUID, HashMap<String, String> extension, QLiveCallBack<QPKSession> callBack);
 
-    //结束
+    /**
+     * 结束pk
+     * @param callBack 操作回调
+     */
     void stop(QLiveCallBack<Void> callBack);
 
     /**
-     * 设置对方的连麦预览
-     * @param view
+     * 主播设置对方的连麦预览
+     * @param view  预览窗口
      */
     void setPeerAnchorPreView( QPushRenderView view);
 
     /**
      * 获得pk邀请处理
-     * @return
+     * @return pk邀请处理
      */
-
     QInvitationHandler getInvitationHandler();
     /**
      * 当前正在pk信息 没有PK则空

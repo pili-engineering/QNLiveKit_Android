@@ -1,7 +1,6 @@
 package com.qlive.pkservice;
 
-import com.qlive.avparam.QMergeOption;
-import com.qlive.avparam.QMixStreamParams;
+import com.qlive.avparam.QMixStreaming;
 import com.qlive.core.been.QPKSession;
 
 import org.jetbrains.annotations.NotNull;
@@ -19,31 +18,31 @@ public interface QPKMixStreamAdapter {
      * @param pkSession
      * @return 返回混流参数
      */
-    List<QMergeOption> onPKLinkerJoin(@NotNull QPKSession pkSession);
+    List<QMixStreaming.MergeOption> onPKLinkerJoin(@NotNull QPKSession pkSession);
 
     /**
      * pk开始时候混流画布变成多大
      *返回null则原来主播有多大就有多大
      * @param pkSession
-     * @return
+     * @return 混流背景参数
      */
-    QMixStreamParams onPKMixStreamStart(@NotNull QPKSession pkSession);
+    QMixStreaming.MixStreamParams onPKMixStreamStart(@NotNull QPKSession pkSession);
 
     /**
      * 当pk结束后如果还有其他普通连麦者 如何混流
      * 如果pk结束后没有其他连麦者 则不会回调
      *
-     * @return
+     * @return 混流参数
      */
-    default List<QMergeOption> onPKLinkerLeft() {
-        return new ArrayList<QMergeOption>();
+    default List<QMixStreaming.MergeOption> onPKLinkerLeft() {
+        return new ArrayList<QMixStreaming.MergeOption>();
 
     }
     /**
      * 当pk结束后如果还有其他普通连麦者 如何混流 如果pk结束后没有其他连麦者 则不会回调 返回空则默认之前的不变化
-     * @return
+     * @return 混流背景参数
      */
-    default QMixStreamParams onPKMixStreamStop() {
+    default QMixStreaming.MixStreamParams onPKMixStreamStop() {
         return null;
     }
 

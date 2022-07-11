@@ -8,8 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.qlive.core.been.QDanmaku
 import com.qlive.danmakuservice.QDanmakuService
-import com.qlive.danmakuservice.QDanmakuServiceListener
 import com.qlive.core.QLiveClient
+import com.qlive.danmakuservice.QDanmakuServiceListener
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.ext.ViewUtil

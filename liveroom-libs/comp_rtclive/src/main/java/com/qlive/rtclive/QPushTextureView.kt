@@ -23,10 +23,6 @@ open class QPushTextureView : FrameLayout, QPushRenderView {
         )
     }
 
-    override fun setMirror(var1: Boolean) {
-        renderView?.setMirror(var1)
-    }
-
     override fun getView(): View {
         return this
     }

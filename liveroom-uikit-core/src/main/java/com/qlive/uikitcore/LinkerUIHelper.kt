@@ -1,8 +1,6 @@
 package com.qlive.uikitcore
 
-import com.qlive.avparam.CameraMergeOption
-import com.qlive.avparam.MicrophoneMergeOption
-import com.qlive.avparam.QMergeOption
+import com.qlive.avparam.QMixStreaming
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.core.been.QMicLinker
@@ -89,9 +87,9 @@ object LinkerUIHelper {
     fun getLinkersMixOp(
         micLinkers: List<QMicLinker>,
         roomInfo: QLiveRoomInfo
-    ): ArrayList<QMergeOption> {
+    ): ArrayList<QMixStreaming.MergeOption> {
 
-        val ops = ArrayList<QMergeOption>()
+        val ops = ArrayList<QMixStreaming.MergeOption>()
         val lastX =
             mixWidth - mixMicWidth - micRightMixMargin
         var lastY = mixTopMargin
@@ -99,9 +97,9 @@ object LinkerUIHelper {
 
             //主播 0，0 ， 720 ，1280
             if (linker.user.userId == roomInfo.anchor?.userId) {
-                ops.add(QMergeOption().apply {
+                ops.add(QMixStreaming.MergeOption().apply {
                     uid = linker.user.userId
-                    cameraMergeOption = CameraMergeOption().apply {
+                    cameraMergeOption = QMixStreaming.CameraMergeOption().apply {
                         isNeed = true
                         x = 0
                         y = 0
@@ -110,15 +108,15 @@ object LinkerUIHelper {
                         height = mixHeight
                         // mStretchMode=QNRenderMode.
                     }
-                    microphoneMergeOption = MicrophoneMergeOption().apply {
+                    microphoneMergeOption = QMixStreaming.MicrophoneMergeOption().apply {
                         isNeed = true
                     }
                 })
             } else {
                 //用户 每个 右上角依次往下排列
-                ops.add(QMergeOption().apply {
+                ops.add(QMixStreaming.MergeOption().apply {
                     uid = linker.user.userId
-                    cameraMergeOption = CameraMergeOption().apply {
+                    cameraMergeOption = QMixStreaming.CameraMergeOption().apply {
                         isNeed = linker.isOpenCamera
                         x = lastX
                         y = lastY
@@ -128,7 +126,7 @@ object LinkerUIHelper {
                         // mStretchMode=QNRenderMode.
                     }
                     lastY += micBottomMixMargin + mixMicHeight
-                    microphoneMergeOption = MicrophoneMergeOption().apply {
+                    microphoneMergeOption = QMixStreaming.MicrophoneMergeOption().apply {
                         isNeed = true
                     }
                 })
@@ -144,16 +142,16 @@ object LinkerUIHelper {
     /**
      * PK混流 每个主播位置参数
      */
-    fun getPKMixOp(pkSession: QPKSession, user: QLiveUser): ArrayList<QMergeOption> {
-        val ops = ArrayList<QMergeOption>()
+    fun getPKMixOp(pkSession: QPKSession, user: QLiveUser): ArrayList<QMixStreaming.MergeOption> {
+        val ops = ArrayList<QMixStreaming.MergeOption>()
         val peer = if (pkSession.initiator.userId == user.userId) {
             pkSession.receiver
         } else {
             pkSession.initiator
         }
-        ops.add(QMergeOption().apply {
+        ops.add(QMixStreaming.MergeOption().apply {
             uid = user.userId
-            cameraMergeOption = CameraMergeOption().apply {
+            cameraMergeOption = QMixStreaming.CameraMergeOption().apply {
                 isNeed = true
                 x = 0
                 y = 0
@@ -162,13 +160,13 @@ object LinkerUIHelper {
                 height = pkMixHeight
                 // mStretchMode=QNRenderMode.
             }
-            microphoneMergeOption = MicrophoneMergeOption().apply {
+            microphoneMergeOption = QMixStreaming.MicrophoneMergeOption().apply {
                 isNeed = true
             }
         })
-        ops.add(QMergeOption().apply {
+        ops.add(QMixStreaming.MergeOption().apply {
             uid = peer.userId
-            cameraMergeOption = CameraMergeOption().apply {
+            cameraMergeOption = QMixStreaming.CameraMergeOption().apply {
                 isNeed = true
                 x = pkMixWidth / 2
                 y = 0
@@ -177,7 +175,7 @@ object LinkerUIHelper {
                 height = pkMixHeight
                 // mStretchMode=QNRenderMode.
             }
-            microphoneMergeOption = MicrophoneMergeOption().apply {
+            microphoneMergeOption = QMixStreaming.MicrophoneMergeOption().apply {
                 isNeed = true
             }
         })

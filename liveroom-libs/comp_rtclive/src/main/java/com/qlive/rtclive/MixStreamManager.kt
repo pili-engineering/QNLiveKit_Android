@@ -10,14 +10,14 @@ enum class MixType(var isStart: Boolean) {
 }
 
 class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
-    val lastUserMergeOp = HashMap<String, QMergeOption>()
+    val lastUserMergeOp = HashMap<String, QMixStreaming.MergeOption>()
     private var localVideoTrack: QNLocalVideoTrack? = null
     private var localAudioTrack: QNLocalAudioTrack? = null
-    var mQMixStreamParams: QMixStreamParams? = null
+    var mQMixStreamParams: QMixStreaming.MixStreamParams? = null
         private set
-    private val tracksMap = HashMap<String, TrackMergeOption>()
-    private val toDoAudioMergeOptionsMap = HashMap<String, TrackMergeOption>()
-    private val toDoVideoMergeOptionsMap = HashMap<String, TrackMergeOption>()
+    private val tracksMap = HashMap<String, QMixStreaming.TrackMergeOption>()
+    private val toDoAudioMergeOptionsMap = HashMap<String, QMixStreaming.TrackMergeOption>()
+    private val toDoVideoMergeOptionsMap = HashMap<String, QMixStreaming.TrackMergeOption>()
     private var streamId = ""
     private var pushUrl = ""
     private var serialnum = 1
@@ -46,7 +46,11 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         this.localAudioTrack = audioTrack
     }
 
-    fun init(streamId: String, pushUrl: String, QMixStreamParams: QMixStreamParams) {
+    fun init(
+        streamId: String,
+        pushUrl: String,
+        QMixStreamParams: QMixStreaming.MixStreamParams
+    ) {
         isInit = true
         this.mQMixStreamParams = QMixStreamParams
         this.pushUrl = pushUrl
@@ -158,19 +162,19 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
             height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mQMixStreamParams!!.FPS; // 设置合流任务的视频帧率
+            videoFrameRate = mQMixStreamParams!!.fps; // 设置合流任务的视频帧率
             bitrate = mQMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
         }
     }
 
-    private fun createMeop(mixStreamParams: QMixStreamParams): QNTranscodingLiveStreamingConfig {
+    private fun createMeop(mixStreamParams: QMixStreaming.MixStreamParams): QNTranscodingLiveStreamingConfig {
         return QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mixStreamParams.mixStreamWidth; // 设置合流画布的宽度
             height = mixStreamParams.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mixStreamParams!!.FPS; // 设置合流任务的视频帧率
+            videoFrameRate = mixStreamParams.fps; // 设置合流任务的视频帧率
 //            setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
             bitrate = mixStreamParams.mixBitrate; // 设置合流任务的码率，单位: kbps
             mixStreamParams.backGroundImg?.let { bg ->
@@ -229,7 +233,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     /**
      * 开始混流转推
      */
-    fun startMixStreamJob(mixStreamParams: QMixStreamParams?) {
+    fun startMixStreamJob(mixStreamParams: QMixStreaming.MixStreamParams?) {
         mMixType = MixType.mix
         mMixType.isStart = false
         Log.d("MixStreamHelperImp", "startMixStreamJob ")
@@ -252,7 +256,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     /**
      * 启动新的混流任务
      */
-    fun startPkMixStreamJob(mixStreamParams: QMixStreamParams?) {
+    fun startPkMixStreamJob(mixStreamParams: QMixStreaming.MixStreamParams?) {
         Log.d("MixStreamHelperImp", "startPkMixStreamJob ")
         clear()
         mMixType = MixType.pk
@@ -286,7 +290,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     fun updateUserVideoMergeOptions(
         uid: String,
-        option: CameraMergeOption?, commitNow: Boolean
+        option: QMixStreaming.CameraMergeOption?, commitNow: Boolean
     ) {
         val trackId = mQRtcLiveRoom.getUserVideoTrackInfo(uid)?.trackID
         if (trackId == null) {
@@ -315,7 +319,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     fun updateUserAudioMergeOptions(
         uid: String,
-        op: MicrophoneMergeOption, commitNow: Boolean
+        op: QMixStreaming.MicrophoneMergeOption, commitNow: Boolean
     ) {
         val trackId = mQRtcLiveRoom.getUserAudioTrackInfo(uid)?.trackID
         if (trackId == null) {
@@ -361,7 +365,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             tracksMap.entries.forEach {
                 val key = it.key
                 val op = it.value
-                if (op is CameraMergeOption) {
+                if (op is QMixStreaming.CameraMergeOption) {
                     val trackOp = QNTranscodingLiveStreamingTrack().apply {
                         trackID = key
                         x = op.x
@@ -372,14 +376,14 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
                         // renderMode = op.stretchMode
                     }
                     mMergeTrackOptions.add(trackOp)
-                    sb.append("${key} CameraMergeOption"+trackOp.toJsonObject().toString())
+                    sb.append("${key} CameraMergeOption" + trackOp.toJsonObject().toString())
                 }
-                if (op is MicrophoneMergeOption) {
+                if (op is QMixStreaming.MicrophoneMergeOption) {
                     val opTrack = QNTranscodingLiveStreamingTrack().apply {
                         trackID = key
                     }
                     mMergeTrackOptions.add(opTrack)
-                    sb.append("${key} MicrophoneMergeOption"+opTrack.toJsonObject().toString())
+                    sb.append("${key} MicrophoneMergeOption" + opTrack.toJsonObject().toString())
                 }
             }
             Log.d(

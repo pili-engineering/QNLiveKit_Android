@@ -3,17 +3,12 @@ package com.qlive.uikit.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.qlive.core.*
 import com.qlive.uikit.R
-import com.qlive.pushclient.QPusherClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.core.been.QCreateRoomParam
-import com.qlive.core.been.QLiveUser
 import com.qlive.sdk.QLive
-import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.ext.asToast
 import kotlinx.android.synthetic.main.kit_live_preview.view.*
 

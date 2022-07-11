@@ -5,19 +5,36 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.io.Serializable;
 import java.util.HashMap;
 
-//连麦邀请
+/**
+ * 邀请信息
+ */
 public class QInvitation implements Serializable {
 
+    /**
+     * 发起方
+     */
     public QLiveUser initiator;
+    /**
+     * 接收方
+     */
     public QLiveUser receiver;
+    /**
+     * 发起方所在房间ID
+     */
     @JSONField(name = "initiatorRoomId")
     public String initiatorRoomID;
+    /**
+     * 接收方所在房间ID
+     */
     @JSONField(name = "receiverRoomId")
     public String receiverRoomID;
+    /**
+     * 扩展字段
+     */
     public HashMap<String, String> extension;
-    //连麦类型 用户向主播连麦  / 主播跨房连麦
-    public int linkType;
-
+    /**
+     * 邀请ID
+     */
     @JSONField(serialize = false)
     public int invitationID;
 

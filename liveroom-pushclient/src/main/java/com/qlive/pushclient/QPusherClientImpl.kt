@@ -12,7 +12,6 @@ import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.coreimpl.util.backGround
 import com.qlive.core.*
-import com.qlive.core.QClientType
 import com.qlive.core.QLiveService
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.coreimpl.datesource.RoomDataSource
@@ -113,11 +112,11 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
                     mRtcRoom.mMixStreamManager.init(
                         roomID,
                         roomInfo.pushURL,
-                        QMixStreamParams().apply {
+                        QMixStreaming.MixStreamParams().apply {
                             this.mixStreamWidth = mCameraParams.width
                             this.mixStringHeight = mCameraParams.height
                             this.mixBitrate = mCameraParams.bitrate
-                            this.FPS = mCameraParams.FPS
+                            this.fps = mCameraParams.FPS
                         })
                     mRtcRoom.mMixStreamManager.setTrack(
                         mRtcRoom.localVideoTrack,
