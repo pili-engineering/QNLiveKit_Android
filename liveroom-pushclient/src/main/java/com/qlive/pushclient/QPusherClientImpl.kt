@@ -116,7 +116,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
                             this.mixStreamWidth = mCameraParams.width
                             this.mixStringHeight = mCameraParams.height
                             this.mixBitrate = mCameraParams.bitrate
-                            this.fps = mCameraParams.FPS
+                            this.FPS = mCameraParams.FPS
                         })
                     mRtcRoom.mMixStreamManager.setTrack(
                         mRtcRoom.localVideoTrack,

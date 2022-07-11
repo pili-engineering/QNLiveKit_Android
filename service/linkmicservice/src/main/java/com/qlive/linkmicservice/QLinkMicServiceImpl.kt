@@ -10,7 +10,7 @@ import com.qlive.coreimpl.BaseService
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.core.been.QMicLinker
-import com.qlive.coreimpl.datesource.LinkDateSource
+import com.qlive.coreimpl.datesource.LinkDataSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.model.MuteMode
 import com.qlive.coreimpl.model.UidExtensionMode
@@ -31,7 +31,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
         val liveroom_miclinker_extension_change = "liveroom_miclinker_extension_change"
     }
 
-    private val mLinkDateSource = LinkDateSource()
+    private val mLinkDateSource = LinkDataSource()
     private val mMicLinkContext = MicLinkContext()
     private val mAudienceMicLinker: QAudienceMicHandlerImpl by lazy {
         QAudienceMicHandlerImpl(

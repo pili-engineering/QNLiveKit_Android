@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.qlive.uikitcore.CoroutineScopeWrap
-import com.qlive.uikitcore.QComponent
-import com.qlive.uikitcore.QLiveComponent
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainCoroutineDispatcher

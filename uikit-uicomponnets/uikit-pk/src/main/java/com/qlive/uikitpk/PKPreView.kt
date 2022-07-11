@@ -127,7 +127,7 @@ class PKAnchorPreview : QKitFrameLayout {
                 mixStreamWidth = LinkerUIHelper.pkMixWidth
                 mixStringHeight = LinkerUIHelper.pkMixHeight
                 mixBitrate = 1500 * 1000
-                fps = 25
+                FPS = 25
             }
         }
     }

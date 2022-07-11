@@ -5,108 +5,53 @@ public class QMixStreaming {
      * 混流画布参数
      */
     public static class MixStreamParams {
-        private int mixStreamWidth = 0;
-        private int mixStringHeight = 0;
-        private int mixBitrate = 3420 * 1000;
-        private int FPS = 25;
-        private TranscodingLiveStreamingImage backGroundImg = null;
-
-        public int getMixStreamWidth() {
-            return mixStreamWidth;
-        }
-
-        public void setMixStreamWidth(int mixStreamWidth) {
-            this.mixStreamWidth = mixStreamWidth;
-        }
-
-        public int getMixStringHeight() {
-            return mixStringHeight;
-        }
-
-        public void setMixStringHeight(int mixStringHeight) {
-            this.mixStringHeight = mixStringHeight;
-        }
-
-        public int getMixBitrate() {
-            return mixBitrate;
-        }
-
-        public void setMixBitrate(int mixBitrate) {
-            this.mixBitrate = mixBitrate;
-        }
-
-        public int getFPS() {
-            return FPS;
-        }
-
-        public void setFPS(int FPS) {
-            this.FPS = FPS;
-        }
-
-        public TranscodingLiveStreamingImage getBackGroundImg() {
-            return backGroundImg;
-        }
-
         /**
-         * 设置背景图片
-         * @param backGroundImg 背景图片
+         * 混流画布宽
          */
-        public void setBackGroundImg(TranscodingLiveStreamingImage backGroundImg) {
-            this.backGroundImg = backGroundImg;
-        }
+        public int mixStreamWidth = 0;
+        /**
+         * 混流画布高
+         */
+        public int mixStringHeight = 0;
+        /**
+         * 混流码率
+         */
+        public int mixBitrate = 3420 * 1000;
+        /**
+         * 混流帧率
+         */
+        public int FPS = 25;
+        /**
+         * 混流背景图片
+         */
+        public TranscodingLiveStreamingImage backGroundImg = null;
     }
 
     /**
      * 背景图片
      */
     public static class TranscodingLiveStreamingImage {
-        private String url = "";
-        private int x = 0;
-         private int y = 0;
-         private int width = 0;
-         private int height = 0;
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
+        /**
+         * 背景图网络url
+         */
+        public String url = "";
+        /**
+         * x坐标
+         */
+        public int x = 0;
+        /**
+         * y坐标
+         */
+        public int y = 0;
+        /**
+         * 背景图宽
+         */
+        public int width = 0;
+        /**
+         * 背景图高
+         */
+        public int height = 0;
     }
-
 
     public static interface TrackMergeOption {
     }
@@ -118,65 +63,29 @@ public class QMixStreaming {
         /**
          * 是否参与混流
          */
-         private boolean isNeed = false;
-         private int x = 0;
-         private int y = 0;
-         private int z = 0;
-         private int width = 0;
-         private int height = 0;
+        public boolean isNeed = false;
+        /**
+         * x坐标
+         */
+        public int x = 0;
+        /**
+         * y坐标
+         */
+        public int y = 0;
+        /**
+         * z坐标
+         */
+        public int z = 0;
+        /**
+         * 用户视频宽
+         */
+        public int width = 0;
+        /**
+         * 用户视频高
+         */
+        public int height = 0;
         // var stretchMode: QNRenderMode? = null
 
-        public boolean isNeed() {
-            return isNeed;
-        }
-
-        /**
-         * 设置 是否参与混流
-         * @param need 是否参与混流
-         */
-        public void setNeed(boolean need) {
-            isNeed = need;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public int getZ() {
-            return z;
-        }
-
-        public void setZ(int z) {
-            this.z = z;
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
     }
 
     /**
@@ -184,62 +93,28 @@ public class QMixStreaming {
      * 只需要指定用户ID 和他的摄像头麦克风混流参数
      */
     public static class MergeOption {
-         private String uid = "";
-         private CameraMergeOption cameraMergeOption = new CameraMergeOption();
-         private MicrophoneMergeOption microphoneMergeOption = new MicrophoneMergeOption();
-
-        public String getUid() {
-            return uid;
-        }
-
         /**
-         * 当前混流参数作用于哪个用户
-         * @param uid 用户ID
+         * 用户混流参数的ID
          */
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public CameraMergeOption getCameraMergeOption() {
-            return cameraMergeOption;
-        }
-
+        public String uid = "";
         /**
-         * 设置麦克风混流参数
-         * @param cameraMergeOption 麦克风参数
+         * 视频混流参数
          */
-        public void setCameraMergeOption(CameraMergeOption cameraMergeOption) {
-            this.cameraMergeOption = cameraMergeOption;
-        }
-
-        public MicrophoneMergeOption getMicrophoneMergeOption() {
-            return microphoneMergeOption;
-        }
-
+        public CameraMergeOption cameraMergeOption = new CameraMergeOption();
         /**
-         * 设置摄像头混流参数
-         * @param microphoneMergeOption 摄像头参数
+         * 音频混流参数
          */
-        public void setMicrophoneMergeOption(MicrophoneMergeOption microphoneMergeOption) {
-            this.microphoneMergeOption = microphoneMergeOption;
-        }
+        public MicrophoneMergeOption microphoneMergeOption = new MicrophoneMergeOption();
+
     }
 
     /**
      * 麦克风混流参数
      */
     public static class MicrophoneMergeOption implements TrackMergeOption {
-        private boolean isNeed = false;
-
-        public boolean isNeed() {
-            return isNeed;
-        }
         /**
-         * 设置 是否参与混流
-         * @param need 是否参与混流
+         * 是否参与混流
          */
-        public void setNeed(boolean need) {
-            isNeed = need;
-        }
+        public boolean isNeed = false;
     }
 }

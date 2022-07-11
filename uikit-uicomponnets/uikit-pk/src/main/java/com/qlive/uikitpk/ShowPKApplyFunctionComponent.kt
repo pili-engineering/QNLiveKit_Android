@@ -1,17 +1,11 @@
 package com.qlive.uikitpk
 
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.qlive.pkservice.QPKService
 import com.qlive.core.*
 import com.qlive.core.been.QInvitation
-import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QLiveUser
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.uikitcore.BaseQLiveComponent
-import com.qlive.uikitcore.QLiveComponent
-import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.ext.asToast

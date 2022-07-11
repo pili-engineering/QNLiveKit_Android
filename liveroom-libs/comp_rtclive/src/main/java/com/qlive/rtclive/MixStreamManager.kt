@@ -162,7 +162,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
             height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mQMixStreamParams!!.fps; // 设置合流任务的视频帧率
+            videoFrameRate = mQMixStreamParams!!.FPS; // 设置合流任务的视频帧率
             bitrate = mQMixStreamParams!!.mixBitrate; // 设置合流任务的码率，单位: kbps
         }
     }
@@ -174,7 +174,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mixStreamParams.mixStreamWidth; // 设置合流画布的宽度
             height = mixStreamParams.mixStringHeight; // 设置合流画布的高度
-            videoFrameRate = mixStreamParams.fps; // 设置合流任务的视频帧率
+            videoFrameRate = mixStreamParams.FPS; // 设置合流任务的视频帧率
 //            setRenderMode(QNRenderMode.ASPECT_FILL); // 设置合流任务的默认画面填充方式
             bitrate = mixStreamParams.mixBitrate; // 设置合流任务的码率，单位: kbps
             mixStreamParams.backGroundImg?.let { bg ->

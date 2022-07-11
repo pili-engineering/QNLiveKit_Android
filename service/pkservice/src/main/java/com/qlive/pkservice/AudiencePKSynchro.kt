@@ -1,10 +1,9 @@
 package com.qlive.pkservice
 
-import com.qlive.coreimpl.datesource.PKDateSource
+import com.qlive.coreimpl.datesource.PKDataSource
 import com.qlive.coreimpl.model.PKInfo
 import com.qlive.coreimpl.util.backGround
 import com.qlive.core.*
-import com.qlive.core.been.QExtension
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
@@ -15,7 +14,7 @@ import java.util.*
 
 class AudiencePKSynchro() : BaseService() {
 
-    private val mPKDateSource = PKDateSource()
+    private val mPKDateSource = PKDataSource()
     private val mUserSource = UserDataSource()
     var mListenersCall: (() -> LinkedList<QPKServiceListener>)? = null
     var mPKSession: QPKSession? = null

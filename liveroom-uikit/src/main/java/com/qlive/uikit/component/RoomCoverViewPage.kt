@@ -4,16 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.ViewPager
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.QBaseLiveComponent
-import com.qlive.uikitcore.QLiveComponent
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.view.CommonViewPagerAdapter
 
