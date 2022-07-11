@@ -18,7 +18,7 @@ import com.qlive.coreimpl.*
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.core.been.QPKSession
-import com.qlive.coreimpl.datesource.PKDateSource
+import com.qlive.coreimpl.datesource.PKDataSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.util.backGround
 import com.qlive.coreimpl.util.getCode
@@ -39,7 +39,7 @@ class QPKServiceImpl : QPKService, BaseService() {
         val PK_STATUS_OK = 1
     }
 
-    private val mPKDateSource = PKDateSource()
+    private val mPKDateSource = PKDataSource()
     private val pkPKInvitationHandlerImpl = QInvitationHandlerImpl("liveroom_pk_invitation")
     private val mServiceListeners = LinkedList<QPKServiceListener>()
     private var mQPKMixStreamAdapter: QPKMixStreamAdapter? = null

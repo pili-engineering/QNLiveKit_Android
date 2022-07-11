@@ -18,10 +18,8 @@ import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.core.QLiveCallBack
-import com.qlive.core.QSdkConfig
 import com.qlive.qnlivekit.App.Companion.demo_url
 import com.qlive.qnlivekit.App.Companion.user
-import com.qlive.uikit.RoomPage
 import com.qlive.uikitcore.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers

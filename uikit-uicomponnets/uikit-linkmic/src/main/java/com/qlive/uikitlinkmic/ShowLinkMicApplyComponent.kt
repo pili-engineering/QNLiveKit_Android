@@ -2,19 +2,12 @@ package com.qlive.uikitlinkmic
 
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.qlive.core.been.QInvitation
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.core.QInvitationHandlerListener
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
-import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QLiveUser
-import com.qlive.pkservice.QPKService
 import com.qlive.uikitcore.BaseQLiveComponent
-import com.qlive.uikitcore.QLiveComponent
-import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 
