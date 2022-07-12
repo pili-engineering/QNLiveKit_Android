@@ -2,10 +2,8 @@ package com.qlive.pkservice;
 
 import com.qlive.rtclive.QPushRenderView;
 import com.qlive.core.QInvitationHandler;
-import com.qlive.core.been.QExtension;
 import com.qlive.core.QLiveCallBack;
 import com.qlive.core.QLiveService;
-import com.qlive.core.been.QPKSession;
 
 import java.util.HashMap;
 

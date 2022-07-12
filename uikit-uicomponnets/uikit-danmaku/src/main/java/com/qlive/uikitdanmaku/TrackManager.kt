@@ -3,7 +3,7 @@ package com.qlive.uikitdanmaku
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.qlive.core.been.QDanmaku
+import com.qlive.danmakuservice.QDanmaku
 import java.util.*
 import kotlin.collections.ArrayList
 

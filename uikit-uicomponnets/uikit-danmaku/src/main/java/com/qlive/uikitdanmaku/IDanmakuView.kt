@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
-import com.qlive.core.been.QDanmaku
+import com.qlive.danmakuservice.QDanmaku
 import kotlinx.android.synthetic.main.kit_item_danmu.view.*
 
 

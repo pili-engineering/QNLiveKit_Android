@@ -1,7 +1,5 @@
 package com.qlive.pubchatservice;
 
-import com.qlive.core.been.QPublicChat;
-
 //消息监听
 public  interface QPublicChatServiceLister {
 

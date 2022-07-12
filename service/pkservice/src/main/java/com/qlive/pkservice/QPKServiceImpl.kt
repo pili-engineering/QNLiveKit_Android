@@ -17,8 +17,6 @@ import com.qlive.avparam.RtcException
 import com.qlive.coreimpl.*
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
-import com.qlive.core.been.QPKSession
-import com.qlive.coreimpl.datesource.PKDataSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.util.backGround
 import com.qlive.coreimpl.util.getCode

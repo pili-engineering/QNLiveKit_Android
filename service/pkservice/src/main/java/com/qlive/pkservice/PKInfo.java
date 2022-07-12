@@ -1,4 +1,4 @@
-package com.qlive.coreimpl.model;
+package com.qlive.pkservice;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

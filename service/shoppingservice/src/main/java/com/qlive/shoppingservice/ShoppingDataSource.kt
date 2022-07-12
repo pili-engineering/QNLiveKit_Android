@@ -1,10 +1,7 @@
-package com.qlive.coreimpl.datesource
+package com.qlive.shoppingservice
 
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
-import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QExtension
-import com.qlive.core.been.QItem
-import com.qlive.coreimpl.http.HttpResp
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.jsonutil.JsonUtils
 import org.json.JSONArray
@@ -54,23 +51,40 @@ class ShoppingDataSource {
         return OKHttpService.post("/client/items/$liveId", "{}", null, p)
     }
 
-    suspend fun updateItemExtension(liveId:String,ItemID: String, extension: QExtension) {
-         OKHttpService.post("/client/item/${liveId}/${ItemID}/extends", JsonUtils.toJson(extension), Any::class.java)
+    suspend fun updateItemExtension(liveId: String, ItemID: String, extension: QExtension) {
+        OKHttpService.post(
+            "/client/item/${liveId}/${ItemID}/extends",
+            JsonUtils.toJson(extension),
+            Any::class.java
+        )
     }
 
-    fun setExplaining(liveId:String,ItemID: String){
-
+    suspend fun setExplaining(liveId: String, ItemID: String) {
+        OKHttpService.post("/client/item/demonstrate/${liveId}/${ItemID}", "{}", Any::class.java)
     }
 
-//    //取消设置讲解中的商品 并通知房间所有人
-//    fun cancelExplaining(callBack: QLiveCallBack<Void?>?)
-//
-//
-//
-//    //跟新单个商品顺序
-//    fun changeSingleOrder(param: QSingleOrderParam?, callBack: QLiveCallBack<Void?>?)
-//
-//    fun changeOrder(params: List<QOrderParam?>?, callBack: QLiveCallBack<Void?>?)
-//
+    suspend fun cancelExplaining(liveId: String, ItemID: String) {
+        OKHttpService.delete("/client/item/demonstrate/${liveId}/${ItemID}", "{}", Any::class.java)
+    }
 
+    suspend fun getExplaining(liveId: String): QItem {
+        return OKHttpService.get("/client/item/demonstrate/${liveId}", null, QItem::class.java)
+    }
+
+    //跟新单个商品顺序
+    suspend fun changeSingleOrder(live_id: String, item_id: String, from: Int, to: Int) {
+        OKHttpService.post("/client/item/order/single", JSONObject().apply {
+            put("live_id", live_id)
+            put("item_id", item_id)
+            put("from", from)
+            put("to", to)
+        }.toString(), Any::class.java)
+    }
+
+    suspend fun changeOrder(live_id: String, orders: HashMap<String, Int>) {
+        OKHttpService.post("/client/item/order", JSONObject().apply {
+            put("live_id", live_id)
+            put("items", orders)
+        }.toString(), Any::class.java)
+    }
 }

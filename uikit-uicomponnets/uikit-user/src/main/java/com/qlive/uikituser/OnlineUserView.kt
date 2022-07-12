@@ -11,7 +11,6 @@ import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
-import com.qlive.core.been.QMicLinker
 import com.qlive.roomservice.QRoomService
 import com.qlive.uikitcore.*
 import com.qlive.uikitcore.ext.bg

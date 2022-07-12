@@ -6,10 +6,9 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import com.qlive.pkservice.*
 import com.qlive.core.*
-import com.qlive.core.been.QExtension
 import com.qlive.core.been.QInvitation
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QPKSession
+import com.qlive.pkservice.QPKSession
 import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.dialog.FinalDialogFragment

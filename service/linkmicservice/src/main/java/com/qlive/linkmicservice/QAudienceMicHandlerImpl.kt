@@ -18,8 +18,6 @@ import com.qlive.coreimpl.*
 import com.qlive.core.*
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QMicLinker
-import com.qlive.coreimpl.datesource.LinkDataSource
 import com.qlive.coreimpl.model.MuteMode
 import com.qlive.coreimpl.model.UidMode
 import com.qlive.coreimpl.model.UidMsgMode

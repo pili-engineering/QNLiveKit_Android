@@ -14,18 +14,16 @@ import com.qlive.core.*
 import com.qlive.coreimpl.util.backGround
 import com.qlive.core.QLiveService
 import com.qlive.core.been.QLiveRoomInfo
-import com.qlive.core.been.QPublicChat
 import com.qlive.coreimpl.datesource.RoomDataSource
 import com.qlive.coreimpl.datesource.UserDataSource
 import com.qlive.coreimpl.util.getCode
-import com.qlive.pubchatservice.QPublicChatService
 
-class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
+class QPlayerClientImpl : QPlayerClient, QPlayerProvider, QUserJoinObserver {
     companion object {
         fun create(): QPlayerClient {
             val client = QPlayerClientImpl()
             client.init()
-           return client
+            return client
         }
     }
 
@@ -48,18 +46,6 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
 
     private fun init() {
         mLiveContext.checkInit()
-        getService(QPublicChatService::class.java)?.addServiceLister {
-            if (mLiveContext.roomInfo?.anchor?.userId?.isEmpty() != false) {
-                return@addServiceLister
-            }
-            if (it.action == QPublicChat.action_bye && it.sendUser?.userId == mLiveContext.roomInfo?.anchor?.userId) {
-                mLiveContext.mRoomScheduler.setAnchorStatus(0)
-                return@addServiceLister
-            }
-            if (it.action == QPublicChat.action_welcome && it.sendUser?.userId == mLiveContext.roomInfo?.anchor?.userId) {
-                mLiveContext.mRoomScheduler.setAnchorStatus(1)
-            }
-        }
     }
 
     /**
@@ -164,5 +150,23 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider {
 
     override var playerGetter: (() -> QIPlayer) = {
         mMediaPlayer
+    }
+
+    override fun notifyUserJoin(userId: String) {
+        if (mLiveContext.roomInfo?.anchor?.userId?.isEmpty() != false) {
+            return
+        }
+        if (userId == mLiveContext.roomInfo?.anchor?.userId) {
+            mLiveContext.mRoomScheduler.setAnchorStatus(1)
+        }
+    }
+
+    override fun notifyUserLeft(userId: String) {
+        if (mLiveContext.roomInfo?.anchor?.userId?.isEmpty() != false) {
+            return
+        }
+        if (userId == mLiveContext.roomInfo?.anchor?.userId) {
+            mLiveContext.mRoomScheduler.setAnchorStatus(0)
+        }
     }
 }

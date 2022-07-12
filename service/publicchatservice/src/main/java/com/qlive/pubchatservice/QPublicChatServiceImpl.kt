@@ -6,7 +6,7 @@ import com.qlive.jsonutil.JsonUtils
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
-import com.qlive.core.been.QPublicChat
+import com.qlive.core.QUserJoinObserver
 import java.util.*
 
 class QPublicChatServiceImpl : QPublicChatService, BaseService() {
@@ -16,6 +16,7 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
     private val mRtmMsgListener = object : RtmMsgListener {
 
         override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
+
             if (
                 msg.optAction() == QPublicChat.action_welcome ||
                 msg.optAction() == QPublicChat.action_bye ||
@@ -24,11 +25,22 @@ class QPublicChatServiceImpl : QPublicChatService, BaseService() {
                 msg.optAction() == QPublicChat.action_pubchat_custom
             ) {
                 val mode = JsonUtils.parseObject(msg.optData(), QPublicChat::class.java)
+                if (msg.optAction() == QPublicChat.action_welcome
+                    && client is QUserJoinObserver
+                ) {
+                    (client as QUserJoinObserver?)?.notifyUserJoin(mode?.sendUser?.userId ?: "")
+                }
+                if (msg.optAction() == QPublicChat.action_bye
+                    && client is QUserJoinObserver
+                ) {
+                    (client as QUserJoinObserver?)?.notifyUserLeft(mode?.sendUser?.userId ?: "")
+                }
                 mListeners.forEach {
                     it.onReceivePublicChat(mode)
                 }
                 return true
             }
+
             return false
         }
     }

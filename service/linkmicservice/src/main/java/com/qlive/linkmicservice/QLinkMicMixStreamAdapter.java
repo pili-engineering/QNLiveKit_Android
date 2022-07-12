@@ -1,7 +1,6 @@
 package com.qlive.linkmicservice;
 
 import com.qlive.avparam.QMixStreaming;
-import com.qlive.core.been.QMicLinker;
 
 import java.util.List;
 

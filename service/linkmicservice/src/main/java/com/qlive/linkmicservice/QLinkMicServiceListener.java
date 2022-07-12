@@ -1,11 +1,8 @@
 package com.qlive.linkmicservice;
 
 import com.qlive.core.been.QExtension;
-import com.qlive.core.been.QMicLinker;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 麦位监听

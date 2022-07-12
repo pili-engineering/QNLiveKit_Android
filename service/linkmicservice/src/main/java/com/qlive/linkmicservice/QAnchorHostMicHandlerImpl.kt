@@ -6,7 +6,6 @@ import com.qlive.avparam.QMixStreaming
 import com.qlive.coreimpl.BaseService
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QExtension
-import com.qlive.core.been.QMicLinker
 import com.qlive.rtclive.MixType
 
 class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHostMicHandler,
@@ -115,7 +114,6 @@ class QAnchorHostMicHandlerImpl(private val context: MicLinkContext) : QAnchorHo
         context.mQLinkMicServiceListeners.addFirst(mQLinkMicServiceListener)
         context.mQRtcLiveRoom = room
         context.mQRtcLiveRoom.addExtraQNRTCEngineEventListener(context.mExtQNClientEventListener)
-
     }
 
     override fun onDestroyed() {
