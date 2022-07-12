@@ -47,12 +47,13 @@
 #信令
 -keep class com.qlive.rtm.**{*;}
 -keep class com.qlive.rtminvitation.**{*;}
-
+-keep class * implements java.io.Serializable {*;}
 -keep class com.qlive.sdk.**{*;}
 #coreimpl层 been不混淆
 -keep class com.qlive.coreimpl.model.**{*;}
 #core层不混淆
 -keep class com.qlive.core.**{*;}
+
 -keep interface com.qlive.pushclient.QPusherClient{*;}
 -keep interface com.qlive.playerclient.QPlayerClient{*;}
 #QLiveService

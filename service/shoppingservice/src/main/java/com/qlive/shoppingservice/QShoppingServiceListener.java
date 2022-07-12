@@ -1,7 +1,6 @@
 package com.qlive.shoppingservice;
 
 import com.qlive.core.been.QExtension;
-import com.qlive.core.been.QItem;
 
 //购物服务监听
 public interface QShoppingServiceListener {

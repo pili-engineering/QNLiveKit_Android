@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.qlive.avparam.QMixStreaming
-import com.qlive.core.been.QMicLinker
+import com.qlive.linkmicservice.QMicLinker
 import com.qlive.core.*
 import com.qlive.core.been.QExtension
 import com.qlive.linkmicservice.*

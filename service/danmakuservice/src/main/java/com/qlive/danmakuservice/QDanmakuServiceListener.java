@@ -1,7 +1,5 @@
 package com.qlive.danmakuservice;
 
-import com.qlive.core.been.QDanmaku;
-
 /**
  *弹幕消息监听
  */

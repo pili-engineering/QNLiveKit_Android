@@ -2,7 +2,6 @@ package com.qlive.shoppingservice;
 
 import com.qlive.core.QLiveCallBack;
 import com.qlive.core.been.QExtension;
-import com.qlive.core.been.QItem;
 
 import java.util.List;
 

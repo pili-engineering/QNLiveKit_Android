@@ -1,11 +1,9 @@
-package com.qlive.coreimpl.datesource
+package com.qlive.pkservice
 
-import com.qlive.coreimpl.model.PKInfo
-import com.qlive.coreimpl.model.PKOutline
 import com.qlive.coreimpl.http.OKHttpService
 import org.json.JSONObject
 
-class PKDataSource {
+internal class PKDataSource {
 
     suspend fun startPk(
         init_room_id: String,

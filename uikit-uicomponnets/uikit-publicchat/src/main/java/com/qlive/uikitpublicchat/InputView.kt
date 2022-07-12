@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Toast
 import com.qlive.core.QLiveCallBack
-import com.qlive.core.been.QPublicChat
+import com.qlive.pubchatservice.QPublicChat
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitinput.RoomInputDialog

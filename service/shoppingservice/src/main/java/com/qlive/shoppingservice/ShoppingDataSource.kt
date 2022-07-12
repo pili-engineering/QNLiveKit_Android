@@ -1,9 +1,7 @@
-package com.qlive.coreimpl.datesource
+package com.qlive.shoppingservice
 
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
-import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QExtension
-import com.qlive.core.been.QItem
 import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.jsonutil.JsonUtils
 import org.json.JSONArray

@@ -1,6 +1,7 @@
-package com.qlive.core.been;
+package com.qlive.linkmicservice;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.qlive.core.been.QLiveUser;
 
 import java.io.Serializable;
 import java.util.HashMap;

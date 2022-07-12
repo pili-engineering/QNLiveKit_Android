@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.core.been.QMicLinker
+import com.qlive.linkmicservice.QMicLinker
 import com.qlive.core.*
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog

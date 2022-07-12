@@ -2,17 +2,13 @@ package com.qlive.shoppingservice
 
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QExtension
-import com.qlive.core.been.QItem
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.coreimpl.BaseService
 import com.qlive.coreimpl.Scheduler
-import com.qlive.coreimpl.datesource.ShoppingDataSource
-import com.qlive.coreimpl.model.QItemExtMsg
 import com.qlive.coreimpl.util.backGround
 import com.qlive.coreimpl.util.getCode
 import com.qlive.rtm.RtmManager
 import com.qlive.rtm.msg.RtmTextMsg
-import com.qlive.rtm.sendC2cMsg
 import com.qlive.rtm.sendChannelMsg
 
 class QShoppingServiceImpl : BaseService(), QShoppingService {

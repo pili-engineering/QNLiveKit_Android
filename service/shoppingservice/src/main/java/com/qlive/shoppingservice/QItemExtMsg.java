@@ -1,7 +1,6 @@
-package com.qlive.coreimpl.model;
+package com.qlive.shoppingservice;
 
 import com.qlive.core.been.QExtension;
-import com.qlive.core.been.QItem;
 
 public class QItemExtMsg {
     public QItem item;

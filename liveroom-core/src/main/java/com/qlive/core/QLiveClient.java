@@ -17,4 +17,5 @@ public interface QLiveClient {
 
     void destroy();
     QClientType getClientType();
+
 }

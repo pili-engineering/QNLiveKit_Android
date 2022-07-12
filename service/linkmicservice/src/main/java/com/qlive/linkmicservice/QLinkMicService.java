@@ -4,7 +4,6 @@ import com.qlive.rtclive.QPushRenderView;
 import com.qlive.core.QInvitationHandler;
 import com.qlive.core.been.QExtension;
 import com.qlive.core.QLiveCallBack;
-import com.qlive.core.been.QMicLinker;
 import com.qlive.core.QLiveService;
 
 import org.jetbrains.annotations.NotNull;

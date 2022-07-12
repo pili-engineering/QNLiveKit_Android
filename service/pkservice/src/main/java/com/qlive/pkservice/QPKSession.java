@@ -1,4 +1,4 @@
-package com.qlive.core.been;
+package com.qlive.pkservice;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.qlive.core.been.QLiveUser;

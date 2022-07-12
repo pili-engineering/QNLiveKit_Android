@@ -2,7 +2,6 @@ package com.qlive.uikitlinkmic
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,18 +9,14 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
-import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QExtension
 import com.qlive.linkmicservice.QLinkMicService
-import com.qlive.core.been.QMicLinker
+import com.qlive.linkmicservice.QMicLinker
 import com.qlive.linkmicservice.QLinkMicServiceListener
 import com.qlive.uikitcore.LinkerUIHelper
 import com.qlive.uikitcore.ext.ViewUtil
 import kotlinx.android.synthetic.main.kit_item_linker.view.*
-import kotlinx.android.synthetic.main.kit_item_linker_surface.view.*
 import kotlinx.android.synthetic.main.kit_item_linker_surface.view.flSurfaceContainer
-import kotlinx.android.synthetic.main.kit_item_linker_surface.view.ivMicStatus
-import kotlinx.android.synthetic.main.kit_view_linkers.view.*
 
 //麦位预览 多人连麦
 class MicSeatPreView : LinearLayout, QLinkMicServiceListener {

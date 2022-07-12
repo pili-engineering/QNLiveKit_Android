@@ -1,7 +1,6 @@
 package com.qlive.pkservice;
 
 import com.qlive.avparam.QMixStreaming;
-import com.qlive.core.been.QPKSession;
 
 import org.jetbrains.annotations.NotNull;
 

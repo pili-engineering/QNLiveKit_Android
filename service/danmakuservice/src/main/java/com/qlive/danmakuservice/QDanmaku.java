@@ -1,4 +1,4 @@
-package com.qlive.core.been;
+package com.qlive.danmakuservice;
 
 
 import com.qlive.core.been.QLiveUser;

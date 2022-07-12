@@ -14,7 +14,7 @@ import com.qlive.rtclive.QPushTextureView
 import com.qlive.pkservice.QPKService
 import com.qlive.pkservice.QPKMixStreamAdapter
 import com.qlive.pkservice.QPKServiceListener
-import com.qlive.core.been.QPKSession
+import com.qlive.pkservice.QPKSession
 import com.qlive.playerclient.QPlayerClient
 import com.qlive.uikitcore.LinkerUIHelper
 import com.qlive.uikitcore.QKitFrameLayout

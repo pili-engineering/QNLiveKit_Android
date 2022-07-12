@@ -22,7 +22,7 @@ import com.qlive.core.QClientType;
 import com.qlive.core.been.QExtension;
 import com.qlive.core.been.QLiveRoomInfo;
 import com.qlive.core.been.QLiveUser;
-import com.qlive.core.been.QMicLinker;
+import com.qlive.linkmicservice.QMicLinker;
 import com.qlive.linkmicservice.QAudienceMicHandler;
 import com.qlive.linkmicservice.QLinkMicMixStreamAdapter;
 import com.qlive.linkmicservice.QLinkMicService;

@@ -6,7 +6,6 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
-import com.qlive.core.been.QMicLinker
 import com.qlive.uikitcore.QKitFrameLayout
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.ext.toHtml

@@ -3,10 +3,8 @@ package com.qlive.linkmicservice
 import com.qlive.rtclive.DefaultExtQNClientEventListener
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qlive.jsonutil.JsonUtils
-import com.qlive.core.been.QMicLinker
 import com.qlive.coreimpl.model.UidMsgMode
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MicLinkContext {
 
@@ -14,8 +12,7 @@ class MicLinkContext {
     var hostLeftCall = {
 
     }
-    var onKickCall:  (linker: QMicLinker, model:UidMsgMode) -> Unit = {l,m->
-
+    var onKickCall:  (linker: QMicLinker, model:UidMsgMode) -> Unit = { l, m->
     }
 
     val mQLinkMicServiceListeners = LinkedList<QLinkMicServiceListener>()
