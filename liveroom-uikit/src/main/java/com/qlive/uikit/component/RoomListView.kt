@@ -22,7 +22,6 @@ import com.qlive.uikitcore.QUIKitContext
 import com.qlive.uikitcore.ext.ViewUtil
 import com.qlive.uikitcore.ext.asToast
 import com.qlive.uikitcore.ext.bg
-import com.qlive.uikitcore.refresh.CommonEmptyView
 import kotlinx.android.synthetic.main.kit_roomlist_item_room.view.*
 import kotlinx.android.synthetic.main.kit_view_room_list.view.*
 import kotlin.coroutines.resume
@@ -33,10 +32,7 @@ import kotlin.coroutines.suspendCoroutine
  * 房间列表view
  */
 class RoomListView : FrameLayout, QComponent {
-
     override var kitContext: QUIKitContext? = null
-    private val mEmptyView by lazy { CommonEmptyView(context) }
-
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -46,20 +42,21 @@ class RoomListView : FrameLayout, QComponent {
     ) {
         LayoutInflater.from(context).inflate(R.layout.kit_view_room_list, this, true)
         mSmartRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
+
         val styled =
-            context.obtainStyledAttributes(attrs, R.styleable.SmartRecycler, defStyleAttr, 0)
+            context.obtainStyledAttributes(attrs, R.styleable.RoomListView, defStyleAttr, 0)
         val emptyIcon = styled.getResourceId(
-            R.styleable.SmartRecycler_empty_placeholder_icon,
+            R.styleable.RoomListView_empty_placeholder_icon,
             com.qlive.uikitcore.R.drawable.kit_pic_empty
         )
         val emptyNoNetIcon = styled.getResourceId(
-            R.styleable.SmartRecycler_empty_placeholder_no_net_icon,
+            R.styleable.RoomListView_empty_placeholder_no_net_icon,
             com.qlive.uikitcore.R.drawable.kit_pic_empty_network
         )
-        val emptyTip = styled.getString(R.styleable.SmartRecycler_empty_placeholder_tips) ?: "空空如也"
-        mEmptyView.setEmptyIcon(emptyIcon)
-        mEmptyView.setEmptyNoNetIcon(emptyNoNetIcon)
-        mEmptyView.setEmptyTips(emptyTip)
+        val emptyTip = styled.getString(R.styleable.RoomListView_empty_placeholder_tips) ?: "空空如也"
+        mSmartRecyclerView.emptyView.setEmptyIcon(emptyIcon)
+        mSmartRecyclerView.emptyView.setEmptyNoNetIcon(emptyNoNetIcon)
+        mSmartRecyclerView.emptyView.setEmptyTips(emptyTip)
         styled.recycle()
     }
 
@@ -72,7 +69,6 @@ class RoomListView : FrameLayout, QComponent {
         super.attachKitContext(context)
         mSmartRecyclerView.setUp(
             roomAdapter,
-            mEmptyView,
             10,
             true,
             true

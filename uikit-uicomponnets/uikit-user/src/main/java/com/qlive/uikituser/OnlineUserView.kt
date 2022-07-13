@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.qlive.chatservice.QChatRoomService
 import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.core.QLiveCallBack
+import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.roomservice.QRoomService
@@ -22,6 +23,7 @@ import kotlin.coroutines.suspendCoroutine
 class OnlineUserView : QKitFrameLayout {
 
     companion object {
+        var layoutId = R.layout.kit_view_online
         /**
          * 点击事件
          */
@@ -31,7 +33,8 @@ class OnlineUserView : QKitFrameLayout {
         /**
          * 列表适配器
          */
-        var adapterProvider: () -> BaseQuickAdapter<QLiveUser, BaseViewHolder> = {
+        var adapterProvider: (context: QLiveUIKitContext, client: QLiveClient) -> BaseQuickAdapter<QLiveUser, BaseViewHolder> = {
+            _,_->
             OnlineUserViewAdapter()
         }
     }
@@ -44,7 +47,9 @@ class OnlineUserView : QKitFrameLayout {
         defStyleAttr
     )
 
-    private var adapter: BaseQuickAdapter<QLiveUser, BaseViewHolder> = adapterProvider.invoke()
+    private val adapter: BaseQuickAdapter<QLiveUser, BaseViewHolder> by lazy {
+        adapterProvider.invoke(kitContext!!,client!!)
+    }
 
     //聊天室监听
     private val mChatRoomServiceListener = object :
@@ -66,7 +71,7 @@ class OnlineUserView : QKitFrameLayout {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.kit_view_online
+        return layoutId
     }
 
     override fun initView() {

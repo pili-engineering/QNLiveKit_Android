@@ -2,6 +2,7 @@
 
 <FrameLayout android:layout_width="match_parent"
     android:layout_height="450dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="bottom"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -56,7 +57,11 @@
         <com.qlive.uikitcore.refresh.SmartRecyclerView
             android:id="@+id/mSmartRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:placeholder_empty_icon="@drawable/kit_pic_empty"
+            app:placeholder_empty_no_net_icon="@drawable/kit_pic_empty_network"
+            app:placeholder_empty_tips="空空如也"
+            />
 
 
     </LinearLayout>

@@ -26,12 +26,15 @@ class PublicChatView : QKitRecyclerView {
         /**
          * 列表适配器
          */
-        var adapterProvider: () -> BaseQuickAdapter<QPublicChat, BaseViewHolder> = {
+        var adapterProvider: (context: QLiveUIKitContext, client: QLiveClient) -> BaseQuickAdapter<QPublicChat, BaseViewHolder> = {
+           _,_->
             PubChatAdapter()
         }
     }
 
-    private val mAdapter = adapterProvider.invoke()
+    private val mAdapter by lazy {
+        adapterProvider.invoke(kitContext!!,client!!)
+    }
 
     //消息监听
     private val mPublicChatServiceLister =
@@ -51,10 +54,7 @@ class PublicChatView : QKitRecyclerView {
         defStyleAttr
     ) {
         this.layoutManager = LinearLayoutManager(context)
-        this.adapter = mAdapter
-        mAdapter.setOnItemChildClickListener { adapter, view, position ->
-            onItemMsgClickListener.invoke(kitContext!!, view, mAdapter.data[position])
-        }
+
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -65,6 +65,10 @@ class PublicChatView : QKitRecyclerView {
         super.attachLiveClient(client)
         client.getService(QPublicChatService::class.java)
             .addServiceLister(mPublicChatServiceLister)
+        this.adapter = mAdapter
+        mAdapter.setOnItemChildClickListener { adapter, view, position ->
+            onItemMsgClickListener.invoke(kitContext!!, view, mAdapter.data[position])
+        }
     }
 
     override fun onLeft() {

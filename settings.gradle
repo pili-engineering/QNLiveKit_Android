@@ -51,3 +51,4 @@ include ':uikit-uicomponnets:sensehook'
 //include ':uikit-uicomponnets:sense_beauty'
 
 
+include ':uikit-uicomponnets:uikit-shopping'

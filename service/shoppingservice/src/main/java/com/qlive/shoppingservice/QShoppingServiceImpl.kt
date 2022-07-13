@@ -7,14 +7,49 @@ import com.qlive.coreimpl.BaseService
 import com.qlive.coreimpl.Scheduler
 import com.qlive.coreimpl.util.backGround
 import com.qlive.coreimpl.util.getCode
-import com.qlive.rtm.RtmManager
+import com.qlive.jsonutil.JsonUtils
+import com.qlive.rtm.*
 import com.qlive.rtm.msg.RtmTextMsg
-import com.qlive.rtm.sendChannelMsg
 
 class QShoppingServiceImpl : BaseService(), QShoppingService {
     private val mShoppingDataSource = ShoppingDataSource()
     private var mExplaining: QItem? = null
     private val mShoppingServiceListeners = ArrayList<QShoppingServiceListener>()
+    private val ACTION_EXPLAINING = "liveroom_shopping_explaining"
+    private val ACTION_EXTENSION = "liveroom_shopping_extension"
+
+    private val mRtmMsgListener = object : RtmMsgListener {
+        override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
+            if (msg.optAction() == ACTION_EXPLAINING) {
+                val data = JsonUtils.parseObject(msg.optData(), QItem::class.java)
+                mExplaining = data
+                mShoppingServiceListeners.forEach {
+                    it.onExplainingUpdate(data)
+                }
+                return true
+            }
+
+            if (msg.optAction() == ACTION_EXTENSION) {
+                val data =
+                    JsonUtils.parseObject(msg.optData(), QItemExtMsg::class.java) ?: return true
+                mShoppingServiceListeners.forEach {
+                    it.onExtensionUpdate(data.item, data.extension)
+                }
+                return true
+            }
+            return false
+        }
+    }
+
+    init {
+        RtmManager.addRtmChannelListener(mRtmMsgListener)
+    }
+
+    override fun onDestroyed() {
+        super.onDestroyed()
+        RtmManager.removeRtmChannelListener(mRtmMsgListener)
+    }
+
     override fun getItemList(callBack: QLiveCallBack<List<QItem>>?) {
         backGround {
             doWork {
@@ -70,7 +105,11 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
         mItemShader.cancel()
     }
 
-    override fun updateItemStatus(itemID: String, status: QItemStatus, callBack: QLiveCallBack<Void>?) {
+    override fun updateItemStatus(
+        itemID: String,
+        status: QItemStatus,
+        callBack: QLiveCallBack<Void>?
+    ) {
         backGround {
             doWork {
                 mShoppingDataSource.updateStatus(
@@ -100,7 +139,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                 msg.item = item
                 msg.extension = extension
                 RtmManager.rtmClient.sendChannelMsg(
-                    RtmTextMsg<QItemExtMsg>("liveroom_shopping_extension", msg).toJsonString(),
+                    RtmTextMsg<QItemExtMsg>(ACTION_EXTENSION, msg).toJsonString(),
                     currentRoomInfo?.chatID ?: "",
                     true
                 )
@@ -120,7 +159,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                 )
                 try {
                     RtmManager.rtmClient.sendChannelMsg(
-                        RtmTextMsg<QItem?>("liveroom_shopping_explaining", item).toJsonString(),
+                        RtmTextMsg<QItem?>(ACTION_EXPLAINING, item).toJsonString(),
                         currentRoomInfo?.chatID ?: "",
                         false
                     )
@@ -147,7 +186,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                 )
                 try {
                     RtmManager.rtmClient.sendChannelMsg(
-                        RtmTextMsg<QItem?>("liveroom_shopping_explaining", null).toJsonString(),
+                        RtmTextMsg<QItem?>(ACTION_EXPLAINING, null).toJsonString(),
                         currentRoomInfo?.chatID ?: "",
                         false
                     )

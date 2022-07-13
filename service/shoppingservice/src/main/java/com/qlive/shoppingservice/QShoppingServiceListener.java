@@ -9,5 +9,4 @@ public interface QShoppingServiceListener {
 
     //商品扩展字段跟新
     void onExtensionUpdate(QItem item, QExtension extension);
-
 }

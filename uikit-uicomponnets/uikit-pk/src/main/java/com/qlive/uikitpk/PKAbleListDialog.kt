@@ -70,7 +70,7 @@ class PKAbleListDialog() : FinalDialogFragment() {
             )
         )
         mSmartRecyclerView.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        mSmartRecyclerView.setUp(mAdapter, CommonEmptyView(requireContext()), 3, true, true) {
+        mSmartRecyclerView.setUp(mAdapter, 3, true, true) {
             load(it)
         }
         mSmartRecyclerView.startRefresh()

@@ -1,6 +1,7 @@
 package com.qlive.shoppingservice;
 
 import com.qlive.core.QLiveCallBack;
+import com.qlive.core.QLiveService;
 import com.qlive.core.been.QExtension;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * 购物服务
  */
-public interface QShoppingService {
+public interface QShoppingService extends QLiveService {
 
     /**
      * 获取直播间所有商品
