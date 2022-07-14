@@ -2,12 +2,14 @@ package com.qlive.uikit.component
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.Toast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikit.R
 import com.qlive.uikitcore.QKitImageView
+import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 
@@ -46,8 +48,14 @@ class CloseRoomView : QKitImageView {
         }
     }
 
+    override fun attachKitContext(context: QLiveUIKitContext) {
+        super.attachKitContext(context)
+        visibility = View.GONE
+    }
+
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
+        visibility = VISIBLE
         //发进入房间消息
         client?.getService(QPublicChatService::class.java)
             ?.sendWelCome("进人了房间", null)

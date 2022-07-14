@@ -2,6 +2,7 @@ package com.qlive.uikitshopping
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.graphics.Paint
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +61,7 @@ class PlayerShoppingDialog(
 
     init {
         applyGravityStyle(Gravity.BOTTOM)
+        applyDimAmount(0f)
     }
 
     private val shoppingService get() = client.getService(QShoppingService::class.java)!!
@@ -111,6 +113,11 @@ class PlayerShoppingDialog(
             }
 
             override fun onSuccess(data: List<QItem>) {
+                data.forEachIndexed { index, qItem ->
+                    if(qItem.itemID == shoppingService.explaining?.itemID){
+                        lastExplainingIndex  = index
+                    }
+                }
                 recyclerViewGoods?.onFetchDataFinish(data, true, true)
             }
         })
@@ -131,6 +138,7 @@ class PlayerShoppingDialog(
         recyclerViewGoods.setUp(adapter, 3, false, true) {
             loadItem()
         }
+        recyclerViewGoods.startRefresh()
     }
 
     private inner class PlayerShoppingGoodsAdapter : BaseQuickAdapter<QItem, BaseViewHolder>(
@@ -167,6 +175,7 @@ class PlayerShoppingDialog(
                 }
             helper.itemView.tvNowPrice.text = item.currentPrice
             helper.itemView.tvOriginPrice.text = item.originPrice
+            helper.itemView.tvOriginPrice .paint.flags = Paint.STRIKE_THRU_TEXT_FLAG;
             helper.itemView.tvGoBuy.setOnClickListener {
                 Companion.onItemClickListener.invoke(kitContext, client, it, item)
             }

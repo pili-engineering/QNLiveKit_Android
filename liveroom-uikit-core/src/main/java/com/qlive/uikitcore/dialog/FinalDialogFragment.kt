@@ -95,18 +95,6 @@ abstract class FinalDialogFragment : DialogFragment() {
         manager: FragmentManager,
         tag: String?
     ) {
-        try {
-            val mDismissed: Field = this.javaClass.superclass.getDeclaredField("mDismissed")
-            val mShownByMe: Field = this.javaClass.superclass.getDeclaredField("mShownByMe")
-            mDismissed.setAccessible(true)
-            mShownByMe.setAccessible(true)
-            mDismissed.setBoolean(this, false)
-            mShownByMe.setBoolean(this, true)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
         val ft: FragmentTransaction = manager.beginTransaction()
         ft.add(this, tag)
         ft.commitAllowingStateLoss()

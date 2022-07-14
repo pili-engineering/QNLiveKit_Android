@@ -44,9 +44,9 @@ class KITLiveInflaterFactory(
             } else {
                 appDelegate.createView(parent, name, context, attrs)
             }
-        QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name)
+        // QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name)
         if (view is QLiveComponent) {
-            QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name + " attachKitContext ")
+            //   QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name + " attachKitContext ")
             (view as QLiveComponent).attachKitContext(kitContext)
             (view as QLiveComponent).attachLiveClient(roomClient)
             mComponents.add(view)
@@ -112,7 +112,6 @@ class KITInflaterFactory(
         } else {
             appDelegate.createView(parent, name, context, attrs)
         }
-        QLiveLogUtil.d("KITInflaterFactory", "onCreateView " + name + " " + (view == null))
         if (view is QComponent) {
             (view as QComponent).attachKitContext(QUIKitContext)
         }

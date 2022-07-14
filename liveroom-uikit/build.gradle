@@ -49,6 +49,7 @@ fataar {
 
 dependencies {
 
+    implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.0.0'
     if (buidSdk) {
         
         embed project(':liveroom-uikit-core')
@@ -70,6 +71,7 @@ dependencies {
         api project(':uikit-uicomponnets:uikit-publicchat')
         api project(':uikit-uicomponnets:uikit-linkmic')
         api project(':uikit-uicomponnets:uikit-pk')
+        api project(':uikit-uicomponnets:uikit-shopping')
     }
 
     testImplementation 'junit:junit:4.13.2'

@@ -24,12 +24,12 @@ interface IDanmakuView {
     /**
      * 是不是同一个轨道上的
      */
-    fun showInSameTrack(QDanmaku: QDanmaku): Boolean
+    fun showInSameTrack(danmaku: QDanmaku): Boolean
 
     /**
-     * 显示礼物
+     * 显示
      */
-    fun onNewModel(QDanmaku: QDanmaku)
+    fun onNewModel(danmaku: QDanmaku)
 
     /**
      * 是不是忙碌
@@ -55,7 +55,10 @@ interface IDanmuItemView{
     fun getView(): View
 }
 
-class DanmuItemView : FrameLayout,IDanmuItemView {
+/**
+ *弹幕条 带头像
+ */
+class DanmuItemViewWithAvatar : FrameLayout,IDanmuItemView {
 
     val animatorTime = 6000L
     override var endCall: (() -> Unit)? = null
@@ -114,6 +117,76 @@ class DanmuItemView : FrameLayout,IDanmuItemView {
         tansAni.cancel()
     }
 
+    override fun start() {
+        post { tansAni.start() }
+        postDelayed({
+            nextAvalibeCall?.invoke()
+        }, (animatorTime * 0.5).toLong())
+    }
+
+    override fun getView(): View {
+        return this
+    }
+}
+
+/**
+ *弹幕条 只有文字
+ */
+class DanmuItemViewOnlyText : FrameLayout,IDanmuItemView {
+
+    val animatorTime = 6000L
+    override var endCall: (() -> Unit)? = null
+    // 可以开始下一个弹幕了
+    override var nextAvalibeCall: (() -> Unit)? = null
+
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, mAttributeSet: AttributeSet?) : super(context, mAttributeSet) {
+        val view = LayoutInflater.from(context).inflate(R.layout.kit_item_danmu_only_text, this, false)
+        addView(view)
+    }
+
+    private val tansAni by lazy {
+        val transX = ObjectAnimator.ofFloat(
+            this,
+            "translationX",
+            parentWidth.toFloat(),
+            -this.measuredWidth.toFloat()
+        )
+        transX.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                endCall?.invoke()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+        })
+        transX.addUpdateListener {}
+        transX.duration = animatorTime
+        transX
+    }
+
+    private var danmuke: QDanmaku? = null
+    private var parentWidth: Int = 0
+
+    fun setDamukeAniml(danmuke: QDanmaku, parentWidth: Int) {
+        this.danmuke = danmuke
+        this.parentWidth = parentWidth
+        translationX = parentWidth.toFloat()
+
+        tvContent.text = (danmuke.content)
+    }
+
+    override fun clear() {
+        nextAvalibeCall = null
+        endCall = null
+        tansAni.cancel()
+    }
 
     override fun start() {
         post { tansAni.start() }
@@ -127,7 +200,6 @@ class DanmuItemView : FrameLayout,IDanmuItemView {
     }
 }
 
-
 /**
  * 弹幕轨道
  */
@@ -139,15 +211,16 @@ class DanmuTrackView : FrameLayout, IDanmakuView {
     private var mDanmuItemViews = ArrayList<IDanmuItemView>()
     override var finishedCall: (() -> Unit)? = {}
 
-    override fun showInSameTrack(trackMode: QDanmaku): Boolean {
+    override fun showInSameTrack(danmaku: QDanmaku): Boolean {
         return false
     }
 
     private var nextAble = true;
 
-    override fun onNewModel(mode: QDanmaku) {
+    override fun onNewModel(danmaku: QDanmaku) {
         val mDanmuItemView =
-            LayoutInflater.from(context).inflate(R.layout.kit_view_danmu, this, false) as DanmuItemView
+            LayoutInflater.from(context).inflate(R.layout.kit_view_danmu, this, false) as DanmuItemViewOnlyText
+
         mDanmuItemViews.add(mDanmuItemView)
         addView(mDanmuItemView)
         nextAble = false
@@ -158,7 +231,7 @@ class DanmuTrackView : FrameLayout, IDanmakuView {
             removeView(mDanmuItemView)
             mDanmuItemViews.remove(mDanmuItemView)
         }
-        mDanmuItemView.setDamukeAniml(mode, getScreenSize())
+        mDanmuItemView.setDamukeAniml(danmaku, getScreenSize())
         mDanmuItemView.start()
     }
 

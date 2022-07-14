@@ -1,5 +1,6 @@
 package com.qlive.shoppingservice
 
+import android.text.TextUtils
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QExtension
 import com.qlive.core.been.QLiveRoomInfo
@@ -12,6 +13,7 @@ import com.qlive.rtm.*
 import com.qlive.rtm.msg.RtmTextMsg
 
 class QShoppingServiceImpl : BaseService(), QShoppingService {
+
     private val mShoppingDataSource = ShoppingDataSource()
     private var mExplaining: QItem? = null
     private val mShoppingServiceListeners = ArrayList<QShoppingServiceListener>()
@@ -65,15 +67,20 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
     /**
      * 正在展示的商品 轮训同步状态
      */
-    private val mItemShader = Scheduler(5000) {
+    private val mItemShader = Scheduler(10000) {
         if (currentRoomInfo == null) {
             return@Scheduler
         }
         backGround {
             doWork {
-                val newItem = mShoppingDataSource.getExplaining(currentRoomInfo?.liveID ?: "")
-                if (newItem.itemID.isNotEmpty()) {
-                    if (mExplaining == null || newItem.itemID != mExplaining?.itemID) {
+                var newItem: QItem? = null
+                try {
+                    newItem = mShoppingDataSource.getExplaining(currentRoomInfo?.liveID ?: "")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                if (!TextUtils.isEmpty(newItem?.itemID)) {
+                    if (mExplaining == null || newItem!!.itemID != mExplaining?.itemID) {
                         mExplaining = newItem;
                         mShoppingServiceListeners.forEach {
                             it.onExplainingUpdate(mExplaining)
@@ -97,7 +104,9 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
-        mItemShader.start()
+        if(mShoppingServiceListeners.size>0){
+            mItemShader.start()
+        }
     }
 
     override fun onLeft() {
@@ -116,6 +125,27 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                     currentRoomInfo?.liveID ?: "",
                     HashMap<String, Int>().apply {
                         put(itemID, status.value)
+                    })
+                callBack?.onSuccess(null)
+            }
+            catchError {
+                callBack?.onError(it.getCode(), it.message)
+            }
+        }
+    }
+
+    override fun updateItemStatus(
+        newStatus: java.util.HashMap<String, QItemStatus>,
+        callBack: QLiveCallBack<Void>?
+    ) {
+        backGround {
+            doWork {
+                mShoppingDataSource.updateStatus(
+                    currentRoomInfo?.liveID ?: "",
+                    HashMap<String, Int>().apply {
+                        newStatus.forEach {
+                            put(it.key, it.value.value)
+                        }
                     })
                 callBack?.onSuccess(null)
             }
@@ -182,7 +212,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
         backGround {
             doWork {
                 mShoppingDataSource.cancelExplaining(
-                    currentRoomInfo?.liveID ?: "", explaining?.itemID ?: ""
+                    currentRoomInfo?.liveID ?: ""
                 )
                 try {
                     RtmManager.rtmClient.sendChannelMsg(

@@ -2,10 +2,12 @@ package com.qlive.uikitshopping
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.graphics.Paint
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -18,14 +20,22 @@ import com.qlive.shoppingservice.QItemStatus
 import com.qlive.shoppingservice.QShoppingService
 import com.qlive.shoppingservice.QShoppingServiceListener
 import com.qlive.uikitcore.QLiveUIKitContext
+import com.qlive.uikitcore.dialog.CommonTipDialog
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.dialog.LoadingDialog
 import com.qlive.uikitcore.ext.asToast
-import com.qlive.uikitcore.refresh.CommonEmptyView
 import com.qlive.uikitshopping.ui.flowlayout.FlowLayout
 import com.qlive.uikitshopping.ui.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.kit_abchor_shopping_dialog.*
 import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.*
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.flGoodsTag
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.ivCover
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.llItemShowing
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.mAutoVoiceWaveView
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.tvGoodsName
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.tvNowPrice
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.tvOrder
+import kotlinx.android.synthetic.main.kit_item_anchor_goods.view.tvOriginPrice
 
 class AnchorShoppingDialog(
     private val kitContext: QLiveUIKitContext,
@@ -62,6 +72,7 @@ class AnchorShoppingDialog(
 
     init {
         applyGravityStyle(Gravity.BOTTOM)
+        applyDimAmount(0f)
     }
 
     private val shoppingService get() = client.getService(QShoppingService::class.java)!!
@@ -112,6 +123,11 @@ class AnchorShoppingDialog(
             }
 
             override fun onSuccess(data: List<QItem>) {
+                data.forEachIndexed { index, qItem ->
+                    if (qItem.itemID == shoppingService.explaining?.itemID) {
+                        lastExplainingIndex = index
+                    }
+                }
                 recyclerViewGoods?.onFetchDataFinish(data, true, true)
             }
         })
@@ -125,12 +141,21 @@ class AnchorShoppingDialog(
     override fun init() {
         shoppingService.addServiceListener(mShoppingServiceListener)
         recyclerViewGoods.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerViewGoods.setUp(adapter,  3, false, true) {
+        recyclerViewGoods.setUp(adapter, 3, false, true) {
             loadItem()
         }
         tvManager.setOnClickListener {
-
+            ShoppingManagerDialog(kitContext, client)
+                .apply {
+                    mDefaultListener = object : BaseDialogListener() {
+                        override fun onDismiss(dialog: DialogFragment) {
+                            recyclerViewGoods.startRefresh()
+                        }
+                    }
+                }
+                .show(childFragmentManager, "")
         }
+        recyclerViewGoods.startRefresh()
     }
 
     private inner class AnchorShoppingAdapter : BaseQuickAdapter<QItem, BaseViewHolder>(
@@ -147,7 +172,7 @@ class AnchorShoppingDialog(
                 lastExplainingIndex = data.indexOf(item)
                 helper.itemView.llItemShowing.visibility = View.VISIBLE
                 helper.itemView.mAutoVoiceWaveView.setAutoPlay(true)
-                helper.itemView.tvExplaining.isSelected = true
+
                 helper.itemView.tvExplaining.text = "结束讲解"
                 helper.itemView.tvExplaining.setOnClickListener {
                     LoadingDialog.showLoading(kitContext.fragmentManager)
@@ -165,7 +190,7 @@ class AnchorShoppingDialog(
             } else {
                 helper.itemView.llItemShowing.visibility = View.GONE
                 helper.itemView.mAutoVoiceWaveView.setAutoPlay(false)
-                helper.itemView.tvExplaining.isSelected = false
+
                 helper.itemView.tvExplaining.text = "讲解"
                 helper.itemView.tvExplaining.setOnClickListener {
                     LoadingDialog.showLoading(kitContext.fragmentManager)
@@ -199,51 +224,72 @@ class AnchorShoppingDialog(
                 }
             helper.itemView.tvNowPrice.text = item.currentPrice
             helper.itemView.tvOriginPrice.text = item.originPrice
-
+            helper.itemView.tvOriginPrice .paint.flags = Paint.STRIKE_THRU_TEXT_FLAG;
             helper.itemView.tvPull.setOnClickListener { }
-            if (item.order == QItemStatus.PULLED.value) {
+
+            if (item.status == QItemStatus.PULLED.value) {
+                helper.itemView.tvExplaining.isSelected = false
+                helper.itemView.tvExplaining.isClickable = false
+                //已经下架
                 helper.itemView.tvPulledCover.visibility = View.VISIBLE
                 helper.itemView.tvPull.text = "上架商品"
                 helper.itemView.tvPull.setOnClickListener {
-                    LoadingDialog.showLoading(kitContext.fragmentManager)
-                    shoppingService.updateItemStatus(item.itemID, QItemStatus.ON_SALE,
-                        object : QLiveCallBack<Void> {
-                            override fun onError(code: Int, msg: String?) {
-                                msg?.asToast(mContext)
-                                LoadingDialog.cancelLoadingDialog()
-                                item.status = QItemStatus.ON_SALE.value
-                                notifyItemChanged(data.indexOf(item))
-                            }
+                    showTip("确定上架商品吗？"){
+                        LoadingDialog.showLoading(kitContext.fragmentManager)
+                        shoppingService.updateItemStatus(item.itemID, QItemStatus.ON_SALE,
+                            object : QLiveCallBack<Void> {
+                                override fun onError(code: Int, msg: String?) {
+                                    msg?.asToast(mContext)
+                                    LoadingDialog.cancelLoadingDialog()
+                                }
 
-                            override fun onSuccess(data: Void?) {
-                                LoadingDialog.cancelLoadingDialog()
-
-                            }
-                        })
+                                override fun onSuccess(v: Void?) {
+                                    LoadingDialog.cancelLoadingDialog()
+                                    item.status = QItemStatus.ON_SALE.value
+                                    notifyItemChanged(data.indexOf(item))
+                                }
+                            })
+                    }
                 }
             }
 
-            if (item.order == QItemStatus.ON_SALE.value) {
+            if (item.status == QItemStatus.ON_SALE.value || item.status == QItemStatus.ONLY_DISPLAY.value) {
+                //已经上架
+                helper.itemView.tvExplaining.isClickable = true
+                helper.itemView.tvExplaining.isSelected = true
                 helper.itemView.tvPulledCover.visibility = View.GONE
                 helper.itemView.tvPull.text = "下架商品"
-                helper.itemView.tvPull.setOnClickListener {
-                    LoadingDialog.showLoading(kitContext.fragmentManager)
-                    shoppingService.updateItemStatus(item.itemID, QItemStatus.PULLED,
-                        object : QLiveCallBack<Void> {
-                            override fun onError(code: Int, msg: String?) {
-                                msg?.asToast(mContext)
-                                LoadingDialog.cancelLoadingDialog()
-                            }
 
-                            override fun onSuccess(v: Void?) {
-                                LoadingDialog.cancelLoadingDialog()
-                                item.status = QItemStatus.PULLED.value
-                                notifyItemChanged(data.indexOf(item))
-                            }
-                        })
+                helper.itemView.tvPull.setOnClickListener {
+                    showTip("确定下架商品吗？"){
+                        LoadingDialog.showLoading(kitContext.fragmentManager)
+                        shoppingService.updateItemStatus(item.itemID, QItemStatus.PULLED,
+                            object : QLiveCallBack<Void> {
+                                override fun onError(code: Int, msg: String?) {
+                                    msg?.asToast(mContext)
+                                    LoadingDialog.cancelLoadingDialog()
+                                }
+
+                                override fun onSuccess(v: Void?) {
+                                    LoadingDialog.cancelLoadingDialog()
+                                    item.status = QItemStatus.PULLED.value
+                                    notifyItemChanged(data.indexOf(item))
+                                }
+                            })
+                    }
                 }
             }
         }
-    }
 
+        private fun showTip(tip:String,call: () -> Unit) {
+            CommonTipDialog.TipBuild()
+                .setTittle(tip)
+                .setListener(object : BaseDialogListener() {
+                    override fun onDialogPositiveClick(dialog: DialogFragment, any: Any) {
+                        super.onDialogPositiveClick(dialog, any)
+                        call.invoke()
+                    }
+                }).build().show(childFragmentManager,"")
+        }
+    }
 }

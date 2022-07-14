@@ -2,9 +2,9 @@ package com.qlive.coreimpl
 
 import android.content.Context
 import com.qlive.core.*
-import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.core.been.QLiveUser
 import com.qlive.coreimpl.datesource.UserDataSource
+import com.qlive.coreimpl.http.OKHttpService
 import com.qlive.coreimpl.model.AppConfig
 import com.qlive.coreimpl.model.InnerUser
 import com.qlive.coreimpl.util.backGround

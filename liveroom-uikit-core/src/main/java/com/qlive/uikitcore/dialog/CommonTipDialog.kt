@@ -36,18 +36,6 @@ class CommonTipDialog : FinalDialogFragment() {
 
 
     override fun show(manager: FragmentManager, tag: String?) {
-        try {
-            val mDismissed: Field = this.javaClass.superclass!!.getDeclaredField("mDismissed")
-            val mShownByMe: Field = this.javaClass.superclass!!.getDeclaredField("mShownByMe")
-            mDismissed.setAccessible(true)
-            mShownByMe.setAccessible(true)
-            mDismissed.setBoolean(this, false)
-            mShownByMe.setBoolean(this, true)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
         val ft: FragmentTransaction = manager.beginTransaction()
         ft.add(this, javaClass.simpleName)
         ft.commitAllowingStateLoss()
@@ -63,10 +51,16 @@ class CommonTipDialog : FinalDialogFragment() {
             if (TextUtils.isEmpty(title)) {
                 tvTitle.visibility = View.GONE
             } else {
+                tvTitle.visibility = View.VISIBLE
                 tvTitle.text = title
             }
             val content = getString("content")
             tvContent.text = (content)
+            if (TextUtils.isEmpty(content)) {
+                tvContent.visibility = View.GONE
+            } else {
+                tvContent.visibility = View.VISIBLE
+            }
             val isNeedCancelBtn = getBoolean("isNeedCancelBtn", true)
             if (!isNeedCancelBtn) {
                 vV.visibility = View.GONE

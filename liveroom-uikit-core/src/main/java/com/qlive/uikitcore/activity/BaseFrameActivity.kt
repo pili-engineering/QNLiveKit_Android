@@ -20,8 +20,14 @@ import com.qlive.uikitcore.dialog.LoadingDialog
  */
 abstract class BaseFrameActivity : AppCompatActivity(){
 
+    open fun isCustomCreate():Boolean{
+        return false
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(isCustomCreate()){
+            return
+        }
         setContentView(getLayoutId())
         init()
     }

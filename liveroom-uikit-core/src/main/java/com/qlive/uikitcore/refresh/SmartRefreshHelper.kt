@@ -56,13 +56,14 @@ open class SmartRefreshHelper<T>(
         }
     }
 
-    private fun startRefresh(){
+    private fun startRefresh() {
         if (adapter.data.isEmpty()) {
             emptyCustomView?.setStatus(START_REFREASH_WHEN_EMPTY)
         }
         isRefreshing = true
         fetcherFuc(0)
     }
+
     /**
      * 获取到分页数据 设置下拉刷新和上拉的状态
      */
@@ -135,8 +136,7 @@ open class SmartRefreshHelper<T>(
     }
 
     private fun refreshEmptyView(type: Int) {
-
-        if (adapter.data.isEmpty() && recycler_view.childCount == 0) {
+        if (adapter.data.isEmpty() && adapter.headerLayoutCount + adapter.footerLayoutCount == 0) {
             emptyCustomView?.setStatus(type)
         } else {
             emptyCustomView?.setStatus(HIDE_LAYOUT)

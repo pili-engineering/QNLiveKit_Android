@@ -22,8 +22,12 @@ class ShoppingDataSource {
 
     suspend fun deleteItems(liveId: String, items: List<String>) {
         val jsonObj = JSONObject()
+        val jsonArray = JSONArray()
+        items.forEach {
+            jsonArray.put(it)
+        }
         jsonObj.put("live_id", liveId)
-        jsonObj.put("items", items)
+        jsonObj.put("items", jsonArray)
         OKHttpService.post("/client/item/delete", jsonObj.toString(), Any::class.java)
     }
 
@@ -48,7 +52,7 @@ class ShoppingDataSource {
             List::class.java,
             List::class.java
         )
-        return OKHttpService.post("/client/items/$liveId", "{}", null, p)
+        return OKHttpService.get("/client/item/$liveId", null, null, p)
     }
 
     suspend fun updateItemExtension(liveId: String, ItemID: String, extension: QExtension) {
@@ -63,8 +67,8 @@ class ShoppingDataSource {
         OKHttpService.post("/client/item/demonstrate/${liveId}/${ItemID}", "{}", Any::class.java)
     }
 
-    suspend fun cancelExplaining(liveId: String, ItemID: String) {
-        OKHttpService.delete("/client/item/demonstrate/${liveId}/${ItemID}", "{}", Any::class.java)
+    suspend fun cancelExplaining(liveId: String) {
+        OKHttpService.delete("/client/item/demonstrate/${liveId}", "{}", Any::class.java)
     }
 
     suspend fun getExplaining(liveId: String): QItem {

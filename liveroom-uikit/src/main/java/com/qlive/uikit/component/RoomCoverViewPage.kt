@@ -82,6 +82,7 @@ class RoomCoverViewPager : FrameLayout, QBaseLiveComponent {
             if (deal || MotionEvent.ACTION_DOWN == ev.action) {
                 return true
             }
+            deal = false
             return false
         }
     }

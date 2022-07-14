@@ -23,7 +23,6 @@
         <TextView
             android:id="@+id/tvSenderName"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
             android:paddingStart="6dp"
             android:paddingEnd="12dp"
@@ -43,10 +42,6 @@
             android:text="sssss"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
-
             />
-
     </LinearLayout>
-
-
 </LinearLayout>

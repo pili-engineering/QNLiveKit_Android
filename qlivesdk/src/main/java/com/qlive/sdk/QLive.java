@@ -26,18 +26,21 @@ public class QLive {
 
     /**
      * 初始化
-     * @param context 安卓上下文
-     * @param config  sdk配置
+     *
+     * @param context     安卓上下文
+     * @param config      sdk配置
      * @param tokenGetter token获取
      */
     public static void init(Context context, QSdkConfig config, QTokenGetter tokenGetter) {
         QLiveDelegate.INSTANCE.init(context, config, tokenGetter);
+        getLiveUIKit();
     }
 
     /**
      * 登陆 认证成功后才能使用qlive的功能
-     * @apiNote 认证成功后才能使用qlive的功能
+     *
      * @param callBack 操作回调
+     * @apiNote 认证成功后才能使用qlive的功能
      */
     public static void auth(@NotNull QLiveCallBack<Void> callBack) {
         QLiveDelegate.INSTANCE.login(callBack);
@@ -45,6 +48,7 @@ public class QLive {
 
     /**
      * 跟新用户信息
+     *
      * @param userInfo 用户参数
      * @param callBack 回调函数
      */
@@ -58,6 +62,7 @@ public class QLive {
 
     /**
      * 获取当前登陆用户资料
+     *
      * @return QLiveUser
      */
     public static QLiveUser getLoginUser() {
@@ -66,6 +71,7 @@ public class QLive {
 
     /**
      * 创建推流客户端
+     *
      * @return QPusherClient
      */
     public static QPusherClient createPusherClient() {
@@ -74,6 +80,7 @@ public class QLive {
 
     /**
      * 创建拉流客户端
+     *
      * @return QPlayerClient
      */
     public static QPlayerClient createPlayerClient() {
@@ -82,7 +89,8 @@ public class QLive {
 
     /**
      * 获取房间管理接口
-     * @return  QRooms
+     *
+     * @return QRooms
      */
     public static QRooms getRooms() {
         return QLiveDelegate.INSTANCE.getQRooms();
@@ -90,6 +98,7 @@ public class QLive {
 
     /**
      * 获得UIkit
+     *
      * @return QLiveUIKit
      */
     public static QLiveUIKit getLiveUIKit() {

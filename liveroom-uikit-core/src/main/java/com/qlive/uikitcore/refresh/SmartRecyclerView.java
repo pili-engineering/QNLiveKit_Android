@@ -24,7 +24,7 @@ import kotlin.jvm.functions.Function1;
 public class SmartRecyclerView extends FrameLayout {
     private SmartRefreshHelper smartRefreshHelper;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout smartRefreshLayout;
+    protected SwipeRefreshLayout smartRefreshLayout;
     private FrameLayout flRecyContent;
     public CommonEmptyView emptyView;
 

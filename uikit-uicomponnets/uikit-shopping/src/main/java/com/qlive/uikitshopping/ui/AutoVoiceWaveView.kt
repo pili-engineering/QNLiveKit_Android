@@ -3,6 +3,7 @@ package com.qlive.uikitshopping.ui
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.Gravity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -17,7 +18,13 @@ class AutoVoiceWaveView : VoiceWaveView, LifecycleEventObserver {
         defStyleAttr
     )
 
+    private var isAttach = false
     fun attach(lifecycleOwner: LifecycleOwner) {
+        if(isAttach){
+            return
+        }
+        isAttach = true
+        showGravity = Gravity.CENTER
         lineWidth = 5f
         lineColor = Color.WHITE
         addBody(17)

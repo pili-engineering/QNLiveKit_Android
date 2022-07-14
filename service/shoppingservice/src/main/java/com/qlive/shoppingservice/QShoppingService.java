@@ -4,6 +4,7 @@ import com.qlive.core.QLiveCallBack;
 import com.qlive.core.QLiveService;
 import com.qlive.core.been.QExtension;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public interface QShoppingService extends QLiveService {
      */
     void updateItemStatus(String itemID, QItemStatus status, QLiveCallBack<Void> callBack);
 
+    void updateItemStatus(HashMap<String, QItemStatus> newStatus, QLiveCallBack<Void> callBack);
     /**
      * 跟新商品扩展字段 并通知房间所有人
      *

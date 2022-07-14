@@ -3,7 +3,7 @@
     <item android:drawable="@drawable/kit_shape_e34d59_2"
         android:state_selected="true"
         />
-    <item android:drawable="@drawable/shape_f5f5f5_2"
+    <item android:drawable="@drawable/shape_e79294_2"
         android:state_selected="false"
         />
 </selector>
