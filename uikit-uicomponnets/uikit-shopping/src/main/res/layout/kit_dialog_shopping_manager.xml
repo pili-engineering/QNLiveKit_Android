@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,23 +12,22 @@
         android:layout_height="560dp"
         android:layout_gravity="bottom"
         android:background="@drawable/kit_shape_bg_shopping"
-        android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="24dp">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:gravity="center"
             android:text="商品列表"
             android:textColor="#333333"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+
+            />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -35,8 +35,8 @@
             android:layout_height="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingEnd="8dp">
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp">
 
             <RadioButton
                 android:id="@+id/rbAll"
@@ -64,9 +64,9 @@
                 android:id="@+id/rbPulled"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="end|center_vertical"
                 android:layout_weight="1"
                 android:button="@null"
+                android:gravity="end|center_vertical"
                 android:text="已下架(99)"
                 android:textColor="@drawable/select_color_tab_shopping"
                 android:textSize="12sp" />
@@ -76,56 +76,70 @@
             android:id="@+id/vpGoods"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="4dp" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E5E5E5" />
 
         <LinearLayout
             android:id="@+id/radioGroupOp"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="70dp"
+            android:background="#ffffff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="48dp"
-            android:paddingEnd="48dp">
+            android:paddingBottom="24dp">
 
-            <RadioButton
-                android:id="@+id/rbUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/tvUp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:button="@null"
                 android:checked="true"
+                android:gravity="center"
                 android:text="上架"
                 android:textColor="@drawable/select_color_op_shopping"
                 android:textSize="12sp" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
 
-            <RadioButton
-                android:id="@+id/rbDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/tvDown"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:button="@null"
+                android:gravity="center"
                 android:text="下架"
                 android:textColor="@drawable/select_color_op_shopping"
                 android:textSize="12sp" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
 
-            <RadioButton
-                android:id="@+id/rbMove"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/select_ic_goods_delete"
-                android:text=" 移除"
-                android:gravity="center"
-                android:textColor="@drawable/select_color_op_shopping"
-                android:textSize="12sp" />
+            <LinearLayout
+                android:id="@+id/llMove"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvMove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/select_ic_goods_delete"
+                    android:drawablePadding="2dp"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:text="移除"
+                    android:textColor="@drawable/select_color_op_shopping"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

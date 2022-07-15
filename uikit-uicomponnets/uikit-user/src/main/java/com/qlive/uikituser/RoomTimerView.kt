@@ -50,4 +50,9 @@ class RoomTimerView : QKitTextView {
         mScheduler.cancel()
     }
 
+    override fun onDestroyed() {
+        super.onDestroyed()
+        mScheduler.cancel()
+    }
+
 }

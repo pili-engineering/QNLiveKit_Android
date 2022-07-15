@@ -34,11 +34,11 @@ android {
 ////编译sdk模式
 def buidSdk = false
 //
-//fataar {
-//    transitive = true
-//}
-//////
-//def version = 'qlive-sdk-1.0.0'
+fataar {
+    transitive = true
+}
+////
+//def version = 'qlive-sdk-1.0.1'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')
 //    into('../app-sdk/qlive-sdk/')
@@ -60,6 +60,7 @@ dependencies {
         embed project(':service:danmakuservice')
         embed project(':service:publicchatservice')
         embed project(':service:roomservice')
+        embed project(':service:shoppingservice')
 
         embed project(':liveroom-libs:comp_avparam')
         embed project(':liveroom-libs:lib_json')
@@ -67,6 +68,8 @@ dependencies {
         embed project(':liveroom-libs:comp_player')
         embed project(':liveroom-libs:comp_imadapter')
         embed project(':liveroom-libs:comp_rtclive')
+
+
         embed 'com.alibaba:fastjson:1.2.61'
         api project(':liveroom-core')
         implementation project(':liveroom-coreimpl')

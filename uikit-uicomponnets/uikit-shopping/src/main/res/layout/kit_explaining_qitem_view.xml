@@ -31,7 +31,7 @@
         android:layout_height="40dp"
         android:layout_gravity="end"
         android:padding="10dp"
-        tools:src="@mipmap/kit_my_mic_close" />
+        tools:src="@mipmap/kit_close_explaining" />
 
 
     <LinearLayout

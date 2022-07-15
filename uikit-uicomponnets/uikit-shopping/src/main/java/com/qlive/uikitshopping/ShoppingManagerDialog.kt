@@ -188,54 +188,53 @@ class ShoppingManagerDialog(
             override fun onPageSelected(position: Int) {
                 when (position) {
                     0 -> {
-                        rbUp.isClickable = true
-                        rbDown.isClickable = true
-                        rbMove.isClickable = true
-                        rbUp.isChecked = true
-                        rbDown.isChecked = true
-                        rbMove.isChecked = true
+                        tvUp.isClickable = true
+                        tvDown.isClickable = true
+                        llMove.isClickable = true
+                        tvUp.isSelected = true
+                        tvDown.isSelected = true
+                        tvMove.isSelected = true
 
                         radioGroup.check(R.id.rbAll)
                     }
                     1 -> {
-                        rbUp.isClickable = false
-                        rbDown.isClickable = true
-                        rbMove.isClickable = true
-                        rbUp.isChecked = false
-                        rbDown.isChecked = true
-                        rbMove.isChecked = true
+                        tvUp.isClickable = false
+                        tvDown.isClickable = true
+                        llMove.isClickable = true
+                        tvUp.isSelected = false
+                        tvDown.isSelected = true
+                        tvMove.isSelected = true
                         radioGroup.check(R.id.rbOnSale)
                     }
                     2 -> {
-                        rbUp.isClickable = true
-                        rbDown.isClickable = false
-                        rbMove.isClickable = true
-                        rbUp.isChecked = true
-                        rbDown.isChecked = false
-                        rbMove.isChecked = true
+                        tvUp.isClickable = true
+                        tvDown.isClickable = false
+                        llMove.isClickable = true
+                        tvUp.isSelected = true
+                        tvDown.isSelected = false
+                        tvMove.isSelected = true
                         radioGroup.check(R.id.rbPulled)
                     }
                 }
             }
-
             override fun onPageScrollStateChanged(state: Int) {}
         })
 
-        rbUp.isClickable = true
-        rbDown.isClickable = true
-        rbMove.isClickable = true
-        rbUp.isChecked = true
-        rbDown.isChecked = true
-        rbMove.isChecked = true
+        tvUp.isClickable = true
+        tvDown.isClickable = true
+        llMove.isClickable = true
+        tvUp.isSelected = true
+        tvDown.isSelected = true
+        tvMove.isSelected = true
 
-        rbUp.setDoubleCheckClickListener {
-            optionList("确定上架商品吗", rbUp, views[vpGoods.currentItem].selectedSet)
+        tvUp.setDoubleCheckClickListener {
+            optionList("确定上架商品吗", tvUp, views[vpGoods.currentItem].selectedSet)
         }
-        rbDown.setDoubleCheckClickListener {
-            optionList("确定下架商品吗", rbDown, views[vpGoods.currentItem].selectedSet)
+        tvDown.setDoubleCheckClickListener {
+            optionList("确定下架商品吗", tvDown, views[vpGoods.currentItem].selectedSet)
         }
-        rbMove.setDoubleCheckClickListener {
-            optionList("确定删除商品吗", rbMove, views[vpGoods.currentItem].selectedSet)
+        llMove.setDoubleCheckClickListener {
+            optionList("确定删除商品吗", llMove, views[vpGoods.currentItem].selectedSet)
         }
         views.forEach {
             it.post {
@@ -263,12 +262,12 @@ class ShoppingManagerDialog(
             bg {
                 LoadingDialog.showLoading(childFragmentManager)
                 doWork {
-                    if (optionId == rbMove) {
+                    if (optionId == llMove) {
                         deleteItems(selectedList.toList())
                         resetAll()
                         return@doWork
                     }
-                    if (optionId == rbDown) {
+                    if (optionId == tvDown) {
                         changeUpdateStatus(HashMap<String, QItemStatus>().apply {
                             selectedList.forEach {
                                 put(it, QItemStatus.PULLED)
@@ -277,7 +276,7 @@ class ShoppingManagerDialog(
                         resetAll()
                         return@doWork
                     }
-                    if (optionId == rbUp) {
+                    if (optionId == tvUp) {
                         changeUpdateStatus(HashMap<String, QItemStatus>().apply {
                             selectedList.forEach {
                                 put(it, QItemStatus.ON_SALE)

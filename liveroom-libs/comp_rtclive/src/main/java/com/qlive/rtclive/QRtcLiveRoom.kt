@@ -287,7 +287,7 @@ open class QRtcLiveRoom(
         }, tracks)
     }
 
-    suspend fun leave() {
+    fun leave() {
         mClient.leave()
         localAudioTrack?.destroy()
         localVideoTrack?.destroy()
@@ -297,6 +297,7 @@ open class QRtcLiveRoom(
     }
 
     fun close() {
+        leave()
         mInnerVideoFrameListener = null
         QInnerVideoFrameHook.mBeautyHooker?.detach()
         mAudioFrameListener = null
@@ -306,14 +307,14 @@ open class QRtcLiveRoom(
     }
 
     //切换摄像头
-    fun switchCamera(call: (Boolean?,String) -> Unit) {
+    fun switchCamera(call: (Boolean?, String) -> Unit) {
         localVideoTrack?.switchCamera(object : QNCameraSwitchResultCallback {
             override fun onSwitched(p0: Boolean) {
-                call.invoke(p0,"")
+                call.invoke(p0, "")
             }
 
             override fun onError(p0: String) {
-                call.invoke(null,p0)
+                call.invoke(null, p0)
             }
         })
     }

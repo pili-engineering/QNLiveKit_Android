@@ -1,5 +1,8 @@
 package com.qlive.shoppingservice;
 
+/**
+ * 商品状态枚举
+ */
 public enum QItemStatus {
 
     /**

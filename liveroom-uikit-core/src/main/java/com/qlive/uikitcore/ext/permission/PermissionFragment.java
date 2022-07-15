@@ -1,7 +1,6 @@
 package com.qlive.uikitcore.ext.permission;
 
 
-
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
-
 
 public class PermissionFragment extends Fragment {
 
@@ -68,8 +66,9 @@ public class PermissionFragment extends Fragment {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.remove(this).commit();
         }
+        permissionCallback = null;
+        PermissionAnywhere.permissionFragment = null;
     }
-
 
     void requestPermission(String[] permissions) {
         requestPermissions(permissions, PERMISSION_REQUEST_CODE);

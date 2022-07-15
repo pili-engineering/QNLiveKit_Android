@@ -130,6 +130,10 @@ class OnlineUserView : QKitFrameLayout {
         lazyFreshJob.start()
     }
 
+    override fun onDestroyed() {
+        super.onDestroyed()
+        lazyFreshJob.cancel()
+    }
     override fun onLeft() {
         super.onLeft()
         roomId = ""

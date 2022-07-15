@@ -100,6 +100,11 @@ class RoomMemberCountView : QKitTextView {
         mScheduler.cancel()
     }
 
+    override fun onDestroyed() {
+        super.onDestroyed()
+        mScheduler.cancel()
+    }
+
     override fun attachLiveClient(client: QLiveClient) {
         super.attachLiveClient(client)
         client.getService(QChatRoomService::class.java)

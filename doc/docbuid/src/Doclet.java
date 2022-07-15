@@ -13,102 +13,108 @@ import com.sun.tools.javadoc.ProgramElementDocImpl;
  * 类说明：打印类及其字段、方法的注释<br>
  * 使用javadoc实现<br>
  * 需要在工程中加载jdk中的包$JAVA_HOME/lib/tools.jar
- *
- *
+ * <p>
+ * <p>
  * 文档工具https://cf.qiniu.io/pages/viewpage.action?pageId=72910016
  */
 public class Doclet {
     //跟新文档可替换本地路径前缀
-    private static String projectPath ="/Users/manjiale/dev/QNLiveKit_Android/";
+    private static String projectPath = "/Users/manjiale/dev/QNLiveKit_Android/";
+
     public static void main(String[] args) {
         //java源文件的路径
         ArrayList<String> sources = new ArrayList<>();
 
-        sources.add(projectPath+"qlivesdk/src/main/java/com/qlive/sdk/QLive.java");
-        sources.add(projectPath+"qlivesdk/src/main/java/com/qlive/sdk/QLiveUIKit.java");
-        sources.add(projectPath+"qlivesdk/src/main/java/com/qlive/sdk/QUserInfo.java");
+        sources.add(projectPath + "qlivesdk/src/main/java/com/qlive/sdk/QLive.java");
+        sources.add(projectPath + "qlivesdk/src/main/java/com/qlive/sdk/QLiveUIKit.java");
+        sources.add(projectPath + "qlivesdk/src/main/java/com/qlive/sdk/QUserInfo.java");
 
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QTokenGetter.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QSdkConfig.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QRooms.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QLiveStatus.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QLiveCallBack.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QClientType.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QClientLifeCycleListener.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QInvitationHandler.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QInvitationHandlerListener.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QTokenGetter.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QSdkConfig.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QRooms.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QLiveStatus.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QLiveCallBack.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QClientType.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QClientLifeCycleListener.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QInvitationHandler.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QInvitationHandlerListener.java");
 
         //java been
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QCreateRoomParam.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QDanmaku.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QExtension.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QInvitation.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QLiveRoomInfo.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QLiveRoomInfo.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QLiveUser.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QMicLinker.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QPKSession.java");
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QPublicChat.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/been/QCreateRoomParam.java");
+        sources.add(projectPath + "service/danmakuservice/src/main/java/com/qlive/danmakuservice/QDanmaku.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/been/QExtension.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/been/QInvitation.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/been/QLiveRoomInfo.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/been/QLiveRoomInfo.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/been/QLiveUser.java");
+        sources.add(projectPath + "service/linkmicservice/src/main/java/com/qlive/linkmicservice/QMicLinker.java");
+        sources.add(projectPath + "service/pkservice/src/main/java/com/qlive/pkservice/QPKSession.java");
+        sources.add(projectPath + "service/publicchatservice/src/main/java/com/qlive/pubchatservice/QPublicChat.java");
 
 
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QPlayerEventListener.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QBeautySetting.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QBeautySetting.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QConnectionStatusLister.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QPlayerRenderView.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QMicrophoneParam.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QCameraParam.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QMixStreaming.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QPlayerEventListener.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QBeautySetting.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QBeautySetting.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QConnectionStatusLister.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QPlayerRenderView.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QMicrophoneParam.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QCameraParam.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QMixStreaming.java");
 
         //推流
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/been/QPublicChat.java");
-        sources.add(projectPath+"liveroom-pushclient/src/main/java/com/qlive/pushclient/QPusherClient.java");
-        sources.add(projectPath+"liveroom-libs/comp_rtclive/src/main/java/com/qlive/rtclive/QPushRenderView.java");
+        sources.add(projectPath + "service/publicchatservice/src/main/java/com/qlive/pubchatservice/QPublicChat.java");
+        sources.add(projectPath + "liveroom-pushclient/src/main/java/com/qlive/pushclient/QPusherClient.java");
+        sources.add(projectPath + "liveroom-libs/comp_rtclive/src/main/java/com/qlive/rtclive/QPushRenderView.java");
 
 
         //拉流端
-        sources.add(projectPath+"liveroom-pullclient/src/main/java/com/qlive/playerclient/QPlayerClient.java");
+        sources.add(projectPath + "liveroom-pullclient/src/main/java/com/qlive/playerclient/QPlayerClient.java");
 
 
-        sources.add(projectPath+"liveroom-core/src/main/java/com/qlive/core/QLiveStatusListener.java");
+        sources.add(projectPath + "liveroom-core/src/main/java/com/qlive/core/QLiveStatusListener.java");
 
-        sources.add(projectPath+"service/linkmicservice/src/main/java/com/qlive/linkmicservice/QLinkMicService.java");
-        sources.add(projectPath+"service/linkmicservice/src/main/java/com/qlive/linkmicservice/QLinkMicServiceListener.java");
-        sources.add(projectPath+"service/linkmicservice/src/main/java/com/qlive/linkmicservice/QAnchorHostMicHandler.java");
-        sources.add(projectPath+"service/linkmicservice/src/main/java/com/qlive/linkmicservice/QLinkMicMixStreamAdapter.java");
-        sources.add(projectPath+"service/linkmicservice/src/main/java/com/qlive/linkmicservice/QAudienceMicHandler.java");
+        sources.add(projectPath + "service/linkmicservice/src/main/java/com/qlive/linkmicservice/QLinkMicService.java");
+        sources.add(projectPath + "service/linkmicservice/src/main/java/com/qlive/linkmicservice/QLinkMicServiceListener.java");
+        sources.add(projectPath + "service/linkmicservice/src/main/java/com/qlive/linkmicservice/QAnchorHostMicHandler.java");
+        sources.add(projectPath + "service/linkmicservice/src/main/java/com/qlive/linkmicservice/QLinkMicMixStreamAdapter.java");
+        sources.add(projectPath + "service/linkmicservice/src/main/java/com/qlive/linkmicservice/QAudienceMicHandler.java");
 
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QAudioFrameListener.java");
-        sources.add(projectPath+"liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QVideoFrameListener.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QAudioFrameListener.java");
+        sources.add(projectPath + "liveroom-libs/comp_avparam/src/main/java/com/qlive/avparam/QVideoFrameListener.java");
 
-        sources.add(projectPath+"service/pkservice/src/main/java/com/qlive/pkservice/QPKService.java");
-        sources.add(projectPath+"service/pkservice/src/main/java/com/qlive/pkservice/QPKServiceListener.java");
-        sources.add(projectPath+"service/pkservice/src/main/java/com/qlive/pkservice/QPKMixStreamAdapter.java");
-
-
-        sources.add(projectPath+"service/publicchatservice/src/main/java/com/qlive/pubchatservice/QPublicChatService.java");
-        sources.add(projectPath+"service/publicchatservice/src/main/java/com/qlive/pubchatservice/QPublicChatServiceLister.java");
-
-        sources.add(projectPath+"service/roomservice/src/main/java/com/qlive/roomservice/QRoomService.java");
-        sources.add(projectPath+"service/roomservice/src/main/java/com/qlive/roomservice/QRoomServiceListener.java");
-
-        sources.add(projectPath+"service/roomservice/src/main/java/com/qlive/roomservice/QRoomService.java");
-        sources.add(projectPath+"service/roomservice/src/main/java/com/qlive/roomservice/QRoomService.java");
-
-        sources.add(projectPath+"service/danmakuservice/src/main/java/com/qlive/danmakuservice/QDanmakuService.java");
-        sources.add(projectPath+"service/danmakuservice/src/main/java/com/qlive/danmakuservice/QDanmakuServiceListener.java");
-
-        sources.add(projectPath+"service/chatservice/src/main/java/com/qlive/chatservice/QChatRoomService.java");
-        sources.add(projectPath+"service/chatservice/src/main/java/com/qlive/chatservice/QChatRoomServiceListener.java");
+        sources.add(projectPath + "service/pkservice/src/main/java/com/qlive/pkservice/QPKService.java");
+        sources.add(projectPath + "service/pkservice/src/main/java/com/qlive/pkservice/QPKServiceListener.java");
+        sources.add(projectPath + "service/pkservice/src/main/java/com/qlive/pkservice/QPKMixStreamAdapter.java");
 
 
-        sources.add(projectPath+"liveroom-uikit/src/main/java/com/qlive/uikit/RoomPage.java");
-        sources.add(projectPath+"liveroom-uikit/src/main/java/com/qlive/uikit/RoomListPage.java");
-        sources.add(projectPath+"liveroom-uikit/src/main/java/com/qlive/uikit/component/QLiveFunctionComponent.java");
-        sources.add(projectPath+"liveroom-uikit-core/src/main/java/com/qlive/uikitcore/QLiveComponent.java");
-        sources.add(projectPath+"doc/docbuid/src/QLiveUIKitContext.java");
+        sources.add(projectPath + "service/publicchatservice/src/main/java/com/qlive/pubchatservice/QPublicChatService.java");
+        sources.add(projectPath + "service/publicchatservice/src/main/java/com/qlive/pubchatservice/QPublicChatServiceLister.java");
+
+        sources.add(projectPath + "service/roomservice/src/main/java/com/qlive/roomservice/QRoomService.java");
+        sources.add(projectPath + "service/roomservice/src/main/java/com/qlive/roomservice/QRoomServiceListener.java");
+
+        sources.add(projectPath + "service/roomservice/src/main/java/com/qlive/roomservice/QRoomService.java");
+        sources.add(projectPath + "service/roomservice/src/main/java/com/qlive/roomservice/QRoomService.java");
+
+        sources.add(projectPath + "service/danmakuservice/src/main/java/com/qlive/danmakuservice/QDanmakuService.java");
+        sources.add(projectPath + "service/danmakuservice/src/main/java/com/qlive/danmakuservice/QDanmakuServiceListener.java");
+
+        sources.add(projectPath + "service/chatservice/src/main/java/com/qlive/chatservice/QChatRoomService.java");
+        sources.add(projectPath + "service/chatservice/src/main/java/com/qlive/chatservice/QChatRoomServiceListener.java");
 
 
+        sources.add(projectPath + "liveroom-uikit/src/main/java/com/qlive/uikit/RoomPage.java");
+        sources.add(projectPath + "liveroom-uikit/src/main/java/com/qlive/uikit/RoomListPage.java");
+        sources.add(projectPath + "liveroom-uikit/src/main/java/com/qlive/uikit/component/QLiveFunctionComponent.java");
+        sources.add(projectPath + "liveroom-uikit-core/src/main/java/com/qlive/uikitcore/QLiveComponent.java");
+        sources.add(projectPath + "doc/docbuid/src/QLiveUIKitContext.java");
+
+
+        sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QItem.java");
+        sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QItemStatus.java");
+        sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QOrderParam.java");
+        sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QSingleOrderParam.java");
+        sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QShoppingService.java");
         //打印
         try {
             println(sources);
@@ -143,9 +149,10 @@ public class Doclet {
         if (name.equals("LinkMicHandlerListener")) {
             name = "QAudienceMicHandler.LinkMicHandlerListener";
         }
-        if(name.equals("MixStreamParams")){
+        if (name.equals("MixStreamParams")) {
             name = "QMixStreaming.MixStreamParams";
         }
+
         if (links.get(name) == null) {
             return name;
         } else {
@@ -196,7 +203,10 @@ public class Doclet {
             if (classDoc.name().equals("RoomPage")) {
                 DocIndex = 12105;
             }
-            links.put(classDoc.name(), "https://developer.qiniu.com/lowcode/api/" + String.valueOf(DocIndex++) + "/" + classDoc.name().replace(".","_"));
+            if(classDoc.name().equals("QItem")){
+                DocIndex = 12128;
+            }
+            links.put(classDoc.name(), "https://developer.qiniu.com/lowcode/api/" + String.valueOf(DocIndex++) + "/" + classDoc.name().replace(".", "_"));
         }
 
         for (ClassDoc classDoc : classes) {
@@ -285,14 +295,14 @@ public class Doclet {
                 DocFormat.BlockItem filedItemKit = new DocFormat.BlockItem();
                 filedItemKit.name = "字段";
 
-                filedItemKit.elements.add(new DocFormat.ElementItem("androidContext","val androidContext: Context","安卓上下文"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("fragmentManager","val fragmentManager: FragmentManager,","安卓FragmentManager 用于显示弹窗"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("currentActivity","val currentActivity: Activity","当前所在的Activity"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("lifecycleOwner","val lifecycleOwner: LifecycleOwner","当前页面的安卓LifecycleOwner"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("leftRoomActionCall"," val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit","离开房间操作 在任意UI组件中可以操作离开房间"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("createAndJoinRoomActionCall","val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit","创建并且加入房间操作 在任意UI组件中可创建并且加入房间"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("getPlayerRenderViewCall","val getPlayerRenderViewCall: () -> QPlayerRenderView?","获取当前播放器预览窗口 在任意UI组件中如果要对预览窗口变化可直接获取"));
-                filedItemKit.elements.add(new DocFormat.ElementItem("getPusherRenderViewCall"," val getPusherRenderViewCall: () -> QPushRenderView?","获取推流预览窗口  在任意UI组件中如果要对预览窗口变化可直接获取"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("androidContext", "val androidContext: Context", "安卓上下文"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("fragmentManager", "val fragmentManager: FragmentManager,", "安卓FragmentManager 用于显示弹窗"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("currentActivity", "val currentActivity: Activity", "当前所在的Activity"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("lifecycleOwner", "val lifecycleOwner: LifecycleOwner", "当前页面的安卓LifecycleOwner"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("leftRoomActionCall", " val leftRoomActionCall: (resultCall: QLiveCallBack<Void>) -> Unit", "离开房间操作 在任意UI组件中可以操作离开房间"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("createAndJoinRoomActionCall", "val createAndJoinRoomActionCall: (param: QCreateRoomParam, resultCall: QLiveCallBack<Void>) -> Unit", "创建并且加入房间操作 在任意UI组件中可创建并且加入房间"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("getPlayerRenderViewCall", "val getPlayerRenderViewCall: () -> QPlayerRenderView?", "获取当前播放器预览窗口 在任意UI组件中如果要对预览窗口变化可直接获取"));
+                filedItemKit.elements.add(new DocFormat.ElementItem("getPusherRenderViewCall", " val getPusherRenderViewCall: () -> QPushRenderView?", "获取推流预览窗口  在任意UI组件中如果要对预览窗口变化可直接获取"));
 
                 format.blocks.add(filedItemKit);
             }

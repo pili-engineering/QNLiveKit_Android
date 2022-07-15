@@ -1,5 +1,6 @@
 package com.qlive.uikitcore.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.StyleRes
@@ -110,8 +111,8 @@ abstract class FinalDialogFragment : DialogFragment() {
 
     abstract fun init()
 
-    override fun dismiss() {
-        super.dismiss()
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
         mDefaultListener?.onDismiss(this)
     }
 

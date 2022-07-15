@@ -145,15 +145,13 @@ class AnchorShoppingDialog(
             loadItem()
         }
         tvManager.setOnClickListener {
-            ShoppingManagerDialog(kitContext, client)
-                .apply {
-                    mDefaultListener = object : BaseDialogListener() {
-                        override fun onDismiss(dialog: DialogFragment) {
-                            recyclerViewGoods.startRefresh()
-                        }
-                    }
+            val d = ShoppingManagerDialog(kitContext, client)
+            d.mDefaultListener = object : BaseDialogListener() {
+                override fun onDismiss(dialog: DialogFragment) {
+                    recyclerViewGoods.startRefresh()
                 }
-                .show(childFragmentManager, "")
+            }
+            d.show(childFragmentManager, "")
         }
         recyclerViewGoods.startRefresh()
     }
@@ -224,7 +222,7 @@ class AnchorShoppingDialog(
                 }
             helper.itemView.tvNowPrice.text = item.currentPrice
             helper.itemView.tvOriginPrice.text = item.originPrice
-            helper.itemView.tvOriginPrice .paint.flags = Paint.STRIKE_THRU_TEXT_FLAG;
+            helper.itemView.tvOriginPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG;
             helper.itemView.tvPull.setOnClickListener { }
 
             if (item.status == QItemStatus.PULLED.value) {
@@ -234,7 +232,7 @@ class AnchorShoppingDialog(
                 helper.itemView.tvPulledCover.visibility = View.VISIBLE
                 helper.itemView.tvPull.text = "上架商品"
                 helper.itemView.tvPull.setOnClickListener {
-                    showTip("确定上架商品吗？"){
+                    showTip("确定上架商品吗？") {
                         LoadingDialog.showLoading(kitContext.fragmentManager)
                         shoppingService.updateItemStatus(item.itemID, QItemStatus.ON_SALE,
                             object : QLiveCallBack<Void> {
@@ -261,7 +259,7 @@ class AnchorShoppingDialog(
                 helper.itemView.tvPull.text = "下架商品"
 
                 helper.itemView.tvPull.setOnClickListener {
-                    showTip("确定下架商品吗？"){
+                    showTip("确定下架商品吗？") {
                         LoadingDialog.showLoading(kitContext.fragmentManager)
                         shoppingService.updateItemStatus(item.itemID, QItemStatus.PULLED,
                             object : QLiveCallBack<Void> {
@@ -281,7 +279,7 @@ class AnchorShoppingDialog(
             }
         }
 
-        private fun showTip(tip:String,call: () -> Unit) {
+        private fun showTip(tip: String, call: () -> Unit) {
             CommonTipDialog.TipBuild()
                 .setTittle(tip)
                 .setListener(object : BaseDialogListener() {
@@ -289,7 +287,7 @@ class AnchorShoppingDialog(
                         super.onDialogPositiveClick(dialog, any)
                         call.invoke()
                     }
-                }).build().show(childFragmentManager,"")
+                }).build().show(childFragmentManager, "")
         }
     }
 }

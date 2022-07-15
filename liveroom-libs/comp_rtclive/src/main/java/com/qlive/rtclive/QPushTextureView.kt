@@ -2,6 +2,7 @@ package com.qlive.rtclive
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -28,6 +29,12 @@ open class QPushTextureView : FrameLayout, QPushRenderView {
     }
 
     override fun getQNRender(): QNRenderView {
+
         return renderView!!
     }
+//
+//    fun release() {
+//        Log.d("mjl"," QPushTextureView relase")
+//        renderView?.release()
+//    }
 }

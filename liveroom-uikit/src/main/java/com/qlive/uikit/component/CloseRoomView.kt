@@ -39,7 +39,7 @@ class CloseRoomView : QKitImageView {
 
                 override fun onSuccess(data: Void?) {
                     LoadingDialog.cancelLoadingDialog()
-                    client?.destroy()
+                 //   client?.destroy()
                     kitContext?.currentActivity?.finish()
                 }
             }

@@ -1,13 +1,11 @@
 package com.qlive.uikitcore.ext.permission;
 
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 public class PermissionAnywhere {
-    private static PermissionFragment permissionFragment;
-
+    protected static PermissionFragment permissionFragment;
 
     public static void requestPermission(final AppCompatActivity context, final String[] permissions, PermissionCallback permissionCallback) {
         if (permissionFragment == null) {

@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.qlive.core.QLiveLogUtil
 import com.qlive.uikitcore.R
 import com.qlive.uikitcore.dialog.LoadingDialog
 
@@ -28,7 +29,12 @@ abstract class BaseFrameActivity : AppCompatActivity(){
         if(isCustomCreate()){
             return
         }
+        val startTime = System.currentTimeMillis()
         setContentView(getLayoutId())
+        QLiveLogUtil.d(
+            "ActivityonCreate",
+            "onCreate cost ${System.currentTimeMillis() - startTime}"
+        )
         init()
     }
 

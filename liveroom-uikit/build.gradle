@@ -33,12 +33,12 @@ android {
 
 //编译sdk模式
 def buidSdk = false
-
-fataar {
-    transitive = true
-}
-
-//def version = 'qlive-uikit-1.0.0'
+//
+//fataar {
+//    transitive = true
+//}
+//
+//def version = 'qlive-uikit-1.0.1'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')
 //    into('../app-sdk/qlive-sdk-uikit/')
@@ -49,7 +49,6 @@ fataar {
 
 dependencies {
 
-    implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.0.0'
     if (buidSdk) {
         
         embed project(':liveroom-uikit-core')
@@ -57,12 +56,13 @@ dependencies {
         embed project(':uikit-uicomponnets:uikit-user')
         embed project(':uikit-uicomponnets:uikit-danmaku')
         embed project(':uikit-uicomponnets:uikit-publicchat')
-
         embed project(':uikit-uicomponnets:uikit-linkmic')
         embed project(':uikit-uicomponnets:uikit-pk')
         embed project(':uikit-uicomponnets:uiwidget-input')
         embed project(':uikit-uicomponnets:uiwidget-Emoji')
+        embed project(':uikit-uicomponnets:uikit-shopping')
         implementation depend.appcompat()
+        implementation depend.cardview()
     } else {
 
         api project(':liveroom-uikit-core')

@@ -243,15 +243,18 @@ class QPKServiceImpl : QPKService, BaseService() {
                 loopStop()
             }
 
-            if (p0 == mPKSession?.initiator?.userId) {
-                QLiveLogUtil.LogE("pk 对方离开房间 ")
-                loopStop()
-            }
         }
     }
 
+    private var isLoopStopping = false
     private fun loopStop() {
-
+        if (isLoopStopping) {
+            return
+        }
+        if (mPKSession == null) {
+            return
+        }
+        isLoopStopping = true
         backGround {
             doWork {
                 try {
@@ -286,6 +289,9 @@ class QPKServiceImpl : QPKService, BaseService() {
                 mPKSession = null
 
                 resetMixStream(peer)
+            }
+            onFinally {
+                isLoopStopping = false
             }
         }
     }
