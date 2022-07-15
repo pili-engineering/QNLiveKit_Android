@@ -289,6 +289,7 @@ open class QRtcLiveRoom(
 
     fun leave() {
         mClient.leave()
+        mAllTrack.clear()
         localAudioTrack?.destroy()
         localVideoTrack?.destroy()
         localAudioTrack = null

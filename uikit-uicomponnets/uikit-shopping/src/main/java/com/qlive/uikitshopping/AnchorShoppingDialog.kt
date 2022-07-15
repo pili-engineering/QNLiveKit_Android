@@ -182,6 +182,7 @@ class AnchorShoppingDialog(
 
                         override fun onSuccess(data: Void?) {
                             LoadingDialog.cancelLoadingDialog()
+                            recyclerViewGoods.startRefresh()
                         }
                     })
                 }
@@ -200,6 +201,7 @@ class AnchorShoppingDialog(
 
                         override fun onSuccess(data: Void?) {
                             LoadingDialog.cancelLoadingDialog()
+                            recyclerViewGoods.startRefresh()
                         }
                     })
                 }

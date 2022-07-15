@@ -36,6 +36,7 @@ class SenseVideoFrameListener : QNVideoFrameListener {
         }
     }
 
+    private var lastTextureID: Int = -1
     override fun onTextureFrameAvailable(
         textureID: Int,
         type: QNVideoFrameType,
@@ -45,6 +46,12 @@ class SenseVideoFrameListener : QNVideoFrameListener {
         timestampNs: Long,
         transformMatrix: FloatArray?
     ): Int {
+        if (isInit) {
+            if (lastTextureID != textureID) {
+                release()
+            }
+        }
+        lastTextureID = textureID
         return if (checkInit()) {
             if (mRotation != rotation) {
                 BeautyHookerImpl.senseTimePlugin?.updateDirection(
@@ -65,6 +72,7 @@ class SenseVideoFrameListener : QNVideoFrameListener {
     }
 
     fun release() {
+        isInit = false
         BeautyHookerImpl.senseTimePlugin?.destroy()
     }
 }

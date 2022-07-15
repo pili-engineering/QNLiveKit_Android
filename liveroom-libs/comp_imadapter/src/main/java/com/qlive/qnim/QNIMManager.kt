@@ -1,11 +1,10 @@
 package com.qlive.qnim
 
 import android.content.Context
+import com.qiniu.droid.imsdk.BXMChatRoomService
+import com.qiniu.droid.imsdk.QNIMClient
 import com.qlive.rtm.RtmManager
-import im.floo.floolib.BMXClientType
-import im.floo.floolib.BMXLogLevel
-import im.floo.floolib.BMXPushEnvironmentType
-import im.floo.floolib.BMXSDKConfig
+import im.floo.floolib.*
 import java.io.File
 
 object QNIMManager {
