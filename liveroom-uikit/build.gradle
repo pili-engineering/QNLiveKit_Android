@@ -33,10 +33,10 @@ android {
 
 //编译sdk模式
 def buidSdk = false
-//
-//fataar {
-//    transitive = true
-//}
+
+fataar {
+    transitive = true
+}
 //
 //def version = 'qlive-uikit-1.0.1'
 //task makeAAR(type: Copy) {
@@ -50,7 +50,6 @@ def buidSdk = false
 dependencies {
 
     if (buidSdk) {
-        
         embed project(':liveroom-uikit-core')
         compileOnly project(':qlivesdk')
         embed project(':uikit-uicomponnets:uikit-user')
@@ -64,7 +63,6 @@ dependencies {
         implementation depend.appcompat()
         implementation depend.cardview()
     } else {
-
         api project(':liveroom-uikit-core')
         api project(':uikit-uicomponnets:uikit-user')
         api project(':uikit-uicomponnets:uikit-danmaku')

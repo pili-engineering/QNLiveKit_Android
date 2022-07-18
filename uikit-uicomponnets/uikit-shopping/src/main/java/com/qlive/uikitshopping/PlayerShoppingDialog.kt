@@ -18,6 +18,7 @@ import com.qlive.shoppingservice.QItem
 import com.qlive.shoppingservice.QShoppingService
 import com.qlive.shoppingservice.QShoppingServiceListener
 import com.qlive.uikitcore.QLiveUIKitContext
+import com.qlive.uikitcore.Scheduler
 import com.qlive.uikitcore.dialog.FinalDialogFragment
 import com.qlive.uikitcore.refresh.CommonEmptyView
 import com.qlive.uikitshopping.TagItem.Companion.strToTagItem
@@ -114,8 +115,8 @@ class PlayerShoppingDialog(
 
             override fun onSuccess(data: List<QItem>) {
                 data.forEachIndexed { index, qItem ->
-                    if(qItem.itemID == shoppingService.explaining?.itemID){
-                        lastExplainingIndex  = index
+                    if (qItem.itemID == shoppingService.explaining?.itemID) {
+                        lastExplainingIndex = index
                     }
                 }
                 recyclerViewGoods?.onFetchDataFinish(data, true, true)
@@ -123,22 +124,28 @@ class PlayerShoppingDialog(
         })
     }
 
+    private val mRefreshJob = Scheduler(10000) {
+        loadItem()
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
+        mRefreshJob.cancel()
         super.onDismiss(dialog)
         shoppingService.removeServiceListener(mShoppingServiceListener)
     }
+
 
     override fun init() {
         shoppingService.addServiceListener(mShoppingServiceListener)
         ivClose?.setOnClickListener {
             dismiss()
         }
-
         recyclerViewGoods.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewGoods.setUp(adapter, 3, false, true) {
             loadItem()
         }
         recyclerViewGoods.startRefresh()
+        mRefreshJob.start(true)
     }
 
     private inner class PlayerShoppingGoodsAdapter : BaseQuickAdapter<QItem, BaseViewHolder>(
@@ -175,7 +182,7 @@ class PlayerShoppingDialog(
                 }
             helper.itemView.tvNowPrice.text = item.currentPrice
             helper.itemView.tvOriginPrice.text = item.originPrice
-            helper.itemView.tvOriginPrice .paint.flags = Paint.STRIKE_THRU_TEXT_FLAG;
+            helper.itemView.tvOriginPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG;
             helper.itemView.tvGoBuy.setOnClickListener {
                 Companion.onItemClickListener.invoke(kitContext, client, it, item)
             }

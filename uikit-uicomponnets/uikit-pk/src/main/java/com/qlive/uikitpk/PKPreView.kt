@@ -48,6 +48,10 @@ class PKPlayerPreview : QKitFrameLayout {
     }
 
     private var mQPlayerEventListener = object : QPlayerEventListener {
+        override fun onPrepared(preparedTime: Int) {}
+        override fun onInfo(what: Int, extra: Int) {}
+        override fun onBufferingUpdate(percent: Int) {}
+
         /**
          * 混流变化了 把播放器缩小
          */
@@ -57,6 +61,10 @@ class PKPlayerPreview : QKitFrameLayout {
             } else if (isPKing && !isPKingPreview && width > height) {
                 addView()
             }
+        }
+
+        override fun onError(errorCode: Int): Boolean {
+           return true
         }
     }
 

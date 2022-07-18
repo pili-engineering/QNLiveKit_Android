@@ -27,10 +27,10 @@ public interface QAudienceMicHandler {
          *
          * @param state 状态
          */
-        default void onConnectionStateChanged(
+        void onConnectionStateChanged(
                 QRoomConnectionState state
-        ) {
-        }
+        );
+
         /**
          * 本地角色变化
          *

@@ -9,8 +9,7 @@ public interface QPlayerEventListener {
      *
      * @param preparedTime 准备耗时
      */
-    default void onPrepared(int preparedTime) {
-    }
+    void onPrepared(int preparedTime);
 
     /**
      * 拉流器信息回调
@@ -18,16 +17,14 @@ public interface QPlayerEventListener {
      * @param what  事件 参考七牛霹雳播放器
      * @param extra 数据
      */
-    default void onInfo(int what, int extra) {
-    }
+    void onInfo(int what, int extra);
 
     /**
      * 拉流缓冲跟新
      *
      * @param percent 缓冲比分比
      */
-    default void onBufferingUpdate(int percent) {
-    }
+    void onBufferingUpdate(int percent) ;
 
     /**
      * /视频尺寸变化回调
@@ -35,8 +32,7 @@ public interface QPlayerEventListener {
      * @param width  变化后的宽
      * @param height 变化后高
      */
-    default void onVideoSizeChanged(int width, int height) {
-    }
+    void onVideoSizeChanged(int width, int height);
 
     /**
      * 播放出错回调
@@ -44,7 +40,5 @@ public interface QPlayerEventListener {
      * @param errorCode 错误码 参考七牛霹雳播放器
      * @return 是否处理
      */
-    default boolean onError(int errorCode) {
-        return false;
-    }
+    boolean onError(int errorCode);
 }

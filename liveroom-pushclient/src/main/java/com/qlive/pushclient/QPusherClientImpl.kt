@@ -6,8 +6,6 @@ import com.qlive.rtm.leaveChannel
 import com.qlive.rtclive.*
 import com.qiniu.droid.rtc.*
 import com.qlive.avparam.*
-import com.qlive.chatservice.QChatRoomService
-import com.qlive.chatservice.QChatRoomServiceListener
 import com.qlive.coreimpl.AppCache
 import com.qlive.coreimpl.QNLiveRoomContext
 import com.qlive.coreimpl.util.backGround
@@ -76,20 +74,6 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
 
     private fun init() {
         mLiveContext.checkInit()
-        getService(QChatRoomService::class.java)?.addServiceListener(object :
-            QChatRoomServiceListener {
-            override fun onUserLeft(memberID: String) {
-                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
-                    mLiveContext.mRoomScheduler.setAnchorStatus(0)
-                }
-            }
-
-            override fun onUserJoin(memberID: String) {
-                if (memberID == mLiveContext.roomInfo?.anchor?.imUid) {
-                    mLiveContext.mRoomScheduler.setAnchorStatus(1)
-                }
-            }
-        })
     }
 
     /**

@@ -17,6 +17,8 @@ import com.qlive.uikitcore.dialog.FinalDialogFragment
  */
 class ShowLinkMicApplyComponent : BaseQLiveComponent() {
 
+    private val mApplyingDialogs = HashMap<Int, DialogFragment>()
+
     private val mInvitationListener = object : QInvitationHandlerListener {
         override fun onReceivedApply(qInvitation: QInvitation) {
             if (user?.userId != roomInfo?.anchor?.userId) {
@@ -60,13 +62,28 @@ class ShowLinkMicApplyComponent : BaseQLiveComponent() {
                                     }
                                 })
                     }
+
+                    override fun onDismiss(dialog: DialogFragment) {
+                        super.onDismiss(dialog)
+                        mApplyingDialogs.remove(qInvitation.invitationID)
+                    }
                 }
-                ).build()
+                ).build().apply {
+                    mApplyingDialogs.put(qInvitation.invitationID, this)
+                }
                 .show(kitContext!!.fragmentManager, "")
         }
 
-        override fun onApplyCanceled(qInvitation: QInvitation) {}
-        override fun onApplyTimeOut(qInvitation: QInvitation) {}
+        override fun onApplyCanceled(qInvitation: QInvitation) {
+            mApplyingDialogs.get(qInvitation.invitationID)?.dismiss()
+            mApplyingDialogs.remove(qInvitation.invitationID)
+        }
+
+        override fun onApplyTimeOut(qInvitation: QInvitation) {
+            mApplyingDialogs.get(qInvitation.invitationID)?.dismiss()
+            mApplyingDialogs.remove(qInvitation.invitationID)
+        }
+
         override fun onAccept(qInvitation: QInvitation) {}
         override fun onReject(qInvitation: QInvitation) {}
     }
@@ -76,5 +93,10 @@ class ShowLinkMicApplyComponent : BaseQLiveComponent() {
         client.getService(QLinkMicService::class.java)?.invitationHandler?.addInvitationHandlerListener(
             mInvitationListener
         )
+    }
+
+    override fun onDestroyed() {
+        super.onDestroyed()
+        mApplyingDialogs.clear()
     }
 }

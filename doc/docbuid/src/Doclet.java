@@ -115,6 +115,8 @@ public class Doclet {
         sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QOrderParam.java");
         sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QSingleOrderParam.java");
         sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QShoppingService.java");
+        sources.add(projectPath + "service/shoppingservice/src/main/java/com/qlive/shoppingservice/QShoppingServiceListener.java");
+
         //打印
         try {
             println(sources);

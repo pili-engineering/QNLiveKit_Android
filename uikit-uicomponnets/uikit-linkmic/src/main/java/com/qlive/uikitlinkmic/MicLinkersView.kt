@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.qlive.avparam.QMixStreaming
+import com.qlive.avparam.QRoomConnectionState
 import com.qlive.linkmicservice.QMicLinker
 import com.qlive.core.*
 import com.qlive.core.been.QExtension
@@ -109,6 +110,9 @@ open class MicLinkersView : QKitFrameLayout {
     //观众端连麦监听
     private val mQAudienceMicHandler = object :
         QAudienceMicHandler.LinkMicHandlerListener {
+        override fun onConnectionStateChanged(state: QRoomConnectionState?) {
+        }
+
         /**
          * 本地角色变化
          */

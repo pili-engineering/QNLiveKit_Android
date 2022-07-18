@@ -82,17 +82,17 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
             override fun onStopped(streamID: String) {
                 // 转推任务成功停止时触发此回调
+                Log.d("MixStreamHelperImp"," onStopped  ${streamID}")
             }
 
             override fun onTranscodingTracksUpdated(streamID: String) {
                 // 合流布局更新成功时触发此回调
+                Log.d("MixStreamHelperImp"," onTranscodingTracksUpdated  ${streamID}")
             }
 
             override fun onError(streamID: String, errorInfo: QNLiveStreamingErrorInfo) {
                 // 转推任务出错时触发此回调
-                Log.d(
-                    "MixStreamHelperImp",
-                    "MixStreamHelperImp onError  ${mMixType.name}" + errorInfo.message + "  " + errorInfo.code
+                Log.d("MixStreamHelperImp","MixStreamHelperImp onError  ${mMixType.name}" + errorInfo.message + "  " + errorInfo.code
                 )
             }
         })

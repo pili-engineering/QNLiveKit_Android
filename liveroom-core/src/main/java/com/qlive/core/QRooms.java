@@ -5,6 +5,9 @@ import com.qlive.core.been.QLiveRoomInfo;
 
 import java.util.List;
 
+/**
+ * 房间管理接口
+ */
 public interface QRooms {
 
     /**
@@ -21,7 +24,6 @@ public interface QRooms {
      * @param callBack
      */
     void deleteRoom(String roomID, QLiveCallBack<Void> callBack);
-
 
     /**
      * 房间列表
