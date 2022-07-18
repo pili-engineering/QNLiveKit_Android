@@ -43,8 +43,9 @@ open class QInvitationHandlerImpl(val ivName: String) : QInvitationHandler,
                     if (qInvitation.initiatorRoomID != currentRoomInfo?.liveID) {
                         return
                     }
-                    mListeners.forEach { it.onApplyTimeOut(qInvitation) }
                     qInvitation.invitationID = invitation.flag
+                    mListeners.forEach { it.onApplyTimeOut(qInvitation) }
+
                 }
 
                 override fun onReceiveCanceled(invitation: Invitation) {

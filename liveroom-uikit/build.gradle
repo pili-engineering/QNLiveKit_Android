@@ -37,7 +37,7 @@ def buidSdk = false
 fataar {
     transitive = true
 }
-//
+
 //def version = 'qlive-uikit-1.0.1'
 //task makeAAR(type: Copy) {
 //    from('build/outputs/aar/')
