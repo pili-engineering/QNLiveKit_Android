@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         suspendCoroutine<Unit> { coroutine ->
             //绑定用户信息 绑定后房间在线用户能返回绑定设置的字段
             QLive.setUser(QUserInfo().apply {
+             //   avatar ="https://p6.itc.cn/q_70/images01/20220311/b3213400eebb4796a9f52300ab4788f0.jpeg"
                 avatar = user!!.data.avatar //设置当前用户头像
                 nick = user!!.data.nickname //设置当前用户昵称
                 extension = HashMap<String, String>().apply {

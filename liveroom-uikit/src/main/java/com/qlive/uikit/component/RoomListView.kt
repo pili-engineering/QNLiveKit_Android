@@ -129,7 +129,7 @@ class RoomListView : FrameLayout, QComponent {
 
         override fun convert(helper: BaseViewHolder, item: QLiveRoomInfo) {
             Glide.with(mContext).load(item.coverURL)
-                .apply(RequestOptions().transform(RoundedCorners(ViewUtil.dip2px(8f))))
+                .apply(RequestOptions().transform(RoundedCorners(ViewUtil.dip2px(10f))))
                 .into(helper.itemView.ivCover)
             helper.itemView.tvRoomId.text = item.anchor.nick
             helper.itemView.tvRoomName.text = item.title
