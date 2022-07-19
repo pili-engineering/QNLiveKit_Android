@@ -151,6 +151,19 @@ class KITInflaterFactory(
     private val QUIKitContext: QUIKitContext
 ) : LayoutInflater.Factory2 {
 
+    private fun checkCreateView(
+        name: String,
+        context: Context,
+        attrs: AttributeSet
+    ): View? {
+        return when (name) {
+            QBackNavigationImg::class.java.canonicalName -> QBackNavigationImg(context, attrs)
+            RoomListView::class.java.canonicalName -> RoomListView(context, attrs)
+            CreateRoomButton::class.java.canonicalName -> CreateRoomButton(context, attrs)
+            else -> null
+        }
+    }
+
     override fun onCreateView(
         parent: View?,
         name: String,
@@ -158,18 +171,22 @@ class KITInflaterFactory(
         attrs: AttributeSet
     ): View? {
 
-        var viewClass: Class<*>? = null
-        try {
-            viewClass = Class.forName(name)
-        } catch (e: Exception) {
+        var view = checkCreateView(name, context, attrs)
+        if (view == null) {
+            var viewClass: Class<*>? = null
+            try {
+                viewClass = Class.forName(name)
+            } catch (e: Exception) {
+            }
+            view = if (viewClass != null && QComponent::class.java.isAssignableFrom(viewClass)) {
+                val constructor =
+                    viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
+                constructor.newInstance(context, attrs) as View
+            } else {
+                appDelegate.createView(parent, name, context, attrs)
+            }
         }
-        val view = if (viewClass != null && QComponent::class.java.isAssignableFrom(viewClass)) {
-            val constructor =
-                viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
-            constructor.newInstance(context, attrs) as View
-        } else {
-            appDelegate.createView(parent, name, context, attrs)
-        }
+
         if (view is QComponent) {
             (view as QComponent).attachKitContext(QUIKitContext)
         }

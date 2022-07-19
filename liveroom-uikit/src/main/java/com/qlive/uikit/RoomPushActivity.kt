@@ -54,9 +54,10 @@ class RoomPushActivity : BaseFrameActivity() {
         ) {
             startCallBack = callBack
             val i = Intent(context, RoomPushActivity::class.java)
-            i.putExtra("roomId", roomId)
+            i.putExtra(KEY_ROOM_ID, roomId)
             context.startActivity(i)
         }
+        const val KEY_ROOM_ID="roomId"
     }
 
     /**
@@ -174,14 +175,13 @@ class RoomPushActivity : BaseFrameActivity() {
     }
 
     private fun start() {
-        roomId = intent.getStringExtra("roomId") ?: ""
+        roomId = intent.getStringExtra(KEY_ROOM_ID) ?: ""
         mRoomClient.enableCamera(QCameraParam(), preTextureView)
         mRoomClient.enableMicrophone(QMicrophoneParam())
         KITFunctionInflaterFactory.attachKitContext(mQUIKitContext)
         KITFunctionInflaterFactory.attachLiveClient(mRoomClient)
         //房间ID不为空代表直接加入已经创建过的房间
         if (roomId.isNotEmpty()) {
-            mLivePreView?.visibility = View.GONE
             bg {
                 LoadingDialog.showLoading(supportFragmentManager)
                 doWork {

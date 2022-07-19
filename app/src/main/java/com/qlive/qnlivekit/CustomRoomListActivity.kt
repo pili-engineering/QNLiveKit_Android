@@ -21,18 +21,16 @@ class CustomRoomListActivity : BaseFrameActivity() {
         title = "直播列表"
         roomListView.attachKitContext(QUIKitContext(this, supportFragmentManager, this, this))
 
-        //自定义连麦混流
-//        QLive.getLiveUIKit()
-//            .getPage(RoomPage::class.java)
-//            .linkersView
-//            .replace(MicLinkerSplitScreenPreview::class.java)
-        //主动跳转观众直播间
-        // QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity()
-        // 主动跳转主播直播间
-        // QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity()
+//        //主动跳转观众直播间
+//        QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity(...)
+//        //主播主动跳转已经存在主播直播间
+//        QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity(...)
+//        //自定义开播跳转预览创建直播间页面
+//        QLive.getLiveUIKit().getPage(RoomPage::class.java)
+//            .startAnchorRoomWithPreview(this, null)
 
         tvCreateRoom.setOnClickListener {
-            //自定义开播跳转预览创建
+            //自定义开播跳转预览创建直播间页面
             QLive.getLiveUIKit().getPage(RoomPage::class.java)
                 .startAnchorRoomWithPreview(this, null)
         }

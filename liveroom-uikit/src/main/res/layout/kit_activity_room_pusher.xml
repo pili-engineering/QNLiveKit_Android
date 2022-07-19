@@ -27,9 +27,8 @@
         android:layout_gravity="end"
         tools:layout_width="100dp" />
 
-    <!--    开播预览 替换的话保留ID-->
+    <!--    开播预览 -->
     <com.qlive.uikit.component.LivePreView
-        android:id="@+id/mLivePreView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:alpha="0.3">
@@ -68,7 +67,6 @@
             android:text="切换"
             android:textColor="@color/white" />
     </com.qlive.uikit.component.LivePreView>
-
 
 
     <!--    覆盖层左右滑动切换-->

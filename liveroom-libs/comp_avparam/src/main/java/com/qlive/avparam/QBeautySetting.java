@@ -1,5 +1,8 @@
 package com.qlive.avparam;
 
+/**
+ * 默认美颜参数（免费）
+ */
 public class QBeautySetting {
 
     private boolean mEnabled = true;

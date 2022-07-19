@@ -159,7 +159,7 @@
                     android:orientation="vertical"
                     android:src="@mipmap/kit_ic_linck_start" />
 
-                 <!--  关闭按钮的占位-->
+                <!--  关闭按钮的占位-->
                 <View
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -235,12 +235,12 @@
     <com.qlive.uikit.component.CloseRoomView
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_gravity="bottom|end"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
-        android:orientation="vertical"
         android:layout_marginBottom="40dp"
-        android:layout_gravity="bottom|end"
-        tools:visibility="visible"
+        android:orientation="vertical"
         android:src="@mipmap/kit_ic_close_room"
-        tools:ignore="MissingDefaultResource" />
+        tools:ignore="MissingDefaultResource"
+        tools:visibility="visible" />
 </FrameLayout>

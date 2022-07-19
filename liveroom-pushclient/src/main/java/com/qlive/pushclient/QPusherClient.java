@@ -15,6 +15,9 @@ import com.qlive.core.QLiveStatusListener;
 import com.qlive.core.been.QLiveRoomInfo;
 import com.qlive.rtclive.QPushRenderView;
 
+/**
+ * 推流客户端（主播端）
+ */
 public interface QPusherClient extends QLiveClient {
 
     /**

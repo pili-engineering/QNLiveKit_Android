@@ -323,6 +323,9 @@ public class Doclet {
         format.reflect = links;
 
         for (ClassDoc classDoc : classes) {
+            if(links.get(classDoc.name()) == null){
+                continue;
+            }
             DocFormat.BlockItem classItem = new DocFormat.BlockItem();
             classItem.name = "";
             classItem.desc.add(checkLinker(classDoc.name()));

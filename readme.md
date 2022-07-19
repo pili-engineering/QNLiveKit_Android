@@ -41,6 +41,8 @@ qlive-sdk是七牛云推出的一款互动直播低代码解决方案sdk。只�
 ```
 
 
+[体验demo](http://fir.qnsdk.com/s6py)
+
 [接入文档](https://developer.qiniu.com/lowcode/manual/12027/android-fast-access)
 
 [api接口文档](https://developer.qiniu.com/lowcode/api/12032/the-android-api-documentation)
