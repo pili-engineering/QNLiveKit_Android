@@ -239,6 +239,7 @@ class QChatRoomServiceImpl : BaseService(),
      * @param callBack
      */
     override fun kickUser(msg: String, memberID: String, callBack: QLiveCallBack<Void>?) {
+
         QNIMClient.getGroupManager().getGroupList(
             currentRoomInfo?.chatID?.toLong() ?: 0L, true
         ) { code, data ->

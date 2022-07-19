@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.qlive.rtclive.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
 import com.qlive.avparam.*
+import kotlinx.coroutines.*
 
 enum class MixType(var isStart: Boolean) {
     mix(false), forward(false), pk(false)
@@ -47,6 +48,37 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         this.localAudioTrack = audioTrack
     }
 
+    private var mRestartJob: SchedulerJob? = null
+    private fun checkRestartJob() {
+        if (mRestartJob != null) {
+            return
+        }
+        mRestartJob = SchedulerJob(4000) {
+            if (mMixType.isStart) {
+                return@SchedulerJob
+            }
+            Log.d("MixStreamHelperImp", "MixStreamHelperImp timeOut ${mMixType.name}")
+            if (mMixType == MixType.forward) {
+                mQNForwardJob?.let {
+                    mEngine.startLiveStreaming(it)
+                }
+                return@SchedulerJob
+            }
+            if (mMixType == MixType.mix) {
+                mQNMergeJob?.let {
+                    mEngine.startLiveStreaming(it)
+                }
+                return@SchedulerJob
+            }
+            if (mMixType == MixType.pk) {
+                mPKMergeJob?.let {
+                    mEngine.startLiveStreaming(it)
+                }
+            }
+        }
+        mRestartJob?.start()
+    }
+
     fun init(
         streamId: String,
         pushUrl: String,
@@ -60,6 +92,8 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             override fun onStarted(streamID: String) {
                 Log.d("MixStreamHelperImp", "MixStreamHelperImp onStarted ${mMixType.name}")
                 // 转推任务创建成功时触发此回调
+                mRestartJob?.cancel()
+                mRestartJob = null
 
                 mMixType.isStart = true
                 if (mMixType == MixType.forward) {
@@ -82,18 +116,23 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
             override fun onStopped(streamID: String) {
                 // 转推任务成功停止时触发此回调
-                Log.d("MixStreamHelperImp"," onStopped  ${streamID}")
+                Log.d("MixStreamHelperImp", " onStopped  ${streamID}")
             }
 
             override fun onTranscodingTracksUpdated(streamID: String) {
                 // 合流布局更新成功时触发此回调
-                Log.d("MixStreamHelperImp"," onTranscodingTracksUpdated  ${streamID}")
+                Log.d("MixStreamHelperImp", " onTranscodingTracksUpdated  ${streamID}")
             }
 
             override fun onError(streamID: String, errorInfo: QNLiveStreamingErrorInfo) {
                 // 转推任务出错时触发此回调
-                Log.d("MixStreamHelperImp","MixStreamHelperImp onError  ${mMixType.name}" + errorInfo.message + "  " + errorInfo.code
+                Log.d(
+                    "MixStreamHelperImp",
+                    "MixStreamHelperImp onError  ${mMixType.name}" + errorInfo.message + "  " + errorInfo.code
                 )
+                mRestartJob?.cancel()
+                mRestartJob = null
+                checkRestartJob()
             }
         })
         mQRtcLiveRoom.addExtraQNRTCEngineEventListenerToHead(object : SimpleQNRTCListener {
@@ -207,16 +246,18 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         Log.d("MixStreamHelperImp", "createForwardJob ")
     }
 
-
+    // private val restartJob =
     /**
      * 启动前台转推 默认实现推本地轨道
      */
     fun startForwardJob() {
+
         lastUserMergeOp.clear()
         mMixType = MixType.forward
         mMixType.isStart = false
         createForwardJob()
         Log.d("MixStreamHelperImp", "startForwardJob ")
+        checkRestartJob()
         mEngine.startLiveStreaming(mQNForwardJob);
     }
 
@@ -244,6 +285,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         } else {
             mQNMergeJob = createDefaultMeOp()
         }
+        checkRestartJob()
         mEngine.startLiveStreaming(mQNMergeJob)
     }
 
@@ -267,6 +309,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         } else {
             mPKMergeJob = createDefaultMeOp()
         }
+        checkRestartJob()
         mEngine.startLiveStreaming(mPKMergeJob);
     }
 
@@ -406,8 +449,32 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     private fun onRoomLeft() {
         mQNForwardJob = null
         mQNMergeJob = null
+        mRestartJob?.cancel()
         tracksMap.clear()
         toDoAudioMergeOptionsMap.clear()
         toDoVideoMergeOptionsMap.clear()
+    }
+
+    class SchedulerJob(
+        private val delayTimeMillis: Long,
+        private val coroutineScope: CoroutineScope = GlobalScope,
+        val action: suspend CoroutineScope.() -> Unit
+    ) {
+        private var job: Job? = null
+        fun start() {
+            job = coroutineScope.launch(Dispatchers.Main) {
+                try {
+                    delay(delayTimeMillis)
+                    action()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        fun cancel() {
+            job?.cancel()
+            job = null
+        }
     }
 }
