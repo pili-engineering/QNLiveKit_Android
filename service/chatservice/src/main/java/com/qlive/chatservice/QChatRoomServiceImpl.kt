@@ -175,7 +175,7 @@ class QChatRoomServiceImpl : BaseService(),
 
     override fun attachRoomClient(client: QLiveClient) {
         super.attachRoomClient(client)
-        QNIMClient.getGroupManager().addGroupListener(mBMXGroupServiceListener)
+        QNIMClient.getChatRoomService().addGroupListener(mBMXGroupServiceListener)
         RtmManager.addRtmC2cListener(mC2CRtmMsgListener)
         RtmManager.addRtmChannelListener(mGroupRtmMsgListener)
 
@@ -184,7 +184,7 @@ class QChatRoomServiceImpl : BaseService(),
     override fun onDestroyed() {
         super.onDestroyed()
         mChatServiceListeners.clear()
-        QNIMClient.getGroupManager().removeGroupListener(mBMXGroupServiceListener)
+        QNIMClient.getChatRoomService().removeGroupListener(mBMXGroupServiceListener)
         RtmManager.removeRtmC2cListener(mC2CRtmMsgListener)
         RtmManager.removeRtmChannelListener(mGroupRtmMsgListener)
     }

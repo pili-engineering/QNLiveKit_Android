@@ -1,5 +1,5 @@
 plugins {
-    id 'hapidepend'
+
     id 'com.android.library'
     id 'kotlin-android'
 }
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation depend.viewpager()
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -422,6 +422,7 @@ class QPKServiceImpl : QPKService, BaseService() {
 
     override fun addServiceListener(QPKServiceListener: QPKServiceListener) {
         mServiceListeners.add(QPKServiceListener)
+        mAudiencePKSynchro.needSynchro = true
     }
 
     override fun removeServiceListener(QPKServiceListener: QPKServiceListener) {

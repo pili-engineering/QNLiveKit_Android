@@ -14,6 +14,7 @@ class MicLinkContext {
     }
     var onKickCall:  (linker: QMicLinker, model:UidMsgMode) -> Unit = { l, m->
     }
+    var needSynchro = false
 
     val mQLinkMicServiceListeners = LinkedList<QLinkMicServiceListener>()
     fun removeLinker(uid: String): QMicLinker? {

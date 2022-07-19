@@ -229,6 +229,7 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
 
     override fun addMicLinkerListener(listener: QLinkMicServiceListener) {
         mMicLinkContext.mQLinkMicServiceListeners.add(listener)
+        mMicLinkContext.needSynchro = true
     }
 
     override fun removeMicLinkerListener(listener: QLinkMicServiceListener?) {

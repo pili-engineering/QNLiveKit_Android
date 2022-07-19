@@ -16,9 +16,14 @@ internal class AudiencePKSynchro() : BaseService() {
     var mListenersCall: (() -> LinkedList<QPKServiceListener>)? = null
     var mPKSession: QPKSession? = null
         private set
+    var needSynchro = false
 
     private val repeatSynchroJob = com.qlive.coreimpl.Scheduler(6000) {
         if (currentRoomInfo == null) {
+            return@Scheduler
+        }
+        //没有人注册监听就不同步
+        if (!needSynchro) {
             return@Scheduler
         }
         backGround {
@@ -37,10 +42,8 @@ internal class AudiencePKSynchro() : BaseService() {
                     val reFreshRoom = RoomDataSource()
                         .refreshRoomInfo(currentRoomInfo!!.liveID)
                     if (!reFreshRoom.pkID.isEmpty() && mPKSession == null) {
-
                         val info = mPKDateSource.getPkInfo(reFreshRoom.pkID ?: "")
                         if (info.status == PKStatus.RelaySessionStatusSuccess.intValue) {
-
                             val recever = mUserSource.searchUserByUserId(info.recvUserId)
                             val inver = mUserSource.searchUserByUserId(info.initUserId)
                             val pk = fromPkInfo(info, inver, recever)
@@ -65,11 +68,13 @@ internal class AudiencePKSynchro() : BaseService() {
             mPKSession = pkSession
             // repeatSynchroJob.start()
         }
+
         override fun onStop(pkSession: QPKSession, code: Int, msg: String) {
             mPKSession = null
             // repeatSynchroJob.cancel()
             currentRoomInfo?.pkID = ""
         }
+
         override fun onStartTimeOut(pkSession: QPKSession) {
         }
     }

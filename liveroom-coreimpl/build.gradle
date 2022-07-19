@@ -35,7 +35,7 @@ dependencies {
 
     compileOnly project( ':liveroom-libs:comp_imadapter')
     compileOnly project(':app-sdk:depends_sdk_qnim')
-    api 'com.squareup.okhttp3:okhttp:4.2.2'
+    api depend.okhttp3()
     api project(':liveroom-libs:lib_json')
 
     testImplementation 'junit:junit:4.13.2'

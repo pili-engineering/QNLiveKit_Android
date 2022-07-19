@@ -53,10 +53,11 @@ dependencies {
         implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0'
         implementation 'androidx.recyclerview:recyclerview:1.1.0'
         implementation 'androidx.appcompat:appcompat:1.2.0'
-        implementation 'androidx.cardview:cardview:1.0.0'
+        implementation 'androidx.cardview:cardview:1.1.0'
         //UIkit依赖两个知名的开源库
         implementation 'com.github.bumptech.glide:glide:4.11.0' //图片加载
         implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44' //列表适配器
+
     } else {
         //用源码模块的依赖方式 可以修改源码
         implementation project(':qlivesdk')

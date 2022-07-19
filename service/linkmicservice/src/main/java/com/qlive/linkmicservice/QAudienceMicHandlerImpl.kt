@@ -37,12 +37,6 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                 stopLink(null)
             }
         }
-//        context.downMicCall = {
-//            if (isLinked()) {
-//                QLiveLogUtil.LogE("pk下麦")
-//                stopLink(null)
-//            }
-//        }
     }
 
     private val mLinkDateSource = LinkDataSource()
@@ -80,6 +74,10 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         if (isLinked()) {
             return@Scheduler
         }
+        //没有人注册监听不同步麦位
+        if (!context.needSynchro) {
+            return@Scheduler
+        }
         backGround {
             doWork {
                 val list = mLinkDateSource.getMicList(currentRoomInfo?.liveID ?: "")
@@ -90,8 +88,6 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                     return@doWork
                 }
                 val toRemve = LinkedList<QMicLinker>()
-                val newAdd = LinkedList<QMicLinker>()
-
                 context.allLinker.forEach { old ->
                     var isContainer = false
                     if (old.user.userId == currentRoomInfo?.anchor?.userId) {
@@ -115,6 +111,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                 context.allLinker.removeAll(toRemve)
 
                 list.forEach { linck ->
+                    //新加的麦位
                     if (context.addLinker(linck)) {
                         context.mQLinkMicServiceListeners.forEach {
                             it.onLinkerJoin(linck)
@@ -239,7 +236,6 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
     override fun stopLink(callBack: QLiveCallBack<Void>?) {
         stopInner(false, callBack)
     }
-
 
     private fun stopInner(
         force: Boolean,

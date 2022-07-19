@@ -50,6 +50,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
     override fun onDestroyed() {
         super.onDestroyed()
         RtmManager.removeRtmChannelListener(mRtmMsgListener)
+        mShoppingServiceListeners.clear()
     }
 
     override fun getItemList(callBack: QLiveCallBack<List<QItem>>?) {
@@ -295,4 +296,5 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
     override fun removeServiceListener(listener: QShoppingServiceListener) {
         mShoppingServiceListeners.remove(listener)
     }
+
 }

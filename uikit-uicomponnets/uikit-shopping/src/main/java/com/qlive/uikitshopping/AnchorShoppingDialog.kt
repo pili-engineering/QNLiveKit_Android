@@ -186,6 +186,7 @@ class AnchorShoppingDialog(
                         }
                     })
                 }
+
             } else {
                 helper.itemView.llItemShowing.visibility = View.GONE
                 helper.itemView.mAutoVoiceWaveView.setAutoPlay(false)
@@ -261,6 +262,11 @@ class AnchorShoppingDialog(
                 helper.itemView.tvPull.text = "下架商品"
 
                 helper.itemView.tvPull.setOnClickListener {
+                    if (shoppingService.explaining?.itemID == item.itemID) {
+                        "商品讲解中～".asToast(mContext)
+                        return@setOnClickListener
+                    }
+
                     showTip("确定下架商品吗？") {
                         LoadingDialog.showLoading(kitContext.fragmentManager)
                         shoppingService.updateItemStatus(item.itemID, QItemStatus.PULLED,
