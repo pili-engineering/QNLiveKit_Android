@@ -131,6 +131,7 @@ class QPusherClientImpl : QPusherClient, QRTCProvider {
     override fun closeRoom(callBack: QLiveCallBack<Void>?) {
         backGround {
             doWork {
+                mLiveContext.beforeLeaveRoom()
                 mRoomSource.unPubRoom(mLiveContext.roomInfo?.liveID ?: "")
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.leaveChannel(mLiveContext.roomInfo?.chatID ?: "")

@@ -331,5 +331,12 @@ class QLinkMicServiceImpl : QLinkMicService, BaseService() {
         RtmManager.removeRtmC2cListener(mRtmMsgListenerC2c)
     }
 
+    override suspend fun checkLeave() {
+        if (client!!.clientType == QClientType.PUSHER) {
+            mAnchorHostMicLinker.checkLeave()
+        } else {
+            mAudienceMicLinker.checkLeave()
+        }
+    }
 
 }

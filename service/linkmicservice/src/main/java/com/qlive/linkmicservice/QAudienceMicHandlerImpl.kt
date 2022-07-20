@@ -248,60 +248,65 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         }
         backGround {
             doWork {
-                Log.d("QNAudience", "下麦 ")
-                try {
-                    mLinkDateSource.downMic(mMeLinker!!)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                val mode = UidMode().apply {
-                    uid = user?.userId
-                }
-                if (isPositive) {
-                    try {
-                        RtmManager.rtmClient.sendChannelMsg(
-                            RtmTextMsg<UidMode>(
-                                liveroom_miclinker_left,
-                                mode
-                            ).toJsonString(),
-                            currentRoomInfo!!.chatID, false
-                        )
-                    } catch (e: RtmException) {
-                        e.printStackTrace()
-                    }
-                }
-                if (isKick) {
-                    try {
-                        RtmManager.rtmClient.sendChannelMsg(
-                            RtmTextMsg<UidMsgMode>(
-                                liveroom_miclinker_kick,
-                                kick!!
-                            ).toJsonString(),
-                            currentRoomInfo!!.chatID, true
-                        )
-                    } catch (e: RtmException) {
-                        e.printStackTrace()
-                    }
-                }
-                context.mQRtcLiveRoom.leave()
-                // if (isPositive) {
-                context.mExtQNClientEventListener.onUserLeft(
-                    user?.userId ?: ""
-                )
-                // }
-                Log.d("QNAudience", "下麦 1")
-                context.removeLinker(user!!.userId)
-                mLinkMicHandlerListeners.forEach {
-                    it.onRoleChange(false)
-                }
-                mPlayer?.onLinkStatusChange(false)
-                mMicListJob.start(true)
-                callBack?.onSuccess(null)
+                stopSuspend(force, callBack, isPositive, isKick, kick)
             }
             catchError {
                 callBack?.onError(it.getCode(), it.message)
             }
         }
+    }
+    private suspend fun stopSuspend( force: Boolean,
+                                     callBack: QLiveCallBack<Void>?,
+                                     isPositive: Boolean = true, isKick: Boolean = false, kick: UidMsgMode? = null){
+        Log.d("QNAudience", "下麦 ")
+        try {
+            mLinkDateSource.downMic(mMeLinker!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        val mode = UidMode().apply {
+            uid = user?.userId
+        }
+        if (isPositive) {
+            try {
+                RtmManager.rtmClient.sendChannelMsg(
+                    RtmTextMsg<UidMode>(
+                        liveroom_miclinker_left,
+                        mode
+                    ).toJsonString(),
+                    currentRoomInfo!!.chatID, false
+                )
+            } catch (e: RtmException) {
+                e.printStackTrace()
+            }
+        }
+        if (isKick) {
+            try {
+                RtmManager.rtmClient.sendChannelMsg(
+                    RtmTextMsg<UidMsgMode>(
+                        liveroom_miclinker_kick,
+                        kick!!
+                    ).toJsonString(),
+                    currentRoomInfo!!.chatID, true
+                )
+            } catch (e: RtmException) {
+                e.printStackTrace()
+            }
+        }
+        context.mQRtcLiveRoom.leave()
+        // if (isPositive) {
+        context.mExtQNClientEventListener.onUserLeft(
+            user?.userId ?: ""
+        )
+        // }
+        Log.d("QNAudience", "下麦 1")
+        context.removeLinker(user!!.userId)
+        mLinkMicHandlerListeners.forEach {
+            it.onRoleChange(false)
+        }
+        mPlayer?.onLinkStatusChange(false)
+        mMicListJob.start(true)
+        callBack?.onSuccess(null)
     }
 
     override fun onLeft() {
@@ -414,5 +419,11 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
 
     private val playerGetter by lazy {
         (client as QPlayerProvider).playerGetter.invoke()
+    }
+
+    override suspend fun checkLeave() {
+        if(isLinked){
+            stopSuspend(true,null)
+        }
     }
 }

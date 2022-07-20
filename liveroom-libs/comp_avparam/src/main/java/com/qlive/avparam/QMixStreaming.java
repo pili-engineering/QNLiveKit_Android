@@ -16,7 +16,7 @@ public class QMixStreaming {
         /**
          * 混流码率
          */
-        public int mixBitrate = 1500;
+        public int mixBitrate = 2000;
         /**
          * 混流帧率
          */

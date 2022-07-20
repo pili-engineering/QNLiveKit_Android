@@ -69,6 +69,14 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
         this.roomInfo = null
     }
 
+    suspend fun beforeLeaveRoom() {
+        serviceMap.forEach {
+            if (it.value is BaseService) {
+                (it.value as BaseService).checkLeave()
+            }
+        }
+    }
+
     fun joinedRoom(roomInfo: QLiveRoomInfo) {
         this.roomInfo = roomInfo
         mLifeCycleListener.forEach {

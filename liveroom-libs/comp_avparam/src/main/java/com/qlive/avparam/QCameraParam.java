@@ -19,5 +19,5 @@ public class QCameraParam {
     /**
      * 码率 默认值1500
      */
-    public int bitrate = 1500;
+    public int bitrate = 2000;
 }

@@ -44,7 +44,11 @@ open class BaseService : QLiveService,
     override fun onDestroyed() {
     }
 
-    open  fun attachRoomClient(client: QLiveClient) {
+    open fun attachRoomClient(client: QLiveClient) {
         this.client = client
+    }
+
+    open suspend fun checkLeave() {
+
     }
 }

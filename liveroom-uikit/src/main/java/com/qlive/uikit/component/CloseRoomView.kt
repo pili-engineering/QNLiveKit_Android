@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.linkmicservice.QLinkMicService
 import com.qlive.pubchatservice.QPublicChatService
 import com.qlive.uikit.R
 import com.qlive.uikitcore.QKitImageView
@@ -26,6 +27,7 @@ class CloseRoomView : QKitImageView {
     ) {
         setDoubleCheckClickListener {
             LoadingDialog.showLoading(kitContext!!.fragmentManager)
+
             //发离开房间消息
             client?.getService(QPublicChatService::class.java)
                 ?.sendByeBye("离开了房间", null)

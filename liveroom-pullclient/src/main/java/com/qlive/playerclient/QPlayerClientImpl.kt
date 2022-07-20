@@ -98,6 +98,7 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider, QUserJoinObserver {
     override fun leaveRoom(callBack: QLiveCallBack<Void>?) {
         backGround {
             doWork {
+                mLiveContext.beforeLeaveRoom()
                 mRoomSource.leaveRoom(mLiveContext.roomInfo?.liveID ?: "")
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.leaveChannel(mLiveContext.roomInfo?.chatID ?: "")
