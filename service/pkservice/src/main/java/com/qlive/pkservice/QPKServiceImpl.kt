@@ -34,7 +34,7 @@ class QPKServiceImpl : QPKService, BaseService() {
     companion object {
         val liveroom_pk_start = "liveroom_pk_start"
         val liveroom_pk_stop = "liveroom_pk_stop"
-        val PK_STATUS_OK = 1
+        val PK_STATUS_OK = PKStatus.RelaySessionStatusSuccess.intValue
     }
 
     private val mPKDateSource = PKDataSource()
@@ -580,9 +580,30 @@ class QPKServiceImpl : QPKService, BaseService() {
                 mPKSession = null
                 callBack?.onSuccess(null)
                 resetMixStream(peer.userId)
+
             }
             catchError {
                 callBack?.onError(it.getCode(), it.message)
+            }
+        }
+    }
+
+    private suspend fun stopSuspend() = suspendCoroutine<Unit> { ct ->
+        stop(object : QLiveCallBack<Void> {
+            override fun onError(code: Int, msg: String?) {
+                ct.resume(Unit)
+            }
+
+            override fun onSuccess(data: Void?) {
+                ct.resume(Unit)
+            }
+        })
+    }
+
+    override suspend fun checkLeave() {
+        if (client?.clientType == QClientType.PUSHER) {
+            if (currentRoomInfo != null && mPKSession != null && mPKSession?.status == PK_STATUS_OK) {
+                stopSuspend()
             }
         }
     }

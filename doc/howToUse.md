@@ -349,6 +349,15 @@ QLive.getRooms().createRoom(..）
 方式3
 修改UIkit源码
 
+### 主动跳转到直播间
+```kotlin
+   //主动跳转观众直播间
+  QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity(...)
+   //主播主动跳转已经存在主播直播间
+  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity(...)
+   //自定义开播跳转预览创建直播间页面
+  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomWithPreview(...)
+```
 
 ### 使用美颜插件（可选）
 ```
@@ -366,6 +375,7 @@ client.setVideoFrameListener(object:QVideoFrameListener{
   //拿到帧回调即可以使用其他美颜sdk处理
 })
 ```
+
 
 ### 无UI
 ```kotlin
@@ -471,15 +481,6 @@ client.getService(QxxxService::class.java) //获取某个业务插件服务
 client.getService(QPKService::class.java)?.start(20 * 1000, receiverRoomID, receiver.userId, null,object : QLiveCallBack<QPKSession> {})
 ```
 
-### 主动跳转到直播间
-```kotlin
-   //主动跳转观众直播间
-  QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity(...)
-   //主播主动跳转已经存在主播直播间
-  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity(...)
-   //自定义开播跳转预览创建直播间页面
-  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomWithPreview(...)
-```
 ### 无UISDK实现连麦
 
 ```kotlin

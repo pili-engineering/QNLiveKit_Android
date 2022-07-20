@@ -14,8 +14,6 @@ include ':app-sdk:depends_sdk_qrtc' //七牛rtc
 include ':liveroom-core'
 include ':liveroom-pushclient'
 include ':liveroom-pullclient'
-include ':liveroom-uikit-core'
-include ':liveroom-uikit'
 include ':liveroom-coreimpl'
 
 
@@ -26,16 +24,6 @@ include ':service:danmakuservice'
 include ':service:publicchatservice'
 include ':service:roomservice'
 include ':service:shoppingservice'
-
-include ':uikit-uicomponnets:uikit-user'
-include ':uikit-uicomponnets:uikit-danmaku'
-include ':uikit-uicomponnets:uikit-publicchat'
-include ':uikit-uicomponnets:uiwidget-input'
-include ':uikit-uicomponnets:uiwidget-Emoji'
-
-include ':uikit-uicomponnets:uikit-linkmic'
-include ':uikit-uicomponnets:uikit-pk'
-
 include ':liveroom-libs:comp_avparam'
 include ':liveroom-libs:lib_json'
 include ':liveroom-libs:comp_rtm'
@@ -43,12 +31,21 @@ include ':liveroom-libs:comp_player'
 include ':liveroom-libs:comp_imadapter'
 include ':liveroom-libs:comp_rtclive'
 
-
 include ':qlivesdk'
+//include ':uikit-uicomponnets:sensehook'
 
+include ':uikit-uicomponnets:uikit-user'
+include ':uikit-uicomponnets:uikit-danmaku'
+include ':uikit-uicomponnets:uikit-publicchat'
+include ':uikit-uicomponnets:uiwidget-input'
+include ':uikit-uicomponnets:uiwidget-Emoji'
 include ':uikit-uicomponnets:uikit-beauty'
-include ':uikit-uicomponnets:sensehook'
-//include ':uikit-uicomponnets:sense_beauty'
-
 
 include ':uikit-uicomponnets:uikit-shopping'
+include ':uikit-uicomponnets:uikit-linkmic'
+include ':uikit-uicomponnets:uikit-pk'
+
+
+include ':liveroom-uikit-core'
+include ':liveroom-uikit'
+

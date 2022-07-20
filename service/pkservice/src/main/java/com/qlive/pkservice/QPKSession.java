@@ -39,7 +39,14 @@ public class QPKSession implements Serializable {
      */
     public Map<String, String> extension;
     /**
-     * pk 状态 0邀请过程  1pk中 2结束 其他自定义状态比如惩罚时间
+     * pk状态
+     *     RelaySessionStatusWaitAgree(0),//等待接收方同意
+     *     RelaySessionStatusAgreed(1),//接收方已同意
+     *     RelaySessionStatusInitSuccess(2),//发起方已经完成跨房，等待对方完成
+     *     RelaySessionStatusRecvSuccess(3),//接收方已经完成跨房，等待对方完成
+     *     RelaySessionStatusSuccess(4),//两方都完成跨房
+     *     RelaySessionStatusRejected(5),//接收方拒绝
+     *     RelaySessionStatusStopped(6),//结束
      */
     @JSONField(name = "relay_status")
     public int status;
