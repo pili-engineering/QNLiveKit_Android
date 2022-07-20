@@ -9,6 +9,7 @@ import com.qlive.rtclive.DefaultExtQNClientEventListener
 import com.qlive.rtclive.QRTCProvider
 import com.qlive.rtclive.QRtcLiveRoom
 import com.qiniu.droid.rtc.*
+import com.qlive.avparam.QMixStreaming
 import com.qlive.jsonutil.JsonUtils
 import com.qlive.core.*
 import com.qlive.core.QLiveLogUtil
@@ -333,12 +334,25 @@ class QPKServiceImpl : QPKService, BaseService() {
                 mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
             }
-            val ops = mQPKMixStreamAdapter?.onPKLinkerLeft()
-            if (ops?.isEmpty() != false) {
+
+            val ops = ArrayList<QMixStreaming.MergeOption>();
+            try {
+                mQPKMixStreamAdapter?.let {
+                    ops.addAll(it.onPKLinkerLeft())
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            if (ops.isEmpty()) {
                 mQRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return
             }
-            val mix = mQPKMixStreamAdapter?.onPKMixStreamStop()
+            var mix: QMixStreaming.MixStreamParams ? = null
+            try {
+                mix = mQPKMixStreamAdapter?.onPKMixStreamStop()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             mQRtcLiveRoom.mMixStreamManager.startMixStreamJob(mix)
             ops.forEach {
                 mQRtcLiveRoom.mMixStreamManager.lastUserMergeOp.put(it.uid, it)
