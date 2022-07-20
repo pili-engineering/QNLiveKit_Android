@@ -340,7 +340,7 @@ class QPKServiceImpl : QPKService, BaseService() {
                 mQPKMixStreamAdapter?.let {
                     ops.addAll(it.onPKLinkerLeft())
                 }
-            } catch (e: Exception) {
+            } catch (e: AbstractMethodError) {
                 e.printStackTrace()
             }
             if (ops.isEmpty()) {
@@ -350,7 +350,7 @@ class QPKServiceImpl : QPKService, BaseService() {
             var mix: QMixStreaming.MixStreamParams ? = null
             try {
                 mix = mQPKMixStreamAdapter?.onPKMixStreamStop()
-            } catch (e: Exception) {
+            } catch (e: AbstractMethodError) {
                 e.printStackTrace()
             }
             mQRtcLiveRoom.mMixStreamManager.startMixStreamJob(mix)
