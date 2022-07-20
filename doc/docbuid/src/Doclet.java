@@ -1,6 +1,8 @@
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sun.javadoc.*;
 import com.sun.tools.javac.code.Symbol;
@@ -205,11 +207,13 @@ public class Doclet {
             if (classDoc.name().equals("RoomPage")) {
                 DocIndex = 12105;
             }
-            if(classDoc.name().equals("QItem")){
+            if (classDoc.name().equals("QItem")) {
                 DocIndex = 12128;
             }
             links.put(classDoc.name(), "https://developer.qiniu.com/lowcode/api/" + String.valueOf(DocIndex++) + "/" + classDoc.name().replace(".", "_"));
         }
+
+        StringBuffer sb = new StringBuffer();
 
         for (ClassDoc classDoc : classes) {
             System.out.println(classDoc.name() + "  !");
@@ -223,6 +227,8 @@ public class Doclet {
 
             format.reflect = links;
 
+            sb.append("\n//" + classDoc.commentText() + "\n");
+            sb.append((classDoc.name()) + "{\n");
 //            DocFormat.BlockItem classItem = new DocFormat.BlockItem();
 //            classItem.name = classDoc.qualifiedName();
 //            classItem.desc.add( classDoc.commentText());
@@ -239,6 +245,7 @@ public class Doclet {
                 i.sign = field.modifiers() + " " + checkLinker(field.type().simpleTypeName()) + " " + field.name();
                 filedItem.elements.add(i);
 
+                sb.append("\t").append(field.modifiers() + " " + (field.type().simpleTypeName()) + " " + field.name() + ";//" + i.desc + "\n");
             }
             if (filedItem.elements.size() > 0) {
                 format.blocks.add(filedItem);
@@ -268,7 +275,6 @@ public class Doclet {
                     Parameter[] parameters = method.parameters();
                     ParamTag[] tags = method.paramTags();
 
-
                     if (method.name().equals("auth")) {
                         if (elementItem.note == null) {
                             elementItem.note = new ArrayList<>();
@@ -277,6 +283,12 @@ public class Doclet {
                     }
 
                     int index = 0;
+
+                    sb.append("\n");
+                    sb.append("\t").append("//").append(replaceBlank(method.commentText())).append("\n");
+                    if (tags.length > 0) {
+                        sb.append("\t").append("//");
+                    }
                     for (ParamTag tag : tags) {
                         DocFormat.ParameterItem parameterItem = new DocFormat.ParameterItem();
                         parameterItem.name = tag.parameterName();
@@ -284,7 +296,14 @@ public class Doclet {
                         parameterItem.type = checkLinker(parameters[index].type().simpleTypeName());
                         elementItem.parameters.add(parameterItem);
                         index++;
+                        sb.append("@param-").append(parameterItem.name).append(":").append(parameterItem.desc).append('\t');
                     }
+                    if (tags.length > 0) {
+                        sb.append("\n");
+                    }
+                    //   sb.append("\t").append((method.modifiers() + " " + method.returnType().simpleTypeName() + " " + method.name() + " " + method.flatSignature())).append(replaceBlank(method.commentText())).append(replaceBlank(method.commentText())).append("\n");
+                    sb.append("\t").append(replaceBlank2(mn)).append(replaceBlank(method.commentText())).append("\n");
+
                     methodItem.elements.add(elementItem);
                 }
 
@@ -307,13 +326,17 @@ public class Doclet {
                 filedItemKit.elements.add(new DocFormat.ElementItem("getPusherRenderViewCall", " val getPusherRenderViewCall: () -> QPushRenderView?", "获取推流预览窗口  在任意UI组件中如果要对预览窗口变化可直接获取"));
 
                 format.blocks.add(filedItemKit);
+
+                for (DocFormat.ElementItem e : filedItemKit.elements) {
+                    sb.append("\t").append(e.sign + ";//" + e.desc + "\n");
+                }
             }
 
             if (format.blocks.size() > 0) {
                 System.out.println(links.get(classDoc.name()));
                 System.out.println(format.toJson());
             }
-
+            sb.append("}\n");
         }
 
         System.out.println("api概览");
@@ -323,7 +346,7 @@ public class Doclet {
         format.reflect = links;
 
         for (ClassDoc classDoc : classes) {
-            if(links.get(classDoc.name()) == null){
+            if (links.get(classDoc.name()) == null) {
                 continue;
             }
             DocFormat.BlockItem classItem = new DocFormat.BlockItem();
@@ -333,6 +356,10 @@ public class Doclet {
             format.blocks.add(classItem);
         }
         System.out.println(format.toJson());
+
+        System.out.println("```");
+        System.out.println(sb.toString());
+        System.out.println("```");
     }
 
     /**
@@ -349,5 +376,25 @@ public class Doclet {
     public static boolean start(RootDoc root) {
         Doclet.root = root;
         return true;
+    }
+
+    public static String replaceBlank(String str) {
+        String dest = "";
+        if (str != null) {
+            Pattern p = Pattern.compile("\\s*|\\t|\\r|\\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
+    }
+
+    public static String replaceBlank2(String str) {
+        String dest = "";
+        if (str != null) {
+            Pattern p = Pattern.compile("\\s*|\\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
     }
 }

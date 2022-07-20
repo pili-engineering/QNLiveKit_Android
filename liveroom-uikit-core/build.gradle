@@ -31,8 +31,8 @@ android {
 }
 
 dependencies {
-  //  api project(':app-sdk:qlive-sdk')
-    api project(':qlivesdk')
+    api project(':app-sdk:qlive-sdk')
+   // api project(':qlivesdk')
     api depend.glide()
     api depend.baseRecyclerViewAdapterHelper()
     api depend.swiperefreshlayout()

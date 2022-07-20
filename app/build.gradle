@@ -60,7 +60,6 @@ dependencies {
 
     } else {
         //用源码模块的依赖方式 可以修改源码
-        implementation project(':qlivesdk')
         implementation project(':liveroom-uikit')
 
         //临时依赖 为demo提供http 实际接入不需要依赖这个
