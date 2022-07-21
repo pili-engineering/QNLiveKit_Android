@@ -463,8 +463,10 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         fun start() {
             job = coroutineScope.launch(Dispatchers.Main) {
                 try {
-                    delay(delayTimeMillis)
-                    action()
+                    while (true){
+                        delay(delayTimeMillis)
+                        action()
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
