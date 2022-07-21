@@ -12,7 +12,11 @@ class QNLiveRoomContext(private val mClient: QLiveClient) {
 
     private val serviceMap = HashMap<String, Any>()
     private val mLifeCycleListener = ArrayList<QClientLifeCycleListener>()
-    val mRoomScheduler = com.qlive.coreimpl.RoomScheduler()
+    val mRoomScheduler by lazy {
+        com.qlive.coreimpl.RoomScheduler().apply {
+            client = mClient
+        }
+    }
     var roomInfo: QLiveRoomInfo? = null
         private set
     private var liveId = ""

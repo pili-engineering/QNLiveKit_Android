@@ -37,11 +37,11 @@ class CloseRoomView : QKitImageView {
                 override fun onError(code: Int, msg: String?) {
                     LoadingDialog.cancelLoadingDialog()
                     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                    kitContext?.currentActivity?.finish()
                 }
 
                 override fun onSuccess(data: Void?) {
                     LoadingDialog.cancelLoadingDialog()
-                 //   client?.destroy()
                     kitContext?.currentActivity?.finish()
                 }
             }

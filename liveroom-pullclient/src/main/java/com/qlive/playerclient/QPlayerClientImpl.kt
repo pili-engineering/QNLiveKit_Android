@@ -41,6 +41,7 @@ class QPlayerClientImpl : QPlayerClient, QPlayerProvider, QUserJoinObserver {
             mRoomScheduler.roomStatusChange = {
                 mLiveStatusListener?.onLiveStatusChanged(it)
             }
+
         }
     }
 
