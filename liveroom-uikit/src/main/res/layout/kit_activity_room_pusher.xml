@@ -41,7 +41,8 @@
             android:layout_marginTop="62dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:src="@mipmap/kit_close_room" />
+            android:src="@mipmap/kit_close_room"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <com.qlive.uikit.component.ShowBeautyPreview
             android:layout_width="wrap_content"
@@ -53,7 +54,8 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:text="美颜"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <com.qlive.uikit.component.SwitchCameraView
             android:layout_width="wrap_content"
@@ -65,7 +67,8 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:text="切换"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
     </com.qlive.uikit.component.LivePreView>
 
 

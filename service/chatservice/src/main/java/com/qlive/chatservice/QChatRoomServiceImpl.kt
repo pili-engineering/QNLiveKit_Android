@@ -58,13 +58,15 @@ class QChatRoomServiceImpl : BaseService(),
             for (i in 0 until members.size().toInt()) {
                 val id = members[i]
                 GlobalScope.launch(Dispatchers.Main) {
-                    try {
-                        mChatServiceListeners.forEach {
+
+                    mChatServiceListeners.forEach {
+                        try {
                             it.onAdminAdd(id.toString())
+                        } catch (e: AbstractMethodError) {
+                            e.printStackTrace()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
+
                 }
             }
         }
@@ -77,13 +79,14 @@ class QChatRoomServiceImpl : BaseService(),
             for (i in 0 until members.size().toInt()) {
                 val id = members[i]
                 GlobalScope.launch(Dispatchers.Main) {
-                    try {
-                        mChatServiceListeners.forEach {
+                    mChatServiceListeners.forEach {
+                        try {
                             it.onAdminRemoved(id.toString(), reason ?: "")
+                        } catch (e: AbstractMethodError) {
+                            e.printStackTrace()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
+
                 }
             }
         }
@@ -94,12 +97,12 @@ class QChatRoomServiceImpl : BaseService(),
                 return
             }
             GlobalScope.launch(Dispatchers.Main) {
-                try {
-                    mChatServiceListeners.forEach {
+                mChatServiceListeners.forEach {
+                    try {
                         it.onUserLeft(memberID.toString())
+                    } catch (e: AbstractMethodError) {
+                        e.printStackTrace()
                     }
-                }catch (e:Exception){
-                    e.printStackTrace()
                 }
             }
         }
@@ -111,12 +114,12 @@ class QChatRoomServiceImpl : BaseService(),
             }
 
             GlobalScope.launch(Dispatchers.Main) {
-                try {
-                    mChatServiceListeners.forEach {
+                mChatServiceListeners.forEach {
+                    try {
                         it.onUserJoin(memberID.toString())
+                    } catch (e: AbstractMethodError) {
+                        e.printStackTrace()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
             }
         }
@@ -130,15 +133,14 @@ class QChatRoomServiceImpl : BaseService(),
                 val id = members[i]
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    try {
-                        mChatServiceListeners.forEach {
+                    mChatServiceListeners.forEach {
+                        try {
                             it.onUserBeMuted(true, id.toString(), duration)
+                        } catch (e: AbstractMethodError) {
+                            e.printStackTrace()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
                 }
-
             }
         }
 
@@ -151,15 +153,14 @@ class QChatRoomServiceImpl : BaseService(),
                 val id = members[i]
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    try {
-                        mChatServiceListeners.forEach {
-                            it.onUserBeMuted(false, id.toString(),0)
+                    mChatServiceListeners.forEach {
+                        try {
+                            it.onUserBeMuted(false, id.toString(), 0)
+                        } catch (e: AbstractMethodError) {
+                            e.printStackTrace()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
                 }
-
             }
         }
     }

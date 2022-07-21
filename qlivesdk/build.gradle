@@ -53,7 +53,6 @@ dependencies {
         embed project(':liveroom-coreimpl')
         embed project(':liveroom-pullclient')
         embed project(':liveroom-pushclient')
-
         embed project(':service:linkmicservice')
         embed project(':service:pkservice')
         embed project(':service:chatservice')
@@ -61,14 +60,12 @@ dependencies {
         embed project(':service:publicchatservice')
         embed project(':service:roomservice')
         embed project(':service:shoppingservice')
-
         embed project(':liveroom-libs:comp_avparam')
         embed project(':liveroom-libs:lib_json')
         embed project(':liveroom-libs:comp_rtm')
         embed project(':liveroom-libs:comp_player')
         embed project(':liveroom-libs:comp_imadapter')
         embed project(':liveroom-libs:comp_rtclive')
-
         embed 'com.alibaba:fastjson:1.2.61'
         api project(':liveroom-core')
         compileOnly project(':app-sdk:depends_sdk_qnim')

@@ -38,7 +38,6 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     var mMixType = MixType.forward
         private set
-
     //房间人数
     var roomUser = 0
 
@@ -53,7 +52,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         if (mRestartJob != null) {
             return
         }
-        mRestartJob = SchedulerJob(4000) {
+        mRestartJob = SchedulerJob(1500) {
             if (mMixType.isStart) {
                 return@SchedulerJob
             }
