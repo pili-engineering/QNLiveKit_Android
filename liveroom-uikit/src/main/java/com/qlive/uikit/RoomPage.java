@@ -39,12 +39,8 @@ public class RoomPage implements QPage {
     public QLiveFunctionComponent anchorOfflineMonitorComponent = new QLiveFunctionComponent((QLiveComponent) (new AnchorOfflineMonitorComponent()));
 
 
-    private int anchorCustomLayoutID = -1;
-
-    private int playerCustomLayoutID = -1;
-
     public int getAnchorCustomLayoutID() {
-        return anchorCustomLayoutID;
+        return RoomPushActivity.Companion.getReplaceLayoutId();
     }
 
     /**
@@ -54,11 +50,11 @@ public class RoomPage implements QPage {
      * @param anchorCustomLayoutID 自定义布局ID
      */
     public void setAnchorCustomLayoutID(int anchorCustomLayoutID) {
-        this.anchorCustomLayoutID = anchorCustomLayoutID;
+        RoomPushActivity.Companion.setReplaceLayoutId(anchorCustomLayoutID);
     }
 
     public int getPlayerCustomLayoutID() {
-        return playerCustomLayoutID;
+        return RoomPullActivity.Companion.getReplaceLayoutId();
     }
 
     /**
@@ -68,13 +64,14 @@ public class RoomPage implements QPage {
      * @param playerCustomLayoutID 自定义布局ID
      */
     public void setPlayerCustomLayoutID(int playerCustomLayoutID) {
-        this.playerCustomLayoutID = playerCustomLayoutID;
+        RoomPullActivity.Companion.setReplaceLayoutId(playerCustomLayoutID);
     }
 
 
     /**
      * 添加 功能组件
      * 功能组件
+     *
      * @param component 功能组件
      */
     public final void addFunctionComponent(@NotNull QLiveComponent component) {
@@ -85,7 +82,7 @@ public class RoomPage implements QPage {
     /**
      * 根据房间信息自动跳转主播页直播间或观众直播间
      *
-     * @param context 安卓上下文
+     * @param context  安卓上下文
      * @param roomInfo 房间信息
      * @param callBack 回调
      */
@@ -120,9 +117,10 @@ public class RoomPage implements QPage {
 
     /**
      * 跳转已经存在的主播直播间
-     * @param context 安卓上下文
+     *
+     * @param context    安卓上下文
      * @param liveRoomId 直播间ID
-     * @param callBack 回调
+     * @param callBack   回调
      */
     public final void startAnchorRoomActivity(@NotNull Context context, @NotNull String liveRoomId, @Nullable QLiveCallBack<QLiveRoomInfo> callBack) {
         Intrinsics.checkNotNullParameter(context, "context");
@@ -132,7 +130,8 @@ public class RoomPage implements QPage {
 
     /**
      * 跳转到创建直播间开播页面
-     * @param context 安卓上下文
+     *
+     * @param context  安卓上下文
      * @param callBack 回调
      */
     public final void startAnchorRoomWithPreview(@NotNull Context context, @Nullable QLiveCallBack<QLiveRoomInfo> callBack) {
