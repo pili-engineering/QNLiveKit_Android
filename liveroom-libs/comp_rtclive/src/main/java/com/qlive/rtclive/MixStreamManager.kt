@@ -1,5 +1,6 @@
 package com.qlive.rtclive
 
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import com.qlive.rtclive.rtc.SimpleQNRTCListener
@@ -24,6 +25,8 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     private var pushUrl = ""
     private var serialnum = 1
     private val mEngine by lazy { mQRtcLiveRoom.mClient }
+    private var mLastPKStreamParams: QMixStreaming.MixStreamParams? = null
+    private var mLastMixStreamParams: QMixStreaming.MixStreamParams? = null
 
     //混流任务
     var mQNMergeJob: QNTranscodingLiveStreamingConfig? = null
@@ -38,6 +41,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     var mMixType = MixType.forward
         private set
+
     //房间人数
     var roomUser = 0
 
@@ -64,18 +68,27 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
                 }
                 return@SchedulerJob
             }
-//            if (mMixType == MixType.mix) {
-//
-//                mQNMergeJob?.let {
-//                    mEngine.startLiveStreaming(it)
-//                }
-//                return@SchedulerJob
-//            }
-//            if (mMixType == MixType.pk) {
-//                mPKMergeJob?.let {
-//                    mEngine.startLiveStreaming(it)
-//                }
-//            }
+            if (mMixType == MixType.mix) {
+                mQNMergeJob = if (mLastMixStreamParams != null) {
+                    createMeop(mLastMixStreamParams!!)
+                } else {
+                    createDefaultMeOp()
+                }
+                mQNMergeJob?.let {
+                    mEngine.startLiveStreaming(it)
+                }
+                return@SchedulerJob
+            }
+            if (mMixType == MixType.pk) {
+                mPKMergeJob = if (mLastPKStreamParams != null) {
+                    createMeop(mLastPKStreamParams!!)
+                } else {
+                    createDefaultMeOp()
+                }
+                mPKMergeJob?.let {
+                    mEngine.startLiveStreaming(it)
+                }
+            }
         }
         mRestartJob?.start()
     }
@@ -195,11 +208,18 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         })
     }
 
+    private fun checkUrl(pushUrl: String): String {
+        return if (pushUrl.contains("?")) {
+            pushUrl + "&serialnum=${serialnum++}"; // 设置合流任务的推流地址
+        } else {
+            pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
+        }
+    }
 
     private fun createDefaultMeOp(): QNTranscodingLiveStreamingConfig {
         return QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
-            url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
+            url = checkUrl(pushUrl)
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mQMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
             height = mQMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
@@ -211,7 +231,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     private fun createMeop(mixStreamParams: QMixStreaming.MixStreamParams): QNTranscodingLiveStreamingConfig {
         return QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId + "?serialnum=${serialnum++}";// 设置 stream id，该 id 为合流任务的唯一标识符
-            url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
+            url =  checkUrl(pushUrl)
             Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mixStreamParams.mixStreamWidth; // 设置合流画布的宽度
             height = mixStreamParams.mixStringHeight; // 设置合流画布的高度
@@ -233,8 +253,8 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
     //创建前台转推
     private fun createForwardJob() {
         val mDirectLiveStreamingConfig = QNDirectLiveStreamingConfig()
-        mDirectLiveStreamingConfig.streamID = streamId
-        mDirectLiveStreamingConfig.url = pushUrl + "?serialnum=${serialnum++}"
+        mDirectLiveStreamingConfig.streamID = streamId + "?serialnum=${serialnum++}"
+        mDirectLiveStreamingConfig.url = checkUrl(pushUrl)
         Log.d("MixStreamHelperImp", "createForwardJob ${mDirectLiveStreamingConfig.url}")
         localAudioTrack?.let {
             mDirectLiveStreamingConfig.audioTrack = it
@@ -243,7 +263,6 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
             mDirectLiveStreamingConfig.videoTrack = it
         }
         mQNForwardJob = mDirectLiveStreamingConfig
-
         Log.d("MixStreamHelperImp", "createForwardJob ")
     }
 
@@ -277,6 +296,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
      * 开始混流转推
      */
     fun startMixStreamJob(mixStreamParams: QMixStreaming.MixStreamParams?) {
+        mLastMixStreamParams = mixStreamParams
         mMixType = MixType.mix
         mMixType.isStart = false
         Log.d("MixStreamHelperImp", "startMixStreamJob ")
@@ -301,6 +321,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
      * 启动新的混流任务
      */
     fun startPkMixStreamJob(mixStreamParams: QMixStreaming.MixStreamParams?) {
+        mLastPKStreamParams = mixStreamParams
         Log.d("MixStreamHelperImp", "startPkMixStreamJob ")
         clear()
         mMixType = MixType.pk
@@ -314,7 +335,6 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         mEngine.startLiveStreaming(mPKMergeJob);
     }
 
-
     private fun stopMixStreamJob() {
         Log.d("MixStreamHelperImp", "stopMixStreamJob ")
 
@@ -326,7 +346,6 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
 
     private fun stopPKMixStreamJob() {
         Log.d("MixStreamHelperImp", "stopPKMixStreamJob ")
-
         mPKMergeJob?.let {
             mEngine.stopLiveStreaming(it)
         }
@@ -465,7 +484,7 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         fun start() {
             job = coroutineScope.launch(Dispatchers.Main) {
                 try {
-                    while (true){
+                    while (true) {
                         delay(delayTimeMillis)
                         action()
                     }

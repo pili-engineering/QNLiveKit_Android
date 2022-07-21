@@ -44,7 +44,7 @@ fataar {
 //    from('build/outputs/aar/')
 //    into('../app-sdk/qlive-sdk/')
 //    include('qlivesdk-release.aar')
-//    rename ('qlivesdk-release', version)
+//    rename('qlivesdk-release', version)
 //}
 //makeAAR.dependsOn(build)
 
