@@ -19,6 +19,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
     private val mShoppingServiceListeners = ArrayList<QShoppingServiceListener>()
     private val ACTION_EXPLAINING = "liveroom_shopping_explaining"
     private val ACTION_EXTENSION = "liveroom_shopping_extension"
+    private val ACTION_REFRESH = "liveroom_shopping_refresh"
 
     private val mRtmMsgListener = object : RtmMsgListener {
         override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
@@ -39,8 +40,28 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                 }
                 return true
             }
+            if (msg.optAction() == ACTION_REFRESH) {
+                mShoppingServiceListeners.forEach {
+                    it.onItemListUpdate()
+                }
+                return true
+            }
             return false
         }
+    }
+
+    private fun sendActionRefresh() {
+        RtmManager.rtmClient.sendChannelMsg(
+            RtmTextMsg<String>(ACTION_REFRESH, "").toJsonString(),
+            currentRoomInfo?.chatID ?: "",
+            false, object : RtmCallBack {
+                override fun onSuccess() {
+                }
+
+                override fun onFailure(code: Int, msg: String) {
+                }
+            }
+        )
     }
 
     init {
@@ -105,7 +126,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {
         super.onJoined(roomInfo)
-        if(mShoppingServiceListeners.size>0){
+        if (mShoppingServiceListeners.size > 0) {
             mItemShader.start()
         }
     }
@@ -127,6 +148,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                     HashMap<String, Int>().apply {
                         put(itemID, status.value)
                     })
+                sendActionRefresh()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -148,6 +170,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                             put(it.key, it.value.value)
                         }
                     })
+                sendActionRefresh()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -247,6 +270,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                     currentRoomInfo?.liveID ?: "",
                     param.itemID, param.from, param.to
                 )
+                sendActionRefresh()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -266,6 +290,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                         }
                     }
                 )
+                sendActionRefresh()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -281,6 +306,7 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
                     currentRoomInfo?.liveID ?: "",
                     itemIDS
                 )
+                sendActionRefresh()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -296,5 +322,4 @@ class QShoppingServiceImpl : BaseService(), QShoppingService {
     override fun removeServiceListener(listener: QShoppingServiceListener) {
         mShoppingServiceListeners.remove(listener)
     }
-
 }

@@ -4,20 +4,23 @@ import com.sensetime.stmobile.params.STEffectBeautyType;
 
 public class Constants {
 
+    public final static String APP_ID = "d08472433715451c8544f5168181d559";
+    public final static String APP_KEY = "2e0b08686c234d598b47fe037796b8d6";
 
-    public final static String GROUP_2D = "2c120dd0c67711ea83df02d98a1a02bd";
-    public final static String GROUP_3D = "24b19c20c67e11ea83df02d98a1a02bd";
-    public final static String GROUP_HAND = "42d080b0c67711ea83df02d98a1a02bd";
-    public final static String GROUP_BG = "8df81880c68811ea83df02d98a1a02bd";
+    public final static String GROUP_2D = "46";
+    public final static String GROUP_3D = "48";
+    public final static String GROUP_HAND = "47";
+    public final static String GROUP_BG = "49";
 
-    public final static String GROUP_LIP = "e3b3c4d0c68911ea83df02d98a1a02bd";
-    public final static String GROUP_EYEBALL = "40c75600c58111ea83df02d98a1a02bd";
-    public final static String GROUP_BLUSH = "ff781360c68911ea83df02d98a1a02bd";
-    public final static String GROUP_BROW = "19dd2010c68a11ea83df02d98a1a02bd";
-    public final static String GROUP_HIGHLIGHT = "2ce3e220c68a11ea83df02d98a1a02bd";
-    public final static String GROUP_EYE = "44c61480c68a11ea83df02d98a1a02bd";
-    public final static String GROUP_EYELINER = "5e1bfb20c68a11ea83df02d98a1a02bd";
-    public final static String GROUP_EYELASH = "70eabd40c68a11ea83df02d98a1a02bd";
+    public final static String GROUP_LIP = "50";
+    public final static String GROUP_EYEBALL = "51";
+    public final static String GROUP_BLUSH = "52";
+    public final static String GROUP_BROW = "53";
+    public final static String GROUP_HIGHLIGHT = "54";
+    public final static String GROUP_EYE = "55";
+    public final static String GROUP_EYELINER = "56";
+    public final static String GROUP_EYELASH = "57";
+    public final static String GROUP_STYLE = "58";
 
     public static final String BASE_BEAUTY = "baseBeauty";
     public static final String PROFESSIONAL_BEAUTY = "professionalBeauty";
@@ -32,6 +35,7 @@ public class Constants {
     public static final String MAKEUP_EYELINER = "makeup_eyeliner";
     public static final String MAKEUP_EYELASH = "makeup_eyelash";
     public static final String MAKEUP_EYEBALL = "makeup_eyeball";
+    public static final String MAKEUP_STYLE = "makeup_style";
 
     public static final String FILTER_PORTRAIT = "filter_portrait";
     public static final String FILTER_SCENERY = "filter_scenery";
@@ -118,6 +122,7 @@ public class Constants {
     public static final int ST_MAKEUP_EYELINER = STEffectBeautyType.EFFECT_BEAUTY_MAKEUP_EYE_LINE;
     public static final int ST_MAKEUP_EYELASH = STEffectBeautyType.EFFECT_BEAUTY_MAKEUP_EYE_LASH;
     public static final int ST_MAKEUP_EYEBALL = STEffectBeautyType.EFFECT_BEAUTY_MAKEUP_EYE_BALL;
+    public static final int ST_MAKEUP_STYLE = STEffectBeautyType.EFFECT_BEAUTY_MAKEUP_ALL;
 
-    public static final int MAKEUP_TYPE_COUNT = 8;
+    public static final int MAKEUP_TYPE_COUNT = 9;
 }

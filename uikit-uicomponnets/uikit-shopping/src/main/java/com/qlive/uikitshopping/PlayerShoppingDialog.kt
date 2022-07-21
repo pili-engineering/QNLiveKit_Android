@@ -92,6 +92,10 @@ class PlayerShoppingDialog(
         override fun onExtensionUpdate(item: QItem, extension: QExtension) {
         }
 
+        override fun onItemListUpdate() {
+            loadItem()
+        }
+
         private fun checkExpIndex(): Int {
             var lastIndex = -1
             adapter.data.forEachIndexed { index, qItem ->
@@ -124,16 +128,10 @@ class PlayerShoppingDialog(
         })
     }
 
-    private val mRefreshJob = Scheduler(10000) {
-        loadItem()
-    }
-
     override fun onDismiss(dialog: DialogInterface) {
-        mRefreshJob.cancel()
         super.onDismiss(dialog)
         shoppingService.removeServiceListener(mShoppingServiceListener)
     }
-
 
     override fun init() {
         shoppingService.addServiceListener(mShoppingServiceListener)
@@ -145,7 +143,6 @@ class PlayerShoppingDialog(
             loadItem()
         }
         recyclerViewGoods.startRefresh()
-        mRefreshJob.start(true)
     }
 
     private inner class PlayerShoppingGoodsAdapter : BaseQuickAdapter<QItem, BaseViewHolder>(

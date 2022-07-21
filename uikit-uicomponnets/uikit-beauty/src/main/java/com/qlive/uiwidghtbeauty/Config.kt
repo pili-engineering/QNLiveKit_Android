@@ -1,6 +1,6 @@
 package com.qlive.uiwidghtbeauty
 
 val resourceVersion = 1
-//const val APPID = "b9fad8323e8147299a1282fde2abcdd7"
-//const val APPKEY = "d85e0b7d53744e55bb8877fc286d9486"
+const val APP_ID = "d08472433715451c8544f5168181d559"
+const val APP_KEY = "2e0b08686c234d598b47fe037796b8d6"
 

@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -85,6 +86,7 @@ public final class Utils {
         }
         return flags;
     }
+
 
 
     /**
@@ -176,14 +178,15 @@ public final class Utils {
         ConnectivityManager manager = (ConnectivityManager) context
                 .getApplicationContext().getSystemService(
                         Context.CONNECTIVITY_SERVICE);
+
         if (manager == null) {
             return false;
         }
         @SuppressLint("MissingPermission") android.net.NetworkInfo networkinfo = manager.getActiveNetworkInfo();
+
         if (networkinfo == null || !networkinfo.isAvailable()) {
             return false;
         }
         return true;
     }
-
 }

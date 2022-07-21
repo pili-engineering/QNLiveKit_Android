@@ -5,10 +5,14 @@ import android.util.Log
 import android.widget.Toast
 import com.qiniu.sensetimeplugin.QNSenseTimePlugin
 import com.qlive.beautyhook.BeautyHookerImpl
-import com.qlive.uiwidghtbeauty.utils.LoadResourcesTask.ILoadResourcesCallback
 import com.qlive.uiwidghtbeauty.utils.Constants.LICENSE_FILE
 import com.qlive.uiwidghtbeauty.utils.LoadResourcesTask
+import com.qlive.uiwidghtbeauty.utils.LoadResourcesTask.ILoadResourcesCallback
 import com.qlive.uiwidghtbeauty.utils.SharedPreferencesUtils
+import com.softsugar.library.api.Material
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 object QSenseTimeManager {
 
@@ -19,14 +23,15 @@ object QSenseTimeManager {
 
     //自动初始化 如果要修改请保留这个 BeautyHookerImpl.senseTimePlugin = sSenseTimePlugin
     fun initEffectFromLocalLicense(appContext: Context, isFromQLive: Boolean) {
+        // 此处远端拉取素材的逻辑暂不开放，如需此功能可自行实现
         sAppContext = appContext
         sSenseTimePlugin = QNSenseTimePlugin.Builder(appContext)
             .setLicenseAssetPath(LICENSE_FILE)
             .setModelActionAssetPath("M_SenseME_Face_Video_5.3.3.model")
             .setCatFaceModelAssetPath("M_SenseME_CatFace_3.0.0.model")
             .setDogFaceModelAssetPath("M_SenseME_DogFace_2.0.0.model") // 关闭在线拉取授权文件，使用离线授权文件
-            .setOnlineLicense(false) // 关闭在线激活授权，使用离线激活授权
-            .setOnlineActivate(false)
+           // .setOnlineLicense(false) // 关闭在线激活授权，使用离线激活授权
+            //.setOnlineActivate(false)
             .build()
         isAuthorized = sSenseTimePlugin?.checkLicense() ?: false
         if (!isAuthorized) {
@@ -57,6 +62,10 @@ object QSenseTimeManager {
                 }
             });
         Log.d("QSenseTimeManager", "authorizeWithAppId" + "鉴权onSuccess ")
+        Material.init(appContext, APP_ID, APP_KEY)
+        GlobalScope.launch(Dispatchers.IO) {
+            Material.updateTokenSync()
+        }
     }
 
     private fun checkLoadResourcesTask(

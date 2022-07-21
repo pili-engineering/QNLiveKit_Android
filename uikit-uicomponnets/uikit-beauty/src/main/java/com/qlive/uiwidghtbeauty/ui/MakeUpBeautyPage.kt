@@ -13,7 +13,9 @@ import com.qlive.uiwidghtbeauty.R
 import com.qlive.uiwidghtbeauty.adapter.MakeupAdapter
 import com.qlive.uiwidghtbeauty.model.MakeupItem
 import com.qlive.uiwidghtbeauty.utils.Constants
+import com.qlive.uiwidghtbeauty.utils.Constants.*
 import com.qlive.uiwidghtbeauty.utils.ResourcesUtil
+import com.sensetime.stmobile.params.STEffectBeautyGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -36,25 +38,23 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
     }
 
     private val mMakeupGroupIds: HashMap<String, String> = HashMap<String, String>()
-    private val mMakeupAdapters = HashMap<String, MakeupAdapter>()
-    private var mMakeupLists = HashMap<String, ArrayList<MakeupItem>>()
-    private var mMakeupOptionIndex = HashMap<String, Int>()
-    private val mMakeupOptionSelectedIndex = HashMap<Int, Int>()
-    private val mMakeupStrength = HashMap<Int, Int>()
+    val mMakeupAdapters = HashMap<String, MakeupAdapter>()
+    var mMakeupLists = HashMap<String, ArrayList<MakeupItem>>()
+    var mMakeupOptionIndex = HashMap<String, Int>()
+    val mMakeupOptionSelectedIndex = HashMap<Int, Int>()
+    val mMakeupStrength = HashMap<Int, Int>()
 
-
-    private lateinit var mMakeupOptionsRecycleView: RecyclerView
+    lateinit var mMakeupOptionsRecycleView: RecyclerView
     private lateinit var mMakeupGroupBack: ImageView
     private lateinit var mMakeupGroupName: TextView
     private lateinit var mMakeupIconsRelativeLayout: View
     private lateinit var mMakeupGroupRelativeLayout: View
 
-    private lateinit var mFilterStrengthLayout: View
-    private lateinit var mFilterStrengthBar: SeekBar
+    lateinit var mFilterStrengthLayout: View
+    lateinit var mFilterStrengthBar: SeekBar
     private lateinit var mFilterStrengthText: TextView
-
-    private var mCurrentMakeupGroupIndex = -1
-
+    var mCurrentStylePath: String? = null
+    var mCurrentMakeupGroupIndex = -1
 
     @SuppressLint("NotifyDataSetChanged")
     fun init() {
@@ -63,14 +63,16 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                 mMakeupLists = ResourcesUtil.getMakeupListMap(context)
                 mMakeupOptionIndex = ResourcesUtil.getMakeupOptionIndexMap()
                 mMakeupGroupIds.clear()
-                mMakeupGroupIds[Constants.MAKEUP_LIP] = Constants.GROUP_LIP
-                mMakeupGroupIds[Constants.MAKEUP_EYEBALL] = Constants.GROUP_EYEBALL
-                mMakeupGroupIds[Constants.MAKEUP_BLUSH] = Constants.GROUP_BLUSH
-                mMakeupGroupIds[Constants.MAKEUP_BROW] = Constants.GROUP_BROW
-                mMakeupGroupIds[Constants.MAKEUP_HIGHLIGHT] = Constants.GROUP_HIGHLIGHT
-                mMakeupGroupIds[Constants.MAKEUP_EYE] = Constants.GROUP_EYE
-                mMakeupGroupIds[Constants.MAKEUP_EYELINER] = Constants.GROUP_EYELINER
-                mMakeupGroupIds.put(Constants.MAKEUP_EYELASH, Constants.GROUP_EYELASH)
+                mMakeupGroupIds[MAKEUP_LIP] = GROUP_LIP
+                mMakeupGroupIds[MAKEUP_EYEBALL] = GROUP_EYEBALL
+                mMakeupGroupIds[MAKEUP_BLUSH] = GROUP_BLUSH
+                mMakeupGroupIds[MAKEUP_BROW] = GROUP_BROW
+                mMakeupGroupIds[MAKEUP_HIGHLIGHT] = GROUP_HIGHLIGHT
+                mMakeupGroupIds[MAKEUP_EYE] = GROUP_EYE
+                mMakeupGroupIds[MAKEUP_EYELINER] = GROUP_EYELINER
+                mMakeupGroupIds[MAKEUP_EYELASH] = GROUP_EYELASH
+                mMakeupGroupIds[MAKEUP_STYLE] = GROUP_STYLE
+
 
                 mMakeupAdapters[Constants.MAKEUP_LIP] = MakeupAdapter(
                     mMakeupLists[Constants.MAKEUP_LIP], context
@@ -93,8 +95,10 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                         mMakeupLists[Constants.MAKEUP_EYEBALL], context
                     )
                 )
+                mMakeupAdapters[MAKEUP_STYLE] =
+                    MakeupAdapter(mMakeupLists[MAKEUP_STYLE], context)
 
-                for (i in 402 until Constants.MAKEUP_TYPE_COUNT + 402) {
+                for (i in 402 until MAKEUP_TYPE_COUNT + 402) {
                     mMakeupOptionSelectedIndex[i] = 0
                     mMakeupStrength[i] = 80
                 }
@@ -295,6 +299,27 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                 mMakeupGroupName.text = "美瞳"
             }
 
+            // 整妆/风格妆
+
+            // 整妆/风格妆
+            val makeupGroupStyle = findViewById<LinearLayout>(R.id.ll_makeup_group_style)
+            makeupGroupStyle.setOnClickListener {
+                mMakeupGroupRelativeLayout.visibility = INVISIBLE
+                mMakeupIconsRelativeLayout.visibility = VISIBLE
+                mCurrentMakeupGroupIndex = ST_MAKEUP_STYLE
+                if (mMakeupOptionSelectedIndex[ST_MAKEUP_STYLE] != 0) {
+                    mFilterStrengthLayout.visibility = VISIBLE
+                    mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyeball_selected))
+                } else {
+                    mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyeball_unselected))
+                }
+                mFilterStrengthBar.progress = mMakeupStrength[mCurrentMakeupGroupIndex]!!
+                mMakeupOptionsRecycleView.layoutManager =
+                    StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
+                mMakeupOptionsRecycleView.adapter = mMakeupAdapters[MAKEUP_STYLE]
+                mMakeupGroupName.text = "整妆"
+            }
+
             // 返回按钮，检查所选特效的情况，如果选中则将其图标和文字变色，否则复原图标和文字颜色
 
             // 返回按钮，检查所选特效的情况，如果选中则将其图标和文字变色，否则复原图标和文字颜色
@@ -437,7 +462,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                         entry.value.setSelectedPosition(position)
                         mMakeupOptionSelectedIndex[mMakeupOptionIndex[entry.key]!!] =
                             position
-                        mFilterStrengthLayout!!.visibility =
+                        mFilterStrengthLayout.visibility =
                             INVISIBLE
                         sSenseTimePlugin!!.setMakeup(
                             mCurrentMakeupGroupIndex,
@@ -473,10 +498,27 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                 @SuppressLint("SetTextI18n")
                 override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
-                        sSenseTimePlugin!!.setMakeupStrength(
-                            mCurrentMakeupGroupIndex,
-                            progress.toFloat() / 100
-                        )
+//                        sSenseTimePlugin!!.setMakeupStrength(
+//                            mCurrentMakeupGroupIndex,
+//                            progress.toFloat() / 100
+//                        )
+                        if (mCurrentMakeupGroupIndex == ST_MAKEUP_STYLE) {
+                            sSenseTimePlugin!!.setBeautyGroupStrength(
+                                STEffectBeautyGroup.EFFECT_BEAUTY_GROUP_MAKEUP,
+                                mCurrentStylePath,
+                                progress.toFloat() / 100
+                            )
+                            sSenseTimePlugin!!.setBeautyGroupStrength(
+                                STEffectBeautyGroup.EFFECT_BEAUTY_GROUP_FILTER,
+                                mCurrentStylePath,
+                                progress.toFloat() / 100
+                            )
+                        } else {
+                            sSenseTimePlugin!!.setMakeupStrength(
+                                mCurrentMakeupGroupIndex,
+                                progress.toFloat() / 100
+                            )
+                        }
                         mMakeupStrength[mCurrentMakeupGroupIndex] = progress
                         mFilterStrengthText.setText(progress.toString() + "")
                     }
@@ -488,12 +530,15 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                 override fun onStopTrackingTouch(p0: SeekBar?) {
                 }
             })
+            GlobalScope.launch(Dispatchers.IO) {
+                fetchMakeupGroupMaterialList(mMakeupGroupIds)
+            }
         }
     }
 
-    private fun updateMakeupOptions(type: Int, value: Boolean) {
+    fun updateMakeupOptions(type: Int, value: Boolean) {
         if (value) {
-            if (type == Constants.ST_MAKEUP_LIP) {
+            if (type == ST_MAKEUP_LIP) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_lip_selected))
                 (findViewById<View>(R.id.iv_makeup_group_lip) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_lip_selected)
@@ -502,7 +547,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_BLUSH) {
+            if (type == ST_MAKEUP_BLUSH) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_cheeks_selected))
                 (findViewById<View>(R.id.iv_makeup_group_cheeks) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_cheeks_selected)
@@ -511,7 +556,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_HIGHLIGHT) {
+            if (type == ST_MAKEUP_HIGHLIGHT) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_face_selected))
                 (findViewById<View>(R.id.iv_makeup_group_face) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_face_selected)
@@ -520,7 +565,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_BROW) {
+            if (type == ST_MAKEUP_BROW) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_brow_selected))
                 (findViewById<View>(R.id.iv_makeup_group_brow) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_brow_selected)
@@ -529,7 +574,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYE) {
+            if (type == ST_MAKEUP_EYE) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eye_selected))
                 (findViewById<View>(R.id.iv_makeup_group_eye) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eye_selected)
@@ -538,7 +583,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYELINER) {
+            if (type == ST_MAKEUP_EYELINER) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyeliner_selected))
                 (findViewById<View>(R.id.iv_makeup_group_eyeliner) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eyeliner_selected)
@@ -547,7 +592,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYELASH) {
+            if (type == ST_MAKEUP_EYELASH) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyelash_selected))
                 (findViewById<View>(R.id.iv_makeup_group_eyelash) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eyelash_selected)
@@ -556,7 +601,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYEBALL) {
+            if (type == ST_MAKEUP_EYEBALL) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyeball_selected))
                 (findViewById<View>(R.id.iv_makeup_group_eyeball) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eyeball_selected)
@@ -565,8 +610,17 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.text_selected)
                 )
             }
+            if (type == ST_MAKEUP_STYLE) {
+                mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_all_selected))
+                (findViewById<View>(R.id.iv_makeup_group_style) as ImageView).setImageDrawable(
+                    resources.getDrawable(R.drawable.makeup_all_selected)
+                )
+                (findViewById<View>(R.id.tv_makeup_group_style) as TextView).setTextColor(
+                    resources.getColor(R.color.text_selected)
+                )
+            }
         } else {
-            if (type == Constants.ST_MAKEUP_LIP) {
+            if (type == ST_MAKEUP_LIP) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_lip_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_lip) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_lip_unselected)
@@ -575,7 +629,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_BLUSH) {
+            if (type == ST_MAKEUP_BLUSH) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_cheeks_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_cheeks) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_cheeks_unselected)
@@ -584,7 +638,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_HIGHLIGHT) {
+            if (type == ST_MAKEUP_HIGHLIGHT) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_face_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_face) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_face_unselected)
@@ -593,7 +647,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_BROW) {
+            if (type == ST_MAKEUP_BROW) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_brow_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_brow) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_brow_unselected)
@@ -602,7 +656,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYE) {
+            if (type == ST_MAKEUP_EYE) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eye_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_eye) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eye_unselected)
@@ -611,7 +665,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYELINER) {
+            if (type == ST_MAKEUP_EYELINER) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyeline_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_eyeliner) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eyeline_unselected)
@@ -620,7 +674,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYELASH) {
+            if (type == ST_MAKEUP_EYELASH) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyelash_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_eyelash) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eyelash_unselected)
@@ -629,7 +683,7 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
-            if (type == Constants.ST_MAKEUP_EYEBALL) {
+            if (type == ST_MAKEUP_EYEBALL) {
                 mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_eyeball_unselected))
                 (findViewById<View>(R.id.iv_makeup_group_eyeball) as ImageView).setImageDrawable(
                     resources.getDrawable(R.drawable.makeup_eyeball_unselected)
@@ -638,14 +692,24 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                     resources.getColor(R.color.white)
                 )
             }
+            if (type == ST_MAKEUP_STYLE) {
+                mMakeupGroupBack.setImageDrawable(resources.getDrawable(R.drawable.makeup_all_unselected))
+                (findViewById<View>(R.id.iv_makeup_group_style) as ImageView).setImageDrawable(
+                    resources.getDrawable(R.drawable.makeup_all_unselected)
+                )
+                (findViewById<View>(R.id.tv_makeup_group_style) as TextView).setTextColor(
+                    resources.getColor(R.color.white)
+                )
+            }
         }
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     override fun reset() {
-        for (i in 402 until Constants.MAKEUP_TYPE_COUNT + 402) {
-            sSenseTimePlugin!!.setMakeup(i, "")
-            sSenseTimePlugin!!.setMakeupStrength(i, 0f)
+        for (i in 402 until MAKEUP_TYPE_COUNT + 402) {
+            sSenseTimePlugin?.setMakeup(i, "")
+            sSenseTimePlugin?.setMakeupStrength(i, 0f)
             mMakeupOptionSelectedIndex[i] = 0
             mMakeupStrength[i] = 80
         }
@@ -702,22 +766,22 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
             resources.getColor(R.color.white)
         )
 
-        mMakeupAdapters[Constants.MAKEUP_LIP]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_LIP]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_HIGHLIGHT]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_HIGHLIGHT]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_BLUSH]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_BLUSH]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_BROW]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_BROW]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_EYE]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_EYE]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_EYELINER]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_EYELINER]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_EYELASH]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_EYELASH]!!.notifyDataSetChanged()
-        mMakeupAdapters[Constants.MAKEUP_EYEBALL]!!.setSelectedPosition(0)
-        mMakeupAdapters[Constants.MAKEUP_EYEBALL]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_LIP]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_LIP]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_HIGHLIGHT]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_HIGHLIGHT]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_BLUSH]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_BLUSH]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_BROW]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_BROW]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_EYE]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_EYE]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_EYELINER]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_EYELINER]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_EYELASH]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_EYELASH]!!.notifyDataSetChanged()
+        mMakeupAdapters[MAKEUP_EYEBALL]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_EYEBALL]!!.notifyDataSetChanged()
     }
 
 }

@@ -6,9 +6,6 @@ import static com.qlive.uiwidghtbeauty.utils.Constants.*;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.qlive.uiwidghtbeauty.utils.FileUtils;
-import com.qlive.uiwidghtbeauty.utils.SharedPreferencesUtils;
-
 import java.lang.ref.WeakReference;
 
 public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
@@ -21,15 +18,15 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
         void onEndTask(boolean result);
     }
 
-    private ILoadResourcesCallback mCallback;
+    private WeakReference<ILoadResourcesCallback> mCallback;
 
     public LoadResourcesTask(ILoadResourcesCallback callback) {
-        mCallback = (callback);
+        mCallback = new WeakReference<>(callback);
     }
 
     @Override
     protected Boolean doInBackground(String... strings) {
-        Context context = mCallback.getContext();
+        Context context = mCallback.get().getContext();
         FileUtils.copyStickerFiles(context, NEW_ENGINE);
         FileUtils.copyStickerFiles(context, MAKEUP_EYE);
         FileUtils.copyStickerFiles(context, MAKEUP_BROW);
@@ -39,6 +36,7 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
         FileUtils.copyStickerFiles(context, MAKEUP_EYELINER);
         FileUtils.copyStickerFiles(context, MAKEUP_EYELASH);
         FileUtils.copyStickerFiles(context, MAKEUP_EYEBALL);
+        FileUtils.copyStickerFiles(context, MAKEUP_STYLE);
         FileUtils.copyFilterFiles(context, FILTER_PORTRAIT);
         FileUtils.copyFilterFiles(context, FILTER_SCENERY);
         FileUtils.copyFilterFiles(context, FILTER_STILL_LIFE);
@@ -49,14 +47,13 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPreExecute() {
-        mCallback.onStartTask();
+        mCallback.get().onStartTask();
         super.onPreExecute();
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
-        SharedPreferencesUtils.setResourceReady(mCallback.getContext(), result);
-        mCallback.onEndTask(result);
+        mCallback.get().onEndTask(result);
     }
 }

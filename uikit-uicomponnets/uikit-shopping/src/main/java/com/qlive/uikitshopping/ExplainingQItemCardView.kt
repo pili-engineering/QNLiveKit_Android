@@ -85,8 +85,8 @@ class ExplainingQItemCardView : QKitCardView {
                 visibility = View.GONE
             }
         }
-
         override fun onExtensionUpdate(item: QItem?, extension: QExtension?) {}
+        override fun onItemListUpdate() {}
     }
 
     override fun initView() {

@@ -32,7 +32,7 @@ include ':liveroom-libs:comp_imadapter'
 include ':liveroom-libs:comp_rtclive'
 
 include ':qlivesdk'
-//include ':uikit-uicomponnets:sensehook'
+include ':uikit-uicomponnets:sensehook'
 
 include ':uikit-uicomponnets:uikit-user'
 include ':uikit-uicomponnets:uikit-danmaku'

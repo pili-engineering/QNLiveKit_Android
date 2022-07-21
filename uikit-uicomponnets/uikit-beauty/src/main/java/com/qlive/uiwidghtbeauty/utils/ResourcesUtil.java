@@ -16,11 +16,11 @@ public class ResourcesUtil {
 
     public static float[] sBeautifyParams = {
             // 美颜
-            0.1f, 0.1f, 0.1f,
+            0.36f, 0.74f, 0.5f,
             // 美型
-            0.1f, 0.1f, 0.1f, 0f, 0f,
+            0.5f, 0.5f, 0.5f, 0f, 0f,
             // 微整形
-            0.1f, 0.1f, 0.1f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,
+            0.5f, 0.5f, 0.5f, 0.5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,
             // 调整
             0f, 0f};
 
@@ -42,6 +42,8 @@ public class ResourcesUtil {
             name = Constants.MAKEUP_EYELASH;
         } else if (type == Constants.ST_MAKEUP_EYEBALL) {
             name = Constants.MAKEUP_EYEBALL;
+        } else if (type == Constants.ST_MAKEUP_STYLE) {
+            name = Constants.MAKEUP_STYLE;
         }
         return name;
     }
@@ -161,6 +163,7 @@ public class ResourcesUtil {
         makeupLists.put(Constants.MAKEUP_EYELINER, FileUtils.getMakeupFiles(context, Constants.MAKEUP_EYELINER));
         makeupLists.put(Constants.MAKEUP_EYELASH, FileUtils.getMakeupFiles(context, Constants.MAKEUP_EYELASH));
         makeupLists.put(Constants.MAKEUP_EYEBALL, FileUtils.getMakeupFiles(context, Constants.MAKEUP_EYEBALL));
+        makeupLists.put(Constants.MAKEUP_STYLE, FileUtils.getMakeupFiles(context, Constants.MAKEUP_STYLE));
         return makeupLists;
     }
 
@@ -174,6 +177,7 @@ public class ResourcesUtil {
         makeupOptionIndex.put(Constants.MAKEUP_EYELINER, 6);
         makeupOptionIndex.put(Constants.MAKEUP_EYELASH, 7);
         makeupOptionIndex.put(Constants.MAKEUP_EYEBALL, 8);
+        makeupOptionIndex.put(Constants.MAKEUP_STYLE, 9);
         return makeupOptionIndex;
     }
 

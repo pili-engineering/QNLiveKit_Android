@@ -27,7 +27,7 @@ class SenseVideoFrameListener : QNVideoFrameListener {
                 BeautyHookerImpl.addSubModelFromAssetsFiles.forEach {
                     BeautyHookerImpl.senseTimePlugin!!.addSubModelFromAssetsFile(it)
                 }
-                BeautyHookerImpl.senseTimePlugin!!.recoverEffects()
+               // BeautyHookerImpl.senseTimePlugin!!.recoverEffects()
                 isInit = true
             }
             return true

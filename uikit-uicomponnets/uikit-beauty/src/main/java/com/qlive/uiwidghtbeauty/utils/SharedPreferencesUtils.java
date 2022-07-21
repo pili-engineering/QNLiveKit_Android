@@ -2,6 +2,7 @@ package com.qlive.uiwidghtbeauty.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 
 public class SharedPreferencesUtils {
 

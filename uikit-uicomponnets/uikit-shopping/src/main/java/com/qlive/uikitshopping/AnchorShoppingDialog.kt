@@ -101,6 +101,10 @@ class AnchorShoppingDialog(
         override fun onExtensionUpdate(item: QItem, extension: QExtension) {
         }
 
+        override fun onItemListUpdate() {
+
+        }
+
         private fun checkExpIndex(): Int {
             var lastIndex = -1
             adapter.data.forEachIndexed { index, qItem ->

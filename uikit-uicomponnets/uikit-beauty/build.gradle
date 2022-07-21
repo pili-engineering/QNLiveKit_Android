@@ -30,11 +30,17 @@ android {
 }
 
 dependencies {
-    api files('libs/qndroid-sensetime-effect-1.4.0.jar')
-    implementation files('libs/beautyhook1.2.jar')
+    api files('libs/qndroid-sensetime-effect-1.5.0.jar')
+    implementation files('libs/beautyhook1.3.jar')
+
     implementation depend.coroutines()
     implementation depend.fragmentKtx()
     implementation depend.recyclerview()
+    implementation depend.okhttp3()
+
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.blankj:utilcodex:1.31.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

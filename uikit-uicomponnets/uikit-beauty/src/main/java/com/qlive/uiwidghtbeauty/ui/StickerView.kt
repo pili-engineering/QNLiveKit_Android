@@ -21,6 +21,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class StickerView : FrameLayout {
+
     private val mStickerOptionsList by lazy {
         ArrayList<StickerOptionsItem>().apply {
             add(
@@ -137,12 +138,11 @@ class StickerView : FrameLayout {
 
         vpStickerPage.adapter = CommonViewPagerAdapter(pageItemViewList)
         for (stickerPageItemView in pageItemViewList) {
-            stickerPageItemView.attach(true)
+            stickerPageItemView.attach(stickerPageItemView.assetsIndex == Constants.NEW_ENGINE)
             stickerPageItemView.onStickerItemClick =
                 { s: String?, groupIndex: String, stickerItem: StickerItem, integer: Int ->
                     sSenseTimePlugin?.setSticker(stickerItem.path)
                     setSelect(integer, groupIndex)
-
                 }
         }
         // 当点击关闭贴纸时移除贴纸，并将视图和记录状态复原
