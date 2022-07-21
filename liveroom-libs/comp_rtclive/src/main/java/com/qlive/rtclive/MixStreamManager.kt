@@ -52,28 +52,30 @@ class MixStreamManager(val mQRtcLiveRoom: QRtcLiveRoom) {
         if (mRestartJob != null) {
             return
         }
-        mRestartJob = SchedulerJob(1500) {
+        mRestartJob = SchedulerJob(2500) {
             if (mMixType.isStart) {
                 return@SchedulerJob
             }
             Log.d("MixStreamHelperImp", "MixStreamHelperImp timeOut ${mMixType.name}")
             if (mMixType == MixType.forward) {
+                createForwardJob()
                 mQNForwardJob?.let {
                     mEngine.startLiveStreaming(it)
                 }
                 return@SchedulerJob
             }
-            if (mMixType == MixType.mix) {
-                mQNMergeJob?.let {
-                    mEngine.startLiveStreaming(it)
-                }
-                return@SchedulerJob
-            }
-            if (mMixType == MixType.pk) {
-                mPKMergeJob?.let {
-                    mEngine.startLiveStreaming(it)
-                }
-            }
+//            if (mMixType == MixType.mix) {
+//
+//                mQNMergeJob?.let {
+//                    mEngine.startLiveStreaming(it)
+//                }
+//                return@SchedulerJob
+//            }
+//            if (mMixType == MixType.pk) {
+//                mPKMergeJob?.let {
+//                    mEngine.startLiveStreaming(it)
+//                }
+//            }
         }
         mRestartJob?.start()
     }
