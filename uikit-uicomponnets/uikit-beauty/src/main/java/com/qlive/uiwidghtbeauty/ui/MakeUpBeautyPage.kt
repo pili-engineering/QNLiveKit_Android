@@ -73,7 +73,6 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
                 mMakeupGroupIds[MAKEUP_EYELASH] = GROUP_EYELASH
                 mMakeupGroupIds[MAKEUP_STYLE] = GROUP_STYLE
 
-
                 mMakeupAdapters[Constants.MAKEUP_LIP] = MakeupAdapter(
                     mMakeupLists[Constants.MAKEUP_LIP], context
                 )
@@ -704,7 +703,6 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
         }
     }
 
-
     @SuppressLint("NotifyDataSetChanged")
     override fun reset() {
         for (i in 402 until MAKEUP_TYPE_COUNT + 402) {
@@ -713,6 +711,20 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
             mMakeupOptionSelectedIndex[i] = 0
             mMakeupStrength[i] = 80
         }
+
+        sSenseTimePlugin!!.setBeautyGroupStrength(
+            STEffectBeautyGroup.EFFECT_BEAUTY_GROUP_MAKEUP,
+            "",
+            0f
+        )
+        sSenseTimePlugin!!.setBeautyGroupStrength(
+            STEffectBeautyGroup.EFFECT_BEAUTY_GROUP_FILTER,
+            "",
+            0f
+        )
+        mMakeupOptionSelectedIndex[ST_MAKEUP_STYLE] = 0
+
+
 
         mFilterStrengthLayout.visibility = INVISIBLE
 
@@ -766,6 +778,13 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
             resources.getColor(R.color.white)
         )
 
+        (findViewById<View>(R.id.iv_makeup_group_style) as ImageView).setImageDrawable(
+            resources.getDrawable(R.drawable.makeup_all_unselected)
+        )
+        (findViewById<View>(R.id.tv_makeup_group_style) as TextView).setTextColor(
+            resources.getColor(R.color.white)
+        )
+
         mMakeupAdapters[MAKEUP_LIP]!!.setSelectedPosition(0)
         mMakeupAdapters[MAKEUP_LIP]!!.notifyDataSetChanged()
         mMakeupAdapters[MAKEUP_HIGHLIGHT]!!.setSelectedPosition(0)
@@ -782,6 +801,9 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
         mMakeupAdapters[MAKEUP_EYELASH]!!.notifyDataSetChanged()
         mMakeupAdapters[MAKEUP_EYEBALL]!!.setSelectedPosition(0)
         mMakeupAdapters[MAKEUP_EYEBALL]!!.notifyDataSetChanged()
+
+        mMakeupAdapters[MAKEUP_STYLE]!!.setSelectedPosition(0)
+        mMakeupAdapters[MAKEUP_STYLE]!!.notifyDataSetChanged()
     }
 
 }
