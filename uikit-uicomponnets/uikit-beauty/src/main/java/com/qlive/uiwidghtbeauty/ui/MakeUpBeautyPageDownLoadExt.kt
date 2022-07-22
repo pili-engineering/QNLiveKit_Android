@@ -178,7 +178,9 @@ private fun MakeUpBeautyPage.initMakeupListener(
                                     })
                                 }
                             }
-                            notifyMakeupViewState(makeupItem, position, groupType)
+                            post(Runnable {
+                                notifyMakeupViewState(makeupItem, position, groupType)
+                            })
                         }
 
                         override fun onProgress(i: Int) {}

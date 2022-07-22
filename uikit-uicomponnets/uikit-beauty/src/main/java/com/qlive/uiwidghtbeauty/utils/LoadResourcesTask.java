@@ -18,15 +18,15 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
         void onEndTask(boolean result);
     }
 
-    private WeakReference<ILoadResourcesCallback> mCallback;
+    private ILoadResourcesCallback mCallback;
 
     public LoadResourcesTask(ILoadResourcesCallback callback) {
-        mCallback = new WeakReference<>(callback);
+        mCallback = (callback);
     }
 
     @Override
     protected Boolean doInBackground(String... strings) {
-        Context context = mCallback.get().getContext();
+        Context context = mCallback.getContext();
         FileUtils.copyStickerFiles(context, NEW_ENGINE);
         FileUtils.copyStickerFiles(context, MAKEUP_EYE);
         FileUtils.copyStickerFiles(context, MAKEUP_BROW);
@@ -47,13 +47,13 @@ public class LoadResourcesTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPreExecute() {
-        mCallback.get().onStartTask();
+        mCallback.onStartTask();
         super.onPreExecute();
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
-        mCallback.get().onEndTask(result);
+        mCallback.onEndTask(result);
     }
 }
