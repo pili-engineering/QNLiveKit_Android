@@ -7,6 +7,7 @@ import com.qlive.avparam.QBeautySetting
 import com.qlive.pushclient.QPusherClient
 import com.qlive.uikitcore.BeautyComponent
 import com.qlive.uikitcore.QKitImageView
+import com.qlive.uikitcore.TestUIEvent
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 
 class ShowBeautyView : QKitImageView {
@@ -22,6 +23,7 @@ class ShowBeautyView : QKitImageView {
     ) {
         if (BeautyComponent.isEnable) {
             setDoubleCheckClickListener {
+                sendUIEvent(TestUIEvent())
                 BeautyComponent.showBeautyEffectDialog.invoke(kitContext!!.fragmentManager)
             }
         } else {
@@ -46,4 +48,6 @@ class ShowBeautyView : QKitImageView {
             }
         }
     }
+
+
 }

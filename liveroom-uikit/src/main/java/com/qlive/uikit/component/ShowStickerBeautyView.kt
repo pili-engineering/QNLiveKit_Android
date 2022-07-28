@@ -2,9 +2,11 @@ package com.qlive.uikit.component
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.qlive.uikitcore.BeautyComponent
 import com.qlive.uikitcore.QKitImageView
+import com.qlive.uikitcore.TestUIEvent
 import com.qlive.uikitcore.ext.setDoubleCheckClickListener
 
 class ShowStickerBeautyView : QKitImageView {
@@ -23,6 +25,12 @@ class ShowStickerBeautyView : QKitImageView {
             visibility = View.VISIBLE
         } else {
             visibility = View.GONE
+        }
+    }
+    init {
+        //ui通信事件测试
+        registerEventAction(TestUIEvent::class.java) {
+            Log.d("UIEvent",it.getAction()+" "+it.testInt)
         }
     }
 }

@@ -7,7 +7,11 @@ import com.qlive.core.QLiveClient;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Objects;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 /**
  * 直播间内小组件
@@ -33,34 +37,22 @@ public interface QLiveComponent extends QClientLifeCycleListener, LifecycleEvent
     void attachLiveClient(@NotNull QLiveClient client);
 
     /**
-     * 发送UI事件给所有UI组件
-     *
-     * @param action 事件名字
-     * @param data   数据
+     * 注册UI组件之间的通信事件
+     * @param clz 事件类
+     * @param call 回调函数
+     * @param <T>
      */
-    default void sendUIEvent(@NotNull  String action,@NotNull String data) {
-        QLiveUIEventManager.INSTANCE.sendUIEvent(Objects.requireNonNull(this.getClass().getCanonicalName()),action,data);
+    default <T extends UIEvent> void registerEventAction(Class<T> clz, Function1<T, Unit> call) {
+        QLiveUIEventManager.INSTANCE.getActionMap(this).put(UIEvent.Companion.getAction(clz), (Function1<UIEvent, Unit>) call);
     }
 
     /**
-     * 发送UI事件给目标组件
-     *
-     * @param targetComponentClassName 目标组件的类全限定名
-     * @param action                   事件名字
-     * @param data                     数据
+     * 发送UI通信事件
+     * @param event 事件对象
+     * @param <T>
      */
-    default void sendUIEvent(@NotNull String targetComponentClassName,@NotNull String action,@NotNull String data) {
-        QLiveUIEventManager.INSTANCE.sendUIEvent(Objects.requireNonNull(this.getClass().getCanonicalName()),targetComponentClassName, action, data);
-    }
-
-    /**
-     * 收到UI事件
-     * @param srcComponentClassName 发送事件的组件
-     * @param action                   事件名字
-     * @param data                     数据
-     */
-    default void onReceiveUIEvent(@NotNull String srcComponentClassName,@NotNull String action, @NotNull String data) {
-
+    default <T extends UIEvent> void sendUIEvent(T event) {
+        QLiveUIEventManager.INSTANCE.sendUIEvent(event);
     }
 
 }
