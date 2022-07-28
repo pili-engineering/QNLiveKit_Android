@@ -30,6 +30,7 @@ import kotlin.coroutines.suspendCoroutine
 
 /**
  * 主播房间activity
+ * UI插件底座 请勿在activity 做过多UI逻辑代码
  */
 class RoomPushActivity : BaseFrameActivity() {
     private var roomId = ""

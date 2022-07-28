@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.kit_activity_room_player.*
 
 /**
  * 观众activity
+ * UI插件底座 请勿在activity 做过多UI逻辑代码
  */
 class RoomPullActivity : BaseFrameActivity() {
 

@@ -81,6 +81,7 @@ object QLiveDelegate {
     }
 
     private var uikitObj: Any? = null
+
     fun <T> getUIKIT(): T {
         if (uikitObj != null) {
             return uikitObj as T

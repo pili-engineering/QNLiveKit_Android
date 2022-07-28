@@ -133,7 +133,7 @@ public class DependsComp {
 
     //jitpack
     def lifecycle() {
-        return lifecycle("2.1.0")
+        return lifecycle("2.2.0")
     }
 
     def lifecycle(String version) {

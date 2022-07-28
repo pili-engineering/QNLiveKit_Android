@@ -18,7 +18,6 @@ open class QInvitationHandlerImpl(val ivName: String) : QInvitationHandler,
     QClientLifeCycleListener {
     protected var user: QLiveUser? = null
     protected var currentRoomInfo: QLiveRoomInfo? = null
-
     private val mListeners = LinkedList<QInvitationHandlerListener>()
     private val invitationMap = HashMap<Int, Invitation>()
 
@@ -234,5 +233,4 @@ open class QInvitationHandlerImpl(val ivName: String) : QInvitationHandler,
         mListeners.clear()
         InvitationManager.removeInvitationProcessor(mInvitationProcessor)
     }
-
 }

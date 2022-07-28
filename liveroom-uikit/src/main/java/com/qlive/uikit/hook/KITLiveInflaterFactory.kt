@@ -74,6 +74,7 @@ class KITLiveInflaterFactory(
             )
             CloseRoomView::class.java.canonicalName -> CloseRoomView(context, attrs)
             StartLinkView::class.java.canonicalName -> StartLinkView(context, attrs)
+
             else -> null
         }
     }
@@ -84,7 +85,7 @@ class KITLiveInflaterFactory(
         context: Context,
         attrs: AttributeSet
     ): View? {
-
+      //优先匹配已知的类 减少反射次数
         var view = checkCreateView(name, context, attrs)
         if (view == null) {
             var viewClass: Class<*>? = null
@@ -94,10 +95,12 @@ class KITLiveInflaterFactory(
             }
             view =
                 if (viewClass != null && QLiveComponent::class.java.isAssignableFrom(viewClass)) {
+                    //使用反射创建没有匹配的类
                     val constructor =
                         viewClass.getConstructor(Context::class.java, AttributeSet::class.java)
                     constructor.newInstance(context, attrs) as View
                 } else {
+                    //默认安卓系统创建
                     appDelegate.createView(parent, name, context, attrs)
                 }
         }

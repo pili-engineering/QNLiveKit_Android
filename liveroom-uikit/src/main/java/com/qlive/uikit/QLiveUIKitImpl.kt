@@ -17,6 +17,7 @@ class QLiveUIKitImpl(val appContext: Context) : QLiveUIKit {
     init {
         QInnerVideoFrameHook.checkHasHooker()
         if (BeautyComponent.isEnable) {
+            //如果依赖的内置美颜 初始化美颜插件
             QInnerVideoFrameHook.mBeautyHooker?.init(appContext)
         }
     }
