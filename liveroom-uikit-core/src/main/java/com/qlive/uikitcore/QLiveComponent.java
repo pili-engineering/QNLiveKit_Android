@@ -39,7 +39,7 @@ public interface QLiveComponent extends QClientLifeCycleListener, LifecycleEvent
      * @param data   数据
      */
     default void sendUIEvent(@NotNull  String action,@NotNull String data) {
-        QLiveUIEventManager.INSTANCE.sendUIEvent$liveroom_uikit_core_debug(Objects.requireNonNull(this.getClass().getCanonicalName()),action,data);
+        QLiveUIEventManager.INSTANCE.sendUIEvent(Objects.requireNonNull(this.getClass().getCanonicalName()),action,data);
     }
 
     /**
@@ -50,7 +50,7 @@ public interface QLiveComponent extends QClientLifeCycleListener, LifecycleEvent
      * @param data                     数据
      */
     default void sendUIEvent(@NotNull String targetComponentClassName,@NotNull String action,@NotNull String data) {
-        QLiveUIEventManager.INSTANCE.sendUIEvent$liveroom_uikit_core_debug(Objects.requireNonNull(this.getClass().getCanonicalName()),targetComponentClassName, action, data);
+        QLiveUIEventManager.INSTANCE.sendUIEvent(Objects.requireNonNull(this.getClass().getCanonicalName()),targetComponentClassName, action, data);
     }
 
     /**

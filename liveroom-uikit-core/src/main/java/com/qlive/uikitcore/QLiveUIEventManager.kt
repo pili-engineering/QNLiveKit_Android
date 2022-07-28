@@ -10,7 +10,7 @@ object QLiveUIEventManager {
      * @param action 事件名字
      * @param data   数据
      */
-    internal fun sendUIEvent(srcComponentClassName:String,action: String, data: String) {
+     fun sendUIEvent(srcComponentClassName:String,action: String, data: String) {
         mQLiveComponents.forEach {
             it.onReceiveUIEvent(srcComponentClassName, action, data)
         }
@@ -23,7 +23,7 @@ object QLiveUIEventManager {
      * @param action                   事件名字
      * @param data                     数据
      */
-    internal fun sendUIEvent(srcComponentClassName:String,targetComponentClassName: String, action: String, data: String) {
+     fun sendUIEvent(srcComponentClassName:String,targetComponentClassName: String, action: String, data: String) {
         mQLiveComponents.forEach {
             if(it.javaClass.canonicalName==targetComponentClassName){
                 it.onReceiveUIEvent(srcComponentClassName, action, data)
