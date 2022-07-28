@@ -5,6 +5,7 @@ import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveUser
 import com.qlive.uikitcore.QLiveComponent
+import com.qlive.uikitcore.QLiveUIEventManager
 import com.qlive.uikitcore.QLiveUIKitContext
 import kotlin.collections.HashSet
 
@@ -22,6 +23,7 @@ object KITFunctionInflaterFactory :
     }
 
     fun attachKitContext(context: QLiveUIKitContext) {
+        QLiveUIEventManager.attach(functionComponents.toList())
         functionComponents.forEach {
             it.attachKitContext(context)
             context.lifecycleOwner.lifecycle.addObserver(it)
@@ -47,6 +49,7 @@ object KITFunctionInflaterFactory :
     }
 
     override fun onDestroyed() {
+        QLiveUIEventManager.clear()
         functionComponents.forEach {
             it.onDestroyed()
         }

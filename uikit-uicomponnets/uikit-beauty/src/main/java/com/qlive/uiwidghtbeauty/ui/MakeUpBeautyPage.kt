@@ -805,6 +805,5 @@ class MakeUpBeautyPage : FrameLayout, BaseEffectPage<MakeupItem> {
         mMakeupAdapters[MAKEUP_STYLE]!!.setSelectedPosition(0)
         mMakeupAdapters[MAKEUP_STYLE]!!.notifyDataSetChanged()
     }
-
 }
 

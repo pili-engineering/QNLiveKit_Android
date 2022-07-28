@@ -107,6 +107,7 @@ class KITLiveInflaterFactory(
             (view as QLiveComponent).attachKitContext(kitContext)
             (view as QLiveComponent).attachLiveClient(roomClient)
             mComponents.add(view)
+            QLiveUIEventManager.attach(listOf(view))
         }
         return view
     }
@@ -135,6 +136,7 @@ class KITLiveInflaterFactory(
     }
 
     override fun onDestroyed() {
+        QLiveUIEventManager.clear()
         mComponents.forEach {
             it.onDestroyed()
         }

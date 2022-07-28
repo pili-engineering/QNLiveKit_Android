@@ -7,6 +7,8 @@ import com.qlive.core.QLiveClient;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * 直播间内小组件
  * <p>
@@ -29,4 +31,36 @@ public interface QLiveComponent extends QClientLifeCycleListener, LifecycleEvent
      * @param client 推流/拉流客户端
      */
     void attachLiveClient(@NotNull QLiveClient client);
+
+    /**
+     * 发送UI事件给所有UI组件
+     *
+     * @param action 事件名字
+     * @param data   数据
+     */
+    default void sendUIEvent(@NotNull  String action,@NotNull String data) {
+        QLiveUIEventManager.INSTANCE.sendUIEvent$liveroom_uikit_core_debug(Objects.requireNonNull(this.getClass().getCanonicalName()),action,data);
+    }
+
+    /**
+     * 发送UI事件给目标组件
+     *
+     * @param targetComponentClassName 目标组件的类全限定名
+     * @param action                   事件名字
+     * @param data                     数据
+     */
+    default void sendUIEvent(@NotNull String targetComponentClassName,@NotNull String action,@NotNull String data) {
+        QLiveUIEventManager.INSTANCE.sendUIEvent$liveroom_uikit_core_debug(Objects.requireNonNull(this.getClass().getCanonicalName()),targetComponentClassName, action, data);
+    }
+
+    /**
+     * 收到UI事件
+     * @param srcComponentClassName 发送事件的组件
+     * @param action                   事件名字
+     * @param data                     数据
+     */
+    default void onReceiveUIEvent(@NotNull String srcComponentClassName,@NotNull String action, @NotNull String data) {
+
+    }
+
 }

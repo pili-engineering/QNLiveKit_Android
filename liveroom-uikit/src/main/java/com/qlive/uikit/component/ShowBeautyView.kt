@@ -2,6 +2,7 @@ package com.qlive.uikit.component
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import com.qlive.avparam.QBeautySetting
 import com.qlive.pushclient.QPusherClient
 import com.qlive.uikitcore.BeautyComponent
@@ -45,5 +46,4 @@ class ShowBeautyView : QKitImageView {
             }
         }
     }
-
 }
