@@ -68,7 +68,7 @@ dependencies {
         properties.load(inputStream)
         def isKitDever = properties.getProperty('isKitDever')
         System.out.println("  isKitDever" + isKitDever)
-        if (isKitDever == 1) {
+        if (isKitDever == "1") {
             implementation project(':qlivesdk')
             implementation project(':liveroom-coreimpl')
         }

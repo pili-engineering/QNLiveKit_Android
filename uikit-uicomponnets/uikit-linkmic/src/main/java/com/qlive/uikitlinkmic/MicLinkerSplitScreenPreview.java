@@ -252,7 +252,6 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
                 flAudienceContainer.addView(playerPreview, 0);
                 Objects.requireNonNull(getClient()).getService(QLinkMicService.class).setUserPreview(qMicLinker.user.userId, playerPreview);
 
-
                 //设置麦位头像名字
                 Glide.with(getContext()).load(Objects.requireNonNull(getRoomInfo()).anchor.avatar).into(ivAnchorAvatar);
                 tvAnchorName.setText(getRoomInfo().anchor.nick);
@@ -309,7 +308,6 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
      * 观众端分屏连麦逻辑
      */
     static class PlayerMicLinkerSplitScreenPreview extends BaseSplitScreenPreview {
-
 
         public PlayerMicLinkerSplitScreenPreview(@NonNull Context context) {
             super(context);
