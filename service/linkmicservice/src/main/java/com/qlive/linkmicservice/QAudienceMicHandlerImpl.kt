@@ -36,7 +36,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
     init {
         context.hostLeftCall = {
             if (isLinked()) {
-                QLiveLogUtil.logDebug("房主下麦")
+                QLiveLogUtil.d("房主下麦")
                 stopLink(null)
             }
         }

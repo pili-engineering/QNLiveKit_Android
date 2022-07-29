@@ -37,11 +37,6 @@ import java.util.Objects;
 
 /**
  * 两人分屏连麦demo
- * //自定义连麦混流
- * //        QLive.getLiveUIKit()
- * //            .getPage(RoomPage::class.java)
- * //            .linkersView
- * //            .replace(MicLinkerSplitScreenPreview::class.java)
  */
 public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
 
@@ -178,8 +173,7 @@ public class MicLinkerSplitScreenPreview extends QKitFrameLayout {
                 QMixStreaming.MixStreamParams params = new QMixStreaming.MixStreamParams();
                 params.mixStreamWidth = (720);
                 params.mixStringHeight = (419);
-
-                params.mixBitrate = (1500 * 1000);
+                params.mixBitrate = (1500);
                 params.FPS = (25);
                 return params;
             }

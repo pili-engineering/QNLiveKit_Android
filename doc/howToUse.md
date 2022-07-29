@@ -110,7 +110,20 @@ val liveUIKit = QLive.getLiveUIKit()
 //跳转到直播列表页面
 liveUIKit.launch(context)
 ```
-> 登陆成功后才能使用sdk 
+> 登陆成功后才能使用sdk
+
+
+### 主动跳转到直播间
+```kotlin
+   //主动跳转观众直播间
+  QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity(...)
+   //主播主动跳转已经存在主播直播间
+  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity(...)
+   //自定义开播跳转预览创建直播间页面
+  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomWithPreview(...)
+```
+
+#### 修改现有的UI组件
 
 ### 自定义UI
 
@@ -147,7 +160,7 @@ val roomListPage = QLive.getLiveUIKit().getPage(RoomListPage::class.java)
 roomListPage.customLayoutID = R.layout.customXlayout
 ```
 
-#### 修改现有的UI组件
+
 
 修改拷贝的布局文件或者源布局文件
 
@@ -247,15 +260,15 @@ class CustomNoticeView :FrameLayout, QLiveComponent {
 在xml里直接删除开始pk按钮
 
 ```xml
-     <!--    去掉开始pk按钮-->
-    <com.qlive.uikitpk.StartPKView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content" />
+   <!--    去掉开始pk按钮-->
+   <com.qlive.uikitpk.StartPKView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
 
-    <!--    去掉pk预览-->
-   <com.qlive.uikitpk.PKAnchorPreview
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+   <!--    去掉pk预览-->
+  <com.qlive.uikitpk.PKAnchorPreview
+     android:layout_width="match_parent"
+     android:layout_height="match_parent" />
 ```
 > UI插件的增删改不需要修改activity
 
@@ -349,15 +362,37 @@ QLive.getRooms().createRoom(..）
 方式3
 修改UIkit源码
 
-### 主动跳转到直播间
+### UI插件通信事件
+如选择不修改源码的形式接入uikit，如何在不同模块间UI插件实现通信
+
 ```kotlin
-   //主动跳转观众直播间
-  QLive.getLiveUIKit().getPage(RoomPage::class.java).startPlayerRoomActivity(...)
-   //主播主动跳转已经存在主播直播间
-  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomActivity(...)
-   //自定义开播跳转预览创建直播间页面
-  QLive.getLiveUIKit().getPage(RoomPage::class.java).startAnchorRoomWithPreview(...)
+//定义一个UI事件 继承UIEvent
+public class TestUIEvent extends UIEvent{
+    //自定义多个字段
+    public int testInt = 2;
+}
 ```
+
+在某个UI组件里注册事件
+```
+//注册TestUIEvent
+registerEventAction(TestUIEvent::class.java) { 
+     //事件数据
+       event:TestUIEvent ->
+     //收到测试事件1的回调
+       Log.d("UIEvent",event.getAction()+" "+event.testInt)
+    }
+ //注册其他更多UIEvent       
+registerEventAction(xxxUIEvent::class.java) {event:xxxUIEvent ->
+     //收到测试事件xxx的回调
+      Log.d("UIEvent",event.getAction())
+  }
+```
+在另外一个UI组件里发送事件
+```
+sendUIEvent(TestUIEvent().apply {testInt = 1000;})
+```
+
 
 ### 使用美颜插件（可选）
 ```
@@ -482,6 +517,12 @@ client.getService(QPKService::class.java)?.start(20 * 1000, receiverRoomID, rece
 ```
 
 ### 无UISDK实现连麦
+
+
+[多人连麦demo](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/uikit-uicomponnets/uikit-linkmic/src/main/java/com/qlive/uikitlinkmic/MicSeatPreView.kt)
+
+[分屏连麦demo](https://github.com/pili-engineering/QNLiveKit_Android/blob/main/uikit-uicomponnets/uikit-linkmic/src/main/java/com/qlive/uikitlinkmic/MicLinkerSplitScreenPreview.java)
+
 
 ```kotlin
 //邀请监听

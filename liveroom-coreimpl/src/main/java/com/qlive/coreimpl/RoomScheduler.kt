@@ -36,7 +36,7 @@ open class RoomScheduler : QClientLifeCycleListener {
                     hearRet = roomDataSource.heartbeat(roomInfo?.liveID ?: "")
                 } catch (e: NetBzException) {
                     if (e.code == 500) {
-                        QLiveLogUtil.logDebug("res.liveStatus 心跳超时 ")
+                        QLiveLogUtil.d("res.liveStatus 心跳超时 ")
                         //心跳超时从新进入房间
                         if (client!!.clientType == QClientType.PUSHER) {
                             // roomDataSource.pubRoom(roomInfo!!.liveID)
@@ -60,7 +60,7 @@ open class RoomScheduler : QClientLifeCycleListener {
                     roomStatus = hearRet.liveStatus
                     roomStatusChange.invoke(roomStatus.roomStatusToLiveStatus())
                 }
-                QLiveLogUtil.logDebug("res.liveStatus ${hearRet.liveStatus}   room.anchorStatus ${room.anchorStatus} ")
+                QLiveLogUtil.d("res.liveStatus ${hearRet.liveStatus}   room.anchorStatus ${room.anchorStatus} ")
             }
             catchError {
             }

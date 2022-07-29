@@ -197,7 +197,6 @@ open class MicLinkersView : QKitFrameLayout {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
-
     }
 
     private fun removeAnchorPreview() {

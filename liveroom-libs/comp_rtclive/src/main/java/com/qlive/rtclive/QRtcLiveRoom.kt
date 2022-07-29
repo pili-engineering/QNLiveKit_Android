@@ -2,15 +2,12 @@ package com.qlive.rtclive
 
 import android.content.Context
 import android.util.Base64
-import android.util.Log
 import com.qlive.rtclive.rtc.ExtQNClientEventListener
 import com.qlive.rtclive.rtc.RtcClientWrap
 import com.qlive.rtclive.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
-import com.qlive.avparam.QCameraFace
 import com.qlive.avparam.QCameraParam
 import com.qlive.avparam.QMicrophoneParam
-import com.qlive.avparam.QVideoFrameListener
 import com.qlive.liblog.QLiveLogUtil
 import org.json.JSONObject
 import java.lang.Exception
@@ -70,7 +67,7 @@ open class QRtcLiveRoom(
                     when (track.tag) {
                         TAG_CAMERA -> {
                             mCameraTrackViewStore.mUserUnbindVideoWindowMap[p0]?.let {
-                                QLiveLogUtil.logDebug("afterPublished  稍后设置了用户预览  ${p0}")
+                                QLiveLogUtil.d("afterPublished  稍后设置了用户预览  ${p0}")
                                 if (track is QNLocalVideoTrack) {
                                     track.play(it)
                                 } else if (track is QNRemoteVideoTrack) {
@@ -383,7 +380,7 @@ open class QRtcLiveRoom(
         if (uid == meId) {
             setLocalPreView(view)
             mCameraTrackViewStore.put2BindedMap(uid, view)
-            QLiveLogUtil.logDebug("setUserCameraWindowView  setLocalPreView${uid}")
+            QLiveLogUtil.d("setUserCameraWindowView  setLocalPreView${uid}")
             return
         }
         var findTrack = false
@@ -391,12 +388,12 @@ open class QRtcLiveRoom(
             if (it.tag == TAG_CAMERA && it.userID == uid) {
                 findTrack = true
                 it.tryPlay(view)
-                QLiveLogUtil.logDebug(" setUserCameraWindowView  找打了${uid}")
+                QLiveLogUtil.d(" setUserCameraWindowView  找打了${uid}")
                 return@forEach
             }
         }
         if (!findTrack) {
-            QLiveLogUtil.logDebug("setUserCameraWindowView  没找打${uid}")
+            QLiveLogUtil.d("setUserCameraWindowView  没找打${uid}")
             mCameraTrackViewStore.put2UnbindMap(uid, view)
         } else {
             mCameraTrackViewStore.put2BindedMap(uid, view)

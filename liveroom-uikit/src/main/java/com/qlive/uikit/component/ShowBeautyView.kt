@@ -23,7 +23,9 @@ class ShowBeautyView : QKitImageView {
     ) {
         if (BeautyComponent.isEnable) {
             setDoubleCheckClickListener {
-                sendUIEvent(TestUIEvent())
+                sendUIEvent(TestUIEvent().apply {
+                    testInt = 1000;
+                })
                 BeautyComponent.showBeautyEffectDialog.invoke(kitContext!!.fragmentManager)
             }
         } else {

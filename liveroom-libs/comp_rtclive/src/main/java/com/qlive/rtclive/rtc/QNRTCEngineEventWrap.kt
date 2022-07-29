@@ -1,6 +1,5 @@
 package com.qlive.rtclive.rtc
 
-import android.util.Log
 import com.qiniu.droid.rtc.*
 import com.qlive.liblog.QLiveLogUtil
 import java.util.*
@@ -39,7 +38,7 @@ class QNRTCEngineEventWrap : ExtQNClientEventListener {
         p0: QNConnectionState?,
         p1: QNConnectionDisconnectedInfo?
     ) {
-        QLiveLogUtil.logDebug("onConnectionStateChanged  ${p0?.name}")
+        QLiveLogUtil.d("onConnectionStateChanged  ${p0?.name}")
         val iterator = extraQNRTCEngineEventListeners.iterator()
         while (iterator.hasNext()) {
             val item = iterator.next()
@@ -48,7 +47,7 @@ class QNRTCEngineEventWrap : ExtQNClientEventListener {
     }
 
     override fun onUserJoined(p0: String?, p1: String?) {
-        QLiveLogUtil.logDebug("onUserJoined  ${p0} ${p1}")
+        QLiveLogUtil.d("onUserJoined  ${p0} ${p1}")
         extraQNRTCEngineEventListeners.forEach {
             it.onUserJoined(p0, p1)
         }
@@ -67,28 +66,28 @@ class QNRTCEngineEventWrap : ExtQNClientEventListener {
     }
 
     override fun onUserLeft(p0: String?) {
-        QLiveLogUtil.logDebug("onUserLeft  ${p0}")
+        QLiveLogUtil.d("onUserLeft  ${p0}")
         extraQNRTCEngineEventListeners.forEach {
             it.onUserLeft(p0)
         }
     }
 
     override fun onUserPublished(p0: String?, p1: MutableList<QNRemoteTrack>?) {
-        QLiveLogUtil.logDebug("onUserPublished  ${p0} ${p1?.size}")
+        QLiveLogUtil.d("onUserPublished  ${p0} ${p1?.size}")
         extraQNRTCEngineEventListeners.forEach {
             it.onUserPublished(p0, p1)
         }
     }
 
     override fun onUserUnpublished(p0: String?, p1: MutableList<QNRemoteTrack>?) {
-        QLiveLogUtil.logDebug("onUserPublished  ${p0} ${p1?.size}")
+        QLiveLogUtil.d("onUserPublished  ${p0} ${p1?.size}")
         extraQNRTCEngineEventListeners.forEach {
             it.onUserUnpublished(p0, p1)
         }
     }
 
     override fun onLocalPublished(var1: String, var2: List<QNLocalTrack>) {
-        QLiveLogUtil.logDebug("onLocalPublished  ${var2.size}")
+        QLiveLogUtil.d("onLocalPublished  ${var2.size}")
         extraQNRTCEngineEventListeners.forEach {
             if (it is ExtQNClientEventListener) {
                 it.onLocalPublished(var1, var2)
@@ -97,7 +96,7 @@ class QNRTCEngineEventWrap : ExtQNClientEventListener {
     }
 
     override fun onLocalUnpublished(var1: String, var2: List<QNLocalTrack>) {
-        QLiveLogUtil.logDebug("onLocalUnpublished   ${var2.size}")
+        QLiveLogUtil.d("onLocalUnpublished   ${var2.size}")
         extraQNRTCEngineEventListeners.forEach {
             if (it is ExtQNClientEventListener) {
                 it.onLocalUnpublished(var1, var2)
@@ -122,7 +121,7 @@ class QNRTCEngineEventWrap : ExtQNClientEventListener {
     }
 
     override fun onMediaRelayStateChanged(p0: String, p1: QNMediaRelayState) {
-        QLiveLogUtil.logDebug( " onMediaRelayStateChanged  ${p0} ${p1.name}")
+        QLiveLogUtil.d( " onMediaRelayStateChanged  ${p0} ${p1.name}")
         extraQNRTCEngineEventListeners.forEach {
             it.onMediaRelayStateChanged(p0, p1)
         }

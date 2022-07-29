@@ -53,7 +53,7 @@ class MicLinkContext {
     val mExtQNClientEventListener = object : DefaultExtQNClientEventListener {
         //
         override fun onUserJoined(p0: String, p1: String?) {
-            QLiveLogUtil.logDebug("MicLinkContext onUserJoined ${p0}  $p1")
+            QLiveLogUtil.d("MicLinkContext onUserJoined ${p0}  $p1")
             val micLinker = JsonUtils.parseObject(p1, QMicLinker::class.java)
             if (micLinker == null) {
                 //pk开始
@@ -72,7 +72,7 @@ class MicLinkContext {
         }
 
         override fun onUserLeft(p0: String) {
-            QLiveLogUtil.logDebug("MicLinkContext  onUserLeft${p0} ")
+            QLiveLogUtil.d("MicLinkContext  onUserLeft${p0} ")
             val mic = getMicLinker(p0)
             if (mic != null) {
                 if (mic.user.userId == allLinker[0].user.userId) {

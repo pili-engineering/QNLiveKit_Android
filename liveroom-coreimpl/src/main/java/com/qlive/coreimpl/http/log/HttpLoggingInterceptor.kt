@@ -101,7 +101,7 @@ class HttpLoggingInterceptor @JvmOverloads constructor(
             val DEFAULT: Logger = object : Logger {
                 override fun log(message: String) {
                    // Platform.get().log(INFO, message, null)
-                    QLiveLogUtil.logDebug("HTTP"+ message )
+                    QLiveLogUtil.d("HTTP"+ message )
                 }
             }
         }

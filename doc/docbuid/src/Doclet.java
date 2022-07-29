@@ -5,10 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.sun.javadoc.*;
-import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.tree.JCTree;
-import com.sun.tools.javadoc.ExecutableMemberDocImpl;
-import com.sun.tools.javadoc.MethodDocImpl;
 import com.sun.tools.javadoc.ProgramElementDocImpl;
 
 /**

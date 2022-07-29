@@ -22,7 +22,7 @@ class QChatRoomServiceImpl : BaseService(),
          * @return 是否继续分发
          */
         override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
-            QLiveLogUtil.logDebug("mC2CRtmMsgListener onNewMsg ${msg}")
+            QLiveLogUtil.d("mC2CRtmMsgListener onNewMsg ${msg}")
             return if (msg.optAction() == "") {
                 mChatServiceListeners.forEach {
                     it.onReceivedC2CMsg(msg, fromID, toID)
@@ -40,7 +40,7 @@ class QChatRoomServiceImpl : BaseService(),
          * @return 是否继续分发
          */
         override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
-            QLiveLogUtil.logDebug("mGroupRtmMsgListener onNewMsg ${msg}")
+            QLiveLogUtil.d("mGroupRtmMsgListener onNewMsg ${msg}")
             return if (msg.optAction() == "") {
                 mChatServiceListeners.forEach {
                     it.onReceivedGroupMsg(msg, fromID, toID)

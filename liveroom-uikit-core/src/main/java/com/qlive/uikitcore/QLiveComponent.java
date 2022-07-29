@@ -48,6 +48,7 @@ public interface QLiveComponent extends QClientLifeCycleListener, LifecycleEvent
 
     /**
      * 发送UI通信事件
+     * 该event 将会被发送到所有注册关心该事件的UI组件中去
      * @param event 事件对象
      * @param <T>
      */

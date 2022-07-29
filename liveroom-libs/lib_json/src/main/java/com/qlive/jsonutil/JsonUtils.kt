@@ -19,7 +19,7 @@ object JsonUtils {
             t = JSON.parseObject(text, clazz)
         } catch (e: Exception) {
             e.printStackTrace()
-            QLiveLogUtil.logDebug("parseObject  ${e.message}")
+            QLiveLogUtil.d("parseObject  ${e.message}")
         }
         return t
     }
@@ -34,7 +34,7 @@ object JsonUtils {
             t = JSON.parseObject(text, clazz)
         } catch (e: Exception) {
             e.printStackTrace()
-            QLiveLogUtil.logDebug("parseObject  ${e.message}")
+            QLiveLogUtil.d("parseObject  ${e.message}")
         }
         return t
     }

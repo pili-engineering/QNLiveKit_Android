@@ -2,7 +2,6 @@ package com.qlive.pkservice
 
 import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
 import com.qlive.rtm.*
 import com.qlive.rtm.msg.RtmTextMsg
 import com.qlive.rtclive.DefaultExtQNClientEventListener
@@ -53,7 +52,7 @@ class QPKServiceImpl : QPKService, BaseService() {
     private var mPKSessionTemp: QPKSession? = null
     private var trackUidTemp = ""
     private fun checkReceivePk(pkTemp: QPKSession?, uidTem: String) {
-        QLiveLogUtil.logDebug("pk checkReceivePk ${(pkTemp)==null} $uidTem ")
+        QLiveLogUtil.d("pk checkReceivePk ${(pkTemp)==null} $uidTem ")
         if (pkTemp != null) {
             mPKSessionTemp = pkTemp
         }
@@ -104,10 +103,10 @@ class QPKServiceImpl : QPKService, BaseService() {
                     }
                     //混流
                     resetMixStream(mPKSession?.initiator?.userId ?: "")
-                    QLiveLogUtil.logDebug("pk 接收方确认回复pk成功 ")
+                    QLiveLogUtil.d("pk 接收方确认回复pk成功 ")
                 }
                 catchError {
-                    QLiveLogUtil.logDebug("pk 接收方确认回复pk 错误 ${it.getCode()} ${it.message}")
+                    QLiveLogUtil.d("pk 接收方确认回复pk 错误 ${it.getCode()} ${it.message}")
                     mPKSessionTemp?.let {
                         mServiceListeners.forEach {
                             it.onStartTimeOut(mPKSessionTemp!!)
@@ -120,14 +119,14 @@ class QPKServiceImpl : QPKService, BaseService() {
                 }
             }
         }else{
-            QLiveLogUtil.logDebug("pk check not  param march ")
+            QLiveLogUtil.d("pk check not  param march ")
         }
     }
 
     private val mC2cListener = object : RtmMsgListener {
         override fun onNewMsg(msg: String, fromID: String, toID: String): Boolean {
             if (msg.optAction() == liveroom_pk_start) {
-                QLiveLogUtil.logDebug("pk 接收方收到pk holle ")
+                QLiveLogUtil.d("pk 接收方收到pk holle ")
                 val pk =
                     JsonUtils.parseObject(msg.optData(), QPKSession::class.java) ?: return true
                 checkReceivePk(pk, "")
@@ -174,7 +173,7 @@ class QPKServiceImpl : QPKService, BaseService() {
             try {
 
                 delay(timeoutTimestamp)
-                QLiveLogUtil.logDebug("pk 邀请方等待超时 ")
+                QLiveLogUtil.d("pk 邀请方等待超时 ")
                 if (mPKSession == null) {
                     return@launch
                 }
@@ -199,7 +198,7 @@ class QPKServiceImpl : QPKService, BaseService() {
         override fun onUserJoined(p0: String, p1: String?) {
             super.onUserJoined(p0, p1)
             if (p0 == mPKSession?.receiver?.userId) {
-                QLiveLogUtil.logDebug("pk 邀请方收到对方流 ")
+                QLiveLogUtil.d("pk 邀请方收到对方流 ")
                 // 邀请放 收到 接收放确认了
                 backGround {
                     doWork {
@@ -226,12 +225,12 @@ class QPKServiceImpl : QPKService, BaseService() {
 
                     }
                     catchError {
-                        QLiveLogUtil.logDebug("pkpkpkpkpk"+ it.message ?: "")
+                        QLiveLogUtil.d("pkpkpkpkpk"+ it.message ?: "")
                         it.printStackTrace()
                     }
                 }
             } else {
-                QLiveLogUtil.logDebug("pk 接收方收到对方流 ")
+                QLiveLogUtil.d("pk 接收方收到对方流 ")
                 checkReceivePk(null, p0)
             }
         }
@@ -242,7 +241,7 @@ class QPKServiceImpl : QPKService, BaseService() {
                 return
             }
             if (p0 == mPKSession?.receiver?.userId) {
-                QLiveLogUtil.logDebug("pk 对方离开房间 ")
+                QLiveLogUtil.d("pk 对方离开房间 ")
                 loopStop()
             }
 
@@ -264,7 +263,7 @@ class QPKServiceImpl : QPKService, BaseService() {
                     mPKDateSource.stopPk(mPKSession?.sessionID ?: "")
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    QLiveLogUtil.logDebug("pk 对方离开房间 上报结束失败 ${e.message} ")
+                    QLiveLogUtil.d("pk 对方离开房间 上报结束失败 ${e.message} ")
                 }
                 stopMediaRelay()
                 try {
@@ -276,7 +275,7 @@ class QPKServiceImpl : QPKService, BaseService() {
                     )
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    QLiveLogUtil.logDebug("pk 结束信令发送失败 ")
+                    QLiveLogUtil.d("pk 结束信令发送失败 ")
                 }
                 if (mPKSession == null) {
                     return@doWork
@@ -587,7 +586,7 @@ class QPKServiceImpl : QPKService, BaseService() {
                     )
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    QLiveLogUtil.logDebug("pk 结束信令发送失败 ")
+                    QLiveLogUtil.d("pk 结束信令发送失败 ")
                 }
                 mServiceListeners.forEach {
                     it.onStop(mPKSession!!, 0, "positive stop")

@@ -12,7 +12,7 @@ object QLiveLogUtil {
             Log.d(tag, msg)
         }
     }
-    fun logDebug(msg: String) {
+    fun d(msg: String) {
         if (isLogAble) {
             Log.e(tag, msg)
         }
