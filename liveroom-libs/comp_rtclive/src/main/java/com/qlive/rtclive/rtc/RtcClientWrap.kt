@@ -2,6 +2,7 @@ package com.qlive.rtclive.rtc
 
 import android.content.Context
 import com.qiniu.droid.rtc.*
+import com.qlive.liblog.QLiveLogUtil
 
 open class RtcClientWrap(
     val context: Context,
@@ -36,6 +37,11 @@ open class RtcClientWrap(
     private val mQNRTCEventListener = QNRTCEventListener { }
 
     init {
+        if(!QLiveLogUtil.isLogAble){
+            setting.logLevel =QNLogLevel.NONE
+        }else{
+            setting.logLevel =QNLogLevel.INFO
+        }
         QNRTC.init(context, setting, mQNRTCEventListener) // 初始化
     }
 

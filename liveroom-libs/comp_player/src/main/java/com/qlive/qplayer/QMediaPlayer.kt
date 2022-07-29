@@ -8,6 +8,7 @@ import com.qlive.avparam.QIPlayer
 import com.qlive.avparam.QPlayerEventListener
 import com.qlive.avparam.QPlayerRenderView
 import com.qlive.avparam.QRenderCallback
+import com.qlive.liblog.QLiveLogUtil
 
 class QMediaPlayer(val context: Context) : QIPlayer {
 
@@ -22,8 +23,12 @@ class QMediaPlayer(val context: Context) : QIPlayer {
                 setInteger(AVOptions.KEY_FAST_OPEN, 1);
                 setInteger(AVOptions.KEY_OPEN_RETRY_TIMES, 5);
                 setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
-
                 setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
+                if(!QLiveLogUtil.isLogAble){
+                    setInteger(AVOptions.KEY_LOG_LEVEL,5)
+                }else{
+                    setInteger(AVOptions.KEY_LOG_LEVEL,-1)
+                }
             }
         )
         m.isLooping = false

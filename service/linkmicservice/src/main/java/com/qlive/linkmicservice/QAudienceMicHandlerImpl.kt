@@ -25,6 +25,8 @@ import com.qlive.coreimpl.util.backGround
 import com.qlive.coreimpl.util.getCode
 import com.qlive.liblog.QLiveLogUtil
 import com.qlive.linkmicservice.QLinkMicServiceImpl.Companion.liveroom_miclinker_kick
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -251,7 +253,6 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
         }
         backGround {
             doWork {
-                Log.d("QNAudience", "下麦 ")
                 try {
                     mLinkDateSource.downMic(mMeLinker!!)
                 } catch (e: Exception) {
@@ -287,12 +288,9 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                     }
                 }
                 context.mQRtcLiveRoom.leave()
-                // if (isPositive) {
                 context.mExtQNClientEventListener.onUserLeft(
                     user?.userId ?: ""
                 )
-                // }
-                Log.d("QNAudience", "下麦 1")
                 context.removeLinker(user!!.userId)
                 mLinkMicHandlerListeners.forEach {
                     it.onRoleChange(false)

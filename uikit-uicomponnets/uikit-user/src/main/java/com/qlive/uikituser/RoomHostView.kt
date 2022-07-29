@@ -53,6 +53,7 @@ class RoomHostView : QKitFrameLayout {
     }
 
     override fun initView() {
+        tvTitle.isSelected = true
     }
 
     override fun onJoined(roomInfo: QLiveRoomInfo) {

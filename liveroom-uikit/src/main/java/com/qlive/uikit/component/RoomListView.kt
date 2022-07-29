@@ -8,6 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -129,7 +131,7 @@ class RoomListView : FrameLayout, QComponent {
 
         override fun convert(helper: BaseViewHolder, item: QLiveRoomInfo) {
             Glide.with(mContext).load(item.coverURL)
-                .apply(RequestOptions().transform(RoundedCorners(ViewUtil.dip2px(10f))))
+                .transform(MultiTransformation(CenterCrop(),RoundedCorners(ViewUtil.dip2px(8f))))
                 .into(helper.itemView.ivCover)
             helper.itemView.tvRoomId.text = item.anchor.nick
             helper.itemView.tvRoomName.text = item.title

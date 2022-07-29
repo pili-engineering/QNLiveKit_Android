@@ -244,7 +244,7 @@ class QChatRoomServiceImpl : BaseService(),
      */
     override fun kickUser(msg: String, memberID: String, callBack: QLiveCallBack<Void>?) {
 
-        QNIMClient.getGroupManager().getGroupList(
+        QNIMClient.getGroupManager().getGroupInfo(
             currentRoomInfo?.chatID?.toLong() ?: 0L, true
         ) { code, data ->
             if (code == BMXErrorCode.NoError) {
@@ -281,7 +281,7 @@ class QChatRoomServiceImpl : BaseService(),
         callBack: QLiveCallBack<Void>?
     ) {
 
-        QNIMClient.getGroupManager().getGroupList(
+        QNIMClient.getGroupManager().getGroupInfo(
             currentRoomInfo?.chatID?.toLong() ?: 0L, true
         ) { code, data ->
             if (code == BMXErrorCode.NoError) {
@@ -321,7 +321,7 @@ class QChatRoomServiceImpl : BaseService(),
      * @param callBack
      */
     override fun addAdmin(memberID: String, callBack: QLiveCallBack<Void>?) {
-        QNIMClient.getGroupManager().getGroupList(
+        QNIMClient.getGroupManager().getGroupInfo(
             currentRoomInfo?.chatID?.toLong() ?: 0L, true
         ) { code, data ->
             if (code == BMXErrorCode.NoError) {
@@ -348,7 +348,7 @@ class QChatRoomServiceImpl : BaseService(),
      * @param callBack
      */
     override fun removeAdmin(msg: String, memberID: String, callBack: QLiveCallBack<Void>?) {
-        QNIMClient.getGroupManager().getGroupList(
+        QNIMClient.getGroupManager().getGroupInfo(
             currentRoomInfo?.chatID?.toLong() ?: 0L, true
         ) { code, data ->
             if (code == BMXErrorCode.NoError) {

@@ -24,7 +24,7 @@ object QNIMManager {
                 cachePath.absolutePath, "MaxIM"
             ).apply {
                 consoleOutput = true
-                logLevel = BMXLogLevel.Debug
+                logLevel = BMXLogLevel.Error
                 appID = appId
                 setEnvironmentType(BMXPushEnvironmentType.Production)
             }

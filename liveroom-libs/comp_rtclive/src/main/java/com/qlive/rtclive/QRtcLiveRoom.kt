@@ -2,6 +2,7 @@ package com.qlive.rtclive
 
 import android.content.Context
 import android.util.Base64
+import android.util.Log
 import com.qlive.rtclive.rtc.ExtQNClientEventListener
 import com.qlive.rtclive.rtc.RtcClientWrap
 import com.qlive.rtclive.rtc.SimpleQNRTCListener
@@ -291,8 +292,11 @@ open class QRtcLiveRoom(
     fun leave() {
         mClient.leave()
         mAllTrack.clear()
+        Log.d("dasdasda"," Track?.destroy()")
         localAudioTrack?.destroy()
+        Log.d("dasdasda"," localAudioTrack?.destroy()")
         localVideoTrack?.destroy()
+        Log.d("dasdasda"," localVideoTrack?.destroy()")
         localAudioTrack = null
         localVideoTrack = null
         mCameraTrackViewStore.clear()
