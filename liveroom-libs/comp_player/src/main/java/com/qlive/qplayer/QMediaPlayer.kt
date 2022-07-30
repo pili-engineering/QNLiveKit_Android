@@ -87,6 +87,7 @@ class QMediaPlayer(val context: Context) : QIPlayer {
         if (isLink) {
             mIMediaPlayer?.stop()
             mIMediaPlayer?.release()
+            mIMediaPlayer=null
         } else {
             resetPlayer()
             mIMediaPlayer?.setDataSource(currentUrl)
