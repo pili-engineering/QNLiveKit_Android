@@ -288,6 +288,7 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                     }
                 }
                 context.mQRtcLiveRoom.leave()
+                mPlayer?.onLinkStatusChange(false)
                 context.mExtQNClientEventListener.onUserLeft(
                     user?.userId ?: ""
                 )
@@ -295,7 +296,6 @@ class QAudienceMicHandlerImpl(val context: MicLinkContext) : QAudienceMicHandler
                 mLinkMicHandlerListeners.forEach {
                     it.onRoleChange(false)
                 }
-                mPlayer?.onLinkStatusChange(false)
                 mMicListJob.start(true)
                 callBack?.onSuccess(null)
             }

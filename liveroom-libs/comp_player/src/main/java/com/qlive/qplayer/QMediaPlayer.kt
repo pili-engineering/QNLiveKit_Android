@@ -16,28 +16,31 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     private var isLossPause = false
     private var currentUrl = ""
     private var isRelease = false
-    val mIMediaPlayer: PLMediaPlayer by lazy {
-        val m = PLMediaPlayer(context,
+
+    private var mIMediaPlayer: PLMediaPlayer? = null
+
+    private fun resetPlayer() {
+        mIMediaPlayer = PLMediaPlayer(context,
             AVOptions().apply {
                 setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
                 setInteger(AVOptions.KEY_FAST_OPEN, 1);
                 setInteger(AVOptions.KEY_OPEN_RETRY_TIMES, 5);
                 setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
                 setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
-                if(!QLiveLogUtil.isLogAble){
-                    setInteger(AVOptions.KEY_LOG_LEVEL,5)
-                }else{
-                    setInteger(AVOptions.KEY_LOG_LEVEL,-1)
+                if (!QLiveLogUtil.isLogAble) {
+                    setInteger(AVOptions.KEY_LOG_LEVEL, 5)
+                } else {
+                    setInteger(AVOptions.KEY_LOG_LEVEL, -1)
                 }
             }
         )
-        m.isLooping = false
-        m.setOnPreparedListener(mOnPreparedListener)
-        m.setOnErrorListener(mOnErrorListener)
-        m.setOnInfoListener(mOnInfoListener)
-        m.setOnVideoSizeChangedListener(mPLOnVideoSizeChangedListener)
-        m
+        mIMediaPlayer?.isLooping = false
+        mIMediaPlayer?.setOnPreparedListener(mOnPreparedListener)
+        mIMediaPlayer?.setOnErrorListener(mOnErrorListener)
+        mIMediaPlayer?.setOnInfoListener(mOnInfoListener)
+        mIMediaPlayer?.setOnVideoSizeChangedListener(mPLOnVideoSizeChangedListener)
     }
+
     private var audioFocusChangeListener: AudioManager.OnAudioFocusChangeListener =
         AudioManager.OnAudioFocusChangeListener { focusChange ->
             when (focusChange) {
@@ -64,29 +67,15 @@ class QMediaPlayer(val context: Context) : QIPlayer {
             }
         }
 
-    private val mAudioManager: AudioManager by lazy {
-        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager
-    }
-
-    private fun reqestFouces() {
-        isLossPause = false
-        mAudioManager.requestAudioFocus(
-            audioFocusChangeListener,
-            AudioManager.STREAM_MUSIC,
-            AudioManager.AUDIOFOCUS_GAIN
-        )
-    }
-
-    private fun releaseFouces() {
-        mAudioManager.abandonAudioFocus(audioFocusChangeListener)
+    init {
+        resetPlayer()
     }
 
     override fun release() {
         isRelease = true
         currentUrl = ""
         mPlayerEventListener = null
-        mIMediaPlayer.release()
+        mIMediaPlayer?.release()
         if (mRenderView is QPlayerTextureRenderView) {
             (mRenderView as QPlayerTextureRenderView).stopPlayback()
         }
@@ -96,27 +85,28 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     //切换rtc模式为了下麦快速恢复保持链接
     override fun onLinkStatusChange(isLink: Boolean) {
         if (isLink) {
-            //  mIMediaPlayer.setSurface(null)
-            mIMediaPlayer.setVolume(0f, 0f)
+            mIMediaPlayer?.stop()
+            mIMediaPlayer?.release()
         } else {
-            //  mIMediaPlayer.setSurface(mSurface)
-            mIMediaPlayer.setVolume(1f, 1f)
+            resetPlayer()
+            mIMediaPlayer?.setDataSource(currentUrl)
+            start()
         }
     }
 
     override fun setUp(uir: String, headers: Map<String, String>?) {
         currentUrl = uir
-        mIMediaPlayer.stop()
-        mIMediaPlayer.setDataSource(uir, headers)
+        mIMediaPlayer?.stop()
+        mIMediaPlayer?.setDataSource(uir, headers)
     }
 
     override fun start() {
-        reqestFouces()
         try {
             mSurface?.let {
-                mIMediaPlayer.setSurface(it)
+                mIMediaPlayer?.setSurface(it)
             }
-            mIMediaPlayer.prepareAsync()
+            mIMediaPlayer?.prepareAsync()
+            mIMediaPlayer?.start()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -126,25 +116,24 @@ class QMediaPlayer(val context: Context) : QIPlayer {
      * 暂停
      */
     override fun pause() {
-        if(currentUrl=="" || isRelease){
+        if (currentUrl == "" || isRelease) {
             return
         }
-        mIMediaPlayer.pause()
+        mIMediaPlayer?.pause()
     }
 
     override fun stop() {
-        releaseFouces()
-        mIMediaPlayer.stop()
+        mIMediaPlayer?.stop()
     }
 
     /**
      * 恢复
      */
     override fun resume() {
-        if(currentUrl=="" || isRelease){
+        if (currentUrl == "" || isRelease) {
             return
         }
-        mIMediaPlayer.start()
+        mIMediaPlayer?.start()
     }
 
     fun setEventListener(listener: QPlayerEventListener) {
@@ -156,12 +145,12 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     private var mQRenderCallback: QRenderCallback = object : QRenderCallback {
         override fun onSurfaceCreated(var1: Surface, var2: Int, var3: Int) {
             mSurface = var1
-            mIMediaPlayer.setSurface(mSurface)
+            mIMediaPlayer?.setSurface(mSurface)
         }
 
         override fun onSurfaceChanged(var1: Surface, var2: Int, var3: Int) {
             mSurface = var1
-            mIMediaPlayer.setSurface(mSurface)
+            mIMediaPlayer?.setSurface(mSurface)
         }
 
         override fun onSurfaceDestroyed(var1: Surface) {
@@ -176,22 +165,18 @@ class QMediaPlayer(val context: Context) : QIPlayer {
     }
 
     private fun isPlaying(): Boolean {
-        return mIMediaPlayer.isPlaying
+        return mIMediaPlayer?.isPlaying ?: false
     }
-
     private val mOnPreparedListener = PLOnPreparedListener { mp ->
-        mIMediaPlayer.start()
+        // mIMediaPlayer?.start()
         mPlayerEventListener?.onPrepared(mp)
     }
-
     private val mOnErrorListener = PLOnErrorListener { p0, p1 ->
         mPlayerEventListener?.onError(p0) ?: false
     }
-
     private val mOnInfoListener = PLOnInfoListener { what, extra, _ ->
         mPlayerEventListener?.onInfo(what, extra)
     }
-
     private val mPLOnVideoSizeChangedListener =
         PLOnVideoSizeChangedListener { p0, p1 ->
             if (mRenderView is QPlayerTextureRenderView) {
